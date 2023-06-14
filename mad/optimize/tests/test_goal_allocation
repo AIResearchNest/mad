@@ -1,7 +1,7 @@
 import pytest
 
 from mad.data_structures import GoalNode
-from mad.optimize import _goal_allocation
+from mad.optimize import initial_goal_allocation
 
 
 def test_tree_creation():
