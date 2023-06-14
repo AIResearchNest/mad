@@ -1,5 +1,5 @@
 # mad
-Multi Agent Development App
+Multi Agent Development API
 
 ## Installation Instructions
 
