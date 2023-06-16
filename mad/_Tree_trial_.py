@@ -1,33 +1,9 @@
 from typing import Dict, List
 from collections import deque
 import random
+from mad.data_structures import GoalNode
 
 
-class GoalNode:
-    """
-    This class creates Multi Agent Goal Nodes
-
-    Parameters
-    ----------
-    name : str
-        Goal Name
-    data : dict
-        Dictionary containing key as agent and value as planning cost
-    parents: List, default []
-        List of Parent GoalNodes
-    children: List, default []
-        List of children GoalNodes
-    """
-
-    def __init__(self,
-                 name: str,
-                 data: Dict,
-                 parents: List = [],
-                 children: List = []) -> None:
-        self.name = name
-        self.data = data
-        self.parents = parents
-        self.children = children
 
 #function to randomly assign the Agents to different Goals/Nodes
 def random_nodes() -> Dict[str, GoalNode]:
