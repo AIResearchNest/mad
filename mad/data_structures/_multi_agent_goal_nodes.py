@@ -15,10 +15,17 @@ class GoalNode:
         Goal Name
     data : dict
         Dictonary containing key as agent and value as planning cost
+
+    Variables
+    ---------
     parents: List, default []
         List of Parent GoalNodes
     children: List, default []
         List of children GoalNodes
+    chosen_agent: GoalNode
+        Agent chosen to accomplish that task
+    chosen_agent_cost = int
+        Cost of the chosen_agent to accomplish that task
     """
 
     # Special
@@ -31,6 +38,7 @@ class GoalNode:
         self.parents = []
         self.children = []
         self.chosen_agent = None
+        self.chosen_agent_cost = None
 
     def __str__(self):
         return f"Goal Name: {self.name}\nData: {self.data}\nChosen Agent: {self.chosen_agent}"
@@ -51,6 +59,11 @@ class GoalTree:
     ----------
     root : GoalNode
         Root node
+
+    Variables
+    ---------
+    size: int
+        Number of nodes in the tree
     '''
 
     # Special
@@ -58,6 +71,7 @@ class GoalTree:
                 root: GoalNode = None) -> None:
         
         self.root = root
+        self.size = 1
     
     # Private
     def level_search(self):
@@ -83,33 +97,49 @@ class GoalTree:
             for parent_parent in parent.get_parents():
                 node.parents.append(parent_parent)
             node.parents.append(parent)
+        self.size += 1
 
     def print_tree(self):
         for node in self.level_search():
             print(node.name)
 
-    def random_solution(self):
-        solution_cost = 0
-        solution_path = []
+    def random_agent(self):
+        # Gives each goal node to a random agent that can accomplish it
+        total_cost = 0
+    
         for node in self.level_search():
+            # Finding best agent and cost
             random_agent = random.choice(list(node.data.keys()))
             random_agent_cost = node.data[random_agent]
-            solution_cost += random_agent_cost
-            solution_path.append(node.name)
+
+            # Updating node values
+            node.chosen_agent = random_agent
+            node.chosen_agent_cost = random_agent_cost
+
+            # Output updating
+            total_cost += random_agent_cost
+            
             # print(f"[{random_agent}, {random_agent_cost}], ")
-        return [solution_cost, solution_path]
+        return total_cost
     
-    def best_fit_solution(self):
-        solution_cost = 0
-        solution_path = []
+    def best_fit_agent(self):
+        # Gives each goal node to the agent that can accomplish it the easiest
+        total_cost = 0
+
         for node in self.level_search():
+            # Finding best agent and cost
             best_agent = min(node.data, key=lambda k: node.data[k])
             best_agent_cost = node.data[best_agent]
-            solution_cost += best_agent_cost
-            solution_path.append(node.name)
-            # print(f"[{best_agent}, {best_agent_cost}], ")
-        return [solution_cost, solution_path]
 
+            # Updating node values
+            node.chosen_agent = best_agent
+            node.chosen_agent_cost = best_agent_cost
+
+            # Output updating
+            total_cost += best_agent_cost
+        return total_cost
+
+    # def dijkstras_algorithm(self):
 
 
 def main():
@@ -123,12 +153,11 @@ def main():
     # tree.print_tree()
 
     # Solution 1: Random
-    print("Random Solution: ", tree.random_solution())
+    print("Random Agent: ", tree.random_agent())
 
     # Solution 2: Best fit
-    print("Best Fit Solution: ", tree.best_fit_solution())
+    print("Best Fit Agent: ", tree.best_fit_agent())
     
-
 
 if __name__ == "__main__":
     main()
