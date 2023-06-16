@@ -1,4 +1,3 @@
-_multi_agent_goal_nodes.py
 # https://github.com/dask/dask/blob/main/dask/datasets.py#L139-L158
 
 from typing import Dict, List
