@@ -3,20 +3,36 @@ from collections import deque
 import random
 from mad.data_structures import GoalNode
 
+"""
+   Utilizing tri-Tree structure so G1 is parent, G2-G4 are children
+  def random_nodes() - function to randomly assign the Agents to different Goals/Nodes
+  Parameters
+  ----------
+  name : str
+      Goal Name
+      : GoalNode class
+  data : dict
+      Dictionary containing key as agent and value as planning cost  
+     
+
+  """
+Agents = [5, 2, 8]  # Agents cost values in accordance to agent_names[i]
+agent_names = ['g', 'r', 'f']
 
 
-#function to randomly assign the Agents to different Goals/Nodes
+# function to randomly assign the Agents to different Goals/Nodes
 def random_nodes() -> Dict[str, GoalNode]:
-    Agents = [5, 2, 8]
-    agent_names = ['g', 'r', 'f']
-
     nodes = {}
+    shuffled_agents = list(zip(Agents, agent_names))
+    random.shuffle(shuffled_agents)  # Shuffle the agents
+
     shuffled_names = ['G2', 'G3', 'G4']
     random.shuffle(shuffled_names)  # Shuffle the node names
 
     for i in range(len(shuffled_names)):
         name = shuffled_names[i]
-        data = {agent_names[i]: Agents[i]}
+        agent_value, agent_key = shuffled_agents[i]
+        data = {agent_key: agent_value}
         node = GoalNode(name, data)
         nodes[name] = node
 
@@ -48,7 +64,4 @@ if __name__ == "__main__":
                 queue.append(child_node)
                 visited.add(child_node)
 
-# function that  if called adds Add 3 more children to the leftmost/ available child everytime
-# function that Assign those new nodes random g,r,f (in pair with their values respectively) too.
 
-#optimize maybe by dijkstra's
