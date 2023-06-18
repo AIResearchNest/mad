@@ -2,6 +2,21 @@
 from typing import Dict, List
 
 def _suitable_agent(a:Dict) -> str:
+
+    """
+    Decides which agent will conduct the current goal based on cost
+
+    Parameters
+    ----------
+    a : Dict[str: int]
+        Dictionary containing the cost values for each agent
+
+    Returns
+    -------
+    name: str
+        Name of the agent with the minimum cost.
+    """
+
     min_cost = list(a.values())[0]
     name = list(a.keys())[0]
     for key, value in a.items():
@@ -15,14 +30,27 @@ class GoalNode:
     """
     This class creates Multi Agent Goal Nodes
 
-    Parameters
+    Attributes
     ----------
     name : str
         Goal Name
     data : dict
         Dictonary containing key as agent and value as planning cost
-    children: List, default []
+    children: List
         List of children GoalNodes, initializing with an empty list
+    agent: str
+        Agent that costs the least
+    cost: int
+        Most optimized cost
+    
+    Methods
+    ----------
+    add_child(self, GoalNode)
+        Add Child Goal into the Children list
+
+    get_children(self) -> List[GoalNode]
+        Return the list of the Child Goals
+
     """
 
     def __init__(self,
@@ -54,6 +82,11 @@ class GoalTree:
 
     Methods
     ----------
+    set_root(self,GoalNode)
+        set the root of the tree 
+    
+    level_order_tranversal(self)
+        Tranverse through the tree in the level-by-level order
     
     """
 
