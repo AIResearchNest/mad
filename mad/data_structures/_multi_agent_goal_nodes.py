@@ -51,6 +51,8 @@ class GoalNode:
     get_children(self) -> List[GoalNode]
         Return the list of the Child Goals
 
+    level_order_tranversal(self)
+        Tranverse through the tree in the level-by-level order
     """
 
     def __init__(self,
@@ -70,52 +72,27 @@ class GoalNode:
     def get_children(self) -> List:
         return self.children
 
-class GoalTree:
-
-    """
-    This class creates Multi Agent Goal Generic Tree
-
-    Parameters
-    ----------
-    root: GoalNode
-        the root node of the tree
-
-    Methods
-    ----------
-    set_root(self,GoalNode)
-        set the root of the tree 
-    
-    level_order_tranversal(self)
-        Tranverse through the tree in the level-by-level order
-    
-    """
-
-    def __init__(self) -> None:
-        self.root = None
-
-    def set_root(self,a) -> None:
-        self.root = a
-
-    def level_order_transversal(self) -> None:
-        if (self.root == None):
+def level_order_transversal(root) -> None:
+        if root is None:
             return
 
         q = []
-        q.append(self.root) #enqueue the root into the queue
-        
+        q.append((root, None)) # enqueue the root into the queue
+
         while len(q) != 0:
-            n = len(q) #n = 1
+            level_size = len(q)
 
-            while (n > 0):
-                p = q[0]
-                q.pop(0)
-                print(p.name + " " + p.agent, end = "\t")
-                
-                l = p.get_children()
+            while level_size > 0:
+                node, parent = q.pop(0)
+                if parent is not None:
+                    print(parent.name + "|", end="")  # Print branch symbol if the node has a parent
+                print(node.name + " " + node.agent, end="\t")
 
-                for i in range (len(l)):
-                    q.append(l[i])#add the children into the queue
-                n = n - 1
+                children = node.get_children()
+                for child in children:
+                    q.append((child, node))  # Add the children into the queue along with their parent
+
+                level_size -= 1
 
             print("\n" * 2)
 
