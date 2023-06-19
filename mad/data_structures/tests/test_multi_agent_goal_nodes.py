@@ -1,7 +1,4 @@
-import sys 
-import os
-sys.path.append(os.path.abspath("data_structures"))
-from _multi_agent_goal_nodes import GoalNode, level_order_transversal
+from mad.data_structures import GoalNode, level_order_transversal
 from typing import Dict, List
 import random
 

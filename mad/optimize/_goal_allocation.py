@@ -1,9 +1,5 @@
 from typing import Dict, List, Tuple
-import sys 
-import os
-sys.path.append(os.path.abspath("data_structures"))
-from _multi_agent_goal_nodes import GoalNode
-
+from mad.data_structures import GoalNode
 
 def _suitable_agent(a: Dict) -> str:
 

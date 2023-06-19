@@ -1,11 +1,7 @@
 import pytest
-import sys 
-import os
 import random
-sys.path.append(os.path.abspath("optimize"))
-sys.path.append(os.path.abspath("data_structures"))
-from _multi_agent_goal_nodes import GoalNode, level_order_transversal
-from _goal_allocation import initial_goal_allocation
+from mad.data_structures import GoalNode, level_order_transversal
+from mad.optimize import initial_goal_allocation
 from typing import Dict
 
 #Run this by debugging
