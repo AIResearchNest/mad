@@ -73,6 +73,16 @@ class GoalNode:
         return self.children
 
 def level_order_transversal(root) -> None:
+        
+        """
+        Transverses through the goal tree and prints out the goals (with the parent node in the front if the node has a parent)
+
+        Parameters
+        ----------
+        root : GoalNode
+            The root of the goal tree
+
+        """
         if root is None:
             return
 
