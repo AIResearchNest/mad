@@ -1,0 +1,589 @@
+[
+    {
+        "label": "GoalNode",
+        "importPath": "mad.data_structures",
+        "description": "mad.data_structures",
+        "isExtraImport": true,
+        "detail": "mad.data_structures",
+        "documentation": {}
+    },
+    {
+        "label": "GoalNode",
+        "importPath": "mad.data_structures",
+        "description": "mad.data_structures",
+        "isExtraImport": true,
+        "detail": "mad.data_structures",
+        "documentation": {}
+    },
+    {
+        "label": "GoalNode",
+        "importPath": "mad.data_structures",
+        "description": "mad.data_structures",
+        "isExtraImport": true,
+        "detail": "mad.data_structures",
+        "documentation": {}
+    },
+    {
+        "label": "GoalNode",
+        "importPath": "mad.data_structures",
+        "description": "mad.data_structures",
+        "isExtraImport": true,
+        "detail": "mad.data_structures",
+        "documentation": {}
+    },
+    {
+        "label": "GoalNode",
+        "importPath": "mad.data_structures",
+        "description": "mad.data_structures",
+        "isExtraImport": true,
+        "detail": "mad.data_structures",
+        "documentation": {}
+    },
+    {
+        "label": "GoalNode",
+        "importPath": "mad.data_structures",
+        "description": "mad.data_structures",
+        "isExtraImport": true,
+        "detail": "mad.data_structures",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "initial_goal_allocation",
+        "importPath": "mad.optimize",
+        "description": "mad.optimize",
+        "isExtraImport": true,
+        "detail": "mad.optimize",
+        "documentation": {}
+    },
+    {
+        "label": "print_assigned_goals",
+        "importPath": "mad.optimize",
+        "description": "mad.optimize",
+        "isExtraImport": true,
+        "detail": "mad.optimize",
+        "documentation": {}
+    },
+    {
+        "label": "random_goal_allocation",
+        "importPath": "mad.optimize",
+        "description": "mad.optimize",
+        "isExtraImport": true,
+        "detail": "mad.optimize",
+        "documentation": {}
+    },
+    {
+        "label": "initial_goal_allocation",
+        "importPath": "mad.optimize",
+        "description": "mad.optimize",
+        "isExtraImport": true,
+        "detail": "mad.optimize",
+        "documentation": {}
+    },
+    {
+        "label": "print_assigned_goals",
+        "importPath": "mad.optimize",
+        "description": "mad.optimize",
+        "isExtraImport": true,
+        "detail": "mad.optimize",
+        "documentation": {}
+    },
+    {
+        "label": "random_goal_allocation",
+        "importPath": "mad.optimize",
+        "description": "mad.optimize",
+        "isExtraImport": true,
+        "detail": "mad.optimize",
+        "documentation": {}
+    },
+    {
+        "label": "Queue",
+        "importPath": "queue",
+        "description": "queue",
+        "isExtraImport": true,
+        "detail": "queue",
+        "documentation": {}
+    },
+    {
+        "label": "Queue",
+        "importPath": "queue",
+        "description": "queue",
+        "isExtraImport": true,
+        "detail": "queue",
+        "documentation": {}
+    },
+    {
+        "label": "random",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "random",
+        "description": "random",
+        "detail": "random",
+        "documentation": {}
+    },
+    {
+        "label": "setup",
+        "importPath": "setuptools",
+        "description": "setuptools",
+        "isExtraImport": true,
+        "detail": "setuptools",
+        "documentation": {}
+    },
+    {
+        "label": "setuptools",
+        "importPath": "setuptools",
+        "description": "setuptools",
+        "isExtraImport": true,
+        "detail": "setuptools",
+        "documentation": {}
+    },
+    {
+        "label": "__version__",
+        "importPath": "mad._version",
+        "description": "mad._version",
+        "isExtraImport": true,
+        "detail": "mad._version",
+        "documentation": {}
+    },
+    {
+        "label": "root_node",
+        "kind": 5,
+        "importPath": "build.lib.mad.data_structures.tests.tests",
+        "description": "build.lib.mad.data_structures.tests.tests",
+        "peekOfCode": "root_node = GoalNode(\"Root Goal\", {\"Agent1\": 1, \"Agent2\": 2})\n# Add children and give them parents\nchild_node1 = GoalNode(\"Child Goal 1\", {\"Agent1\": 4, \"Agent2\": 1})\nchild_node2 = GoalNode(\"Child Goal 2\", {\"Agent1\": 2, \"Agent2\": 3})\nroot_node.add_child(child_node1)\nroot_node.add_child(child_node2)\nchild_node1.add_parent(root_node)\nchild_node2.add_parent(root_node)\nchild_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})",
+        "detail": "build.lib.mad.data_structures.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node1",
+        "kind": 5,
+        "importPath": "build.lib.mad.data_structures.tests.tests",
+        "description": "build.lib.mad.data_structures.tests.tests",
+        "peekOfCode": "child_node1 = GoalNode(\"Child Goal 1\", {\"Agent1\": 4, \"Agent2\": 1})\nchild_node2 = GoalNode(\"Child Goal 2\", {\"Agent1\": 2, \"Agent2\": 3})\nroot_node.add_child(child_node1)\nroot_node.add_child(child_node2)\nchild_node1.add_parent(root_node)\nchild_node2.add_parent(root_node)\nchild_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)",
+        "detail": "build.lib.mad.data_structures.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node2",
+        "kind": 5,
+        "importPath": "build.lib.mad.data_structures.tests.tests",
+        "description": "build.lib.mad.data_structures.tests.tests",
+        "peekOfCode": "child_node2 = GoalNode(\"Child Goal 2\", {\"Agent1\": 2, \"Agent2\": 3})\nroot_node.add_child(child_node1)\nroot_node.add_child(child_node2)\nchild_node1.add_parent(root_node)\nchild_node2.add_parent(root_node)\nchild_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)\nchild_node11.add_parent(child_node1)",
+        "detail": "build.lib.mad.data_structures.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node11",
+        "kind": 5,
+        "importPath": "build.lib.mad.data_structures.tests.tests",
+        "description": "build.lib.mad.data_structures.tests.tests",
+        "peekOfCode": "child_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)\nchild_node11.add_parent(child_node1)\nchild_node12.add_parent(child_node1)\nchild_node21 = GoalNode(\"Child Goal 2.1\", {\"Agent1\": 2, \"Agent2\": 1})\nchild_node2.add_child(child_node21)\nchild_node21.add_parent(child_node2)\nchild_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})",
+        "detail": "build.lib.mad.data_structures.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node12",
+        "kind": 5,
+        "importPath": "build.lib.mad.data_structures.tests.tests",
+        "description": "build.lib.mad.data_structures.tests.tests",
+        "peekOfCode": "child_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)\nchild_node11.add_parent(child_node1)\nchild_node12.add_parent(child_node1)\nchild_node21 = GoalNode(\"Child Goal 2.1\", {\"Agent1\": 2, \"Agent2\": 1})\nchild_node2.add_child(child_node21)\nchild_node21.add_parent(child_node2)\nchild_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})\nchild_node21.add_child(child_node211)",
+        "detail": "build.lib.mad.data_structures.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node21",
+        "kind": 5,
+        "importPath": "build.lib.mad.data_structures.tests.tests",
+        "description": "build.lib.mad.data_structures.tests.tests",
+        "peekOfCode": "child_node21 = GoalNode(\"Child Goal 2.1\", {\"Agent1\": 2, \"Agent2\": 1})\nchild_node2.add_child(child_node21)\nchild_node21.add_parent(child_node2)\nchild_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})\nchild_node21.add_child(child_node211)\nchild_node211.add_parent(child_node21)\n# Print Tree\nroot_node.print_tree()",
+        "detail": "build.lib.mad.data_structures.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node211",
+        "kind": 5,
+        "importPath": "build.lib.mad.data_structures.tests.tests",
+        "description": "build.lib.mad.data_structures.tests.tests",
+        "peekOfCode": "child_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})\nchild_node21.add_child(child_node211)\nchild_node211.add_parent(child_node21)\n# Print Tree\nroot_node.print_tree()",
+        "detail": "build.lib.mad.data_structures.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "GoalNode",
+        "kind": 6,
+        "importPath": "build.lib.mad.data_structures._multi_agent_goal_nodes",
+        "description": "build.lib.mad.data_structures._multi_agent_goal_nodes",
+        "peekOfCode": "class GoalNode:\n    \"\"\"\n    This class creates Multi Agent Goal Nodes\n    Parameters\n    ----------\n    name : str\n        Goal Name\n    data : dict\n        Dictonary containing key as agent and value as planning cost\n    parents: List, default []",
+        "detail": "build.lib.mad.data_structures._multi_agent_goal_nodes",
+        "documentation": {}
+    },
+    {
+        "label": "root_node",
+        "kind": 5,
+        "importPath": "build.lib.mad.optimize.tests.tests",
+        "description": "build.lib.mad.optimize.tests.tests",
+        "peekOfCode": "root_node = GoalNode(\"Root Goal\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node1 = GoalNode(\"Child Goal 1\", {\"Agent1\": 4, \"Agent2\": 1})\nchild_node2 = GoalNode(\"Child Goal 2\", {\"Agent1\": 2, \"Agent2\": 3})\nroot_node.add_child(child_node1)\nroot_node.add_child(child_node2)\nchild_node1.add_parent(root_node)\nchild_node2.add_parent(root_node)\nchild_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)",
+        "detail": "build.lib.mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node1",
+        "kind": 5,
+        "importPath": "build.lib.mad.optimize.tests.tests",
+        "description": "build.lib.mad.optimize.tests.tests",
+        "peekOfCode": "child_node1 = GoalNode(\"Child Goal 1\", {\"Agent1\": 4, \"Agent2\": 1})\nchild_node2 = GoalNode(\"Child Goal 2\", {\"Agent1\": 2, \"Agent2\": 3})\nroot_node.add_child(child_node1)\nroot_node.add_child(child_node2)\nchild_node1.add_parent(root_node)\nchild_node2.add_parent(root_node)\nchild_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)",
+        "detail": "build.lib.mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node2",
+        "kind": 5,
+        "importPath": "build.lib.mad.optimize.tests.tests",
+        "description": "build.lib.mad.optimize.tests.tests",
+        "peekOfCode": "child_node2 = GoalNode(\"Child Goal 2\", {\"Agent1\": 2, \"Agent2\": 3})\nroot_node.add_child(child_node1)\nroot_node.add_child(child_node2)\nchild_node1.add_parent(root_node)\nchild_node2.add_parent(root_node)\nchild_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)\nchild_node11.add_parent(child_node1)",
+        "detail": "build.lib.mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node11",
+        "kind": 5,
+        "importPath": "build.lib.mad.optimize.tests.tests",
+        "description": "build.lib.mad.optimize.tests.tests",
+        "peekOfCode": "child_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)\nchild_node11.add_parent(child_node1)\nchild_node12.add_parent(child_node1)\nchild_node21 = GoalNode(\"Child Goal 2.1\", {\"Agent1\": 2, \"Agent2\": 1})\nchild_node2.add_child(child_node21)\nchild_node21.add_parent(child_node2)\nchild_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})",
+        "detail": "build.lib.mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node12",
+        "kind": 5,
+        "importPath": "build.lib.mad.optimize.tests.tests",
+        "description": "build.lib.mad.optimize.tests.tests",
+        "peekOfCode": "child_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)\nchild_node11.add_parent(child_node1)\nchild_node12.add_parent(child_node1)\nchild_node21 = GoalNode(\"Child Goal 2.1\", {\"Agent1\": 2, \"Agent2\": 1})\nchild_node2.add_child(child_node21)\nchild_node21.add_parent(child_node2)\nchild_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})\nchild_node21.add_child(child_node211)",
+        "detail": "build.lib.mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node21",
+        "kind": 5,
+        "importPath": "build.lib.mad.optimize.tests.tests",
+        "description": "build.lib.mad.optimize.tests.tests",
+        "peekOfCode": "child_node21 = GoalNode(\"Child Goal 2.1\", {\"Agent1\": 2, \"Agent2\": 1})\nchild_node2.add_child(child_node21)\nchild_node21.add_parent(child_node2)\nchild_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})\nchild_node21.add_child(child_node211)\nchild_node211.add_parent(child_node21)\n# root_node.print_tree()\n# _goal_allocation tests\nagent_and_goals = initial_goal_allocation(root_node, 10)\nprint_assigned_goals(agent_and_goals)",
+        "detail": "build.lib.mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node211",
+        "kind": 5,
+        "importPath": "build.lib.mad.optimize.tests.tests",
+        "description": "build.lib.mad.optimize.tests.tests",
+        "peekOfCode": "child_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})\nchild_node21.add_child(child_node211)\nchild_node211.add_parent(child_node21)\n# root_node.print_tree()\n# _goal_allocation tests\nagent_and_goals = initial_goal_allocation(root_node, 10)\nprint_assigned_goals(agent_and_goals)\nagent_and_goals_rand = random_goal_allocation(root_node, 10)\nprint_assigned_goals(agent_and_goals_rand)",
+        "detail": "build.lib.mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "agent_and_goals",
+        "kind": 5,
+        "importPath": "build.lib.mad.optimize.tests.tests",
+        "description": "build.lib.mad.optimize.tests.tests",
+        "peekOfCode": "agent_and_goals = initial_goal_allocation(root_node, 10)\nprint_assigned_goals(agent_and_goals)\nagent_and_goals_rand = random_goal_allocation(root_node, 10)\nprint_assigned_goals(agent_and_goals_rand)",
+        "detail": "build.lib.mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "agent_and_goals_rand",
+        "kind": 5,
+        "importPath": "build.lib.mad.optimize.tests.tests",
+        "description": "build.lib.mad.optimize.tests.tests",
+        "peekOfCode": "agent_and_goals_rand = random_goal_allocation(root_node, 10)\nprint_assigned_goals(agent_and_goals_rand)",
+        "detail": "build.lib.mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "initial_goal_allocation",
+        "kind": 2,
+        "importPath": "build.lib.mad.optimize._goal_allocation",
+        "description": "build.lib.mad.optimize._goal_allocation",
+        "peekOfCode": "def initial_goal_allocation(goal_tree: GoalNode,\n                            max_resources: int) -> Dict:\n    \"\"\"\n    Optimizes allocation of goals to multiple agents (Greedy Algorithm)\n    Parameters\n    ----------\n    goal_tree : mad.data_structures.GoalNode\n        Heirarichal Multi Agent Goal Tree \n    max_resources : int\n        Maximum resources available for each agent",
+        "detail": "build.lib.mad.optimize._goal_allocation",
+        "documentation": {}
+    },
+    {
+        "label": "random_goal_allocation",
+        "kind": 2,
+        "importPath": "build.lib.mad.optimize._goal_allocation",
+        "description": "build.lib.mad.optimize._goal_allocation",
+        "peekOfCode": "def random_goal_allocation(goal_tree):\n    # Raise an error if goal_tree is empty\n    if goal_tree is None:\n        raise ValueError(\"Goal tree is empty\") # ???\n    # Get a list of all of the goals\n    goals = _all_goals(goal_tree)\n    agent_and_goals = {}\n    for goal in goals:\n        # Find best agent to complete the goal\n        random_agent = random.choice(list(goal.data.keys()))",
+        "detail": "build.lib.mad.optimize._goal_allocation",
+        "documentation": {}
+    },
+    {
+        "label": "print_assigned_goals",
+        "kind": 2,
+        "importPath": "build.lib.mad.optimize._goal_allocation",
+        "description": "build.lib.mad.optimize._goal_allocation",
+        "peekOfCode": "def print_assigned_goals(agent_and_goals: Dict) -> None:\n    \"\"\"\n    Takes in a Dict(key: agent name, value: list of GoalNodes) and prints out in readable format\n    Parameters\n    ----------\n    agents_and_goals: Dict\n        Goal allocations (key: agent name, value: list of GoalNodes)\n    \"\"\"\n    for agent in agent_and_goals.keys():\n        list_of_goals = []",
+        "detail": "build.lib.mad.optimize._goal_allocation",
+        "documentation": {}
+    },
+    {
+        "label": "__version__",
+        "kind": 5,
+        "importPath": "build.lib.mad._version",
+        "description": "build.lib.mad._version",
+        "peekOfCode": "__version__ = '0.0.5'\n#change log:\n# 0.0.0: first version\n# 0.0.1: Updated Readme\n# 0.0.2: Fixed import in optimize test file\n# 0.0.3: Created GoalNode and some functionality\n# 0.0.4: Updated GoalNode, Optimization, tests, but in one file\n# 0.0.5",
+        "detail": "build.lib.mad._version",
+        "documentation": {}
+    },
+    {
+        "label": "root_node",
+        "kind": 5,
+        "importPath": "mad.data_structures.tests.tests",
+        "description": "mad.data_structures.tests.tests",
+        "peekOfCode": "root_node = GoalNode(\"Root Goal\", {\"Agent1\": 1, \"Agent2\": 2})\n# Add children and give them parents\nchild_node1 = GoalNode(\"Child Goal 1\", {\"Agent1\": 4, \"Agent2\": 1})\nchild_node2 = GoalNode(\"Child Goal 2\", {\"Agent1\": 2, \"Agent2\": 3})\nroot_node.add_child(child_node1)\nroot_node.add_child(child_node2)\nchild_node1.add_parent(root_node)\nchild_node2.add_parent(root_node)\nchild_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})",
+        "detail": "mad.data_structures.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node1",
+        "kind": 5,
+        "importPath": "mad.data_structures.tests.tests",
+        "description": "mad.data_structures.tests.tests",
+        "peekOfCode": "child_node1 = GoalNode(\"Child Goal 1\", {\"Agent1\": 4, \"Agent2\": 1})\nchild_node2 = GoalNode(\"Child Goal 2\", {\"Agent1\": 2, \"Agent2\": 3})\nroot_node.add_child(child_node1)\nroot_node.add_child(child_node2)\nchild_node1.add_parent(root_node)\nchild_node2.add_parent(root_node)\nchild_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)",
+        "detail": "mad.data_structures.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node2",
+        "kind": 5,
+        "importPath": "mad.data_structures.tests.tests",
+        "description": "mad.data_structures.tests.tests",
+        "peekOfCode": "child_node2 = GoalNode(\"Child Goal 2\", {\"Agent1\": 2, \"Agent2\": 3})\nroot_node.add_child(child_node1)\nroot_node.add_child(child_node2)\nchild_node1.add_parent(root_node)\nchild_node2.add_parent(root_node)\nchild_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)\nchild_node11.add_parent(child_node1)",
+        "detail": "mad.data_structures.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node11",
+        "kind": 5,
+        "importPath": "mad.data_structures.tests.tests",
+        "description": "mad.data_structures.tests.tests",
+        "peekOfCode": "child_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)\nchild_node11.add_parent(child_node1)\nchild_node12.add_parent(child_node1)\nchild_node21 = GoalNode(\"Child Goal 2.1\", {\"Agent1\": 2, \"Agent2\": 1})\nchild_node2.add_child(child_node21)\nchild_node21.add_parent(child_node2)\nchild_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})",
+        "detail": "mad.data_structures.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node12",
+        "kind": 5,
+        "importPath": "mad.data_structures.tests.tests",
+        "description": "mad.data_structures.tests.tests",
+        "peekOfCode": "child_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)\nchild_node11.add_parent(child_node1)\nchild_node12.add_parent(child_node1)\nchild_node21 = GoalNode(\"Child Goal 2.1\", {\"Agent1\": 2, \"Agent2\": 1})\nchild_node2.add_child(child_node21)\nchild_node21.add_parent(child_node2)\nchild_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})\nchild_node21.add_child(child_node211)",
+        "detail": "mad.data_structures.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node21",
+        "kind": 5,
+        "importPath": "mad.data_structures.tests.tests",
+        "description": "mad.data_structures.tests.tests",
+        "peekOfCode": "child_node21 = GoalNode(\"Child Goal 2.1\", {\"Agent1\": 2, \"Agent2\": 1})\nchild_node2.add_child(child_node21)\nchild_node21.add_parent(child_node2)\nchild_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})\nchild_node21.add_child(child_node211)\nchild_node211.add_parent(child_node21)\n# Print Tree\nroot_node.print_tree()",
+        "detail": "mad.data_structures.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node211",
+        "kind": 5,
+        "importPath": "mad.data_structures.tests.tests",
+        "description": "mad.data_structures.tests.tests",
+        "peekOfCode": "child_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})\nchild_node21.add_child(child_node211)\nchild_node211.add_parent(child_node21)\n# Print Tree\nroot_node.print_tree()",
+        "detail": "mad.data_structures.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "GoalNode",
+        "kind": 6,
+        "importPath": "mad.data_structures._multi_agent_goal_nodes",
+        "description": "mad.data_structures._multi_agent_goal_nodes",
+        "peekOfCode": "class GoalNode:\n    \"\"\"\n    This class creates Multi Agent Goal Nodes\n    Parameters\n    ----------\n    name : str\n        Goal Name\n    data : dict\n        Dictonary containing key as agent and value as planning cost\n    parents: List, default []",
+        "detail": "mad.data_structures._multi_agent_goal_nodes",
+        "documentation": {}
+    },
+    {
+        "label": "root_node",
+        "kind": 5,
+        "importPath": "mad.optimize.tests.tests",
+        "description": "mad.optimize.tests.tests",
+        "peekOfCode": "root_node = GoalNode(\"Root Goal\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node1 = GoalNode(\"Child Goal 1\", {\"Agent1\": 4, \"Agent2\": 1})\nchild_node2 = GoalNode(\"Child Goal 2\", {\"Agent1\": 2, \"Agent2\": 3})\nroot_node.add_child(child_node1)\nroot_node.add_child(child_node2)\nchild_node1.add_parent(root_node)\nchild_node2.add_parent(root_node)\nchild_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)",
+        "detail": "mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node1",
+        "kind": 5,
+        "importPath": "mad.optimize.tests.tests",
+        "description": "mad.optimize.tests.tests",
+        "peekOfCode": "child_node1 = GoalNode(\"Child Goal 1\", {\"Agent1\": 4, \"Agent2\": 1})\nchild_node2 = GoalNode(\"Child Goal 2\", {\"Agent1\": 2, \"Agent2\": 3})\nroot_node.add_child(child_node1)\nroot_node.add_child(child_node2)\nchild_node1.add_parent(root_node)\nchild_node2.add_parent(root_node)\nchild_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)",
+        "detail": "mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node2",
+        "kind": 5,
+        "importPath": "mad.optimize.tests.tests",
+        "description": "mad.optimize.tests.tests",
+        "peekOfCode": "child_node2 = GoalNode(\"Child Goal 2\", {\"Agent1\": 2, \"Agent2\": 3})\nroot_node.add_child(child_node1)\nroot_node.add_child(child_node2)\nchild_node1.add_parent(root_node)\nchild_node2.add_parent(root_node)\nchild_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)\nchild_node11.add_parent(child_node1)",
+        "detail": "mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node11",
+        "kind": 5,
+        "importPath": "mad.optimize.tests.tests",
+        "description": "mad.optimize.tests.tests",
+        "peekOfCode": "child_node11 = GoalNode(\"Child Goal 1.1\", {\"Agent1\": 1, \"Agent2\": 2})\nchild_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)\nchild_node11.add_parent(child_node1)\nchild_node12.add_parent(child_node1)\nchild_node21 = GoalNode(\"Child Goal 2.1\", {\"Agent1\": 2, \"Agent2\": 1})\nchild_node2.add_child(child_node21)\nchild_node21.add_parent(child_node2)\nchild_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})",
+        "detail": "mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node12",
+        "kind": 5,
+        "importPath": "mad.optimize.tests.tests",
+        "description": "mad.optimize.tests.tests",
+        "peekOfCode": "child_node12 = GoalNode(\"Child Goal 1.2\", {\"Agent1\": 3, \"Agent2\": 1})\nchild_node1.add_child(child_node11)\nchild_node1.add_child(child_node12)\nchild_node11.add_parent(child_node1)\nchild_node12.add_parent(child_node1)\nchild_node21 = GoalNode(\"Child Goal 2.1\", {\"Agent1\": 2, \"Agent2\": 1})\nchild_node2.add_child(child_node21)\nchild_node21.add_parent(child_node2)\nchild_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})\nchild_node21.add_child(child_node211)",
+        "detail": "mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node21",
+        "kind": 5,
+        "importPath": "mad.optimize.tests.tests",
+        "description": "mad.optimize.tests.tests",
+        "peekOfCode": "child_node21 = GoalNode(\"Child Goal 2.1\", {\"Agent1\": 2, \"Agent2\": 1})\nchild_node2.add_child(child_node21)\nchild_node21.add_parent(child_node2)\nchild_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})\nchild_node21.add_child(child_node211)\nchild_node211.add_parent(child_node21)\n# root_node.print_tree()\n# _goal_allocation tests\nagent_and_goals = initial_goal_allocation(root_node, 10)\nprint_assigned_goals(agent_and_goals)",
+        "detail": "mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "child_node211",
+        "kind": 5,
+        "importPath": "mad.optimize.tests.tests",
+        "description": "mad.optimize.tests.tests",
+        "peekOfCode": "child_node211 = GoalNode(\"Child Goal 2.1.1\", {\"Agent1\": 1, \"Agent2\": 3})\nchild_node21.add_child(child_node211)\nchild_node211.add_parent(child_node21)\n# root_node.print_tree()\n# _goal_allocation tests\nagent_and_goals = initial_goal_allocation(root_node, 10)\nprint_assigned_goals(agent_and_goals)\nagent_and_goals_rand = random_goal_allocation(root_node, 10)\nprint_assigned_goals(agent_and_goals_rand)",
+        "detail": "mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "agent_and_goals",
+        "kind": 5,
+        "importPath": "mad.optimize.tests.tests",
+        "description": "mad.optimize.tests.tests",
+        "peekOfCode": "agent_and_goals = initial_goal_allocation(root_node, 10)\nprint_assigned_goals(agent_and_goals)\nagent_and_goals_rand = random_goal_allocation(root_node, 10)\nprint_assigned_goals(agent_and_goals_rand)",
+        "detail": "mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "agent_and_goals_rand",
+        "kind": 5,
+        "importPath": "mad.optimize.tests.tests",
+        "description": "mad.optimize.tests.tests",
+        "peekOfCode": "agent_and_goals_rand = random_goal_allocation(root_node, 10)\nprint_assigned_goals(agent_and_goals_rand)",
+        "detail": "mad.optimize.tests.tests",
+        "documentation": {}
+    },
+    {
+        "label": "initial_goal_allocation",
+        "kind": 2,
+        "importPath": "mad.optimize._goal_allocation",
+        "description": "mad.optimize._goal_allocation",
+        "peekOfCode": "def initial_goal_allocation(goal_tree: GoalNode,\n                            max_resources: int) -> Dict:\n    \"\"\"\n    Optimizes allocation of goals to multiple agents (Greedy Algorithm)\n    Parameters\n    ----------\n    goal_tree : mad.data_structures.GoalNode\n        Heirarichal Multi Agent Goal Tree \n    max_resources : int\n        Maximum resources available for each agent",
+        "detail": "mad.optimize._goal_allocation",
+        "documentation": {}
+    },
+    {
+        "label": "random_goal_allocation",
+        "kind": 2,
+        "importPath": "mad.optimize._goal_allocation",
+        "description": "mad.optimize._goal_allocation",
+        "peekOfCode": "def random_goal_allocation(goal_tree):\n    # Raise an error if goal_tree is empty\n    if goal_tree is None:\n        raise ValueError(\"Goal tree is empty\") # ???\n    # Get a list of all of the goals\n    goals = _all_goals(goal_tree)\n    agent_and_goals = {}\n    for goal in goals:\n        # Find best agent to complete the goal\n        random_agent = random.choice(list(goal.data.keys()))",
+        "detail": "mad.optimize._goal_allocation",
+        "documentation": {}
+    },
+    {
+        "label": "print_assigned_goals",
+        "kind": 2,
+        "importPath": "mad.optimize._goal_allocation",
+        "description": "mad.optimize._goal_allocation",
+        "peekOfCode": "def print_assigned_goals(agent_and_goals: Dict) -> None:\n    \"\"\"\n    Takes in a Dict(key: agent name, value: list of GoalNodes) and prints out in readable format\n    Parameters\n    ----------\n    agents_and_goals: Dict\n        Goal allocations (key: agent name, value: list of GoalNodes)\n    \"\"\"\n    for agent in agent_and_goals.keys():\n        list_of_goals = []",
+        "detail": "mad.optimize._goal_allocation",
+        "documentation": {}
+    },
+    {
+        "label": "__version__",
+        "kind": 5,
+        "importPath": "mad._version",
+        "description": "mad._version",
+        "peekOfCode": "__version__ = '0.0.5'\n#change log:\n# 0.0.0: first version\n# 0.0.1: Updated Readme\n# 0.0.2: Fixed import in optimize test file\n# 0.0.3: Created GoalNode and some functionality\n# 0.0.4: Updated GoalNode, Optimization, tests, but in one file\n# 0.0.5",
+        "detail": "mad._version",
+        "documentation": {}
+    }
+]
