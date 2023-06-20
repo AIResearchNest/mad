@@ -1,29 +1,6 @@
 # https://github.com/dask/dask/blob/main/dask/datasets.py#L139-L158
 from typing import Dict, List
 
-def _suitable_agent(a:Dict) -> str:
-
-    """
-    Decides which agent will conduct the current goal based on cost
-
-    Parameters
-    ----------
-    a : Dict[str: int]
-        Dictionary containing the cost values for each agent
-
-    Returns
-    -------
-    name: str
-        Name of the agent with the minimum cost.
-    """
-
-    min_cost = list(a.values())[0]
-    name = list(a.keys())[0]
-    for key, value in a.items():
-        if value < min_cost:
-            min_cost = value
-            name = key
-    return name
 
 class GoalNode:
 
@@ -62,9 +39,12 @@ class GoalNode:
         self.name = name 
         self.data = data
         self.children = []
-        self.agent = _suitable_agent(data)
-        self.cost = self.data[self.agent]
+        self.agent = None
+        self.cost = None
 
+    def set_agent(self, name, cost) -> None:
+        self.agent = name
+        self.cost = cost
 
     def add_child(self, a) -> None:
         self.children.append(a)
