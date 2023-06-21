@@ -23,8 +23,6 @@ def _suitable_agent(a:Dict) -> str:
             name = key
     return name
 
-
-
 class GoalNode:
 
     """
@@ -65,9 +63,12 @@ class GoalNode:
         self.agent = None
         self.cost = None
 
-    def set_agent(self, name, cost) -> None:
-        self.agent = name
-        self.cost = cost
+    def set_agent(self, name) -> None:
+        if name in self.data.keys():
+            self.agent = name
+            self.cost = self.data[name]
+        else:
+            raise ValueError("Not a viable agent name")        
         
     def add_child(self, a) -> None:
         self.children.append(a)
@@ -75,6 +76,7 @@ class GoalNode:
     def get_children(self) -> List:
         return self.children
     
+    # Temporary
     def set_cost(self, cost):
         self.cost = cost
 
@@ -114,242 +116,6 @@ def level_order_transversal(root) -> None:
 
 def print_goal_tree(node, indent=0):
     prefix = "  " * indent
-    print(f"{prefix}- {node.name}: {node.cost}")
+    print(f"{prefix}- {node.name}")
     for child in node.children:
         print_goal_tree(child, indent + 1)
-
-
-
-
-
-def jonathan_allocation(node):
-    if not node.children:
-        return [node]
-    
-    selected_goals = []
-    child_goals = []
-    
-    for child in node.children:
-        child_goals.extend(jonathan_allocation(child))
-    
-    child_cost = sum(child.cost for child in child_goals)
-    
-    if child_cost < node.cost:
-        selected_goals.extend(child_goals)
-    else:
-        selected_goals.append(node)
-    
-    return selected_goals
-
-# Temporary Tests
-
-# Test Case 1
-def test1():
-    # Create the goal tree structure
-    root = GoalNode("Main Goal", {})
-    root.set_cost(10)
-    subgoal1 = GoalNode("Sub Goal 1", {})
-    subgoal1.set_cost(3)
-    subgoal2 = GoalNode("Sub Goal 2", {})
-    subgoal2.set_cost(4)
-    subgoal3 = GoalNode("Sub Goal 3", {})
-    subgoal3.set_cost(1)
-    subgoal4 = GoalNode("Sub Goal 4", {})
-    subgoal4.set_cost(1)
-    subgoal5 = GoalNode("Sub Goal 5", {})
-    subgoal5.set_cost(2)
-    subgoal6 = GoalNode("Sub Goal 6", {})
-    subgoal6.set_cost(1)
-
-    root.add_child(subgoal1)
-    root.add_child(subgoal2)
-    subgoal1.add_child(subgoal3)
-    subgoal1.add_child(subgoal4)
-    subgoal2.add_child(subgoal5)
-    subgoal2.add_child(subgoal6)
-
-    # Print the goal tree
-    print_goal_tree(root)
-
-    # Perform DFS to determine the selected goals
-    selected_goals = jonathan_allocation(root)
-
-    # Print the selected goals
-    print("Goals:")
-    for goal in selected_goals:
-        print(goal.name)
-
-# Run the test case
-print()
-print("Test Case 1:")
-test1()
-
-# Test Case 2
-def test2():
-    # Create the goal tree structure
-    root = GoalNode("Main Goal", {})
-    root.set_cost(10)
-    subgoal1 = GoalNode("Sub Goal 1", {})
-    subgoal1.set_cost(3)
-    subgoal2 = GoalNode("Sub Goal 2", {})
-    subgoal2.set_cost(4)
-    subgoal3 = GoalNode("Sub Goal 3", {})
-    subgoal3.set_cost(2)
-    subgoal4 = GoalNode("Sub Goal 4", {})
-    subgoal4.set_cost(2)
-    subgoal5 = GoalNode("Sub Goal 5", {})
-    subgoal5.set_cost(3)
-    subgoal6 = GoalNode("Sub Goal 6", {})
-    subgoal6.set_cost(3)
-
-    root.add_child(subgoal1)
-    root.add_child(subgoal2)
-    subgoal1.add_child(subgoal3)
-    subgoal1.add_child(subgoal4)
-    subgoal2.add_child(subgoal5)
-    subgoal2.add_child(subgoal6)
-
-    # Print the goal tree
-    print_goal_tree(root)
-
-    # Perform DFS to determine the selected goals
-    selected_goals = jonathan_allocation(root)
-
-    # Print the selected goals
-    print("Goals:")
-    for goal in selected_goals:
-        print(goal.name)
-
-# Run the test case
-print()
-print("Test Case 2:")
-test2()
-
-# Test Case 3
-def test3():
-    # Create the goal tree structure
-    root = GoalNode("Main Goal", {})
-    root.set_cost(10)
-    subgoal1 = GoalNode("Sub Goal 1", {})
-    subgoal1.set_cost(10)
-    subgoal2 = GoalNode("Sub Goal 2", {})
-    subgoal2.set_cost(10)
-    subgoal3 = GoalNode("Sub Goal 3", {})
-    subgoal3.set_cost(2)
-    subgoal4 = GoalNode("Sub Goal 4", {})
-    subgoal4.set_cost(2)
-    subgoal5 = GoalNode("Sub Goal 5", {})
-    subgoal5.set_cost(2)
-    subgoal6 = GoalNode("Sub Goal 6", {})
-    subgoal6.set_cost(2)
-
-    root.add_child(subgoal1)
-    root.add_child(subgoal2)
-    subgoal1.add_child(subgoal3)
-    subgoal1.add_child(subgoal4)
-    subgoal2.add_child(subgoal5)
-    subgoal2.add_child(subgoal6)
-
-    # Print the goal tree
-    print_goal_tree(root)
-
-    # Perform DFS to determine the selected goals
-    selected_goals = jonathan_allocation(root)
-
-    # Print the selected goals
-    print("Goals:")
-    for goal in selected_goals:
-        print(goal.name)
-
-# Run the test case
-print()
-print("Test Case 3:")
-test3()
-
-# Test Case 4
-def test4():
-    # Create the goal tree structure
-    root = GoalNode("Main Goal", {})
-    root.set_cost(10)
-    subgoal1 = GoalNode("Sub Goal 1", {})
-    subgoal1.set_cost(10)
-    subgoal2 = GoalNode("Sub Goal 2", {})
-    subgoal2.set_cost(10)
-    subgoal3 = GoalNode("Sub Goal 3", {})
-    subgoal3.set_cost(5)
-    subgoal4 = GoalNode("Sub Goal 4", {})
-    subgoal4.set_cost(6)
-    subgoal5 = GoalNode("Sub Goal 5", {})
-    subgoal5.set_cost(5)
-    subgoal6 = GoalNode("Sub Goal 6", {})
-    subgoal6.set_cost(6)
-
-    root.add_child(subgoal1)
-    root.add_child(subgoal2)
-    subgoal1.add_child(subgoal3)
-    subgoal1.add_child(subgoal4)
-    subgoal2.add_child(subgoal5)
-    subgoal2.add_child(subgoal6)
-
-    # Print the goal tree
-    print_goal_tree(root)
-
-    # Perform DFS to determine the selected goals
-    selected_goals = jonathan_allocation(root)
-
-    # Print the selected goals
-    print("Goals:")
-    for goal in selected_goals:
-        print(goal.name)
-
-# Run the test case
-print()
-print("Test Case 4:")
-test4()
-
-# Test Case 5
-def test5():
-    # Create the goal tree structure
-    root = GoalNode("Main Goal", {})
-    root.set_cost(20)
-    subgoal1 = GoalNode("Sub Goal 1", {})
-    subgoal1.set_cost(10)
-    subgoal2 = GoalNode("Sub Goal 2", {})
-    subgoal2.set_cost(10)
-    subgoal3 = GoalNode("Sub Goal 3", {})
-    subgoal3.set_cost(5)
-    subgoal4 = GoalNode("Sub Goal 4", {})
-    subgoal4.set_cost(6)
-    subgoal5 = GoalNode("Sub Goal 5", {})
-    subgoal5.set_cost(5)
-    subgoal6 = GoalNode("Sub Goal 6", {})
-    subgoal6.set_cost(6)
-    subgoal7 = GoalNode("Sub Goal 7", 1)
-    subgoal7.set_cost(1)
-    subgoal8 = GoalNode("Sub Goal 8", 1)
-    subgoal8.set_cost(1)
-
-    root.add_child(subgoal1)
-    root.add_child(subgoal2)
-    subgoal1.add_child(subgoal3)
-    subgoal1.add_child(subgoal4)
-    subgoal2.add_child(subgoal5)
-    subgoal2.add_child(subgoal6)
-    subgoal3.add_child(subgoal7)
-    subgoal3.add_child(subgoal8)
-
-    # Print the goal tree
-    print_goal_tree(root)
-
-    # Perform DFS to determine the selected goals
-    selected_goals = jonathan_allocation(root)
-
-    # Print the selected goals
-    print("Goals:")
-    for goal in selected_goals:
-        print(goal.name)
-
-# Run the test case
-print()
-print("Test Case 5:")
-test5()

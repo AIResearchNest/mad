@@ -1,12 +1,24 @@
 from mad.data_structures import GoalNode
-from typing import Dict
+from typing import Dict, List
 
 # private function should be as follows
-def _helper_func():
-    pass
+def _get_goals(goal_tree: GoalNode) -> List:
+    output = []
+    q = []
+    q.append(goal_tree)
+    while q:
+        current = q[0]
+        q.pop(0)
+        output.append(current)
+        for child in current.get_children():
+            q.append(child)
+
+    return output
+
 
 def initial_goal_allocation(goal_tree: GoalNode,
-                            max_resources: int) -> Dict:
+                            max_resources: int,
+                            agents: List) -> Dict:
     
     """
     Optimizes allocation of goals to multiple agents
@@ -24,27 +36,30 @@ def initial_goal_allocation(goal_tree: GoalNode,
         Allocates list of goals (value) to each agent (key)
     """
 
-    # write your code here
+    # Write your code here
 
     # Raise an error if goal_tree is empty
 
-    pass
 
-def jonathan_allocation(node):
-    if not node.children:
-        return [node]
+def jonathan_average_cost(goal_tree: GoalNode) -> None:
     
-    selected_goals = []
-    child_goals = []
+    # Raise an error if goal_tree is empty
+    if goal_tree is None:
+        raise ValueError("Tree is empty!")
+
+    # For each goal find average cost among available agents and assign the temporary cost to the goal
     
-    for child in node.children:
-        child_goals.extend(jonathan_allocation(child))
-    
-    child_cost = sum(child.cost for child in child_goals)
-    
-    if child_cost < node.cost:
-        selected_goals.extend(child_goals)
-    else:
-        selected_goals.append(node)
-    
-    return selected_goals
+    goals = _get_goals(goal_tree)
+
+    for goal in goals:
+        costs = [x for x in goal.data.values()]
+        avg_cost = sum(costs) / len(costs)
+        # print(avg_cost)
+
+        goal.cost = avg_cost
+        
+
+
+
+
+
