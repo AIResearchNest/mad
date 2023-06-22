@@ -1,4 +1,4 @@
-__version__ = '0.0.5'
+__version__ = '0.0.6'
 
 #change log:
 # 0.0.0: first version
@@ -7,3 +7,4 @@ __version__ = '0.0.5'
 # 0.0.3: Created GoalNode and some functionality
 # 0.0.4: Implemented the goal allocation optimization and the tests for the data_structures 
 # 0.0.5: Edited some bugs and added the test file for the optimize folder 
+# 0.0.6: Improvised the optimize algorithm utilizing the variable "max_resource" for each agent 
