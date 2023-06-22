@@ -1,6 +1,32 @@
 # https://github.com/dask/dask/blob/main/dask/datasets.py#L139-L158
 from typing import Dict, List
 
+def _suitable_agent(a: Dict) -> str:
+
+    """
+    Decides which agent will conduct the current goal based on cost
+
+    Parameters
+    ----------
+    a : Dict[str: int]
+        Dictionary containing the cost values for each agent
+
+    Returns
+    -------
+    name: str
+        Name of the agent with the minimum cost.
+    """    
+    if not a:
+        return None
+    min_cost = list(a.values())[0]
+    name = list(a.keys())[0]
+    for key, value in a.items():
+        if value < min_cost:
+            min_cost = value
+            name = key
+    
+    return name
+
 
 class GoalNode:
 
@@ -39,19 +65,45 @@ class GoalNode:
         self.name = name 
         self.data = data
         self.children = []
-        self.agent = None
-        self.cost = None
+        self.agent = _suitable_agent(self.data)
+        self.cost = self.data[self.agent]
+        self.d = self.data.copy()
 
-    def set_agent(self, name, cost) -> None:
-        self.agent = name
-        self.cost = cost
+    def switch_agent(self) -> bool:
+        if len(self.d) == 1:
+            print("No agent is capable to complete " + self.name)
+            self.agent = None
+            self.cost = None
+            return False
+        self.d.pop(self.agent)
+        print(self.d)
+        self.agent = _suitable_agent(self.d)
+        self.cost = self.d[self.agent]
+        return True
 
     def add_child(self, a) -> None:
         self.children.append(a)
 
     def get_children(self) -> List:
         return self.children
+"""
+class Agent:
 
+    def __init__(self, name, maximum_resources):
+        self.name = name
+        self.max = maximum_resources
+
+    def conduct_goal(self, cost):
+        self.max -= cost
+    
+    def cancel_goal(self, cost):
+        self.max += cost
+
+    def maximum_resource(self):
+        return self.maximum_resource
+
+"""
+    
 def level_order_transversal(root) -> None:
         
         """
@@ -76,7 +128,10 @@ def level_order_transversal(root) -> None:
                 node, parent = q.pop(0)
                 if parent is not None:
                     print(parent.name + "|", end="")  # Print branch symbol if the node has a parent
-                print(node.name + " " + node.agent, end="\t")
+                if (node.agent != None):
+                    print(node.name + " " + node.agent + " " + str(node.cost), end="\t")
+                else:
+                       print(node.name, end="\t")
 
                 children = node.get_children()
                 for child in children:
@@ -87,8 +142,3 @@ def level_order_transversal(root) -> None:
             print("\n" * 2)
 
 
-def main() -> None:
-    pass
-
-if __name__ == "__main__":
-    main()
