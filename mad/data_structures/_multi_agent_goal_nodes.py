@@ -76,9 +76,6 @@ class GoalNode:
     def get_children(self) -> List:
         return self.children
     
-    # Temporary
-    def set_cost(self, cost):
-        self.cost = cost
 
 def level_order_transversal(root) -> None:
         
