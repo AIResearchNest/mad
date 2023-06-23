@@ -5,18 +5,19 @@ from mad.optimize import jonathan_average_cost
 from mad.optimize import jonathan_optimal_path
 from mad.optimize import _get_goals
 from mad.optimize import jonathan_distribute_goals
+from mad.optimize import _score_allocation
 
 def test1():
     # Create the goal tree structure
-    root = GoalNode("Main Goal", {"grace": 30, "remus":32, "franklin": 35})
-    subgoal1 = GoalNode("Sub Goal 1", {"grace": 16, "remus":14, "franklin": 18})
-    subgoal2 = GoalNode("Sub Goal 2", {"grace": 16, "remus":12, "franklin": 19})
-    subgoal3 = GoalNode("Sub Goal 3", {"grace": 8, "remus":7, "franklin": 3})
-    subgoal4 = GoalNode("Sub Goal 4", {"grace": 7, "remus":3, "franklin": 5})
-    subgoal5 = GoalNode("Sub Goal 5", {"grace": 7, "remus":5, "franklin": 11})
-    subgoal6 = GoalNode("Sub Goal 6", {"grace": 9, "remus":5, "franklin": 2})
-    subgoal7 = GoalNode("Sub Goal 7", {"grace": 9, "remus":7, "franklin": 6})
-    subgoal8 = GoalNode("Sub Goal 8", {"grace": 4, "remus":7, "franklin": 8})
+    root = GoalNode("Main Goal", {"grace": 30, "remus": 32, "franklin": 35})
+    subgoal1 = GoalNode("Sub Goal 1", {"grace": 16, "remus": 14, "franklin": 18})
+    subgoal2 = GoalNode("Sub Goal 2", {"grace": 16, "remus": 12, "franklin": 19})
+    subgoal3 = GoalNode("Sub Goal 3", {"grace": 8, "remus": 7, "franklin": 3})
+    subgoal4 = GoalNode("Sub Goal 4", {"grace": 7, "remus": 3, "franklin": 5})
+    subgoal5 = GoalNode("Sub Goal 5", {"grace": 7, "remus": 5, "franklin": 11})
+    subgoal6 = GoalNode("Sub Goal 6", {"grace": 9, "remus": 5, "franklin": 2})
+    subgoal7 = GoalNode("Sub Goal 7", {"grace": 9, "remus": 7, "franklin": 6})
+    subgoal8 = GoalNode("Sub Goal 8", {"grace": 4, "remus": 7, "franklin": 8})
 
     root.add_child(subgoal1)
     root.add_child(subgoal2)
@@ -52,7 +53,9 @@ def test1():
     print("Goal Allocation:")
     for key, value in distributed_goals.items():
         for goal in value:
-            print(key, goal.name)
+            print(key, goal.name, goal.cost)
+
+    print(_score_allocation(distributed_goals))
 
 def test2():
     # Create the goal tree structure
@@ -98,6 +101,8 @@ def test2():
         for goal in value:
             print(key, goal.name)
 
+    print(_score_allocation(distributed_goals))
+
 test1()
 print()
-test2()
+# test2()
