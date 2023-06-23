@@ -8,7 +8,7 @@ def jonathan_distribute_goals(goal_nodes, agents, max_resources) -> Dict:
     agents_cost_total = {agent: 0 for agent in agents}
     goals_sorted = list(reversed(sorted(goal_nodes, key=lambda goal: goal.cost)))
     # sensitivity = goal_nodes[0].cost * 2 // len(agents)
-    sensitivity = sum(max(node.data.values()) for node in goal_nodes) // len(agents)
+    sensitivity = sum(max(node.data.values()) for node in goal_nodes) / len(agents)
     print(sensitivity)
 
     for goal in goals_sorted:

@@ -4,6 +4,7 @@ from mad.optimize._path_optimization import jonathan_optimal_path
 from mad.optimize._goal_allocation import _get_goals
 from mad.optimize._distribute_goals import jonathan_distribute_goals
 from mad.optimize._score import _score_allocation
+from mad.optimize.jonathan_algo import jonathan_algorithm
 
 __all__ = [
     'initial_goal_allocation',
@@ -11,5 +12,6 @@ __all__ = [
     'jonathan_average_cost',
     '_get_goals',
     'jonathan_distribute_goals',
-    '_score_allocation'
+    '_score_allocation',
+    'jonathan_algorithm'
 ]

@@ -1,4 +1,4 @@
-__version__ = '0.0.6'
+__version__ = '0.0.7'
 
 #change log:
 # 0.0.0: first version
@@ -8,3 +8,4 @@ __version__ = '0.0.6'
 # 0.0.4: Built tests and avg goal cost algorithm
 # 0.0.5: Built a goal distribution algo and test file
 # 0.0.6: Altered distribution algo and test file
+# 0.0.7: Fixed some bugs and made more tests
