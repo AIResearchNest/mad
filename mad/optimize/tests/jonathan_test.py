@@ -58,6 +58,10 @@ def test1():
 
     print(_score_allocation(distributed_goals))
 
+# print()
+# print("Test 1:")
+# test1()
+
 def test2():
     # Create the goal tree structure
     root = GoalNode("Main Goal", {"grace": 10, "remus":10, "franklin": 10})
@@ -104,6 +108,10 @@ def test2():
 
     print(_score_allocation(distributed_goals))
 
+# print()
+# print("Test 2:")
+# test2()
+
 def test3():
     root = GoalNode("Main Goal", {"grace": 30, "remus": 32, "franklin": 35})
     subgoal1 = GoalNode("Sub Goal 1", {"grace": 16, "remus": 14, "franklin": 18})
@@ -139,6 +147,7 @@ def test3():
     print(_score_allocation(agent_and_goals))
 
 print()
+print("Test 3:")
 test3()
 
 def test4():
@@ -181,6 +190,7 @@ def test4():
     print(_score_allocation(agent_and_goals))
 
 print()
+print("Test 4:")
 test4()
 
 def test5():
@@ -223,4 +233,37 @@ def test5():
     print(_score_allocation(agent_and_goals))
 
 print()
+print("Test 5:")
 test5()
+
+def test6():
+    root = GoalNode("Main Goal", {"grace": 21, "remus": 32, "franklin": 35})
+    subgoal1 = GoalNode("Sub Goal 1", {"grace": 16, "franklin": 15})
+    subgoal2 = GoalNode("Sub Goal 2", {"grace": 14, "remus": 17})
+
+    root.add_child(subgoal1)
+    root.add_child(subgoal2)
+    
+
+    print("Tree:")
+    print_goal_tree(root)
+
+    agent_and_goals = jonathan_algorithm(root, ["grace", "remus", "franklin"], 14)
+
+    selected_goals = jonathan_optimal_path(root, 20)
+    print("Best path:")
+    for goal in selected_goals:
+        print(goal.name, goal.cost)
+
+    print("Goal Allocation:")
+    for key, value in agent_and_goals.items():
+        for goal in value:
+            print(key, goal.name)
+    
+    print()
+    print("Score:")
+    print(_score_allocation(agent_and_goals))
+
+print()
+print("Test 6:")
+test6()

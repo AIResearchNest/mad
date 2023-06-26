@@ -3,6 +3,14 @@ from typing import Dict, List
 
 # private function should be as follows
 def _get_goals(goal_tree: GoalNode) -> List:
+    """
+    Takes in a goal tree and traverses it using BFS and appends each GoalNode to an output list
+
+    Parameters
+    ----------
+    goal_tree : mad.data_structures.GoalNode
+        Hierarchical Multi Agent Goal Tree
+    """
     output = []
     q = []
     q.append(goal_tree)
@@ -42,13 +50,20 @@ def initial_goal_allocation(goal_tree: GoalNode,
 
 
 def jonathan_average_cost(goal_tree: GoalNode) -> None:
+    """
+    Takes in a goal tree and updates each GoalNode's agent cost to a temporary value of the average cost of all agents able to accomplish that goal
+
+    Parameters
+    ----------
+    goal_tree : mad.data_structures.GoalNode
+        Hierarchical Multi Agent Goal Tree
+    """
     
-    # Raise an error if goal_tree is empty
+    # Raise an error if goal_tree is empty (???)
     if goal_tree is None:
         raise ValueError("Tree is empty!")
 
     # For each goal find average cost among available agents and assign the temporary cost to the goal
-    
     goals = _get_goals(goal_tree)
 
     for goal in goals:
