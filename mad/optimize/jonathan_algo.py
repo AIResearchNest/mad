@@ -33,7 +33,11 @@ def jonathan_algorithm(goal_tree: GoalNode, agents: List, max_resources: int) ->
 
     # Takes in a goal tree and max resources for each agent and finds the most optimal goal path based on the GoalNode.cost values through out the tree and returns a list of GoalNodes that should be accomplished
     selected_goals = jonathan_optimal_path(goal_tree, max_resources)
-
+    print("Selected Goals:")
+    for goal in selected_goals:
+        print(goal.name)
+    
+    print()
     # Takes in a list of GoalNodes and distributes them among available agents
     distributed_goals = jonathan_distribute_goals(selected_goals, agents, max_resources)
 

@@ -1,4 +1,4 @@
-__version__ = '0.0.8'
+__version__ = '0.0.9'
 
 #change log:
 # 0.0.0: first version
@@ -10,3 +10,4 @@ __version__ = '0.0.8'
 # 0.0.6: Altered distribution algo and test file
 # 0.0.7: Fixed some bugs and made more tests
 # 0.0.8: Added comments
+# 0.0.9: Bug fixes and more test cases

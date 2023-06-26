@@ -27,8 +27,15 @@ def jonathan_distribute_goals(goal_nodes: List, agents: List, max_resources: int
     goals_sorted = list(reversed(sorted(goal_nodes, key=lambda goal: goal.cost)))
 
     # Takes worst case distribution cost and divides by the amount of agents
-    sensitivity = sum(max(node.data.values()) for node in goal_nodes) / len(agents)
-    print(sensitivity)
+    # sensitivity = sum(max(node.data.values()) for node in goal_nodes) / len(agents)
+    print(f"Worst Case: {sum(max(node.data.values()) for node in goal_nodes)}")
+    # sensitivity = sum(node.cost for node in goals_sorted) / len(agents)
+    print(f"Avg Case: {sum(node.cost for node in goals_sorted)}")
+    sensitivity = sum(min(node.data.values()) for node in goal_nodes) / len(agents)
+    print(f"Best Case: {sum(min(node.data.values()) for node in goal_nodes)}")
+    print(f"Sensitivity: {sensitivity}")
+
+    left_over_goals = []
 
     for goal in goals_sorted:
         # List of agents from best fit to worst fit
@@ -40,7 +47,7 @@ def jonathan_distribute_goals(goal_nodes: List, agents: List, max_resources: int
             agents_cost = agents_cost_total[agent]
             
             # Checks that agent has enough resources and agent isn't doing too much work
-            if curr_resources >= curr_agent_goal_cost and agents_cost < sensitivity:
+            if curr_resources >= curr_agent_goal_cost and agents_cost + curr_agent_goal_cost < sensitivity:
                 allocated_goals[agent].append(goal)
                 agents_resources[agent] -= curr_agent_goal_cost
                 agents_cost_total[agent] += curr_agent_goal_cost
@@ -49,8 +56,30 @@ def jonathan_distribute_goals(goal_nodes: List, agents: List, max_resources: int
                 break
             # If agent is last available agent
             elif agent == best_agents[-1]:
-                print("Not enough resources")
-                return allocated_goals
+                left_over_goals.append(goal)
+    print()
+    if left_over_goals:
+        print("Left Over Goals:")
+        for goal in left_over_goals:
+
+            # sort agents from least total cost to most
+            least_assigned_agents = sorted(agents_cost_total, key=lambda k:agents_cost_total[k])
+            print(goal.name)
+
+            for agent in least_assigned_agents:
+                curr_resources = agents_resources[agent]
+                curr_agent_goal_cost = goal.data[agent]
+                if agent in goal.data.keys() and curr_resources >= curr_agent_goal_cost:
+                    allocated_goals[agent].append(goal)
+                    agents_resources[agent] -= curr_agent_goal_cost
+                    agents_cost_total[agent] += curr_agent_goal_cost
+                    goal.cost = curr_agent_goal_cost
+                    goal.agent = agent
+                    break
+                # If agent is last available agent
+                elif agent == best_agents[-1]:
+                    print("Not enough resources")
+                    return allocated_goals
 
     return allocated_goals
 

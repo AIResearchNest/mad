@@ -69,8 +69,6 @@ def jonathan_average_cost(goal_tree: GoalNode) -> None:
     for goal in goals:
         costs = [x for x in goal.data.values()]
         avg_cost = sum(costs) / len(costs)
-        # print(avg_cost)
-
         goal.cost = avg_cost
         
 
