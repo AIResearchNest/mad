@@ -23,8 +23,6 @@ def _suitable_agent(a:Dict) -> str:
             name = key
     return name
 
-
-
 class GoalNode:
 
     """
@@ -65,15 +63,19 @@ class GoalNode:
         self.agent = None
         self.cost = None
 
-    def set_agent(self, name, cost) -> None:
-        self.agent = name
-        self.cost = cost
+    def set_agent(self, name) -> None:
+        if name in self.data.keys():
+            self.agent = name
+            self.cost = self.data[name]
+        else:
+            raise ValueError("Not a viable agent name")        
         
     def add_child(self, a) -> None:
         self.children.append(a)
 
     def get_children(self) -> List:
         return self.children
+    
 
 def level_order_transversal(root) -> None:
         
@@ -109,9 +111,8 @@ def level_order_transversal(root) -> None:
 
             print("\n" * 2)
 
-
-def main() -> None:
-    pass
-
-if __name__ == "__main__":
-    main()
+def print_goal_tree(node, indent=0):
+    prefix = "  " * indent
+    print(f"{prefix}- {node.name}")
+    for child in node.children:
+        print_goal_tree(child, indent + 1)
