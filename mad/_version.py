@@ -1,4 +1,4 @@
-__version__ = '0.0.9'
+__version__ = '0.0.10'
 
 #change log:
 # 0.0.0: first version
@@ -11,3 +11,4 @@ __version__ = '0.0.9'
 # 0.0.7: Fixed some bugs and made more tests
 # 0.0.8: Added comments
 # 0.0.9: Bug fixes and more test cases
+# 0.0.10: Prepared to merge to main

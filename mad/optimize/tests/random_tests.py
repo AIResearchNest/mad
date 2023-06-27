@@ -4,7 +4,6 @@ from mad.data_structures import print_goal_tree
 from mad.optimize import jonathan_algorithm
 from mad.optimize import _get_goals
 from mad.optimize import _score_allocation
-from mad.optimize import jonathan_average_cost
 
 def random_binary_symetric():
 
@@ -30,7 +29,7 @@ root = random_binary_symetric()
 print("Goal Tree:")
 print_goal_tree(root)
 
-jonathan_average_cost(root)
+
 
 print()
 print("Agent Costs:")
