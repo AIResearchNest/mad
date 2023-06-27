@@ -40,7 +40,7 @@ for goal in goals:
         print(f"    -{agent}: {cost}")
 
 print()
-results = jonathan_algorithm(root, ["grace", "remus", "franklin"], 15)
+results = jonathan_algorithm(root, ["grace", "remus", "franklin"], 30)
 print()
 print("Goal Allocation:")
 for key, value in results.items():
