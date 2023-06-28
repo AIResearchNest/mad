@@ -33,7 +33,7 @@ def _random_cost(m: int, n: int) -> Dict[str, int]:
     #print(d)
     return d
 
-def test_tree_creation() -> GoalNode:
+def test_tree_creation1() -> GoalNode:
 
     """
     This function creates a random test goal tree 
@@ -75,9 +75,65 @@ def test_tree_creation() -> GoalNode:
     G1.add_child(G12)
     level_order_transversal(G1)
     return G1 
-"""
 
-"""
+def test_tree_creation2() -> GoalNode:
+
+    """
+    This function creates a random test goal tree 
+
+    Parameters
+    ----------
+
+    Returns
+    ----------
+    GoalNode
+        Returns the root node of the test tree
+
+    """
+    G1 = GoalNode("G1",_random_cost(15,25))
+    G2 = GoalNode("G2",_random_cost(5,10))
+    G3 = GoalNode("G3",_random_cost(5,10))
+    G4 = GoalNode("G4",_random_cost(5,10))
+    G5 = GoalNode("G5",_random_cost(2,5))
+    G6 = GoalNode("G6",_random_cost(2,5))
+    G7 = GoalNode("G7",_random_cost(1,3))
+    G8 = GoalNode("G8",_random_cost(1,3))
+    G9 = GoalNode("G9",_random_cost(1,3))
+    G10 = GoalNode("G10",_random_cost(1,3))
+    G11 = GoalNode("G11",_random_cost(1,3))
+    G12 = GoalNode("G12",_random_cost(1,3))
+    print("\n\nGoals assigned to each agent:")
+
+    #Goal relationship
+    G1.add_child(G2)
+    G1.add_child(G3)
+    G1.add_child(G4)
+    G2.add_child(G5)
+    G2.add_child(G6)
+    G2.add_child(G7)
+    G3.add_child(G8)
+    G3.add_child(G9)
+    G3.add_child(G10)
+    G4.add_child(G11)
+    G4.add_child(G12)
+    level_order_transversal(G1)
+    return G1 
+
+def test_tree_creation3() -> GoalNode:
+    
+    G1 = GoalNode("G1", _random_cost(15, 25))
+    G2 = GoalNode("G2", _random_cost(5, 10))
+    G3 = GoalNode("G3", _random_cost(5, 10))
+    G4 = GoalNode("G4", _random_cost(2, 5))
+    
+
+    G1.add_child(G2)
+    G1.add_child(G3)
+    G1.add_child(G4)
+   
+    level_order_transversal(G1)
+    return G1 
+
 def test_goal_allocation(goal: GoalNode, max_res: List[int] = [10,10,10]) -> None:
 
     """
@@ -102,8 +158,14 @@ def test_goal_allocation(goal: GoalNode, max_res: List[int] = [10,10,10]) -> Non
         print("The remaining resource of " + agent +": " + str(resource[agent]) + "\n" * 2)
 
 def main():
-
-    test_goal_allocation(test_tree_creation())
+    print("_______  Case 1  _______\n")
+    test_goal_allocation(test_tree_creation1(), [15,20,10])
+    print("_______  Case 2  _______\n")
+    test_goal_allocation(test_tree_creation2(), [10,10,10])
+    #print("_______  Case 3 (Edge Case)  _______\n")
+    #test_goal_allocation(None, [10,10,10])
+    print("_______  Case 3  _______\n")
+    test_goal_allocation(test_tree_creation3(), [5,10,10])
 
 if __name__ == "__main__":
     main()
