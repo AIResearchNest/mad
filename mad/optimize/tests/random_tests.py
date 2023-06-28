@@ -1,8 +1,6 @@
 import random as r
 from mad.data_structures import GoalNode
-from mad.data_structures import print_goal_tree
 from mad.optimize import jonathan_algorithm
-from mad.optimize import _get_goals
 from mad.optimize import _score_allocation
 
 def random_binary_symetric():
