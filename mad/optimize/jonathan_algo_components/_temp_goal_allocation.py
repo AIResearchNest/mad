@@ -23,7 +23,7 @@ def _get_goals(goal_tree: GoalNode) -> List:
 
     return output
 
-def jonathan_average_cost(goal_tree: GoalNode) -> None:
+def jonathan_average_cost(goal_tree: GoalNode, verbose: int = 0) -> None:
     """
     Takes in a goal tree and updates each GoalNode's agent cost to a temporary value of the average cost of all agents able to accomplish that goal
 
@@ -41,10 +41,18 @@ def jonathan_average_cost(goal_tree: GoalNode) -> None:
     goals = _get_goals(goal_tree)
 
     for goal in goals:
+        # Average
         costs = [x for x in goal.data.values()]
-        avg_cost = sum(costs) / len(costs)
-        goal.cost = avg_cost
+        # avg_cost = sum(costs) / len(costs)
+        # goal.cost = avg_cost
         
+        # Min
+        goal.cost = min(costs)
+        
+        if verbose > 0:
+            print(f"{goal.name}: {goal.cost}")
+            for agent, cost in goal.data.items():
+                print(f"  - {agent}: {cost}")
 
 
 
