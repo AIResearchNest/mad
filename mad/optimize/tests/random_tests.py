@@ -29,10 +29,5 @@ def main():
     
     print(score)
 
-    for agent, goals in results.items():
-        print(agent)
-        for goal in goals:
-            print(goal.name, goal.agent, goal.cost)
-
 if __name__ == '__main__':
     main()
