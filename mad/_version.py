@@ -15,3 +15,4 @@ __version__ = '0.0.10'
 # 0.0.11: Updated jonathan_distribution
 # 0.0.12: Updated jonathans_allocation
 # 0.0.13: Created final_test.py
+# 0.0.15: Updated jonathan_distribution 
