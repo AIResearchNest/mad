@@ -24,29 +24,12 @@ def random_binary_symetric():
 
     return root
 
-root = random_binary_symetric()
+def main():
+    root = random_binary_symetric()
+    results = jonathan_algorithm(root, 30, 1)
+    score = _score_allocation(results)
+    
+    print(score)
 
-print("Goal Tree:")
-print_goal_tree(root)
-
-
-
-print()
-print("Agent Costs:")
-goals = _get_goals(root)
-for goal in goals:
-    print(f"{goal.name}: {goal.cost}")
-    for agent, cost in goal.data.items():
-        print(f"    -{agent}: {cost}")
-
-print()
-results = jonathan_algorithm(root, ["grace", "remus", "franklin"], 30)
-print()
-print("Goal Allocation:")
-for key, value in results.items():
-    for goal in value:
-        print(f"{key}: {goal.name}, {goal.cost}")
-
-print()
-print("Score:")
-print(_score_allocation(results))
+if __name__ == '__main__':
+    main()

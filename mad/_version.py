@@ -13,3 +13,4 @@ __version__ = '0.0.10'
 # 0.0.9: Bug fixes and more test cases
 # 0.0.10: Prepared to merge to main
 # 0.0.11: Updated jonathan_distribution
+# 0.0.12: Updated jonathans_allocation
