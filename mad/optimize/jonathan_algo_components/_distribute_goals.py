@@ -73,10 +73,9 @@ def jonathan_distribute_goals(goal_nodes: List, max_resources: int, verbose: int
                 allocated_goals[agent].append(goal)
                 agents_resources[agent] -= curr_agent_goal_cost
                 agents_cost_total[agent] += curr_agent_goal_cost
-                goal.cost = curr_agent_goal_cost
-                goal.agent = agent
+                goal.set_agent(agent)
                 break
-            
+
             # If agent is last available agent
             elif agent == best_agents[-1]:
                 left_over_goals.append(goal)
@@ -103,8 +102,7 @@ def jonathan_distribute_goals(goal_nodes: List, max_resources: int, verbose: int
                         allocated_goals[agent].append(goal)
                         agents_resources[agent] -= curr_agent_goal_cost
                         agents_cost_total[agent] += curr_agent_goal_cost
-                        goal.cost = curr_agent_goal_cost
-                        goal.agent = agent
+                        goal.set_agent(agent)
                         break
 
                 # If agent is last available agent
