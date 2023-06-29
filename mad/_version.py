@@ -17,3 +17,4 @@ __version__ = '0.0.14'
 # 0.0.13: Created final_test.py
 # 0.0.14: Merged fay's algorithm to _goal_allocation
 # 0.0.15: Updated jonathan_distribution
+# 0.0.16: Bug fixes

@@ -27,10 +27,14 @@ def jonathan_distribute_goals(goal_nodes: List, max_resources: int, verbose: int
     if len(goal_nodes) == 1:
         goal = goal_nodes[0]
         best_agent = min(goal.data, key=lambda k: goal.data[k])
-        allocated_goals[best_agent].append(goal)
-        goal.cost = goal.data[best_agent]
-        goal.agent = best_agent
-        return allocated_goals
+        agent_goal_cost = goal.data[best_agent]
+
+        if max_resources >= agent_goal_cost:
+            allocated_goals[best_agent].append(goal)
+            goal.set_agent(agent)
+            return allocated_goals
+        else:
+            raise ValueError("Not enough resources")
 
     # Else use multiple agents to solve multiple sub-goals
     agents_resources = {agent: max_resources for agent in agents}
