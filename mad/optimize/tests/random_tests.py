@@ -100,16 +100,24 @@ def random_tree_left_right():
     return root
 
 def main():
-    root = random_binary_symetric()
-    # root = random_binary_left()
-    # root = random_root()
-    # root = random_tree_symetric()
-    # root = random_tree_left_right()
 
-    results = jonathan_algorithm(root, 20, 1)
-    score = _score_allocation(results)
-    
-    print(score)
+    scores = []
+    discrepancy = []
+
+    for i in range(1, 16):
+        
+        print("---------------------")
+        print(f"Test {i}:")
+        root = random_binary_symetric()
+        output = jonathan_algorithm(root, 30, 1)
+        score = _score_allocation(output)
+
+        scores.append(score[0])
+        discrepancy.append(score[1])
+        
+        print()
+        print(f"Score: {score[0]}")
+        print(f"Discrepancy: {score[1]}")
 
 if __name__ == '__main__':
     main()

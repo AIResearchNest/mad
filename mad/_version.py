@@ -1,4 +1,4 @@
-__version__ = '0.0.14'
+__version__ = '0.0.22'
 
 #change log:
 # 0.0.0: first version
@@ -23,3 +23,4 @@ __version__ = '0.0.14'
 # 0.0.19: Updated _goal_allocation.py with Maheen Algorithm
 # 0.0.20: Created _Maheen_algorithm_test.py
 # 0.0.21: Fixed some bugs in a function
+# 0.0.22: Updated _score.py and random_test.py
