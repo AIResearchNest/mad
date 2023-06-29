@@ -76,7 +76,7 @@ def jonathan_algorithm(goal_tree: GoalNode, max_resources: int, verbose: int = 0
     # Takes in a goal tree and max resources for each agent and finds the most optimal goal path based on the GoalNode.cost values through out the tree and returns a list of GoalNodes that should be accomplished
     selected_goals = jonathan_optimal_path(goal_tree, max_resources)
 
-    if verbose > 1:
+    if verbose > 0:
         print("Selected Goals:")
         for goal in selected_goals:
             print(goal.name)
