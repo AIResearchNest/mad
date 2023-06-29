@@ -361,7 +361,7 @@ def maheen_compare(shortest_cost: int, root_node_cost: int):
         The cost of the root node's agent.
     """
 #Diajkstraaas
-def maheen_shortest_path(root_node: GoalNode) -> tuple[int, List[str], List[str]]:
+def maheen_shortest_path(root_node: GoalNode) -> tuple[int, List[str], List[List[str]]]:
     """
     Implements modified Dijkstra's and BFS algorithms to find the shortest path with the given conditions.
 
@@ -372,8 +372,8 @@ def maheen_shortest_path(root_node: GoalNode) -> tuple[int, List[str], List[str]
 
     Returns
     -------
-    Tuple[int, List[str], List[str]]
-        The shortest path cost, list of goals, and list of agents.
+    Tuple[int, List[str], List[List[str]]]
+        The shortest path cost, list of goals, and list of agents visited along the path.
     """
     # Initialize a priority queue to store nodes based on their costs
     pq = [(0, root_node)]  # Cost of root_node is set to 0
@@ -381,6 +381,7 @@ def maheen_shortest_path(root_node: GoalNode) -> tuple[int, List[str], List[str]
     # Initialize dictionaries to store costs and paths
     costs = {root_node: 0}
     paths = {root_node: []}
+    agents = {root_node: []}
 
     # Process nodes in the priority queue until it becomes empty
     while pq:
@@ -388,23 +389,25 @@ def maheen_shortest_path(root_node: GoalNode) -> tuple[int, List[str], List[str]
 
         # Check if the current node is the goal node
         if not current_node.children:
-            # Return the shortest path cost, list of goals, and list of agents
-            return current_cost, paths[current_node] + [current_node.name], [current_node.agent]
+            # Return the shortest path cost, list of goals, and list of agents visited
+            return current_cost, paths[current_node] + [current_node.name], agents[current_node] + [current_node.agent]
 
         # Explore child nodes
         for child_node in current_node.children:
             child_cost = current_cost + child_node.cost
 
-            # Update the cost and path if a shorter path is found
+            # Update the cost, path, and agents if a shorter path is found
             if child_node not in costs or child_cost < costs[child_node]:
                 costs[child_node] = child_cost
                 paths[child_node] = paths[current_node] + [current_node.name]
+                agents[child_node] = agents[current_node] + [current_node.agent]
 
                 # Add the child node to the priority queue
                 heapq.heappush(pq, (child_cost, child_node))
 
     # If no goal node is found, return None
     return None
+
 
 """
 ########################################################
