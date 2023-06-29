@@ -18,3 +18,6 @@ __version__ = '0.0.14'
 # 0.0.14: Merged fay's algorithm to _goal_allocation
 # 0.0.15: Updated jonathan_distribution
 # 0.0.16: Bug fixes
+# 0.0.17: added Maheen's tree data_strcuture in data_structures folder
+# 0.0.18: added _maheen_optimize.py
+# 0.0.19: Updated _goal_allocation.py with Maheen Algorithm
