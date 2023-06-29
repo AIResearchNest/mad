@@ -21,3 +21,5 @@ __version__ = '0.0.14'
 # 0.0.17: added Maheen's tree data_strcuture in data_structures folder
 # 0.0.18: added _maheen_optimize.py
 # 0.0.19: Updated _goal_allocation.py with Maheen Algorithm
+# 0.0.20: Created _Maheen_algorithm_test.py
+# 0.0.21: Fixed some bugs in a function
