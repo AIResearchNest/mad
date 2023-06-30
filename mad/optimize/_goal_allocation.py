@@ -296,6 +296,12 @@ def jonathan_algorithm(goal_tree: GoalNode, max_resources: int, verbose: int = 0
             for goal in value:
                 print(f"{key}: {goal.name}, {goal.cost}")
 
+    # Clean up goal tree (set nodes that weren't selected costs back to None)
+    all_goals = _get_goals(goal_tree)
+    for goal in all_goals:
+        if goal not in selected_goals:
+            goal.cost = None
+
     return distributed_goals
 
 """
