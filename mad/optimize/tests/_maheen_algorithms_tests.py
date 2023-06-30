@@ -49,6 +49,7 @@ def main():
         level_order_transversal(G1)
         print("Updated Agent Resources:", agent_resources)
         print("\n")
+    print("Run the code again to see new assigmnet/new test")
 
     
 if __name__ == "__main__":
