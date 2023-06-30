@@ -49,7 +49,7 @@ def level_order_transversal(root) -> None:
 
     Parameters
     ----------
-    root : GoalNode
+    root: GoalNode
         The root of the goal tree
     """
     if root is None:
@@ -65,7 +65,7 @@ def level_order_transversal(root) -> None:
             node, parent = q.pop(0)
             if parent is not None:
                 print(parent.name + "|", end="")  # Print branch symbol if the node has a parent
-            print(node.name + " Cost:", node.cost, "Assigned Agent:", node.agent, end="\n")
+            print(node.name + "Cost:", node.cost, "Assigned Agent:", node.agent, end="\n")
 
             children = node.get_children()
             for child in children:
@@ -74,3 +74,4 @@ def level_order_transversal(root) -> None:
             level_size -= 1
 
         print()  # Print a new line after traversing each level
+
