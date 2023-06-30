@@ -1,4 +1,4 @@
-__version__ = '0.0.22'
+__version__ = '0.0.27'
 
 #change log:
 # 0.0.0: first version
@@ -28,4 +28,5 @@ __version__ = '0.0.22'
 # 0.0.24: Created test cases in Maheen_algorithm_test.py
 # 0.0.25: Change the name of the file.
 # 0.0.26: Put all of jonathan_algorithm into _goal_allocation.py
+# 0.0.27: Bug fix on jonathan_algorithm
 
