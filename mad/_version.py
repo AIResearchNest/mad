@@ -24,3 +24,7 @@ __version__ = '0.0.22'
 # 0.0.20: Created _Maheen_algorithm_test.py
 # 0.0.21: Fixed some bugs in a function
 # 0.0.22: Updated _score.py and random_test.py
+# 0.0.23: Updated a few functions
+# 0.0.24: Created test cases in Maheen_algorithm_test.py
+# 0.0.25: Change the name of the file. 
+
