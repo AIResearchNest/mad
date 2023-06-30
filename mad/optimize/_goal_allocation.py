@@ -46,6 +46,11 @@ def _get_goals(goal_tree: GoalNode) -> List:
     ----------
     goal_tree : mad.data_structures.GoalNode
         Hierarchical Multi Agent Goal Tree
+
+    Returns
+    -------
+    output : List
+        List containing each GoalNode in a Hierarchical Goal Tree
     """
     output = []
     q = []
@@ -73,7 +78,7 @@ def jonathan_average_cost(goal_tree: GoalNode, verbose: int = 0) -> None:
     if goal_tree is None:
         raise ValueError("Tree is empty!")
 
-    # For each goal find average cost among available agents and assign the temporary cost to the goal
+    # For each goal find minimum cost among available agents and assign the temporary cost to the goal
     goals = _get_goals(goal_tree)
 
     for goal in goals:
@@ -90,7 +95,7 @@ def jonathan_average_cost(goal_tree: GoalNode, verbose: int = 0) -> None:
         if verbose > 0:
             print(f"{goal.name}: {goal.cost}")
             for agent, cost in goal.data.items():
-                print(f"  - {agent}: {cost}")
+                print(f" - {agent}: {cost}")
 
 def jonathan_optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     """
@@ -124,7 +129,7 @@ def jonathan_optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     # Finds total cost of all children GoalNodes for comparison
     child_cost = sum(child.cost for child in child_goals)
     
-    # Checks that a goal cost is less than the max possible resources an agent can have (Root Goal most likely) and that the current GoalNode is cheaper than it's children
+    # Checks that a goal cost is less than the max possible resources an agent can have ands that the current GoalNode is cheaper than it's children
     if goal_tree.cost <= max_resources and goal_tree.cost < child_cost:
         selected_goals.append(goal_tree)
     # Otherwise add the children nodes
@@ -163,7 +168,7 @@ def jonathan_distribute_goals(goal_nodes: List, max_resources: int, verbose: int
 
         if max_resources >= agent_goal_cost:
             allocated_goals[best_agent].append(goal)
-            goal.set_agent(agent)
+            goal.set_agent(best_agent)
             return allocated_goals
         else:
             raise ValueError("Not enough resources")
@@ -175,11 +180,13 @@ def jonathan_distribute_goals(goal_nodes: List, max_resources: int, verbose: int
     # Sorts goals from most expensive min cost to least expensive min cost
     goals_sorted = list(reversed(sorted(goal_nodes, key=lambda goal: goal.cost)))
 
-    # Finds worst case distribution cost
-    worst_case = sum(max(node.data.values()) for node in goal_nodes)
-    # Finds average case distribution cost
-    a = [sum(x.data.values()) / len(x.data.values()) for x in goal_nodes]
-    avg_case = sum(a)
+    if verbose > 0:
+        # Finds worst case distribution cost
+        worst_case = sum(max(node.data.values()) for node in goal_nodes)
+        # Finds average case distribution cost
+        a = [sum(x.data.values()) / len(x.data.values()) for x in goal_nodes]
+        avg_case = sum(a)
+
     # Finds best case distribution cost
     best_case = sum(min(node.data.values()) for node in goal_nodes)
     
@@ -199,16 +206,20 @@ def jonathan_distribute_goals(goal_nodes: List, max_resources: int, verbose: int
         best_agents = sorted(goal.data, key=lambda k: goal.data[k])
 
         for agent in best_agents:
-
+            # Agent resources
             curr_resources = agents_resources[agent]
-            curr_agent_goal_cost = goal.data[agent]
+            # Agent total cost already assigned
             agents_cost = agents_cost_total[agent]
+            # Agent cost to acheive this goal
+            curr_agent_goal_cost = goal.data[agent]
             
-            # Checks that agent has enough resources and agent isn't doing too much work
-            if curr_resources >= curr_agent_goal_cost and agents_cost + curr_agent_goal_cost < sensitivity:
+            # Checks that agent has enough resources and agent isn't doing too much work based on sensitivity
+            if curr_resources >= curr_agent_goal_cost and agents_cost + agents_cost < sensitivity:
+                # Update agent
                 allocated_goals[agent].append(goal)
                 agents_resources[agent] -= curr_agent_goal_cost
                 agents_cost_total[agent] += curr_agent_goal_cost
+                # Update GoalNode
                 goal.set_agent(agent)
                 break
 
@@ -222,17 +233,19 @@ def jonathan_distribute_goals(goal_nodes: List, max_resources: int, verbose: int
             print("Left Over Goals:")
         
         for goal in left_over_goals:
-            # Sorts agents from least assigned cost to most
+            # Sorts agents from least assigned agent to most assigned
             least_assigned_agents = sorted(agents_cost_total, key=lambda k:agents_cost_total[k])
             
             if verbose > 0:
-                print(goal.name)
+                print(f" - {goal.name}")
 
             for agent in least_assigned_agents:
+                
                 # If agent can accomplish this goal
                 if agent in goal.data.keys():
                     curr_resources = agents_resources[agent]
                     curr_agent_goal_cost = goal.data[agent]
+                    
                     # If agent has enough resources, assign the goal
                     if curr_resources >= curr_agent_goal_cost:
                         allocated_goals[agent].append(goal)
@@ -263,18 +276,17 @@ def jonathan_algorithm(goal_tree: GoalNode, max_resources: int, verbose: int = 0
     Returns : Dict
         Dictionary of agent names (keys) and list of GoalNodes assigned (values)
     """
-    if verbose > 0:
-        print("Goal Tree:")
-        print_goal_tree(goal_tree)
-        print()
     
     # Takes in a goal tree and updates each GoalNode's agent cost to a temporary value of the average cost of all agents able to accomplish that goal
     if verbose > 0:
         print("Agent Costs:")
 
     jonathan_average_cost(goal_tree, verbose)
-    
+
     if verbose > 0:
+        print()
+        print("Goal Tree:")
+        print_goal_tree(goal_tree)
         print()
 
     # Takes in a goal tree and max resources for each agent and finds the most optimal goal path based on the GoalNode.cost values through out the tree and returns a list of GoalNodes that should be accomplished
@@ -283,7 +295,7 @@ def jonathan_algorithm(goal_tree: GoalNode, max_resources: int, verbose: int = 0
     if verbose > 0:
         print("Selected Goals:")
         for goal in selected_goals:
-            print(goal.name)
+            print(f" - {goal.name}")
         print()
 
     # Takes in a list of GoalNodes and distributes them among available agents
@@ -294,7 +306,7 @@ def jonathan_algorithm(goal_tree: GoalNode, max_resources: int, verbose: int = 0
         print("Goal Allocation:")
         for key, value in distributed_goals.items():
             for goal in value:
-                print(f"{key}: {goal.name}, {goal.cost}")
+                print(f" - {key}: {goal.name}, {goal.cost}")
 
     # Clean up goal tree (set nodes that weren't selected costs back to None)
     all_goals = _get_goals(goal_tree)

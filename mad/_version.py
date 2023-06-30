@@ -1,4 +1,4 @@
-__version__ = '0.0.27'
+__version__ = '0.0.28'
 
 #change log:
 # 0.0.0: first version
@@ -29,4 +29,5 @@ __version__ = '0.0.27'
 # 0.0.25: Change the name of the file.
 # 0.0.26: Put all of jonathan_algorithm into _goal_allocation.py
 # 0.0.27: Bug fix on jonathan_algorithm
+# 0.0.28: Another bug fix on jonathan_algorithm
 

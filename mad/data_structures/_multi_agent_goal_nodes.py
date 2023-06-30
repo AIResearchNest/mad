@@ -113,6 +113,6 @@ def level_order_transversal(root) -> None:
 
 def print_goal_tree(node, indent=0):
     prefix = "  " * indent
-    print(f"{prefix}- {node.name}")
+    print(f"{prefix}- {node.name}: {node.cost}")
     for child in node.children:
         print_goal_tree(child, indent + 1)
