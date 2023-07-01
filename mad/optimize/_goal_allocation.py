@@ -326,7 +326,7 @@ Fay's Algorithm
 """
 
 from typing import Dict, List, Tuple
-from mad.data_structures.fay_multi_agent_goal_nodes import GoalNode, level_order_transversal
+from mad.data_structures import GoalNode, fay_level_order_transversal
 
 def fay_check_resources(goal: GoalNode, max_res: Dict[str, int]) -> bool:
     """
@@ -441,7 +441,7 @@ def fay_initial_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -
     Parameters
     ----------
     goal_tree : mad.data_structures.GoalNode
-        Heirarichal Multi Agent Goal Tree 
+        Hierarchical Multi Agent Goal Tree 
 
     Returns
     -------
@@ -475,7 +475,7 @@ def fay_initial_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -
             print(j.name, " ")
         print(max_res)
     print("\n\nThe "'most'" optimized goal tre: \n")
-    level_order_transversal(goal_tree)
+    fay_level_order_transversal(goal_tree)
 
     for goal in list_goal:
         goal_allocation[goal.agent].append(goal.name)
