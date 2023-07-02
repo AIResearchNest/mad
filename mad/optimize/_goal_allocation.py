@@ -689,6 +689,7 @@ def maheen_extract_node_info(root_node, shortest_goals):
     Dict[str, int]
         Dictionary containing node names and costs for the nodes in the shortest path.
     """
+    
     node_info = {}
 
     # Traverse the tree in level order
@@ -705,6 +706,7 @@ def maheen_extract_node_info(root_node, shortest_goals):
             q.append(child)
 
     return node_info
+
 
 
 """
