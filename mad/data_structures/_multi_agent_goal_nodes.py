@@ -23,8 +23,6 @@ def _suitable_agent(a:Dict) -> str:
             name = key
     return name
 
-
-
 class GoalNode:
 
     """
@@ -62,20 +60,41 @@ class GoalNode:
         self.name = name 
         self.data = data
         self.children = []
-        self.agent = None
-        self.cost = None
+        self.agent = None 
+        self.cost = None 
+        self.d = self.data.copy()
 
-    def set_agent(self, name, cost) -> None:
-        self.agent = name
-        self.cost = cost
-        
+    def set_agent(self, name) -> None:
+        if name in self.data.keys():
+            self.agent = name
+            self.cost = self.data[name]
+        else:
+            raise ValueError("Not a viable agent name")        
+
+    def initial_agent_assign(self) -> None:
+        self.agent = _suitable_agent(self.data)
+        self.cost = self.data[self.agent]
+
+    def switch_agent(self) -> bool:
+        if len(self.d) == 1:
+            print("No agent is capable to complete " + self.name)
+            self.agent = None
+            self.cost = None
+            return False
+        self.d.pop(self.agent)
+        print(self.d)
+        self.agent = _suitable_agent(self.d)
+        self.cost = self.d[self.agent]
+        return True
+     
     def add_child(self, a) -> None:
         self.children.append(a)
 
     def get_children(self) -> List:
         return self.children
+    
 
-def level_order_transversal(root) -> None:
+def fay_level_order_transversal(root) -> None:
         
         """
         Transverses through the goal tree and prints out the goals (with the parent node in the front if the node has a parent)
@@ -97,9 +116,10 @@ def level_order_transversal(root) -> None:
 
             while level_size > 0:
                 node, parent = q.pop(0)
-                if parent is not None:
-                    print(parent.name + "|", end="")  # Print branch symbol if the node has a parent
-                print(node.name + " " + node.agent, end="\t")
+                if (node.agent != None):
+                    print(node.name + " " + node.agent + " " + str(node.cost), end="\t")
+                else:
+                       print(node.name, end="\t")
 
                 children = node.get_children()
                 for child in children:
@@ -109,9 +129,8 @@ def level_order_transversal(root) -> None:
 
             print("\n" * 2)
 
-
-def main() -> None:
-    pass
-
-if __name__ == "__main__":
-    main()
+def print_goal_tree(node, indent=0):
+    prefix = "  " * indent
+    print(f"{prefix}- {node.name}: {node.cost}")
+    for child in node.children:
+        print_goal_tree(child, indent + 1)
