@@ -3,7 +3,7 @@ from typing import Dict, List, Tuple
 import heapq
 
 from mad.data_structures.Maheen_multi_agent_goal_nodes import GoalNode, level_order_transversal
-from mad.optimize._maheen_optimize import maheen_random_cost, maheen_perform_auction, maheen_compare, maheen_shortest_path, maheen_agent_goal, maheen_extract_node_info
+from mad.optimize._maheen_optimize import maheen_random_cost,maheen_get_agent_resources, maheen_perform_auction, maheen_compare, maheen_shortest_path, maheen_agent_goal, maheen_extract_node_info
 
 
 def main():
@@ -23,9 +23,9 @@ def main():
     G3.add_child(G6)
 
     # Define agent resources and initial balances
-    max_resources = [20, 20, 20]
-    agents = ["grace", "remus", "franklin"]
-    agent_resources = {agent: max_resources[i] for i, agent in enumerate(agents)}
+ 
+    max_resources = [20, 30, 40]
+    agent_resources = maheen_get_agent_resources(max_resources)
 
     # Iterate through each goal node and perform the auction
     nodes = [G1, G2, G3, G4, G5,G6]
