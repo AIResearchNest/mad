@@ -6,6 +6,7 @@ from mad.data_structures import GoalNode, fay_level_order_transversal
 from mad.optimize._goal_allocation import jonathan_algorithm
 from mad.optimize import test_goal_allocation, _score_allocation
 
+
 def _random_cost(m: int, n: int) -> Dict[str, int]:
     
     """
