@@ -706,7 +706,13 @@ def maheen_extract_node_info(root_node, shortest_goals):
             q.append(child)
 
     return node_info
-
+def maheen_get_agent_resources(max_resources):
+    '''
+    Gives agents resources
+    '''
+    agents = ["grace", "remus", "franklin"]
+    agent_resources = {agent: resource for agent, resource in zip(agents, max_resources)}
+    return agent_resources
 
 
 """
