@@ -1,5 +1,5 @@
 
-#same as random test.py , Same resources but different tree structures.
+#same as random test.py , Different random resources and different tree structures.
 import random as r
 #from mad.optimize import jonathan_algorithm
 import random
