@@ -13,7 +13,7 @@ def main():
     G3 = GoalNode("G3", maheen_random_cost(1, 20))
     G4 = GoalNode("G4", maheen_random_cost(1, 20))
     G5 = GoalNode("G5", maheen_random_cost(1, 20))
-    G6 = GoalNode("G5", maheen_random_cost(1, 20))
+    G6 = GoalNode("G6", maheen_random_cost(1, 20))
 
     # Goal relationship
     G1.add_child(G2)
@@ -28,7 +28,7 @@ def main():
     agent_resources = maheen_get_agent_resources(max_resources)
 
     # Iterate through each goal node and perform the auction
-    nodes = [G1, G2, G3, G4, G5,G6]
+    nodes = [G1, G2, G3, G4, G5, G6]
     shortest_cost, shortest_goals, shortest_agents = maheen_shortest_path(G1)
     print("\nInitial cost allocation:")
     level_order_transversal(G1)
@@ -39,21 +39,25 @@ def main():
     
     node_info = maheen_extract_node_info(G1, shortest_goals[1:])
     print("\n\tGoal assigmnet to agents Info:\n\t")
-    for name, cost in node_info.items():
-        if G1.cost <= shortest_cost:
-            print(f"Node: {G1.name}\tCost: {G1.cost}")
-            maheen_perform_auction(G1, agent_resources)
-        else:
-            for name, cost in node_info.items():
-                if name != G1.name:
-                    node = next((n for n in nodes if n.name == name), None)
-                    if node:
-                        print(f"Node: {name}\tCost: {cost}")
-                        maheen_perform_auction(node, agent_resources)
     
-            level_order_transversal(G1)
-            print("Updated Agent Resources:", agent_resources)
-            print("\n")
+    if G1.cost <= shortest_cost:
+        print(f"Node: {G1.name}\tCost: {G1.cost}")
+        maheen_perform_auction(G1, agent_resources)
+        print("\nt\tFINAL INFO\n")
+        level_order_transversal(G1)
+    else:
+            
+        for name, cost in node_info.items():
+            if name != G1.name:
+                node = next((n for n in nodes if n.name == name), None)
+                if node:
+                    print(f"Node: {name}\tCost: {cost}")
+                    maheen_perform_auction(node, agent_resources)
+        print("\n\t\tFINAL INFO\n")
+        level_order_transversal(G1)
+    
+    print("Final Agent Resources:", agent_resources)
+    print("\n")
 
     
 if __name__ == "__main__":

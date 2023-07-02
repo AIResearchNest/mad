@@ -103,6 +103,7 @@ def maheen_perform_auction(node, agent_resources):
     if winning_bid >= node.cost:
         node.agent = winning_bidder
         agent_resources[winning_bidder] -= node.cost
+        
     else:
         # If the winning bidder cannot cover the cost, find the second highest bidder
         bids.pop(winning_bidder)
@@ -112,6 +113,7 @@ def maheen_perform_auction(node, agent_resources):
             if second_bid >= node.cost:
                 node.agent = second_bidder
                 agent_resources[second_bidder] -= node.cost
+                
 
     # Print agent resources after the auction
     
