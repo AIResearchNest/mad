@@ -31,5 +31,6 @@ __version__ = '0.0.29'
 # 0.0.27: Bug fix on jonathan_algorithm
 # 0.0.28: Another bug fix on jonathan_algorithm
 # 0.0.29: Added an efficiency test (tested on Jonathan's and Fay's)
-# 0.0.30: fixed some bugs in testing
+# 0.0.30: fixed some bugs in Maheen algorithm
+# 0.0.31: Created efficiency test for Maheen 
 
