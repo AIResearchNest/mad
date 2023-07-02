@@ -23,7 +23,9 @@ def main():
     G3.add_child(G6)
 
     # Define agent resources and initial balances
-    agent_resources = {"grace": 20, "remus": 20, "franklin": 20}
+    max_resources = [20, 20, 20]
+    agents = ["grace", "remus", "franklin"]
+    agent_resources = {agent: max_resources[i] for i, agent in enumerate(agents)}
 
     # Iterate through each goal node and perform the auction
     nodes = [G1, G2, G3, G4, G5,G6]
