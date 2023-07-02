@@ -33,4 +33,4 @@ __version__ = '0.0.29'
 # 0.0.29: Added an efficiency test (tested on Jonathan's and Fay's)
 # 0.0.30: fixed some bugs in Maheen algorithm
 # 0.0.31: Created efficiency test for Maheen 
-
+# 0.0.32: Built maheen test cases for different trees structures. 
