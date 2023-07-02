@@ -38,18 +38,20 @@ def main():
     node_info = maheen_extract_node_info(G1, shortest_goals[1:])
     print("\n\tGoal assigmnet to agents Info:\n\t")
     for name, cost in node_info.items():
-        if G1.cost < shortest_cost:
+        if G1.cost <= shortest_cost:
             print(f"Node: {G1.name}\tCost: {G1.cost}")
             maheen_perform_auction(G1, agent_resources)
         else:
-            print(f"Node: {name}\tCost: {cost}")
-            node = next((n for n in nodes if n.name == name), None)
-            if node:
-                maheen_perform_auction(node, agent_resources)
-        level_order_transversal(G1)
-        print("Updated Agent Resources:", agent_resources)
-        print("\n")
-    print("Run the code again to see new assigmnet/new test")
+            for name, cost in node_info.items():
+                if name != G1.name:
+                    node = next((n for n in nodes if n.name == name), None)
+                    if node:
+                        print(f"Node: {name}\tCost: {cost}")
+                        maheen_perform_auction(node, agent_resources)
+    
+            level_order_transversal(G1)
+            print("Updated Agent Resources:", agent_resources)
+            print("\n")
 
     
 if __name__ == "__main__":
