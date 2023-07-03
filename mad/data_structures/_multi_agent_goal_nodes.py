@@ -116,12 +116,17 @@ def fay_level_order_transversal(root) -> None:
 
             while level_size > 0:
                 node, parent = q.pop(0)
-                if (node.agent != None):
+
+                if parent:
+                    print(parent.name + "|", end="")  # Print branch symbol if the node has a parent
+
+                if node.agent:
                     print(node.name + " " + node.agent + " " + str(node.cost), end="\t")
                 else:
                        print(node.name, end="\t")
 
                 children = node.get_children()
+                
                 for child in children:
                     q.append((child, node))  # Add the children into the queue along with their parent
 
