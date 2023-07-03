@@ -10,6 +10,7 @@ from mad.data_structures.Maheen_multi_agent_goal_nodes import GoalNode, level_or
 from mad.optimize._goal_allocation import maheen_random_cost, maheen_agent_goal, maheen_compare, maheen_shortest_path, maheen_perform_auction, maheen_extract_node_info, maheen_get_agent_resources
 from mad.optimize import _score_allocation
 
+#not enough resources given at random. 
 def random_binary_symetric():
 
     root = GoalNode("Main Goal", maheen_random_cost(35,45))
@@ -28,7 +29,7 @@ def random_binary_symetric():
     subgoal2.add_child(subgoal6)
 
     
-    max_resources = [random.randint(20,50), random.randint(20,50), random.randint(20,50)]
+    max_resources = [random.randint(0,5), random.randint(0,5), random.randint(0,5)]
     agent_resources = maheen_get_agent_resources(max_resources)
 
     # Iterate through each goal node and perform the auction
@@ -45,7 +46,7 @@ def random_binary_symetric():
     node_info = maheen_extract_node_info(root, shortest_goals[1:])
     print("\n\tGoal assigmnet to agents Info:\n\t")
     
-    if root.cost <= shortest_cost:
+    if root.cost <= shortest_cost or len(root.get_children()) == 0:
         print(f"Node: {root.name}\tCost: {root.cost}")
         maheen_perform_auction(root, agent_resources)
         print("\n\t\tFINAL INFO\n")
@@ -96,7 +97,7 @@ def random_binary_left():
     node_info = maheen_extract_node_info(root, shortest_goals[1:])
     print("\n\tGoal assigmnet to agents Info:\n\t")
     
-    if root.cost <= shortest_cost:
+    if root.cost <= shortest_cost or len(root.get_children()) == 0:
         print(f"Node: {root.name}\tCost: {root.cost}")
         maheen_perform_auction(root, agent_resources)
         print("\n\t\tFINAL INFO\n")
@@ -137,7 +138,7 @@ def random_root():
     node_info = maheen_extract_node_info(root, shortest_goals[1:])
     print("\n\tGoal assigmnet to agents Info:\n\t")
     
-    if root.cost <= shortest_cost : #or (not root.children)
+    if root.cost <= shortest_cost or len(root.get_children()) == 0: #or (not root.children)
         print(f"Node: {root.name}\tCost: {root.cost}")
         maheen_perform_auction(root, agent_resources)
         print("\n\t\tFINAL INFO\n")
@@ -204,7 +205,7 @@ def random_tree_symetric():
     node_info = maheen_extract_node_info(root, shortest_goals[1:])
     print("\n\tGoal assigmnet to agents Info:\n\t")
     
-    if root.cost <= shortest_cost:
+    if root.cost <= shortest_cost or len(root.get_children()) == 0:
         print(f"Node: {root.name}\tCost: {root.cost}")
         maheen_perform_auction(root, agent_resources)
         print("\n\t\tFINAL INFO\n")
@@ -264,7 +265,7 @@ def random_tree_left_right():
     node_info = maheen_extract_node_info(root, shortest_goals[1:])
     print("\n\tGoal assigmnet to agents Info:\n\t")
     
-    if root.cost <= shortest_cost:
+    if root.cost <= shortest_cost or len(root.get_children()) == 0:
         print(f"Node: {root.name}\tCost: {root.cost}")
         maheen_perform_auction(root, agent_resources)
         print("\n\t\tFINAL INFO\n")
@@ -384,7 +385,7 @@ def random_large_tree():
     node_info = maheen_extract_node_info(root, shortest_goals[1:])
     print("\n\tGoal assigmnet to agents Info:\n\t")
     
-    if root.cost <= shortest_cost:
+    if root.cost <= shortest_cost or len(root.get_children()) == 0:
         print(f"Node: {root.name}\tCost: {root.cost}")
         maheen_perform_auction(root, agent_resources)
         print("\n\t\tFINAL INFO\n")
@@ -441,6 +442,7 @@ def main():
         goal_trees.append(run)  # Store the goal trees in the list
 
         level_order_transversal(run)
+        
 
     
         

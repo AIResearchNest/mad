@@ -8,12 +8,12 @@ from mad.optimize._maheen_optimize import maheen_random_cost,maheen_get_agent_re
 
 def main():
     #"\n\nNodes cost assignment:\n"
-    G1 = GoalNode("G1", maheen_random_cost(1, 30))  # Assigning random cost values between 1-20 to nodes
-    G2 = GoalNode("G2", maheen_random_cost(1, 20))
-    G3 = GoalNode("G3", maheen_random_cost(1, 20))
-    G4 = GoalNode("G4", maheen_random_cost(1, 20))
-    G5 = GoalNode("G5", maheen_random_cost(1, 20))
-    G6 = GoalNode("G6", maheen_random_cost(1, 20))
+    G1 = GoalNode("G1", maheen_random_cost(11, 30))  # Assigning random cost values between 1-20 to nodes
+    G2 = GoalNode("G2", maheen_random_cost(10, 20))
+    G3 = GoalNode("G3", maheen_random_cost(10, 20))
+    G4 = GoalNode("G4", maheen_random_cost(10, 20))
+    G5 = GoalNode("G5", maheen_random_cost(10, 20))
+    G6 = GoalNode("G6", maheen_random_cost(10, 20))
 
     # Goal relationship
     G1.add_child(G2)
@@ -40,10 +40,10 @@ def main():
     node_info = maheen_extract_node_info(G1, shortest_goals[1:])
     print("\n\tGoal assigmnet to agents Info:\n\t")
     
-    if G1.cost <= shortest_cost:
+    if G1.cost <= shortest_cost or len(G1.get_children()) == 0:
         print(f"Node: {G1.name}\tCost: {G1.cost}")
         maheen_perform_auction(G1, agent_resources)
-        print("\nt\tFINAL INFO\n")
+        print("\nt\FINAL INFO\n")
         level_order_transversal(G1)
     else:
             
@@ -58,6 +58,13 @@ def main():
     
     print("Final Agent Resources:", agent_resources)
     print("\n")
+
+    # Check if no agent has enough resources or if all goals remain unassigned
+    '''all_none = all(agent is None for agent in G1.agent.values())
+    if all_none:
+        print("\n\tNONE AGENT HAS ENOUGH RESOURCES\n")
+    elif len(shortest_agents) == 0:
+        print("\n\tALL") '''
 
     
 if __name__ == "__main__":

@@ -89,8 +89,16 @@ def maheen_perform_auction(node, agent_resources):
 
     # Generate bids from each agent based on their available resources
     for agent in agent_resources:
+        #for not enough resources from any agent:
+        #if all(resource < node.cost for resource in agent_resources.values()):
+            #print("\n\t NONE AGENT HAVE ENOUGH RESOURCES\n")
+            #return
         if agent_resources[agent] > 0:
             bids[agent] = agent_resources[agent]
+        # Check if there are any valid bids (i.e., agent has enough resources)
+    if not bids:
+        print("\n\t NONE AGENT HAVE ENOUGH RESOURCES\n")
+        return
 
     # Print agent resources before the auction
     print("Agent Resources:", agent_resources)
