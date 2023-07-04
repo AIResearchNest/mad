@@ -326,9 +326,9 @@ Fay's Algorithm
 """
 
 from typing import Dict, List, Tuple
-from mad.data_structures import GoalNode, fay_level_order_transversal
+from mad.data_structures import GoalNode, level_order_transversal
 
-def fay_check_resources(goal: GoalNode, max_res: Dict[str, int]) -> bool:
+def _check_resources(goal: GoalNode, max_res: Dict[str, int]) -> bool:
     """
     Checks if an agent has enough resources to conduct a goal.
 
@@ -349,7 +349,7 @@ def fay_check_resources(goal: GoalNode, max_res: Dict[str, int]) -> bool:
     return max_res[goal.agent] >= goal.cost
 
 
-def fay_decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, int]) -> Tuple[int, List[GoalNode], Dict[str, int]]:
+def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, int]) -> Tuple[int, List[GoalNode], Dict[str, int]]:
     """
     Decides whether to choose the current goal or its subgoals
     
@@ -367,9 +367,13 @@ def fay_decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str,
         Returns a tuple containing: the updated index, the modified list of goals, the updated dictionary of maximum resources
 
     """
-    while not fay_check_resources(list_goal[i], max_res):
-        list_goal[i].switch_agent() #switch to another agent to finish the goal
-        if list_goal[i].agent is None: #if no agent can complete this
+    while not _check_resources(list_goal[i], max_res):
+        
+        #switch to another agent to finish the goal
+        list_goal[i].switch_agent() 
+
+        #if no agent can complete this
+        if list_goal[i].agent is None: 
             a = list_goal.pop(i)  
             #if no agent can complete the goal and the goal has no child
             if not a.get_children():
@@ -377,10 +381,13 @@ def fay_decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str,
             for child in a.get_children():
                 list_goal.append(child)
             return i, list_goal, max_res
+        
     print(list_goal[i].name + " can be completed by " + list_goal[i].agent + "\n")
 
     #if there is an agent can complete this goal
-    if not list_goal[i].get_children(): #if this goal does not have child nodes
+    
+    #if this goal does not have child nodes
+    if not list_goal[i].get_children(): 
         max_res[list_goal[i].agent] -= list_goal[i].cost
         return i + 1, list_goal, max_res 
     
@@ -392,31 +399,43 @@ def fay_decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str,
     subgoals_cost = 0
 
     for child in list_goal[i].get_children():
-        while not fay_check_resources(child, d):
-            child.switch_agent()  # switch to another agent
-            if not child.agent:  # If no agent can finish this child goal
+        while not _check_resources(child, d):
+            # switch to another agent
+            child.switch_agent()  
+
+            # If no agent can finish this child goal
+            if not child.agent:  
                 a = child
-                if not a.get_children():  # if this child node does not have children nodes
+
+                # if this child node does not have children nodes
+                if not a.get_children():  
                     max_res[list_goal[i].agent] -= list_goal[i].cost
-                    return i + 1, list_goal, max_res  # return the same list without any change
+                    
+                    # return the same list without any change
+                    return i + 1, list_goal, max_res  
                 
                 e = []
 
                 for grandchild in a.get_children():
-                    if fay_check_resources(grandchild, d):
+                    if _check_resources(grandchild, d):
                         list_goal.append(grandchild)
                         e.append(grandchild)
                     else:
                         grandchild.switch_agent()
-                        if grandchild.agent is None:  # if one grandchild could not complete, return the original goal list
+                        # if one grandchild could not complete, return the original goal list
+                        if grandchild.agent is None:  
                             return i, list_goal, max_res
                 for i in e:
-                    d[i.agent] -= i.cost  # subtract the cost from the resource
+                     # subtract the cost from the resource
+                    d[i.agent] -= i.cost 
                     subgoals_cost += i.cost
 
         # if the child goal can be completed
-        child_list.append(child)  # add the child goal to the child list
-        d[child.agent] -= child.cost  # subtract the cost from the resource
+
+        # add the child goal to the child list
+        child_list.append(child)
+        # subtract the cost from the resource  
+        d[child.agent] -= child.cost  
         subgoals_cost += child.cost
 
     if min(subgoals_cost, list_goal[i].cost) == subgoals_cost:
@@ -433,7 +452,7 @@ def fay_decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str,
         return i + 1, list_goal, max_res
  
  
-def fay_initial_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -> Tuple[Dict[str, List[str]], Dict[str, List[str]]]:
+def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -> None:
     
     """
     Optimizes allocation of goals to multiple agents
@@ -469,21 +488,34 @@ def fay_initial_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -
 
     i = 0
     while i < len(list_goal):
-        i, list_goal, max_res = fay_decision_algorithm(list_goal,i, max_res)
+        i, list_goal, max_res = _decision_algorithm(list_goal,i, max_res)
         
         for j in list_goal:
             print(j.name, " ")
         print(max_res)
     print("\n\nThe "'most'" optimized goal tre: \n")
-    fay_level_order_transversal(goal_tree)
+    level_order_transversal(goal_tree)
 
     for goal in list_goal:
         goal_allocation[goal.agent].append(goal.name)
 
-    return goal_allocation, max_res
+    print("\nTo complete the goal in the most optimized way, we can assign goals like this:\n")
+    
+    result, resource = goal_allocation, max_res
+    
+    for agent in result:
+        print (agent, end = ": ")
+        for i in result[agent]:
+            print (i, end = " ")
+        print("\n")
+        print("The remaining resource of " + agent +": " + str(resource[agent]) + "\n" * 2)
+
 """
 ########################################################
 """
+
+
+
 
 """
 Maheen's Algorithm
@@ -492,7 +524,7 @@ Maheen's Algorithm
 import random
 from typing import Dict, List, Tuple
 import heapq
-from mad.data_structures.Maheen_multi_agent_goal_nodes import GoalNode, level_order_transversal
+from mad.data_structures.Maheen_multi_agent_goal_nodes import GoalNode, level_order_transversal_two
 
 
 

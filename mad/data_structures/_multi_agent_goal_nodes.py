@@ -94,7 +94,7 @@ class GoalNode:
         return self.children
     
 
-def fay_level_order_transversal(root) -> None:
+def level_order_transversal(root) -> None:
         
         """
         Transverses through the goal tree and prints out the goals (with the parent node in the front if the node has a parent)
@@ -109,7 +109,9 @@ def fay_level_order_transversal(root) -> None:
             return
 
         q = []
-        q.append((root, None)) # enqueue the root into the queue
+
+        # enqueue the root into the queue
+        q.append((root, None)) 
 
         while len(q) != 0:
             level_size = len(q)
@@ -118,7 +120,8 @@ def fay_level_order_transversal(root) -> None:
                 node, parent = q.pop(0)
 
                 if parent:
-                    print(parent.name + "|", end="")  # Print branch symbol if the node has a parent
+                    # Print branch symbol if the node has a parent
+                    print(parent.name + "|", end="")  
 
                 if node.agent:
                     print(node.name + " " + node.agent + " " + str(node.cost), end="\t")
@@ -128,7 +131,8 @@ def fay_level_order_transversal(root) -> None:
                 children = node.get_children()
                 
                 for child in children:
-                    q.append((child, node))  # Add the children into the queue along with their parent
+                    # Add the children into the queue along with their parent
+                    q.append((child, node))  
 
                 level_size -= 1
 

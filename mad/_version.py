@@ -34,8 +34,5 @@ __version__ = '0.0.32'
 # 0.0.30: fixed some bugs in Maheen algorithm
 # 0.0.31: Created efficiency test for Maheen 
 # 0.0.32: Built maheen test cases for different trees structures. 
-<<<<<<< HEAD
-# 0.0.33: "worked on Test cases -Maheen" 
-=======
 # 0.0.33: Added more test cases for the effiency_test.py 
->>>>>>> 5b12ab246c49e8a9f84c4435e044d230d85f57e8
+# 0.0.34: Minor changes in the code
