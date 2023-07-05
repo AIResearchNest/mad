@@ -46,7 +46,7 @@ class GoalNode:
         return self.cost < other.cost
 
 
-def level_order_transversal(root) -> None:
+def level_order_transversal_two(root) -> None:
     """
     Traverses through the goal tree and prints out the goals (with the parent node in the front if the node has a parent)
     along with the assigned agent for each node.

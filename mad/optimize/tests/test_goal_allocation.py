@@ -1,8 +1,8 @@
 #Fay test cases
 import pytest
 import random
-from mad.data_structures._multi_agent_goal_nodes import GoalNode, fay_level_order_transversal
-from mad.optimize import fay_initial_goal_allocation
+from mad.data_structures._multi_agent_goal_nodes import GoalNode, level_order_transversal
+from mad.optimize import optimized_goal_allocation
 from typing import Dict, List
 
 #Run this by debugging
@@ -97,7 +97,7 @@ def test_tree_creation1() -> GoalNode:
     G3.add_child(G10)
     G2.add_child(G11)
     G1.add_child(G12)
-    fay_level_order_transversal(G1)
+    level_order_transversal(G1)
     return G1 
 
 def test_tree_creation2() -> GoalNode:
@@ -164,7 +164,7 @@ def test_tree_creation2() -> GoalNode:
     G3.add_child(G10)
     G4.add_child(G11)
     G4.add_child(G12)
-    fay_level_order_transversal(G1)
+    level_order_transversal(G1)
     return G1 
 
 def test_tree_creation3() -> GoalNode:
@@ -185,7 +185,7 @@ def test_tree_creation3() -> GoalNode:
     G1.add_child(G3)
     G1.add_child(G4)
    
-    fay_level_order_transversal(G1)
+    level_order_transversal(G1)
     return G1 
 
 def test_goal_allocation(goal: GoalNode, max_res: List[int] = [10,10,10]) -> None:
@@ -199,17 +199,9 @@ def test_goal_allocation(goal: GoalNode, max_res: List[int] = [10,10,10]) -> Non
         The root of the test tree
 
     """
+    optimized_goal_allocation(goal, max_res)
 
-    print("\nTo complete the goal in the most optimized way, we can assign goals like this:\n")
     
-    result, resource = fay_initial_goal_allocation(goal,max_res)
-    
-    for agent in result:
-        print (agent, end = ": ")
-        for i in result[agent]:
-            print (i, end = " ")
-        print("\n")
-        print("The remaining resource of " + agent +": " + str(resource[agent]) + "\n" * 2)
 
 def main():
     print("_______  Case 1  _______\n")

@@ -2,9 +2,8 @@ import time
 from typing import Dict
 import copy
 import random
-from mad.data_structures import GoalNode, fay_level_order_transversal
-from mad.optimize._goal_allocation import jonathan_algorithm
-from mad.optimize import test_goal_allocation
+from mad.data_structures import GoalNode, level_order_transversal
+from mad.optimize._goal_allocation import jonathan_algorithm, optimized_goal_allocation
 
 
 def _random_cost(m: int, n: int) -> Dict[str, int]:
@@ -31,7 +30,6 @@ def _random_cost(m: int, n: int) -> Dict[str, int]:
     d["grace"] = random.randint(m,n)
     d["remus"] = random.randint(m,n)
     d["franklin"] = random.randint(m,n)
-    #print(d)
     return d
 
 # Test case
@@ -87,7 +85,8 @@ def test_algorithm_efficiency():
     goal_tree = copy.deepcopy(initial_goal_tree)
 
     # Set the maximum resources for each agent
-    max_resources = [50,50,50] #Every agent has the same max_resources
+    #Every agent has the same max_resources
+    max_resources = [50,50,50] 
 
     # Test jonathan_algorithm
     print("Jonathan's algorithm \n")
@@ -105,19 +104,19 @@ def test_algorithm_efficiency():
             return
 
     q = []
-    q.append((goal_tree, None)) # enqueue the root into the queue
+    q.append((goal_tree, None)) 
 
     while len(q) != 0:
         level_size = len(q)
 
-        while len(q) > 0:  # Iterate over the current level
+        while len(q) > 0:  
             node, parent = q.pop(0)
             node.initial_agent_assign()
             children = node.get_children()
             for child in children:
-                q.append((child, node))  # Add the children into the queue along with their parent
+                q.append((child, node)) 
 
-    test_goal_allocation(goal_tree, max_resources)
+    optimized_goal_allocation(goal_tree, max_resources)
     fay_initial_goal_allocation_time = time.time() - start_time
 
     # Print the execution times
@@ -183,7 +182,9 @@ def test_algorithm_efficiency():
     goal_tree = copy.deepcopy(initial_goal_tree)
 
     # Set the maximum resources for each agent
-    max_resources = [50,60,55] #Every agent has the different max_resources
+
+    #Every agent has the different max_resources
+    max_resources = [50,60,55] 
 
     # Test jonathan_algorithm
     print("Jonathan's algorithm \n")
@@ -196,10 +197,9 @@ def test_algorithm_efficiency():
     print("Fay's algorithm \n")
 
     goal_tree = copy.deepcopy(initial_goal_tree)
-    start_time = time.time()
-    if goal_tree is None:
-            return
+    start_time = time.time()    
 
+    #Initialize the least agent cost for each goal
     q = []
     q.append((goal_tree, None)) # enqueue the root into the queue
 
@@ -213,13 +213,13 @@ def test_algorithm_efficiency():
             for child in children:
                 q.append((child, node))  # Add the children into the queue along with their parent
 
-    test_goal_allocation(goal_tree, max_resources)
+    optimized_goal_allocation(goal_tree, max_resources)
     fay_initial_goal_allocation_time = time.time() - start_time
 
     # Print the execution times
     print("Execution Time - jonathan_algorithm:", jonathan_algorithm_time)
     print("Execution Time - fay_initial_goal_allocation:", fay_initial_goal_allocation_time)
-    #print("Execution Time - maheen_algorithm:", maheen_alogrithm)
+    
 
     print("Test case 3:\n")
     initial_goal_tree = GoalNode("G1", _random_cost(40, 60))
@@ -277,7 +277,8 @@ def test_algorithm_efficiency():
     goal_tree = copy.deepcopy(initial_goal_tree)
 
     # Set the maximum resources for each agent
-    max_resources = [30, 40, 35] # Every agent has different max_resources
+    # Every agent has different max_resources
+    max_resources = [30, 40, 35] 
 
     # Test jonathan_algorithm
     print("Jonathan's algorithm \n")
@@ -291,23 +292,23 @@ def test_algorithm_efficiency():
 
     goal_tree = copy.deepcopy(initial_goal_tree)
     start_time = time.time()
-    if goal_tree is None:
-            return
+
+    #Initialize the least agent cost for each goal
 
     q = []
-    q.append((goal_tree, None)) # enqueue the root into the queue
+    q.append((goal_tree, None)) 
 
     while len(q) != 0:
         level_size = len(q)
 
-        while len(q) > 0:  # Iterate over the current level
+        while len(q) > 0:  
             node, parent = q.pop(0)
             node.initial_agent_assign()
             children = node.get_children()
             for child in children:
-                q.append((child, node))  # Add the children into the queue along with their parent
+                q.append((child, node))  
 
-    test_goal_allocation(goal_tree, max_resources)
+    optimized_goal_allocation(goal_tree, max_resources)
     fay_initial_goal_allocation_time = time.time() - start_time
 
     # Print the execution times
@@ -332,7 +333,7 @@ def test_algorithm_efficiency():
     
     start_time = time.time()
 
-    test_goal_allocation(None, max_resources)
+    optimized_goal_allocation(None, max_resources)
     fay_initial_goal_allocation_time = time.time() - start_time
 
 # Run the test cases

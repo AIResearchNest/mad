@@ -353,9 +353,9 @@ Fay's Algorithm
 """
 
 from typing import Dict, List, Tuple
-from mad.data_structures import GoalNode, fay_level_order_transversal
+from mad.data_structures import GoalNode, level_order_transversal
 
-def fay_check_resources(goal: GoalNode, max_res: Dict[str, int]) -> bool:
+def _check_resources(goal: GoalNode, max_res: Dict[str, int]) -> bool:
     """
     Checks if an agent has enough resources to conduct a goal.
 
@@ -376,7 +376,7 @@ def fay_check_resources(goal: GoalNode, max_res: Dict[str, int]) -> bool:
     return max_res[goal.agent] >= goal.cost
 
 
-def fay_decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, int]) -> Tuple[int, List[GoalNode], Dict[str, int]]:
+def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, int]) -> Tuple[int, List[GoalNode], Dict[str, int]]:
     """
     Decides whether to choose the current goal or its subgoals
     
@@ -394,9 +394,13 @@ def fay_decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str,
         Returns a tuple containing: the updated index, the modified list of goals, the updated dictionary of maximum resources
 
     """
-    while not fay_check_resources(list_goal[i], max_res):
-        list_goal[i].switch_agent() #switch to another agent to finish the goal
-        if list_goal[i].agent is None: #if no agent can complete this
+    while not _check_resources(list_goal[i], max_res):
+        
+        #switch to another agent to finish the goal
+        list_goal[i].switch_agent() 
+
+        #if no agent can complete this
+        if list_goal[i].agent is None: 
             a = list_goal.pop(i)  
             #if no agent can complete the goal and the goal has no child
             if not a.get_children():
@@ -404,10 +408,13 @@ def fay_decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str,
             for child in a.get_children():
                 list_goal.append(child)
             return i, list_goal, max_res
+        
     print(list_goal[i].name + " can be completed by " + list_goal[i].agent + "\n")
 
     #if there is an agent can complete this goal
-    if not list_goal[i].get_children(): #if this goal does not have child nodes
+    
+    #if this goal does not have child nodes
+    if not list_goal[i].get_children(): 
         max_res[list_goal[i].agent] -= list_goal[i].cost
         return i + 1, list_goal, max_res 
     
@@ -419,31 +426,43 @@ def fay_decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str,
     subgoals_cost = 0
 
     for child in list_goal[i].get_children():
-        while not fay_check_resources(child, d):
-            child.switch_agent()  # switch to another agent
-            if not child.agent:  # If no agent can finish this child goal
+        while not _check_resources(child, d):
+            # switch to another agent
+            child.switch_agent()  
+
+            # If no agent can finish this child goal
+            if not child.agent:  
                 a = child
-                if not a.get_children():  # if this child node does not have children nodes
+
+                # if this child node does not have children nodes
+                if not a.get_children():  
                     max_res[list_goal[i].agent] -= list_goal[i].cost
-                    return i + 1, list_goal, max_res  # return the same list without any change
+                    
+                    # return the same list without any change
+                    return i + 1, list_goal, max_res  
                 
                 e = []
 
                 for grandchild in a.get_children():
-                    if fay_check_resources(grandchild, d):
+                    if _check_resources(grandchild, d):
                         list_goal.append(grandchild)
                         e.append(grandchild)
                     else:
                         grandchild.switch_agent()
-                        if grandchild.agent is None:  # if one grandchild could not complete, return the original goal list
+                        # if one grandchild could not complete, return the original goal list
+                        if grandchild.agent is None:  
                             return i, list_goal, max_res
                 for i in e:
-                    d[i.agent] -= i.cost  # subtract the cost from the resource
+                     # subtract the cost from the resource
+                    d[i.agent] -= i.cost 
                     subgoals_cost += i.cost
 
         # if the child goal can be completed
-        child_list.append(child)  # add the child goal to the child list
-        d[child.agent] -= child.cost  # subtract the cost from the resource
+
+        # add the child goal to the child list
+        child_list.append(child)
+        # subtract the cost from the resource  
+        d[child.agent] -= child.cost  
         subgoals_cost += child.cost
 
     if min(subgoals_cost, list_goal[i].cost) == subgoals_cost:
@@ -460,7 +479,7 @@ def fay_decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str,
         return i + 1, list_goal, max_res
  
  
-def fay_initial_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -> Tuple[Dict[str, List[str]], Dict[str, List[str]]]:
+def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -> None:
     
     """
     Optimizes allocation of goals to multiple agents
@@ -496,21 +515,34 @@ def fay_initial_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -
 
     i = 0
     while i < len(list_goal):
-        i, list_goal, max_res = fay_decision_algorithm(list_goal,i, max_res)
+        i, list_goal, max_res = _decision_algorithm(list_goal,i, max_res)
         
         for j in list_goal:
             print(j.name, " ")
         print(max_res)
     print("\n\nThe "'most'" optimized goal tre: \n")
-    fay_level_order_transversal(goal_tree)
+    level_order_transversal(goal_tree)
 
     for goal in list_goal:
         goal_allocation[goal.agent].append(goal.name)
 
-    return goal_allocation, max_res
+    print("\nTo complete the goal in the most optimized way, we can assign goals like this:\n")
+    
+    result, resource = goal_allocation, max_res
+    
+    for agent in result:
+        print (agent, end = ": ")
+        for i in result[agent]:
+            print (i, end = " ")
+        print("\n")
+        print("The remaining resource of " + agent +": " + str(resource[agent]) + "\n" * 2)
+
 """
 ########################################################
 """
+
+
+
 
 """
 Maheen's Algorithm
@@ -519,13 +551,14 @@ Maheen's Algorithm
 import random
 from typing import Dict, List, Tuple
 import heapq
-from mad.data_structures.Maheen_multi_agent_goal_nodes import GoalNode, level_order_transversal
+from mad.data_structures._multi_agent_goal_node_two import GoalNode, level_order_transversal_two
 
 
 
 # Function that randomizes the cost of nodes
-def maheen_random_cost(start_range: int, end_range: int) -> int:
+def random_cost_m(start_range: int, end_range: int) -> int:
     """
+    Author: Maheen
     This function generates a random cost for a node based on a specified cost range.
 
     Parameters
@@ -544,8 +577,9 @@ def maheen_random_cost(start_range: int, end_range: int) -> int:
     return random.randint(start_range, end_range)
 
 
-def maheen_agent_goal(a: Dict[str, int], resources: Dict[str, int]) -> str:
+def agent_goal_m(a: Dict[str, int], resources: Dict[str, int]) -> str:
     """
+    Author: Maheen
     Decides which agent will conduct the current goal based on the agent's current available resources.
 
     Parameters
@@ -589,8 +623,9 @@ def maheen_agent_goal(a: Dict[str, int], resources: Dict[str, int]) -> str:
 
 
 
-def maheen_perform_auction(node, agent_resources):
+def perform_auction_m(node, agent_resources):
     """
+    Author: Maheen
     Performs the auction process for assigning an agent to a goal node based on available agent resources based on first sealed bid algorithm.
     Parameters
     ----------
@@ -604,7 +639,9 @@ def maheen_perform_auction(node, agent_resources):
     None
     """
     bids = {}  # Dictionary to store the bids of each agent
-
+    # Raise an error if goal_tree is empty (???)
+    if node is None:
+        raise ValueError("Tree is empty!")
     # Generate bids from each agent based on their available resources
     for agent in agent_resources:
         if agent_resources[agent] > 0:
@@ -633,16 +670,9 @@ def maheen_perform_auction(node, agent_resources):
 
     # Print agent resources after the auction
     
-def maheen_compare(shortest_cost: int, root_node_cost: int):
-    print("\nRoot node cost", root_node_cost )
-    print("\nShortest path cost", shortest_cost )
-    
-    if shortest_cost < root_node_cost:
-        print("\nCost effective: Choose Shortest path" )
-    else:
-        print("\nCost effective: Choose root node")
-        
+def compare_m(shortest_cost: int, root_node_cost: int):
     """
+    Author: Maheen
     Compare the shortest path cost with the cost of the root node's agent and print the result.
 
     Parameters
@@ -653,9 +683,19 @@ def maheen_compare(shortest_cost: int, root_node_cost: int):
     root_node_cost : int
         The cost of the root node's agent.
     """
+    print("\nRoot node cost", root_node_cost )
+    print("\nShortest path cost", shortest_cost )
+    
+    if shortest_cost < root_node_cost:
+        print("\nCost effective: Choose Shortest path" )
+    else:
+        print("\nCost effective: Choose root node")
+        
+ 
 #Diajkstraaas
-def maheen_shortest_path(root_node: GoalNode) -> tuple[int, List[str], List[str]]:
+def shortest_path_m(root_node: GoalNode) -> tuple[int, List[str], List[str]]:
     """
+    Author: Maheen
     Implements Dijkstra's algorithm to find the shortest path with the given conditions.
 
     Parameters
@@ -698,8 +738,9 @@ def maheen_shortest_path(root_node: GoalNode) -> tuple[int, List[str], List[str]
 
     # If no goal node is found, return None
     return None
-def maheen_extract_node_info(root_node, shortest_goals):
+def extract_node_info_m(root_node, shortest_goals):
     """
+    Author: Maheen
     Extracts node names and costs from GoalNodes that have the same name as the nodes in the shortest_goals list,
     and stores them in a dictionary.
 
@@ -733,9 +774,19 @@ def maheen_extract_node_info(root_node, shortest_goals):
             q.append(child)
 
     return node_info
-def maheen_get_agent_resources(max_resources):
+def get_agent_resources_m(max_resources):
     '''
+    Author: Maheen
     Gives agents resources
+     Parameters
+    ----------
+    max_resources: List[int]
+        
+    The list of max resources for each agent
+
+    Returns agent_resources: storing the list.
+    -------
+    
     '''
     agents = ["grace", "remus", "franklin"]
     agent_resources = {agent: resource for agent, resource in zip(agents, max_resources)}

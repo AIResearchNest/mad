@@ -1,4 +1,4 @@
-__version__ = '0.0.35'
+__version__ = '0.0.36'
 
 #change log:
 # 0.0.0: first version
@@ -34,6 +34,7 @@ __version__ = '0.0.35'
 # 0.0.30: fixed some bugs in Maheen algorithm
 # 0.0.31: Created efficiency test for Maheen 
 # 0.0.32: Built maheen test cases for different trees structures. 
-# 0.0.33: "worked on Test cases -Maheen" 
-# 0.0.34: Added more test cases for the effiency_test.py
-# 0.0.35: Added scoring into jonathan_algorithm
+# 0.0.33: Added more test cases for the effiency_test.py 
+# 0.0.34: Minor changes in the code
+# 0.0.35: Modified functions name and testcases 
+# 0.0.36: Added scoring into jonathan_algorithm
