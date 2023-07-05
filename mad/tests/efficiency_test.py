@@ -4,8 +4,6 @@ import copy
 import random
 from mad.data_structures import GoalNode, level_order_transversal
 from mad.optimize._goal_allocation import jonathan_algorithm, optimized_goal_allocation
-from mad.optimize import _score_allocation
-
 
 
 def _random_cost(m: int, n: int) -> Dict[str, int]:
@@ -93,8 +91,7 @@ def test_algorithm_efficiency():
     # Test jonathan_algorithm
     print("Jonathan's algorithm \n")
     start_time = time.time()
-    score = _score_allocation(jonathan_algorithm(goal_tree, max(max_resources),1))
-    print("Total resources used: ", score[0])
+    score = jonathan_algorithm(goal_tree, max(max_resources),1)
     jonathan_algorithm_time = time.time() - start_time
     print('\n' * 4)
 
@@ -192,8 +189,7 @@ def test_algorithm_efficiency():
     # Test jonathan_algorithm
     print("Jonathan's algorithm \n")
     start_time = time.time()
-    score = _score_allocation(jonathan_algorithm(goal_tree, max(max_resources),1))
-    print("Total resources used: ", score[0])
+    score = jonathan_algorithm(goal_tree, max(max_resources),1)
     jonathan_algorithm_time = time.time() - start_time
     print('\n' * 4)
 
@@ -287,8 +283,7 @@ def test_algorithm_efficiency():
     # Test jonathan_algorithm
     print("Jonathan's algorithm \n")
     start_time = time.time()
-    score = _score_allocation(jonathan_algorithm(goal_tree, max_resources[0],1))
-    print("Total resources used: ", score[0])
+    score = jonathan_algorithm(goal_tree, max_resources[0],1)
     jonathan_algorithm_time = time.time() - start_time
     print('\n' * 4)
 
@@ -328,8 +323,7 @@ def test_algorithm_efficiency():
     # Test jonathan_algorithm
     print("Jonathan's algorithm \n")
     start_time = time.time()
-    score = _score_allocation(jonathan_algorithm(None, max(max_resources),1))
-    print("Total resources used: ", score[0])
+    score = jonathan_algorithm(None, max(max_resources),1)
     jonathan_algorithm_time = time.time() - start_time
     print('\n' * 4)
 

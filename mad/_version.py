@@ -1,4 +1,4 @@
-__version__ = '0.0.32'
+__version__ = '0.0.36'
 
 #change log:
 # 0.0.0: first version
@@ -37,3 +37,4 @@ __version__ = '0.0.32'
 # 0.0.33: Added more test cases for the effiency_test.py 
 # 0.0.34: Minor changes in the code
 # 0.0.35: Modified functions name and testcases 
+# 0.0.36: Added scoring into jonathan_algorithm
