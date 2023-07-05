@@ -1,5 +1,5 @@
 from mad.data_structures import GoalNode
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 # private function should be as follows
 def _helper_func():
@@ -479,7 +479,7 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
         return i + 1, list_goal, max_res
  
  
-def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -> None:
+def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -> Tuple[Dict[str, List[str]], Dict[str, List[str]]]:
     
     """
     Optimizes allocation of goals to multiple agents
@@ -536,7 +536,7 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -> 
             print (i, end = " ")
         print("\n")
         print("The remaining resource of " + agent +": " + str(resource[agent]) + "\n" * 2)
-
+    return goal_allocation, max_res
 """
 ########################################################
 """
