@@ -40,3 +40,4 @@ __version__ = '0.0.37'
 # 0.0.36: Added scoring into jonathan_algorithm
 # 0.0.37: Fixed algorithm names
 # 0.0.38: Added pytest test cases
+# 0.0.39: fixed __init__.py 
