@@ -4,7 +4,6 @@ import heapq
 
 from mad.data_structures._multi_agent_goal_node_two import GoalNode, level_order_transversal_two
 from mad.optimize._goal_allocation import random_cost_m, agent_goal_m, compare_m, shortest_path_m, perform_auction_m, extract_node_info_m, get_agent_resources_m
-from mad.optimize import _score_allocation
 '''
 Test cases with same resources for each agent for different tree structures.
 Fucntion whose name ends i _s are ones in which resources for each agent are same. 

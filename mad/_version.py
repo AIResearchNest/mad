@@ -36,3 +36,4 @@ __version__ = '0.0.32'
 # 0.0.32: Built maheen test cases for different trees structures. 
 # 0.0.33: Added more test cases for the effiency_test.py 
 # 0.0.34: Minor changes in the code
+# 0.0.35: Modified functions name and testcases 

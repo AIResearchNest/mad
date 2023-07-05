@@ -524,13 +524,14 @@ Maheen's Algorithm
 import random
 from typing import Dict, List, Tuple
 import heapq
-from mad.data_structures.Maheen_multi_agent_goal_nodes import GoalNode, level_order_transversal_two
+from mad.data_structures._multi_agent_goal_node_two import GoalNode, level_order_transversal_two
 
 
 
 # Function that randomizes the cost of nodes
-def maheen_random_cost(start_range: int, end_range: int) -> int:
+def random_cost_m(start_range: int, end_range: int) -> int:
     """
+    Author: Maheen
     This function generates a random cost for a node based on a specified cost range.
 
     Parameters
@@ -549,8 +550,9 @@ def maheen_random_cost(start_range: int, end_range: int) -> int:
     return random.randint(start_range, end_range)
 
 
-def maheen_agent_goal(a: Dict[str, int], resources: Dict[str, int]) -> str:
+def agent_goal_m(a: Dict[str, int], resources: Dict[str, int]) -> str:
     """
+    Author: Maheen
     Decides which agent will conduct the current goal based on the agent's current available resources.
 
     Parameters
@@ -594,8 +596,9 @@ def maheen_agent_goal(a: Dict[str, int], resources: Dict[str, int]) -> str:
 
 
 
-def maheen_perform_auction(node, agent_resources):
+def perform_auction_m(node, agent_resources):
     """
+    Author: Maheen
     Performs the auction process for assigning an agent to a goal node based on available agent resources based on first sealed bid algorithm.
     Parameters
     ----------
@@ -609,7 +612,9 @@ def maheen_perform_auction(node, agent_resources):
     None
     """
     bids = {}  # Dictionary to store the bids of each agent
-
+    # Raise an error if goal_tree is empty (???)
+    if node is None:
+        raise ValueError("Tree is empty!")
     # Generate bids from each agent based on their available resources
     for agent in agent_resources:
         if agent_resources[agent] > 0:
@@ -638,16 +643,9 @@ def maheen_perform_auction(node, agent_resources):
 
     # Print agent resources after the auction
     
-def maheen_compare(shortest_cost: int, root_node_cost: int):
-    print("\nRoot node cost", root_node_cost )
-    print("\nShortest path cost", shortest_cost )
-    
-    if shortest_cost < root_node_cost:
-        print("\nCost effective: Choose Shortest path" )
-    else:
-        print("\nCost effective: Choose root node")
-        
+def compare_m(shortest_cost: int, root_node_cost: int):
     """
+    Author: Maheen
     Compare the shortest path cost with the cost of the root node's agent and print the result.
 
     Parameters
@@ -658,9 +656,19 @@ def maheen_compare(shortest_cost: int, root_node_cost: int):
     root_node_cost : int
         The cost of the root node's agent.
     """
+    print("\nRoot node cost", root_node_cost )
+    print("\nShortest path cost", shortest_cost )
+    
+    if shortest_cost < root_node_cost:
+        print("\nCost effective: Choose Shortest path" )
+    else:
+        print("\nCost effective: Choose root node")
+        
+ 
 #Diajkstraaas
-def maheen_shortest_path(root_node: GoalNode) -> tuple[int, List[str], List[str]]:
+def shortest_path_m(root_node: GoalNode) -> tuple[int, List[str], List[str]]:
     """
+    Author: Maheen
     Implements Dijkstra's algorithm to find the shortest path with the given conditions.
 
     Parameters
@@ -703,8 +711,9 @@ def maheen_shortest_path(root_node: GoalNode) -> tuple[int, List[str], List[str]
 
     # If no goal node is found, return None
     return None
-def maheen_extract_node_info(root_node, shortest_goals):
+def extract_node_info_m(root_node, shortest_goals):
     """
+    Author: Maheen
     Extracts node names and costs from GoalNodes that have the same name as the nodes in the shortest_goals list,
     and stores them in a dictionary.
 
@@ -738,9 +747,19 @@ def maheen_extract_node_info(root_node, shortest_goals):
             q.append(child)
 
     return node_info
-def maheen_get_agent_resources(max_resources):
+def get_agent_resources_m(max_resources):
     '''
+    Author: Maheen
     Gives agents resources
+     Parameters
+    ----------
+    max_resources: List[int]
+        
+    The list of max resources for each agent
+
+    Returns agent_resources: storing the list.
+    -------
+    
     '''
     agents = ["grace", "remus", "franklin"]
     agent_resources = {agent: resource for agent, resource in zip(agents, max_resources)}

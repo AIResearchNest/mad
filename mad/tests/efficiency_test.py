@@ -7,6 +7,7 @@ from mad.optimize._goal_allocation import jonathan_algorithm, optimized_goal_all
 from mad.optimize import _score_allocation
 
 
+
 def _random_cost(m: int, n: int) -> Dict[str, int]:
     
     """
@@ -222,7 +223,7 @@ def test_algorithm_efficiency():
     # Print the execution times
     print("Execution Time - jonathan_algorithm:", jonathan_algorithm_time)
     print("Execution Time - fay_initial_goal_allocation:", fay_initial_goal_allocation_time)
-    #print("Execution Time - maheen_algorithm:", maheen_alogrithm)
+    
 
     print("Test case 3:\n")
     initial_goal_tree = GoalNode("G1", _random_cost(40, 60))
