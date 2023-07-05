@@ -64,7 +64,7 @@ def _get_goals(goal_tree: GoalNode) -> List:
 
     return output
 
-def _jonathan_average_cost(goal_tree: GoalNode, verbose: int = 0) -> None:
+def _average_cost(goal_tree: GoalNode, verbose: int = 0) -> None:
     """
     Takes in a goal tree and updates each GoalNode's agent cost to a temporary value of the average cost of all agents able to accomplish that goal
 
@@ -97,7 +97,7 @@ def _jonathan_average_cost(goal_tree: GoalNode, verbose: int = 0) -> None:
             for agent, cost in goal.data.items():
                 print(f" - {agent}: {cost}")
 
-def _jonathan_optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
+def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     """
     Takes in a goal tree and max resources for each agent and finds the most optimal goal path based on the GoalNode.cost values through out the tree and returns a list of GoalNodes that should be accomplished
 
@@ -124,7 +124,7 @@ def _jonathan_optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     # Current GoalNodes children GoalNodes
     child_goals = []
     for child in goal_tree.children:
-        child_goals.extend(_jonathan_optimal_path(child, max_resources))
+        child_goals.extend(_optimal_path(child, max_resources))
     
     # Finds total cost of all children GoalNodes for comparison
     child_cost = sum(child.cost for child in child_goals)
@@ -138,7 +138,7 @@ def _jonathan_optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     
     return selected_goals
 
-def _jonathan_distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) -> Dict:
+def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) -> Dict:
     """
     Takes in a list of GoalNodes and distributes them among available agents
 
@@ -282,7 +282,7 @@ def _score_allocation(agents_and_goals):
     
     return [score, difference_score]
 
-def jonathan_algorithm(goal_tree: GoalNode, max_resources: int, verbose: int = 0) -> Dict:
+def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 0) -> Dict:
     """
     Takes in a goal tree and finds optimal goals to accomplish the main goal and distributes them to agents evenly
 
@@ -303,7 +303,7 @@ def jonathan_algorithm(goal_tree: GoalNode, max_resources: int, verbose: int = 0
     if verbose > 0:
         print("Agent Costs:")
 
-    _jonathan_average_cost(goal_tree, verbose)
+    _average_cost(goal_tree, verbose)
 
     if verbose > 0:
         print()
@@ -312,7 +312,7 @@ def jonathan_algorithm(goal_tree: GoalNode, max_resources: int, verbose: int = 0
         print()
 
     # Takes in a goal tree and max resources for each agent and finds the most optimal goal path based on the GoalNode.cost values through out the tree and returns a list of GoalNodes that should be accomplished
-    selected_goals = _jonathan_optimal_path(goal_tree, max_resources)
+    selected_goals = _optimal_path(goal_tree, max_resources)
 
     if verbose > 0:
         print("Selected Goals:")
@@ -321,7 +321,7 @@ def jonathan_algorithm(goal_tree: GoalNode, max_resources: int, verbose: int = 0
         print()
 
     # Takes in a list of GoalNodes and distributes them among available agents
-    distributed_goals = _jonathan_distribute_goals(selected_goals, max_resources, verbose)
+    distributed_goals = _distribute_goals(selected_goals, max_resources, verbose)
 
     if verbose > 0:
         print()

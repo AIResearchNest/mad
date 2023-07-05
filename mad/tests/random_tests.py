@@ -1,7 +1,7 @@
 import random as r
 from typing import Dict
 from mad.data_structures import GoalNode
-from mad.optimize import jonathan_algorithm
+from mad.optimize import dfs_goal_allocation
 
 def _random_cost(m: int, n: int) -> Dict[str, int]:
     
@@ -224,7 +224,7 @@ def main():
         # root = random_tree_left_right()
         root = random_large_tree()
 
-        output = jonathan_algorithm(root, 30, 1)
+        output = dfs_goal_allocation(root, 30, 1)
 
 if __name__ == '__main__':
     main()

@@ -3,7 +3,7 @@ from typing import Dict
 import copy
 import random
 from mad.data_structures import GoalNode, level_order_transversal
-from mad.optimize._goal_allocation import jonathan_algorithm, optimized_goal_allocation
+from mad.optimize._goal_allocation import dfs_goal_allocation, optimized_goal_allocation
 
 
 def _random_cost(m: int, n: int) -> Dict[str, int]:
@@ -91,8 +91,8 @@ def test_algorithm_efficiency():
     # Test jonathan_algorithm
     print("Jonathan's algorithm \n")
     start_time = time.time()
-    score = jonathan_algorithm(goal_tree, max(max_resources),1)
-    jonathan_algorithm_time = time.time() - start_time
+    score = dfs_goal_allocation(goal_tree, max(max_resources),1)
+    dfs_goal_allocation_time = time.time() - start_time
     print('\n' * 4)
 
     # Test fay_initial_goal_allocation
@@ -120,7 +120,7 @@ def test_algorithm_efficiency():
     fay_initial_goal_allocation_time = time.time() - start_time
 
     # Print the execution times
-    print("Execution Time - jonathan_algorithm:", jonathan_algorithm_time)
+    print("Execution Time - jonathan_algorithm:", dfs_goal_allocation_time)
     print("Execution Time - fay_initial_goal_allocation:", fay_initial_goal_allocation_time)
 
 #TEST CASE 2: DIFFERENT MAX RESOURCES
@@ -189,8 +189,8 @@ def test_algorithm_efficiency():
     # Test jonathan_algorithm
     print("Jonathan's algorithm \n")
     start_time = time.time()
-    score = jonathan_algorithm(goal_tree, max(max_resources),1)
-    jonathan_algorithm_time = time.time() - start_time
+    score = dfs_goal_allocation(goal_tree, max(max_resources),1)
+    dfs_goal_allocation_time = time.time() - start_time
     print('\n' * 4)
 
     # Test fay_initial_goal_allocation
@@ -217,7 +217,7 @@ def test_algorithm_efficiency():
     fay_initial_goal_allocation_time = time.time() - start_time
 
     # Print the execution times
-    print("Execution Time - jonathan_algorithm:", jonathan_algorithm_time)
+    print("Execution Time - jonathan_algorithm:", dfs_goal_allocation_time)
     print("Execution Time - fay_initial_goal_allocation:", fay_initial_goal_allocation_time)
     
 
@@ -283,8 +283,8 @@ def test_algorithm_efficiency():
     # Test jonathan_algorithm
     print("Jonathan's algorithm \n")
     start_time = time.time()
-    score = jonathan_algorithm(goal_tree, max_resources[0],1)
-    jonathan_algorithm_time = time.time() - start_time
+    score = dfs_goal_allocation(goal_tree, max_resources[0],1)
+    dfs_goal_allocation_time = time.time() - start_time
     print('\n' * 4)
 
     # Test fay_initial_goal_allocation
@@ -312,7 +312,7 @@ def test_algorithm_efficiency():
     fay_initial_goal_allocation_time = time.time() - start_time
 
     # Print the execution times
-    print("Execution Time - jonathan_algorithm:", jonathan_algorithm_time)
+    print("Execution Time - jonathan_algorithm:", dfs_goal_allocation_time)
     print("Execution Time - fay_initial_goal_allocation:", fay_initial_goal_allocation_time)
 
 
@@ -323,8 +323,8 @@ def test_algorithm_efficiency():
     # Test jonathan_algorithm
     print("Jonathan's algorithm \n")
     start_time = time.time()
-    score = jonathan_algorithm(None, max(max_resources),1)
-    jonathan_algorithm_time = time.time() - start_time
+    score = dfs_goal_allocation(None, max(max_resources),1)
+    dfs_goal_allocation_time = time.time() - start_time
     print('\n' * 4)
 
     # Test fay_initial_goal_allocation
