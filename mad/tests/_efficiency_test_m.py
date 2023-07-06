@@ -2,7 +2,7 @@
 import random
 from typing import Dict, List, Tuple
 import heapq
-from mad.data_structures._multi_agent_goal_node_two import GoalNode2, level_order_transversal_two
+from mad.data_structures._multi_agent_goal_node_two import GoalNode, level_order_transversal_two
 from mad.optimize._goal_allocation import random_cost_m, agent_goal_m, compare_m, shortest_path_m, perform_auction_m, extract_node_info_m, get_agent_resources_m
 
 import time
@@ -17,31 +17,31 @@ def test_algorithm_efficiency_m():
     
     print("\n\tMaheen's algorithm \n")
     print("\n\tTest case 1:\n")
-    initial_goal_tree = GoalNode2("G1", random_cost_m(50, 70))
+    initial_goal_tree = GoalNode("G1", random_cost_m(50, 70))
     # Add some goals and their costs to the goal tree
-    G2 = GoalNode2("G2",  random_cost_m(25, 40))
+    G2 = GoalNode("G2",  random_cost_m(25, 40))
 
-    G3 = GoalNode2("G3", random_cost_m(25,40))
+    G3 = GoalNode("G3", random_cost_m(25,40))
 
-    G4 = GoalNode2("G4", random_cost_m(25,40))
+    G4 = GoalNode("G4", random_cost_m(25,40))
 
-    G5 = GoalNode2("G5", random_cost_m(15,30))
+    G5 = GoalNode("G5", random_cost_m(15,30))
 
-    G6 = GoalNode2("G6", random_cost_m(15,30))
+    G6 = GoalNode("G6", random_cost_m(15,30))
 
-    G7 = GoalNode2("G7", random_cost_m(15,30))
+    G7 = GoalNode("G7", random_cost_m(15,30))
 
-    G8 = GoalNode2("G8", random_cost_m(15,30))
+    G8 = GoalNode("G8", random_cost_m(15,30))
 
-    G9 = GoalNode2("G9", random_cost_m(15,30))
+    G9 = GoalNode("G9", random_cost_m(15,30))
 
-    G10 = GoalNode2("G10", random_cost_m(5,10))
+    G10 = GoalNode("G10", random_cost_m(5,10))
 
-    G11 = GoalNode2("G11", random_cost_m(5,10))
+    G11 = GoalNode("G11", random_cost_m(5,10))
 
-    G12 = GoalNode2("G12", random_cost_m(5,10))
+    G12 = GoalNode("G12", random_cost_m(5,10))
 
-    G13 = GoalNode2("G13", random_cost_m(5,10))
+    G13 = GoalNode("G13", random_cost_m(5,10))
 
 
     initial_goal_tree.add_child(G2)
@@ -117,37 +117,37 @@ def test_algorithm_efficiency_m():
 
     # Create a sample goal tree
     print("\n\tTest case 2:\n")
-    initial_goal_tree = GoalNode2("G1",random_cost_m(60, 80))
+    initial_goal_tree = GoalNode("G1",random_cost_m(60, 80))
     # Add some goals and their costs to the goal tree
-    G2 = GoalNode2("G2",random_cost_m(25, 45)) # level 2
+    G2 = GoalNode("G2",random_cost_m(25, 45)) # level 2
 
-    G3 = GoalNode2("G3",random_cost_m(25,45))
+    G3 = GoalNode("G3",random_cost_m(25,45))
 
-    G4 = GoalNode2("G4",random_cost_m(25,45))
+    G4 = GoalNode("G4",random_cost_m(25,45))
 
-    G5 = GoalNode2("G5",random_cost_m(15,30)) # level 3
+    G5 = GoalNode("G5",random_cost_m(15,30)) # level 3
 
-    G6 = GoalNode2("G6",random_cost_m(15,30))
+    G6 = GoalNode("G6",random_cost_m(15,30))
 
-    G7 = GoalNode2("G7",random_cost_m(15,30))
+    G7 = GoalNode("G7",random_cost_m(15,30))
 
-    G8 = GoalNode2("G8",random_cost_m(15,30))
+    G8 = GoalNode("G8",random_cost_m(15,30))
 
-    G9 = GoalNode2("G9",random_cost_m(15,30)) 
+    G9 = GoalNode("G9",random_cost_m(15,30)) 
 
-    G10 = GoalNode2("G10",random_cost_m(5,15)) # level 4
+    G10 = GoalNode("G10",random_cost_m(5,15)) # level 4
 
-    G11 = GoalNode2("G11",random_cost_m(5,15))
+    G11 = GoalNode("G11",random_cost_m(5,15))
 
-    G12 = GoalNode2("G12",random_cost_m(5,15))
+    G12 = GoalNode("G12",random_cost_m(5,15))
 
-    G13 = GoalNode2("G13",random_cost_m(5,15))
+    G13 = GoalNode("G13",random_cost_m(5,15))
 
-    G14 = GoalNode2("G14",random_cost_m(1,10)) # level 5
+    G14 = GoalNode("G14",random_cost_m(1,10)) # level 5
 
-    G15 = GoalNode2("G15",random_cost_m(1,10))
+    G15 = GoalNode("G15",random_cost_m(1,10))
 
-    G16 = GoalNode2("G16",random_cost_m(1,10))
+    G16 = GoalNode("G16",random_cost_m(1,10))
 
 
     initial_goal_tree.add_child(G2)
@@ -220,37 +220,37 @@ def test_algorithm_efficiency_m():
     '''
 
     print("Test case 3:\n")
-    initial_goal_tree = GoalNode2("G1", random_cost_m(40, 60))
+    initial_goal_tree = GoalNode("G1", random_cost_m(40, 60))
     # Add some goals and their costs to the goal tree
-    G2 = GoalNode2("G2", random_cost_m(20, 30)) # level 2
+    G2 = GoalNode("G2", random_cost_m(20, 30)) # level 2
 
-    G3 = GoalNode2("G3",random_cost_m(20,30))
+    G3 = GoalNode("G3",random_cost_m(20,30))
 
-    G4 = GoalNode2("G4",random_cost_m(20,30))
+    G4 = GoalNode("G4",random_cost_m(20,30))
 
-    G5 = GoalNode2("G5",random_cost_m(10,15)) # level 3
+    G5 = GoalNode("G5",random_cost_m(10,15)) # level 3
 
-    G6 = GoalNode2("G6",random_cost_m(10,15))
+    G6 = GoalNode("G6",random_cost_m(10,15))
 
-    G7 = GoalNode2("G7",random_cost_m(10,15))
+    G7 = GoalNode("G7",random_cost_m(10,15))
 
-    G8 = GoalNode2("G8",random_cost_m(10,15))
+    G8 = GoalNode("G8",random_cost_m(10,15))
 
-    G9 = GoalNode2("G9",random_cost_m(10,15)) 
+    G9 = GoalNode("G9",random_cost_m(10,15)) 
 
-    G10 = GoalNode2("G10",random_cost_m(5,10)) # level 4
+    G10 = GoalNode("G10",random_cost_m(5,10)) # level 4
 
-    G11 = GoalNode2("G11",random_cost_m(5,10))
+    G11 = GoalNode("G11",random_cost_m(5,10))
 
-    G12 = GoalNode2("G12",random_cost_m(5,10))
+    G12 = GoalNode("G12",random_cost_m(5,10))
 
-    G13 = GoalNode2("G13",random_cost_m(5,10))
+    G13 = GoalNode("G13",random_cost_m(5,10))
 
-    G14 = GoalNode2("G14",random_cost_m(1,5)) # level 5
+    G14 = GoalNode("G14",random_cost_m(1,5)) # level 5
 
-    G15 = GoalNode2("G15",random_cost_m(1,5))
+    G15 = GoalNode("G15",random_cost_m(1,5))
 
-    G16 = GoalNode2("G16",random_cost_m(1,5))
+    G16 = GoalNode("G16",random_cost_m(1,5))
 
 
     initial_goal_tree.add_child(G2)
