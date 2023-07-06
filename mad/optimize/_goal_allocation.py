@@ -323,6 +323,9 @@ def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 
     # Takes in a list of GoalNodes and distributes them among available agents
     distributed_goals = _distribute_goals(selected_goals, max_resources, verbose)
 
+    # Calculates the total cost of the assigned goals and the descrepancy between the most assigned and least assigned agents' costs
+    score = _score_allocation(distributed_goals)
+
     if verbose > 0:
         print()
         print("Goal Allocation:")
@@ -331,7 +334,6 @@ def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 
                 print(f" - {key}: {goal.name}, {goal.cost}")
         
         print()
-        score = _score_allocation(distributed_goals)
         print(f"Score: {score[0]}")
         print(f"Discrepancy: {score[1]}")
 
@@ -341,7 +343,7 @@ def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 
         if goal not in selected_goals:
             goal.cost = None
 
-    return distributed_goals
+    return [distributed_goals, score[0], score[1]]
 
 """
 ########################################################
@@ -551,7 +553,7 @@ Maheen's Algorithm
 import random
 from typing import Dict, List, Tuple
 import heapq
-from mad.data_structures._multi_agent_goal_node_two import GoalNode, level_order_transversal_two
+from mad.data_structures._multi_agent_goal_node_two import GoalNode2, level_order_transversal_two
 
 
 
