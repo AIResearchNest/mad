@@ -3,7 +3,7 @@ from typing import Dict, List, Tuple
 import heapq
 
 # Start of class
-class GoalNode:
+class GoalNode2:
     """
     This class creates Multi Agent Goal Nodes
 
