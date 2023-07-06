@@ -54,9 +54,9 @@ def _random_agents(agents, m , n):
 # Test Trees
 def random_binary_symetric():
 
-    root = GoalNode("Main Goal", _random_cost(25, 35))
-    subgoal1 = GoalNode("Sub Goal 1", _random_cost(15, 25))
-    subgoal2 = GoalNode("Sub Goal 2", _random_cost(15, 25))
+    root = GoalNode("Main Goal", _random_cost(25, 45))
+    subgoal1 = GoalNode("Sub Goal 1", _random_cost(15, 20))
+    subgoal2 = GoalNode("Sub Goal 2", _random_cost(15, 20))
     subgoal3 = GoalNode("Sub Goal 3", _random_cost(5, 15))
     subgoal4 = GoalNode("Sub Goal 4", _random_cost(5, 15))
     subgoal5 = GoalNode("Sub Goal 5", _random_cost(5, 15))
@@ -73,9 +73,9 @@ def random_binary_symetric():
 
 def random_binary_left():
 
-    root = GoalNode("Main Goal", _random_cost(25, 35))
-    subgoal1 = GoalNode("Sub Goal 1", _random_cost(10, 20))
-    subgoal2 = GoalNode("Sub Goal 2", _random_cost(10, 20))
+    root = GoalNode("Main Goal", _random_cost(25, 45))
+    subgoal1 = GoalNode("Sub Goal 1", _random_cost(15, 20))
+    subgoal2 = GoalNode("Sub Goal 2", _random_cost(15, 20))
     subgoal3 = GoalNode("Sub Goal 3", _random_cost(5, 15))
     subgoal4 = GoalNode("Sub Goal 4", _random_cost(5, 15))
     
@@ -88,9 +88,9 @@ def random_binary_left():
 
 def random_binary_right():
 
-    root = GoalNode("Main Goal", _random_cost(25, 35))
-    subgoal1 = GoalNode("Sub Goal 1", _random_cost(10, 20))
-    subgoal2 = GoalNode("Sub Goal 2", _random_cost(10, 20))
+    root = GoalNode("Main Goal", _random_cost(25, 45))
+    subgoal1 = GoalNode("Sub Goal 1", _random_cost(15, 20))
+    subgoal2 = GoalNode("Sub Goal 2", _random_cost(15, 20))
     subgoal3 = GoalNode("Sub Goal 3", _random_cost(5, 15))
     subgoal4 = GoalNode("Sub Goal 4", _random_cost(5, 15))
     
@@ -390,8 +390,9 @@ def main():
     test = []
     tree_score = []
     tree_descrepancy = []
+    tree_agents = []
 
-    for i in range(5):
+    for i in range(15):
         
         print("---------------------")
         print(f"Test {i}:")
@@ -413,21 +414,23 @@ def main():
         test.append(i)
         tree_score.append(output[1])
         tree_descrepancy.append(output[2])
+        tree_agents.append(output[3])
+
         
     # Create a figure and 3D axes
     fig = plt.figure()
     ax = plt.axes(projection='3d')
 
     # Create the scatter plot
-    ax.scatter3D(test, tree_score, tree_descrepancy)
+    ax.scatter3D(tree_agents, tree_score, tree_descrepancy)
 
     # Add labels to the points
     for i in range(len(test)):
-        ax.text(test[i], tree_score[i], tree_descrepancy[i], f'(Test {test[i]}, {tree_score[i]}, {tree_descrepancy[i]})', fontsize=8)
+        ax.text(tree_agents[i], tree_score[i], tree_descrepancy[i], f'{test[i]}', fontsize=8)
 
     # Set labels and title
-    ax.set_xlabel('Test')
-    ax.set_ylabel('Score')
+    ax.set_xlabel('Number of Agents')
+    ax.set_ylabel('Total Cost')
     ax.set_zlabel('Descrepancy')
     ax.set_title('Algorithm Tests')
 
