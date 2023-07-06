@@ -263,11 +263,16 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
 def _score_allocation(agents_and_goals):
     
     # Total Cost of all goals
-    score = 0
+    total_cost = 0
+    num_agents_used = 0
 
-    for goals in agents_and_goals.values():
+    for agent, goals in agents_and_goals.items():
+        
+        if len(agents_and_goals[agent]) != 0:
+            num_agents_used += 1
+
         for goal in goals:
-            score += goal.cost
+            total_cost += goal.cost
 
     agents_costs = []
 
@@ -280,7 +285,7 @@ def _score_allocation(agents_and_goals):
     # Cost differene between lowest assigned agent and max assigned agent
     difference_score = abs(max(agents_costs) - min(agents_costs))
     
-    return [score, difference_score]
+    return [total_cost, difference_score, num_agents_used]
 
 def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 0) -> Dict:
     """
@@ -325,6 +330,9 @@ def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 
 
     # Calculates the total cost of the assigned goals and the descrepancy between the most assigned and least assigned agents' costs
     score = _score_allocation(distributed_goals)
+    total_cost = score[0]
+    descrepancy = score[1]
+    num_agents_used = score[2]
 
     if verbose > 0:
         print()
@@ -343,7 +351,7 @@ def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 
         if goal not in selected_goals:
             goal.cost = None
 
-    return [distributed_goals, score[0], score[1]]
+    return [distributed_goals, total_cost, descrepancy, num_agents_used]
 
 """
 ########################################################
@@ -479,8 +487,8 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
     else:
         max_res[list_goal[i].agent] -= list_goal[i].cost
         return i + 1, list_goal, max_res
- 
- 
+
+
 def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -> Tuple[Dict[str, List[str]], Dict[str, List[str]]]:
     
     """
