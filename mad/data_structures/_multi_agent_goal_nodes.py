@@ -40,6 +40,8 @@ class GoalNode:
         Agent that costs the least
     cost: int
         Most optimized cost
+    descrepancy: int
+        Finds cost difference between best fit agent and worst fit agent
     
     Methods
     ----------
@@ -49,8 +51,8 @@ class GoalNode:
     get_children(self) -> List[GoalNode]
         Return the list of the Child Goals
 
-    level_order_tranversal(self)
-        Tranverse through the tree in the level-by-level order
+    find_descrepancy(self)
+        Finds the descrepancy between best fit agent and worst fit agent and assigns it to self.descrepancy
     """
 
     def __init__(self,
@@ -61,7 +63,8 @@ class GoalNode:
         self.data = data
         self.children = []
         self.agent = None 
-        self.cost = None 
+        self.cost = None
+        self.descrepancy = None
         self.d = self.data.copy()
 
     def set_agent(self, name) -> None:
@@ -86,12 +89,19 @@ class GoalNode:
         self.agent = _suitable_agent(self.d)
         self.cost = self.d[self.agent]
         return True
-     
+
     def add_child(self, a) -> None:
         self.children.append(a)
 
     def get_children(self) -> List:
         return self.children
+    
+    def find_descrepancy(self):
+        high = max([x for x in self.data.values()])
+        low = min([x for x in self.data.values()])
+
+        self.descrepancy = abs(high - low)
+
     
 
 def level_order_transversal(root) -> None:
