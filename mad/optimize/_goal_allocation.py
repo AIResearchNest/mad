@@ -729,7 +729,7 @@ def compare_m(shortest_cost: int, root_node_cost: int):
         
  
 #Diajkstraaas
-def shortest_path_m(root_node: GoalNode) -> tuple[int, List[str], List[str]]:
+def shortest_path_m(root_node: GoalNode2) -> tuple[int, List[str], List[str]]:
     """
     Author: Maheen
     Implements Dijkstra's algorithm to find the shortest path with the given conditions.
