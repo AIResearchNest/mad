@@ -1,12 +1,14 @@
 import random as r
+import copy
 import matplotlib.pyplot as plt
 # from mpl_toolkits import mplot3d
 
 from typing import Dict
 from mad.data_structures import GoalNode
 from mad.optimize import dfs_goal_allocation
+from mad.optimize import optimized_goal_allocation
 
-# Helper functions
+# Helper Functions
 def _random_cost(m: int, n: int) -> Dict[str, int]:
     
     """
@@ -50,6 +52,33 @@ def _random_agents(agents, m , n):
 
 
     return chosen_agents
+
+# Functions
+def get_results(agents_and_goals):
+
+    best_case = 0
+    total_cost = 0
+    num_agents_used = 0
+    agents_costs = []
+
+    for agent in agents_and_goals.keys():
+        
+        if len(agents_and_goals[agent]) != 0:
+            num_agents_used += 1
+
+        curr_agent_cost = 0
+
+        for goal in agents_and_goals[agent]:
+            best_case += min(goal.data.values())
+            curr_agent_cost += goal.cost
+        
+        agents_costs.append(curr_agent_cost)
+        total_cost += curr_agent_cost
+
+    discrepancy = abs(max(agents_costs) - min(agents_costs))
+    skew = abs(best_case - total_cost)
+
+    return [total_cost, skew, discrepancy, num_agents_used]
 
 # Test Trees
 def random_binary_symetric():
@@ -387,19 +416,29 @@ def random_large_binary_tree_select_agents():
 
 def main():
 
+    # Jonathan Results
     test = []
     tree_score = []
+    tree_skew = []
     tree_descrepancy = []
     tree_agents = []
-    tree_skew = []
+
+    # Fay Results
+    test1 = []
+    tree_score1 = []
+    tree_skew1 = []
+    tree_descrepancy1 = []
+    tree_agents1 = []
 
     for i in range(10):
         
+        print()
         print("---------------------")
         print(f"Test {i}:")
         print("---------------------")
         
-        # root = random_binary_symetric()
+        # Choose a tree
+        root = random_binary_symetric()
         # root = random_binary_left()
         # root = random_binary_right()
         # root = random_root()
@@ -408,18 +447,62 @@ def main():
         # root = random_large_binary_tree()
         # root = random_binary_select_agents()
         # root = random_tree_select_agents()
-        root = random_large_binary_tree_select_agents()
-
-        output = dfs_goal_allocation(root, 50, 1)
-        agents_and_goals = output[0]
-
-        test.append(i)
-        tree_score.append(output[1])
-        tree_descrepancy.append(output[2])
-        tree_agents.append(output[3])
-        tree_skew.append(output[4])
-
+        # root = random_large_binary_tree_select_agents()
         
+        # ----- Jonathan Test -----
+        root1 = copy.deepcopy(root)
+
+        # Run algorithm
+        agents_and_goals = dfs_goal_allocation(root1, 30, 1)
+
+        # Get results
+        total_cost, skew, discrepancy, num_agents_used = get_results(agents_and_goals)
+
+        # Add data
+        test.append(i)
+        tree_score.append(total_cost)
+        tree_skew.append(skew)
+        tree_descrepancy.append(discrepancy)
+        tree_agents.append(num_agents_used)
+
+
+        # ----- Fay Test -----
+        # print('\n' * 4)
+        # root2 = copy.deepcopy(root)
+
+        # if root2 is None:
+        #     return
+
+        # q = []
+        # q.append((root2, None)) 
+
+        # while len(q) != 0:
+        #     level_size = len(q)
+
+        #     while len(q) > 0:  
+        #         node, parent = q.pop(0)
+        #         node.initial_agent_assign()
+        #         children = node.get_children()
+        #         for child in children:
+        #             q.append((child, node)) 
+
+        # agents_and_goals = optimized_goal_allocation(root2, [30,30,30])
+        
+        # Need a function similar to get_results that returns total_cost, skew, discrepancy, num_agents_used for graphing purposes
+
+
+
+    # Print results
+    # for i in range(len(test)):
+
+    #     print('\n')
+    #     print(f"\nJonathan Test: {test[i]}\n---------------")
+    #     print(f"Cost: {tree_score[i]}\nSkew: {tree_skew[i]}\nDiscrepancy: {tree_descrepancy[i]}\nNumber of Agents: {tree_agents[i]}")
+
+        # print(f"\nFay Test: {test1[i]}\n---------------")
+        # print(f"Cost: {tree_score1[i]}\nSkew: {tree_skew1[i]}\nDiscrepancy: {tree_descrepancy1[i]}\nNumber of Agents: {tree_agents1[i]}")
+
+
     # Create a figure and 3D axes
     fig = plt.figure()
     ax = plt.axes(projection='3d')
@@ -430,12 +513,10 @@ def main():
 
     # Add labels to the points
     for i in range(len(test)):
-        # ax.text(tree_agents[i], tree_score[i], tree_descrepancy[i], f'{test[i]}', fontsize=8)
         ax.text(tree_agents[i], tree_skew[i], tree_descrepancy[i], f'{test[i]}', fontsize=8)
 
     # Set labels and title
     ax.set_xlabel('Number of Agents')
-    # ax.set_ylabel('Total Cost')
     ax.set_ylabel('Skew from Best Case')
     ax.set_zlabel('Descrepancy')
     ax.set_title('Algorithm Tests')
