@@ -1,6 +1,6 @@
 import random as r
 import matplotlib.pyplot as plt
-from mpl_toolkits import mplot3d
+# from mpl_toolkits import mplot3d
 
 from typing import Dict
 from mad.data_structures import GoalNode
@@ -103,7 +103,7 @@ def random_binary_right():
 
 def random_root():
 
-    root = root = GoalNode("Main Goal", _random_cost(25, 35))
+    root = root = GoalNode("Main Goal", _random_cost(25, 30))
 
     return root
 
@@ -271,7 +271,7 @@ def random_tree_select_agents():
 
     AGENTS = ['grace', 'remus', 'franklin']
 
-    root = GoalNode("Main Goal", _random_agents(AGENTS, 30, 45))
+    root = GoalNode("Main Goal", _random_agents(AGENTS, 45, 80))
     subgoal1 = GoalNode("Sub Goal 1", _random_agents(AGENTS, 15, 25))
     subgoal2 = GoalNode("Sub Goal 2", _random_agents(AGENTS, 15, 25))
     subgoal3 = GoalNode("Sub Goal 3", _random_agents(AGENTS, 15, 25))
@@ -391,14 +391,15 @@ def main():
     tree_score = []
     tree_descrepancy = []
     tree_agents = []
+    tree_skew = []
 
-    for i in range(15):
+    for i in range(10):
         
         print("---------------------")
         print(f"Test {i}:")
         print("---------------------")
         
-        root = random_binary_symetric()
+        # root = random_binary_symetric()
         # root = random_binary_left()
         # root = random_binary_right()
         # root = random_root()
@@ -407,14 +408,16 @@ def main():
         # root = random_large_binary_tree()
         # root = random_binary_select_agents()
         # root = random_tree_select_agents()
-        # root = random_large_binary_tree_select_agents()
+        root = random_large_binary_tree_select_agents()
 
-        output = dfs_goal_allocation(root, 30, 1)
+        output = dfs_goal_allocation(root, 50, 1)
+        agents_and_goals = output[0]
 
         test.append(i)
         tree_score.append(output[1])
         tree_descrepancy.append(output[2])
         tree_agents.append(output[3])
+        tree_skew.append(output[4])
 
         
     # Create a figure and 3D axes
@@ -422,15 +425,18 @@ def main():
     ax = plt.axes(projection='3d')
 
     # Create the scatter plot
-    ax.scatter3D(tree_agents, tree_score, tree_descrepancy)
+    # ax.scatter3D(tree_agents, tree_score, tree_descrepancy)
+    ax.scatter3D(tree_agents, tree_skew, tree_descrepancy)
 
     # Add labels to the points
     for i in range(len(test)):
-        ax.text(tree_agents[i], tree_score[i], tree_descrepancy[i], f'{test[i]}', fontsize=8)
+        # ax.text(tree_agents[i], tree_score[i], tree_descrepancy[i], f'{test[i]}', fontsize=8)
+        ax.text(tree_agents[i], tree_skew[i], tree_descrepancy[i], f'{test[i]}', fontsize=8)
 
     # Set labels and title
     ax.set_xlabel('Number of Agents')
-    ax.set_ylabel('Total Cost')
+    # ax.set_ylabel('Total Cost')
+    ax.set_ylabel('Skew from Best Case')
     ax.set_zlabel('Descrepancy')
     ax.set_title('Algorithm Tests')
 

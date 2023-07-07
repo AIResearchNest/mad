@@ -1,4 +1,4 @@
-__version__ = '0.0.41'
+__version__ = '0.0.42'
 
 #change log:
 # 0.0.0: first version
@@ -43,3 +43,4 @@ __version__ = '0.0.41'
 # 0.0.39: fixed __init__.py 
 # 0.0.40: added more tree test cases and 3d graphing
 # 0.0.41: Updated 3d graphing
+# 0.0.42: altered dfs_allocation and random_tests
