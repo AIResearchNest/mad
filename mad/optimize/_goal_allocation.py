@@ -54,23 +54,26 @@ def _get_goals(goal_tree: GoalNode) -> List:
     output : List
         List containing each GoalNode in a Hierarchical Goal Tree
     """
-    output = []
+
+    goals = []
     q = []
     q.append(goal_tree)
+
     while q:
         current = q[0]
         q.pop(0)
-        output.append(current)
+        goals.append(current)
+
         for child in current.get_children():
             q.append(child)
 
-    return output
+    return goals
 
 # Author: Jonathan
-# Time Complexity: O(n * k) n = number of goal nodes, k = max number of agents per goal
-def _average_cost(goal_tree: GoalNode, verbose: int = 0) -> None:
+# Time Complexity: O(n * m); n = number of goal nodes, m = max number of agents per goal
+def _min_cost(goal_tree: GoalNode, verbose: int = 0) -> None:
     """
-    Takes in a goal tree and updates each GoalNode's agent cost to a temporary value of the average cost of all agents able to accomplish that goal
+    Takes in a goal tree and updates each GoalNode's agent cost to a temporary value of the best fit agents' cost
 
     Parameters
     ----------
@@ -87,13 +90,8 @@ def _average_cost(goal_tree: GoalNode, verbose: int = 0) -> None:
 
     for goal in goals:
         
+        # Sorts agents from best to worse and assigns best one to goal
         costs = [x for x in goal.data.values()]
-        
-        # Average
-        # avg_cost = sum(costs) / len(costs)
-        # goal.cost = avg_cost
-        
-        # Min
         goal.cost = min(costs)
         
         if verbose > 0:
@@ -102,7 +100,7 @@ def _average_cost(goal_tree: GoalNode, verbose: int = 0) -> None:
                 print(f" - {agent}: {cost}")
 
 # Author: Jonathan
-# Time Complexity: O(n * k) n = number of goal nodes, k = average children per goal
+# Time Complexity: O(n * k); n = number of goal nodes, k = average children per goal
 def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     """
     Takes in a goal tree and max resources for each agent and finds the most optimal goal path based on the GoalNode.cost values through out the tree and returns a list of GoalNodes that should be accomplished
@@ -127,7 +125,7 @@ def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     # Goals that will be returned upwards for each recursion call
     selected_goals = []
 
-    # Current GoalNodes children GoalNodes
+    # Current GoalNode's children GoalNodes
     child_goals = []
     for child in goal_tree.children:
         child_goals.extend(_optimal_path(child, max_resources))
@@ -145,7 +143,7 @@ def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     return selected_goals
 
 # Author: Jonathan
-# Time Complexity: O(n * k + n * a) n = number of nodes, k = average agents per goal, a = number of agents
+# Time Complexity: O(n * m) n = number of nodes, m = max agents per goal
 def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) -> Dict:
     """
     Takes in a list of GoalNodes and distributes them among available agents
@@ -188,6 +186,7 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
     agents_resources = {agent: max_resources for agent in agents}
     agents_cost_total = {agent: 0 for agent in agents}
 
+    # Goal Prioritization
     ######### Potential Change ##########
     # Sorts goals from most expensive min cost to least expensive min cost
     # goals_sorted = list(reversed(sorted(goal_nodes, key=lambda goal: goal.cost)))
@@ -195,21 +194,20 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
     # Sorts goals from most descrepancy between solutions to least descrepancy
     for goal in goal_nodes:
         goal.find_descrepancy()
+
     goals_sorted = list(reversed(sorted(goal_nodes, key=lambda goal: goal.descrepancy)))
 
     # print(", ".join(str(x.descrepancy) for x in goals_sorted))
-
     ######### Potential Change ##########
 
     if verbose > 0:
         # Finds worst case distribution cost
-        worst_case = sum(max(node.data.values()) for node in goal_nodes)
+        worst_case = sum(max(goal.data.values()) for goal in goal_nodes)
         # Finds average case distribution cost
-        a = [sum(x.data.values()) / len(x.data.values()) for x in goal_nodes]
-        avg_case = sum(a)
+        avg_case = sum(sum(goal.data.values()) / len(goal.data.values()) for goal in goal_nodes)
 
     # Finds best case distribution cost
-    best_case = sum(min(node.data.values()) for node in goal_nodes)
+    best_case = sum(min(goal.data.values()) for goal in goal_nodes)
     
     # Finds percent of costs each agent should accomplish in terms of best case allocation
     sensitivity = best_case / len(agents)
@@ -235,7 +233,7 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
             curr_agent_goal_cost = goal.data[agent]
             
             # Checks that agent has enough resources and agent isn't doing too much work based on sensitivity
-            if curr_resources >= curr_agent_goal_cost and agents_cost + agents_cost < sensitivity:
+            if curr_resources >= curr_agent_goal_cost and agents_cost + curr_agent_goal_cost < sensitivity:
                 # Update agent
                 allocated_goals[agent].append(goal)
                 agents_resources[agent] -= curr_agent_goal_cost
@@ -269,9 +267,11 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
                     
                     # If agent has enough resources, assign the goal
                     if curr_resources >= curr_agent_goal_cost:
+                        # Update agent
                         allocated_goals[agent].append(goal)
                         agents_resources[agent] -= curr_agent_goal_cost
                         agents_cost_total[agent] += curr_agent_goal_cost
+                        # Update GoalNode
                         goal.set_agent(agent)
                         break
 
@@ -283,7 +283,7 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
 
 # Author: Jonathan
 # Time Complexity: O(n * m) n = nodes, m = agents
-def _get_results(agents_and_goals) -> List:
+def _get_results(agents_and_goals: Dict) -> List:
     """
     Takes in dict of agents' name and assigned goals and returns a list of results
 
@@ -345,7 +345,7 @@ def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 
     if verbose > 0:
         print("Agent Costs:")
 
-    _average_cost(goal_tree, verbose)
+    _min_cost(goal_tree, verbose)
 
     if verbose > 0:
         print()

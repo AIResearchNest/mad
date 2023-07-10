@@ -194,7 +194,7 @@ def random_tree_left_right():
 
 def random_large_binary_tree():
     
-    x = 30
+    x = 40
     y = 60
     root = GoalNode("Main Goal", _random_cost(x, y))
     
@@ -333,7 +333,7 @@ def random_large_binary_tree_select_agents():
     
     AGENTS = ['grace', 'remus', 'franklin']
 
-    x = 30
+    x = 40
     y = 60
     root = GoalNode("Main Goal", _random_agents(AGENTS, x, y))
     
@@ -438,13 +438,13 @@ def main():
         print("---------------------")
         
         # Choose a tree
-        root = random_binary_symetric()
+        # root = random_binary_symetric()
         # root = random_binary_left()
         # root = random_binary_right()
         # root = random_root()
         # root = random_tree_symetric()
         # root = random_tree_left_right()
-        # root = random_large_binary_tree()
+        root = random_large_binary_tree()
         # root = random_binary_select_agents()
         # root = random_tree_select_agents()
         # root = random_large_binary_tree_select_agents()
@@ -453,7 +453,7 @@ def main():
         root1 = copy.deepcopy(root)
 
         # Run algorithm
-        agents_and_goals = dfs_goal_allocation(root1, 30, 1)
+        agents_and_goals = dfs_goal_allocation(root1, 50, 1)
 
         # Get results
         total_cost, skew, discrepancy, num_agents_used = get_results(agents_and_goals)
