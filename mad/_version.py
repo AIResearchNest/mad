@@ -1,4 +1,4 @@
-__version__ = '0.0.45'
+__version__ = '0.0.46'
 
 #change log:
 # 0.0.0: first version
@@ -47,3 +47,4 @@ __version__ = '0.0.45'
 # 0.0.43: altered dfs_allocation and random_tests again
 # 0.0.44: altered Dijsktra's algorithm, perform_auction and built some test cases.
 # 0.0.45: bug fix in dfs_goal_allocation
+# 0.0.46: new plots in random_tests.py

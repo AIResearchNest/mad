@@ -233,7 +233,8 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
             curr_agent_goal_cost = goal.data[agent]
             
             # Checks that agent has enough resources and agent isn't doing too much work based on sensitivity
-            if curr_resources >= curr_agent_goal_cost and agents_cost + curr_agent_goal_cost < sensitivity:
+            # if curr_resources >= curr_agent_goal_cost and agents_cost + curr_agent_goal_cost < sensitivity:
+            if curr_resources >= curr_agent_goal_cost and agents_cost < sensitivity:
                 # Update agent
                 allocated_goals[agent].append(goal)
                 agents_resources[agent] -= curr_agent_goal_cost
@@ -300,19 +301,20 @@ def _get_results(agents_and_goals: Dict) -> List:
 
     best_case = 0
     total_cost = 0
-    num_agents_used = 0
+    agents_used = []
     agents_costs = []
 
     for agent in agents_and_goals.keys():
-        
-        if len(agents_and_goals[agent]) != 0:
-            num_agents_used += 1
 
         curr_agent_cost = 0
 
         for goal in agents_and_goals[agent]:
             best_case += min(goal.data.values())
             curr_agent_cost += goal.cost
+            
+            for agent in goal.data.keys():
+                if agent not in agents_used:
+                    agents_used.append(agent)
         
         agents_costs.append(curr_agent_cost)
         total_cost += curr_agent_cost
@@ -320,7 +322,7 @@ def _get_results(agents_and_goals: Dict) -> List:
     discrepancy = abs(max(agents_costs) - min(agents_costs))
     skew = abs(best_case - total_cost)
 
-    return [total_cost, skew, discrepancy, num_agents_used]
+    return [total_cost, skew, discrepancy, len(agents_used)]
 
 # Author: Jonathan
 # Time Complexity: O(n + m * a) n = nodes, m = selected goals, a = number of agents
