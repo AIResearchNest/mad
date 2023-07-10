@@ -416,8 +416,8 @@ def _check_resources(goal: GoalNode, max_res: Dict[str, int]) -> bool:
         Returns True if the agent has enough resources, False otherwise.
 
     """
-
-    return max_res[goal.agent] >= goal.cost
+    if goal.agent:
+        return max_res[goal.agent] >= goal.cost
 
 
 def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, int]) -> Tuple[int, List[GoalNode], Dict[str, int]]:
@@ -438,28 +438,33 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
         Returns a tuple containing: the updated index, the modified list of goals, the updated dictionary of maximum resources
 
     """
-    while not _check_resources(list_goal[i], max_res):
-        
-        #switch to another agent to finish the goal
-        list_goal[i].switch_agent() 
 
-        #if no agent can complete this
-        if list_goal[i].agent is None: 
-            a = list_goal.pop(i)  
-            #if no agent can complete the goal and the goal has no child
-            if not a.get_children():
+    goal = list_goal[i]
+
+    # Check if the current goal can be completed by any agent
+    while not _check_resources(goal, max_res):
+        # Try switching to another agent
+        goal.switch_agent() 
+
+        # If no agent can complete this goal
+        if goal.agent is None: 
+            goal = list_goal.pop(i)
+
+            # If the goal has no child, return empty list_goal
+            if not goal.get_children():
                 return i, [], max_res
-            for child in a.get_children():
-                list_goal.append(child)
-            return i, list_goal, max_res
-        
-    print(list_goal[i].name + " can be completed by " + list_goal[i].agent + "\n")
 
-    #if there is an agent can complete this goal
+            # Add child goals to list_goal
+            for child in goal.get_children():
+                list_goal.append(child)
+            
+            return i, list_goal, max_res
     
-    #if this goal does not have child nodes
-    if not list_goal[i].get_children(): 
-        max_res[list_goal[i].agent] -= list_goal[i].cost
+    print(goal.name + " can be completed by " + goal.agent + "\n")
+
+    # If the current goal does not have child nodes
+    if not goal.get_children(): 
+        max_res[goal.agent] -= goal.cost
         return i + 1, list_goal, max_res 
     
     d = max_res.copy()
@@ -469,20 +474,22 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
 
     subgoals_cost = 0
 
-    for child in list_goal[i].get_children():
+    # Sort the children goals in descending order of their costs
+    children = sorted(goal.get_children(), key=lambda x: x.cost if x.cost is not None else float('inf'), reverse=True)
+    for child in children:
         while not _check_resources(child, d):
-            # switch to another agent
+            # Switch to another agent
             child.switch_agent()  
 
             # If no agent can finish this child goal
             if not child.agent:  
                 a = child
 
-                # if this child node does not have children nodes
+                # If this child node does not have children nodes
                 if not a.get_children():  
-                    max_res[list_goal[i].agent] -= list_goal[i].cost
+                    max_res[goal.agent] -= goal.cost
                     
-                    # return the same list without any change
+                    # Return the same list without any change
                     return i + 1, list_goal, max_res  
                 
                 e = []
@@ -493,33 +500,32 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
                         e.append(grandchild)
                     else:
                         grandchild.switch_agent()
-                        # if one grandchild could not complete, return the original goal list
+                        # If one grandchild could not complete, return the original goal list
                         if grandchild.agent is None:  
                             return i, list_goal, max_res
-                for i in e:
-                     # subtract the cost from the resource
-                    d[i.agent] -= i.cost 
-                    subgoals_cost += i.cost
+                for goal in e:
+                     # Subtract the cost from the resource
+                    d[goal.agent] -= goal.cost 
+                    subgoals_cost += goal.cost
 
-        # if the child goal can be completed
-
-        # add the child goal to the child list
+        # If the child goal can be completed
+        # Add the child goal to the child list
         child_list.append(child)
-        # subtract the cost from the resource  
+        # Subtract the cost from the resource  
         d[child.agent] -= child.cost  
         subgoals_cost += child.cost
 
-    if min(subgoals_cost, list_goal[i].cost) == subgoals_cost:
-        a = list_goal.pop(i)
+    if min(subgoals_cost, goal.cost) == subgoals_cost:
+        list_goal.remove(goal)
         for child in child_list:
             list_goal.append(child)
-        if grand_child_list != None:
+        if grand_child_list:
             for grandchild in grand_child_list:
                 list_goal.append(grandchild)
         return i, list_goal, max_res
 
     else:
-        max_res[list_goal[i].agent] -= list_goal[i].cost
+        max_res[goal.agent] -= goal.cost
         return i + 1, list_goal, max_res
 
 
