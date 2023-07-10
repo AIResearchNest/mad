@@ -620,121 +620,7 @@ def random_cost_m(start_range: int, end_range: int) -> int:
     """
     return random.randint(start_range, end_range)
 
-
-def agent_goal_m(a: Dict[str, int], resources: Dict[str, int]) -> str:
-    """
-    Author: Maheen
-    Decides which agent will conduct the current goal based on the agent's current available resources.
-
-    Parameters
-    ----------
-    a : Dict[str, int]
-        Dictionary containing the cost values for each agent.
-    resources : Dict[str, int]
-        Dictionary containing the available resources for each agent.
-
-    Returns
-    -------
-    name: str
-        Name of the agent assigned to each node.
-    """
-    agents = ["grace", "remus", "franklin"]
-
-    # Assign the first three agents to the first three nodes
-    if len(a) <= 3:
-        agent_assigned = agents[len(a) - 1]
-        resources[agent_assigned] -= a[agent_assigned]
-        return agent_assigned
-
-    # Calculate the cost difference for each agent
-    cost_diff = {agent: resources[agent] - a[agent] for agent in agents}
-
-    # Sort the agents based on the cost difference in ascending order
-    sorted_agents = sorted(cost_diff, key=lambda agent: cost_diff[agent])
-
-    # Find the first agent with a non-negative cost difference
-    for agent in sorted_agents:
-        if cost_diff[agent] >= 0:
-            agent_assigned = agent
-            resources[agent_assigned] -= a[agent_assigned]
-            return agent_assigned
-
-    # If no agent has a non-negative cost difference, choose the agent with the smallest negative cost difference
-    agent_assigned = sorted_agents[0]
-    resources[agent_assigned] -= a[agent_assigned]
-    return agent_assigned
-
-
-
-
-def perform_auction_m(node, agent_resources):
-    """
-    Author: Maheen
-    Performs the auction process for assigning an agent to a goal node based on available agent resources based on first sealed bid algorithm.
-    Parameters
-    ----------
-    node : GoalNode
-        The goal node to be assigned an agent.
-    agent_resources : Dict[str, int]
-        Dictionary containing the available resources for each agent.
-
-    Returns
-    -------
-    None
-    """
-    bids = {}  # Dictionary to store the bids of each agent
-    # Raise an error if goal_tree is empty (???)
-    if node is None:
-        raise ValueError("Tree is empty!")
-    # Generate bids from each agent based on their available resources
-    for agent in agent_resources:
-        if agent_resources[agent] > 0:
-            bids[agent] = agent_resources[agent]
-
-    # Print agent resources before the auction
-    print("Agent Resources:", agent_resources)
-
-    # Determine the winning bidder based on the highest bid
-    winning_bidder = max(bids, key=bids.get)
-    winning_bid = bids[winning_bidder]
-
-    # Check if the winning bidder can cover the cost of the goal node
-    if winning_bid >= node.cost:
-        node.agent = winning_bidder
-        agent_resources[winning_bidder] -= node.cost
-    else:
-        # If the winning bidder cannot cover the cost, find the second highest bidder
-        bids.pop(winning_bidder)
-        if len(bids) > 0:
-            second_bidder = max(bids, key=bids.get)
-            second_bid = bids[second_bidder]
-            if second_bid >= node.cost:
-                node.agent = second_bidder
-                agent_resources[second_bidder] -= node.cost
-
-    # Print agent resources after the auction
-    
-def compare_m(shortest_cost: int, root_node_cost: int):
-    """
-    Author: Maheen
-    Compare the shortest path cost with the cost of the root node's agent and print the result.
-
-    Parameters
-    ----------
-    shortest_cost : int
-        The shortest path cost.
-
-    root_node_cost : int
-        The cost of the root node's agent.
-    """
-    print("\nRoot node cost", root_node_cost )
-    print("\nShortest path cost", shortest_cost )
-    
-    if shortest_cost < root_node_cost:
-        print("\nCost effective: Choose Shortest path" )
-    else:
-        print("\nCost effective: Choose root node")
-        
+ 
  
 #Diajkstraaas
 def shortest_path_m(root_node: GoalNode2) -> tuple[int, List[str], List[str]]:
@@ -750,7 +636,11 @@ def shortest_path_m(root_node: GoalNode2) -> tuple[int, List[str], List[str]]:
     Returns
     -------
     Tuple[int, List[str], List[str]]
-        The shortest path cost, list of goals, and list of agents.
+        The shortest path cost, list of goals, and list of agents (if any)
+        shortest_cost (int): This represents the shortest path cost from the root node to the goal node.
+        shortest_goals (List[str]): This is a list of goal names representing the shortest path from the root node to the goal node.
+        shortest_agents (List[str]): This is a list of agent names representing the agents assigned to the goals along the shortest path.
+
     """
     # Initialize a priority queue to store nodes based on their costs
     pq = [(0, root_node)]  # Cost of root_node is set to 0
@@ -782,6 +672,31 @@ def shortest_path_m(root_node: GoalNode2) -> tuple[int, List[str], List[str]]:
 
     # If no goal node is found, return None
     return None
+
+   
+def compare_m(shortest_cost: int, root_node_cost: int):
+    """
+    Author: Maheen
+    Compare the shortest path cost with the cost of the root node's agent and print the result.
+
+    Parameters
+    ----------
+    shortest_cost : int
+        The shortest path cost.
+
+    root_node_cost : int
+        The cost of the root node's agent.
+    """
+    print("\nRoot node cost", root_node_cost )
+    print("\nShortest path cost", shortest_cost )
+    
+    if shortest_cost < root_node_cost:
+        print("\nCost effective: Choose Shortest path" )
+    else:
+        print("\nCost effective: Choose root node")
+        
+
+
 def extract_node_info_m(root_node, shortest_goals):
     """
     Author: Maheen
@@ -818,6 +733,9 @@ def extract_node_info_m(root_node, shortest_goals):
             q.append(child)
 
     return node_info
+
+
+
 def get_agent_resources_m(max_resources):
     '''
     Author: Maheen
@@ -835,6 +753,165 @@ def get_agent_resources_m(max_resources):
     agents = ["grace", "remus", "franklin"]
     agent_resources = {agent: resource for agent, resource in zip(agents, max_resources)}
     return agent_resources
+
+
+
+
+def perform_auction_m(node, agent_resources):
+    """
+    Author: Maheen
+    Performs the auction process for assigning an agent to a goal node based on available agent resources based on first sealed bid algorithm. 
+    If none of the agent's resources individually can cover the cost of goal then it shares the goal completion with multiple agent based on bidding winners until 
+    either goal is completed or all agents run out of resources.  
+    ----------
+    node : GoalNode
+        The goal node to be assigned an agent.
+    agent_resources : Dict[str, int]
+        Dictionary containing the available resources for each agent.
+
+    Returns
+    -------
+    None
+    """
+    bids = {}  # Dictionary to store the bids of each agent
+    # Raise an error if goal_tree is empty (???)
+    if node is None:
+        raise ValueError("Tree is empty!")
+    # Generate bids from each agent based on their available resources
+    for agent in agent_resources:
+        if agent_resources[agent] > 0:
+            bids[agent] = agent_resources[agent]
+
+    # Print agent resources before the auction
+    print("Agent Resources:", agent_resources)
+
+    # Determine the winning bidder based on the highest bid
+    winning_bidder = max(bids, key=bids.get)
+    winning_bid = bids[winning_bidder]
+
+    # Check if the winning bidder can cover the cost of the goal node
+    if winning_bid >= node.cost:
+        node.agent = winning_bidder
+        agent_resources[winning_bidder] -= node.cost
+    elif len(bids) > 0:
+            bids.pop(winning_bidder)
+            second_bidder = max(bids, key=bids.get)
+            second_bid = bids[second_bidder]
+            if second_bid >= node.cost:
+                node.agent = second_bidder
+                agent_resources[second_bidder] -= node.cost
+            else:
+        
+                total_resources = sum(agent_resources.values())
+            print("\nResources Total...:", total_resources)
+            print("Cost of Goal...:", node.cost)
+
+            if total_resources >= node.cost:
+            # Generate bids from each agent based on their available resources
+                bids = {agent: resource for agent, resource in agent_resources.items() if resource > 0}
+
+                print("Agent Resources:", agent_resources)
+
+                winning_bidder = max(bids, key=bids.get)
+                winning_bid = bids[winning_bidder]
+
+                if winning_bid <= node.cost:
+                    node.agent = winning_bidder
+                    if agent_resources[winning_bidder] < node.cost:
+                        remaining_cost = node.cost - agent_resources[winning_bidder]
+                        agent_resources[winning_bidder] = 0
+                        print("Agent Updated Resources:", agent_resources)
+
+                        assigned_agents = []
+                        assigned_agents.append(winning_bidder)
+
+                        while remaining_cost > 0:
+                            agent_with_highest_resource = max(agent_resources, key=agent_resources.get)
+                            resource = agent_resources[agent_with_highest_resource]
+
+                            if resource > 0:
+                                if resource <= remaining_cost:
+                                    remaining_cost = remaining_cost - resource
+                                    agent_resources[agent_with_highest_resource] -= resource
+                                    assigned_agents.append(agent_with_highest_resource)
+                                    print("Agent Updated Resources:", agent_resources)
+                                else:
+                                    agent_resources[agent_with_highest_resource] -= remaining_cost
+                                    assigned_agents.append(agent_with_highest_resource)
+                                    remaining_cost = 0
+                                    print("Agent Updated Resources:", agent_resources)
+
+                    print("\nAssigned Agents:", assigned_agents)
+                    print("\nRemaining Cost:", remaining_cost)
+                    node.agent = assigned_agents
+                # Print agent resources after the auction
+                print("Remaining Agent Resources:", agent_resources)
+            else:
+                print("\n\tNo agent can cover the cost \n")
+
+    # Print agent resources after the auction
+
+
+
+def agent_goal_m(nodes, max_resources):
+    """
+    Author: Maheen
+    Description:    This basically calls the required functions and prints the info. This function assigns agents to goals by
+                 calculating the shortest path using dijkstra's and performing an auction-based allocation. 
+              
+
+    Parameters:
+    - nodes (list): A list of nodes representing the goals to be assigned to agents.
+    -max_resources: Gets list of maximum resources of each agent in int
+
+    Returns:
+    - None
+   
+    """
+    if not nodes:
+        print("No node has been assigned.")
+        return
+    root = nodes[0]
+    #root node values changed. 
+    agent_resources = get_agent_resources_m(max_resources)
+
+ 
+    shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
+    print("\n\t Initial cost allocation:\n")
+    level_order_transversal_two(root)
+    print("\nAgent Initial Resources:", agent_resources)
+    print("\nList of Goals for minimum cost:", shortest_goals[1:]) 
+    compare_m(shortest_cost, root.cost)
+        
+    node_info = extract_node_info_m(root, shortest_goals[1:])
+    print("\n\tGoal assigmnet to agents Info:\n\t")
+   
+    
+
+    if root.cost <= shortest_cost or len(root.get_children()) == 0:
+        print(f"Node: {root.name}\tCost: {root.cost}")
+        perform_auction_m(root, agent_resources)
+        print("\n\t\tFINAL INFO\n")
+        level_order_transversal_two(root)
+    else:
+            
+        for name, cost in node_info.items():
+            if name != root.name:
+                node = next((n for n in nodes if n.name == name), None)
+                if node:
+                    print(f"Node: {name}\tCost: {cost}")
+                    perform_auction_m(node, agent_resources)
+    
+        
+        print("\n\t\tFINAL INFO\n")
+        level_order_transversal_two(root)
+        
+    
+    print("Final Agent Resources:", agent_resources)
+    print("\n")
+  
+   
+
 
 
 """

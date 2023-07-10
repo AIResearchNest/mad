@@ -1,6 +1,7 @@
 import random as r
 from typing import Dict, List, Tuple
 import heapq
+import matplotlib.pyplot as plt
 
 from mad.data_structures._multi_agent_goal_node_two import GoalNode2, level_order_transversal_two
 from mad.optimize._goal_allocation import random_cost_m, agent_goal_m, compare_m, shortest_path_m, perform_auction_m, extract_node_info_m, get_agent_resources_m
@@ -28,40 +29,10 @@ def random_binary_symetric_s():
 
     
     max_resources = [50, 50, 50]
-    agent_resources = get_agent_resources_m(max_resources)
-
+     
   
     nodes = [root,subgoal1, subgoal2, subgoal3, subgoal4, subgoal5, subgoal6]
-    shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
-    print("\nInitial cost allocation:")
-    level_order_transversal_two(root)
-    compare_m(shortest_cost, root.cost)
-    print("\nList of Goals for minimum cost:", shortest_goals[1:]) 
-    
-
-    
-    node_info = extract_node_info_m(root, shortest_goals[1:])
-    print("\n\tGoal assigmnet to agents Info:\n\t")
-    
-    if root.cost <= shortest_cost or len(root.get_children()) == 0:
-        print(f"Node: {root.name}\tCost: {root.cost}")
-        perform_auction_m(root, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    else:
-            
-        for name, cost in node_info.items():
-            if name != root.name:
-                node = next((n for n in nodes if n.name == name), None)
-                if node:
-                    print(f"Node: {name}\tCost: {cost}")
-                    perform_auction_m(node, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    
-    print("Final Agent Resources:", agent_resources)
-    print("\n")
-
+    agent_goal_m(nodes, max_resources)
 
 def random_binary_left_s():
 
@@ -78,39 +49,10 @@ def random_binary_left_s():
 
     
     max_resources = [50, 50, 50]
-    agent_resources = get_agent_resources_m(max_resources)
-
+     
   
     nodes = [root,subgoal1, subgoal2, subgoal3, subgoal4]
-    shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
-    print("\nInitial cost allocation:")
-    level_order_transversal_two(root)
-    compare_m(shortest_cost, root.cost)
-    print("\nList of Goals for minimum cost:", shortest_goals[1:])  
-    
-
-    
-    node_info = extract_node_info_m(root, shortest_goals[1:])
-    print("\n\tGoal assigmnet to agents Info:\n\t")
-    
-    if root.cost <= shortest_cost or len(root.get_children()) == 0:
-        print(f"Node: {root.name}\tCost: {root.cost}")
-        perform_auction_m(root, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    else:
-            
-        for name, cost in node_info.items():
-            if name != root.name:
-                node = next((n for n in nodes if n.name == name), None)
-                if node:
-                    print(f"Node: {name}\tCost: {cost}")
-                    perform_auction_m(node, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    
-    print("Final Agent Resources:", agent_resources)
-    print("\n")
+    agent_goal_m(nodes, max_resources)
 
 def random_root_s():
 
@@ -118,41 +60,12 @@ def random_root_s():
 
     
     max_resources = [50, 50, 50]
-    agent_resources = get_agent_resources_m(max_resources)
-
+     
   
     nodes = [root]
-    shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
-    print("\nInitial cost allocation:")
-    level_order_transversal_two(root)
-    compare_m(shortest_cost, root.cost)
-    print("\nList of Goals for minimum cost:", shortest_goals[1:])  
+    agent_goal_m(nodes, max_resources)
     
-
-    
-    node_info = extract_node_info_m(root, shortest_goals[1:])
-    print("\n\tGoal assigmnet to agents Info:\n\t")
-    
-    if root.cost <= shortest_cost or len(root.get_children()) == 0:
-        print(f"Node: {root.name}\tCost: {root.cost}")
-        perform_auction_m(root, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    else:
-            
-        for name, cost in node_info.items():
-            if name != root.name:
-                node = next((n for n in nodes if n.name == name), None)
-                if node:
-                    print(f"Node: {name}\tCost: {cost}")
-                    perform_auction_m(node, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    
-    print("Final Agent Resources:", agent_resources)
-    print("\n")
-    
-
+   
 def random_tree_symetric_s():
 
     root = GoalNode2("Main Goal", random_cost_m(25,35))
@@ -183,40 +96,13 @@ def random_tree_symetric_s():
     
     
     max_resources = [50, 50, 50]
-    agent_resources = get_agent_resources_m(max_resources)
-
+     
   
     nodes = [root,subgoal1, subgoal2, subgoal3, subgoal4, subgoal5, subgoal6, subgoal7, 
              subgoal8, subgoal9, subgoal10, subgoal11, subgoal12]
-    shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
-    print("\nInitial cost allocation:")
-    level_order_transversal_two(root)
-    compare_m(shortest_cost, root.cost)
-    print("\nList of Goals for minimum cost:", shortest_goals[1:])  
+    agent_goal_m(nodes, max_resources)
     
-
     
-    node_info = extract_node_info_m(root, shortest_goals[1:])
-    print("\n\tGoal assigmnet to agents Info:\n\t")
-    
-    if root.cost <= shortest_cost or len(root.get_children()) == 0:
-        print(f"Node: {root.name}\tCost: {root.cost}")
-        perform_auction_m(root, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    else:
-            
-        for name, cost in node_info.items():
-            if name != root.name:
-                node = next((n for n in nodes if n.name == name), None)
-                if node:
-                    print(f"Node: {name}\tCost: {cost}")
-                    perform_auction_m(node, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    
-    print("Final Agent Resources:", agent_resources)
-    print("\n")
 
 def random_tree_left_right_s():
 
@@ -243,41 +129,13 @@ def random_tree_left_right_s():
     
     
     max_resources = [50, 50, 50]
-    agent_resources = get_agent_resources_m(max_resources)
-
+     
   
     nodes = [root,subgoal1, subgoal2, subgoal3, subgoal4, subgoal5, subgoal6,subgoal7,subgoal8, subgoal9]
-    shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
-    print("\nInitial cost allocation:")
-    level_order_transversal_two(root)
-    compare_m(shortest_cost, root.cost)
-    print("\nList of Goals for minimum cost:", shortest_goals[1:])  
+    agent_goal_m(nodes, max_resources)
     
-
     
-    node_info = extract_node_info_m(root, shortest_goals[1:])
-    print("\n\tGoal assigmnet to agents Info:\n\t")
     
-    if root.cost <= shortest_cost or len(root.get_children()) == 0:
-        print(f"Node: {root.name}\tCost: {root.cost}")
-        perform_auction_m(root, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    else:
-            
-        for name, cost in node_info.items():
-            if name != root.name:
-                node = next((n for n in nodes if n.name == name), None)
-                if node:
-                    print(f"Node: {name}\tCost: {cost}")
-                    perform_auction_m(node, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    
-    print("Final Agent Resources:", agent_resources)
-    print("\n")
-    
-
 def random_large_tree_s():
     
     x = 30
@@ -360,45 +218,16 @@ def random_large_tree_s():
 
     
     max_resources = [50, 50, 50]
-    agent_resources = get_agent_resources_m(max_resources)
-
+     
   
     nodes = [root,subgoal1, subgoal2, subgoal3, subgoal4, subgoal5, subgoal6, subgoal7,subgoal8, subgoal9, subgoal10,
              subgoal11, subgoal12, subgoal13, subgoal14, subgoal15, subgoal16, subgoal17, subgoal18, subgoal19, subgoal20, 
              subgoal21, subgoal22, subgoal23, subgoal24, subgoal25, subgoal26,subgoal27, subgoal28, subgoal29, subgoal30]
-    shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
-    print("\nInitial cost allocation:")
-    level_order_transversal_two(root)
-    compare_m(shortest_cost, root.cost)
-    print("\nList of Goals for minimum cost:", shortest_goals[1:])  
+    agent_goal_m(nodes, max_resources)
     
 
+  
     
-    node_info = extract_node_info_m(root, shortest_goals[1:])
-    print("\n\tGoal assigmnet to agents Info:\n\t")
-    
-    if root.cost <= shortest_cost or len(root.get_children()) == 0:
-        print(f"Node: {root.name}\tCost: {root.cost}")
-        perform_auction_m(root, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    else:
-            
-        for name, cost in node_info.items():
-            if name != root.name:
-                node = next((n for n in nodes if n.name == name), None)
-                if node:
-                    print(f"Node: {name}\tCost: {cost}")
-                    perform_auction_m(node, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    
-    print("Final Agent Resources:", agent_resources)
-    print("\n")
-    
-
-def no_goal_s():
-    return None
 
 
 
@@ -426,40 +255,10 @@ def random_binary_symetric():
 
     
     max_resources = [ random_cost_m(0,15),  random_cost_m(0,30),  random_cost_m(0,20)]
-    agent_resources = get_agent_resources_m(max_resources)
 
 
     nodes = [root,subgoal1, subgoal2, subgoal3, subgoal4, subgoal5, subgoal6]
-    shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
-    print("\nInitial cost allocation:")
-    level_order_transversal_two(root)
-    print("\nAgent Initial Resources:", agent_resources)
-    compare_m(shortest_cost, root.cost)
-    print("\nList of Goals for minimum cost:", shortest_goals[1:]) 
-    
-
-    
-    node_info = extract_node_info_m(root, shortest_goals[1:])
-    print("\n\tGoal assigmnet to agents Info:\n\t")
-    
-    if root.cost <= shortest_cost or len(root.get_children()) == 0:
-        print(f"Node: {root.name}\tCost: {root.cost}")
-        perform_auction_m(root, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    else:
-            
-        for name, cost in node_info.items():
-            if name != root.name:
-                node = next((n for n in nodes if n.name == name), None)
-                if node:
-                    print(f"Node: {name}\tCost: {cost}")
-                    perform_auction_m(node, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    
-    print("Final Agent Resources:", agent_resources)
-    print("\n")
+    agent_goal_m(nodes, max_resources)
 
 
 def random_binary_left():
@@ -477,40 +276,11 @@ def random_binary_left():
 
     
     max_resources = [ random_cost_m(1,50),  random_cost_m(1,50),  random_cost_m(1,50)]
-    agent_resources = get_agent_resources_m(max_resources)
+
 
 
     nodes = [root,subgoal1, subgoal2, subgoal3, subgoal4]
-    shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
-    print("\nInitial cost allocation:")
-    level_order_transversal_two(root)
-    print("\nAgent Initial Resources:", agent_resources)
-    compare_m(shortest_cost, root.cost)
-    print("\nList of Goals for minimum cost:", shortest_goals[1:]) 
-    
-
-    
-    node_info = extract_node_info_m(root, shortest_goals[1:])
-    print("\n\tGoal assigmnet to agents Info:\n\t")
-    
-    if root.cost <= shortest_cost or len(root.get_children()) == 0:
-        print(f"Node: {root.name}\tCost: {root.cost}")
-        perform_auction_m(root, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    else:
-            
-        for name, cost in node_info.items():
-            if name != root.name:
-                node = next((n for n in nodes if n.name == name), None)
-                if node:
-                    print(f"Node: {name}\tCost: {cost}")
-                    perform_auction_m(node, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    
-    print("Final Agent Resources:", agent_resources)
-    print("\n")
+    agent_goal_m(nodes, max_resources)
 
 def random_root():
 
@@ -518,40 +288,10 @@ def random_root():
 
     
     max_resources = [ random_cost_m(20,30),  random_cost_m(0,50),  random_cost_m(10,40)]
-    agent_resources = get_agent_resources_m(max_resources)
-
+     
 
     nodes = [root]
-    shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
-    print("\nInitial cost allocation:")
-    level_order_transversal_two(root)
-    print("\nAgent Initial Resources:", agent_resources)
-    compare_m(shortest_cost, root.cost)
-    print("\nList of Goals for minimum cost:", shortest_goals[1:]) 
-    
-
-    
-    node_info = extract_node_info_m(root, shortest_goals[1:])
-    print("\n\tGoal assigmnet to agents Info:\n\t")
-    
-    if root.cost <= shortest_cost or len(root.get_children()) == 0: 
-        print(f"Node: {root.name}\tCost: {root.cost}")
-        perform_auction_m(root, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    else:
-            
-        for name, cost in node_info.items():
-            if name != root.name:
-                node = next((n for n in nodes if n.name == name), None)
-                if node:
-                    print(f"Node: {name}\tCost: {cost}")
-                    perform_auction_m(node, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    
-    print("Final Agent Resources:", agent_resources)
-    print("\n")
+    agent_goal_m(nodes, max_resources)
     
 
 def random_tree_symetric():
@@ -584,42 +324,14 @@ def random_tree_symetric():
     
     
     max_resources = [ random_cost_m(25,50),  random_cost_m(10,30),  random_cost_m(10,40)]
-    agent_resources = get_agent_resources_m(max_resources)
-
+     
  
     nodes = [root,subgoal1, subgoal2, subgoal3, subgoal4, subgoal5, subgoal6, subgoal7, 
              subgoal8, subgoal9, subgoal10, subgoal11, subgoal12]
-    shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
-    print("\nInitial cost allocation:")
-    level_order_transversal_two(root)
-    compare_m(shortest_cost, root.cost)
-    print("\nAgent Initial Resources:", agent_resources)
-    print("\nList of Goals for minimum cost:", shortest_goals[1:]) 
     
-
+    agent_goal_m(nodes, max_resources)
     
-    node_info = extract_node_info_m(root, shortest_goals[1:])
-    print("\n\tGoal assigmnet to agents Info:\n\t")
     
-    if root.cost <= shortest_cost or len(root.get_children()) == 0:
-        print(f"Node: {root.name}\tCost: {root.cost}")
-        perform_auction_m(root, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    else:
-            
-        for name, cost in node_info.items():
-            if name != root.name:
-                node = next((n for n in nodes if n.name == name), None)
-                if node:
-                    print(f"Node: {name}\tCost: {cost}")
-                    perform_auction_m(node, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    
-    print("Final Agent Resources:", agent_resources)
-    print("\n")
-
 def random_tree_left_right():
 
     root = GoalNode2("Main Goal", random_cost_m(25,35))
@@ -645,41 +357,11 @@ def random_tree_left_right():
     
     
     max_resources = [ random_cost_m(10,40),  random_cost_m(7,30),  random_cost_m(12,45)]
-    agent_resources = get_agent_resources_m(max_resources)
-
+     
  
     nodes = [root,subgoal1, subgoal2, subgoal3, subgoal4, subgoal5, subgoal6,subgoal7,subgoal8, subgoal9]
     shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
-    print("\nInitial cost allocation:")
-    level_order_transversal_two(root)
-    print("\nAgent Initial Resources:", agent_resources)
-    compare_m(shortest_cost, root.cost)
-    print("\nList of Goals for minimum cost:", shortest_goals[1:]) 
-    
-
-    
-    node_info = extract_node_info_m(root, shortest_goals[1:])
-    print("\n\tGoal assigmnet to agents Info:\n\t")
-    
-    if root.cost <= shortest_cost or len(root.get_children()) == 0:
-        print(f"Node: {root.name}\tCost: {root.cost}")
-        perform_auction_m(root, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    else:
-            
-        for name, cost in node_info.items():
-            if name != root.name:
-                node = next((n for n in nodes if n.name == name), None)
-                if node:
-                    print(f"Node: {name}\tCost: {cost}")
-                    perform_auction_m(node, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    
-    print("Final Agent Resources:", agent_resources)
-    print("\n")
-    
+    agent_goal_m(nodes, max_resources)
 
 def random_large_tree():
     
@@ -763,61 +445,91 @@ def random_large_tree():
 
     
     max_resources = [ random_cost_m(10,30),  random_cost_m(15,30),  random_cost_m(20,40)]
-    agent_resources = get_agent_resources_m(max_resources)
-
+     
  
     nodes = [root,subgoal1, subgoal2, subgoal3, subgoal4, subgoal5, subgoal6, subgoal7,subgoal8, subgoal9, subgoal10,
              subgoal11, subgoal12, subgoal13, subgoal14, subgoal15, subgoal16, subgoal17, subgoal18, subgoal19, subgoal20, 
              subgoal21, subgoal22, subgoal23, subgoal24, subgoal25, subgoal26,subgoal27, subgoal28, subgoal29, subgoal30]
-    shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
-    print("\nInitial cost allocation:")
-    level_order_transversal_two(root)
-    compare_m(shortest_cost, root.cost)
-    print("\nAgent Initial Resources:", agent_resources)
-    print("\nList of Goals for minimum cost:", shortest_goals[1:]) 
-    
-
-    
-    node_info = extract_node_info_m(root, shortest_goals[1:])
-    print("\n\tGoal assigmnet to agents Info:\n\t")
-    
-    if root.cost <= shortest_cost or len(root.get_children()) == 0:
-        print(f"Node: {root.name}\tCost: {root.cost}")
-        perform_auction_m(root, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    else:
-            
-        for name, cost in node_info.items():
-            if name != root.name:
-                node = next((n for n in nodes if n.name == name), None)
-                if node:
-                    print(f"Node: {name}\tCost: {cost}")
-                    perform_auction_m(node, agent_resources)
-        print("\n\t\tFINAL INFO\n")
-        level_order_transversal_two(root)
-    
-    print("Final Agent Resources:", agent_resources)
-    print("\n")
-    
-    
+    agent_goal_m(nodes, max_resources)
 
 def no_goal():
-    return None
+    
+    max_resources = [ random_cost_m(10,30),  random_cost_m(15,30),  random_cost_m(20,40)]
+     
+ 
+    nodes = []
+    
+    agent_goal_m(nodes, max_resources)
+
+def smaller_root():
+    root = GoalNode2("Main Goal", 10)
+    subgoal1 = GoalNode2("Sub Goal 1", 15)
+    subgoal2 = GoalNode2("Sub Goal 2", 15)
+    subgoal3 = GoalNode2("Sub Goal 3", 15)
+    subgoal4 = GoalNode2("Sub Goal 4", 25)
+    subgoal5 = GoalNode2("Sub Goal 5", 25)
+    subgoal6 = GoalNode2("Sub Goal 6", 25)
+    subgoal7 = GoalNode2("Sub Goal 7", 25)
+    subgoal8 = GoalNode2("Sub Goal 8", 25)
+    subgoal9 = GoalNode2("Sub Goal 9", 25)
+
+    root.add_child(subgoal1)
+    root.add_child(subgoal2)
+    root.add_child(subgoal3)
+    subgoal1.add_child(subgoal4)
+    subgoal1.add_child(subgoal5)
+    subgoal1.add_child(subgoal6)
+    subgoal3.add_child(subgoal7)
+    subgoal3.add_child(subgoal8)
+    subgoal3.add_child(subgoal9)
+    
+    
+    max_resources = [ 5, 4, 1]
+
+     
+ 
+    nodes = [root,subgoal1, subgoal2, subgoal3, subgoal4, subgoal5, subgoal6,subgoal7,subgoal8, subgoal9]
+    shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
+    agent_goal_m(nodes, max_resources)
 
 
+def smaller_other_path():
+    root = GoalNode2("Main Goal", 100)
+    subgoal1 = GoalNode2("Sub Goal 1", 5)
+    subgoal2 = GoalNode2("Sub Goal 2", 10)
+    subgoal3 = GoalNode2("Sub Goal 3", 10)
+    subgoal4 = GoalNode2("Sub Goal 4", 10)
+    subgoal5 = GoalNode2("Sub Goal 5", 5)
+    subgoal6 = GoalNode2("Sub Goal 6", 15)
 
+
+    root.add_child(subgoal1)
+    root.add_child(subgoal2)
+    subgoal1.add_child(subgoal3)
+    subgoal3.add_child(subgoal5)
+    subgoal2.add_child(subgoal4)
+    subgoal4.add_child(subgoal6)
+
+    
+    
+    max_resources = [ 10, 7, 3]
+
+     
+ 
+    nodes = [root,subgoal1, subgoal2, subgoal3, subgoal4, subgoal5, subgoal6]
+    shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
+    agent_goal_m(nodes, max_resources)
+
+
+    
 def main():
 
-    scores = []
-    discrepancy = []
-    
  
     goal_trees = []  # Create a list to store the goal trees
     function_names = ["random_large_tree_s", "random_binary_symmetric_s", "random_binary_left_s", 
-                      "random_root_s","random_tree_left_right_s", "random_tree_symmetric_s", "no_goal_s", 
+                      "random_root_s","random_tree_left_right_s", "random_tree_symmetric_s", 
                   "random_large_tree", "random_binary_symmetric", "random_binary_left", "random_root",
-                  "random_tree_left_right", "random_tree_symmetric", "no_goal"]  # Add the function names
+                  "random_tree_left_right", "random_tree_symmetric", "no_goal", "smaller_root", "smaller_other_path"]  # Add the function names
 
     for i in range(len(function_names)):
         print("---------------------")
@@ -838,26 +550,34 @@ def main():
         elif i == 5:
             run = random_tree_symetric_s()
         elif i == 6:
-            run = no_goal_s()
-        elif i == 7:
             run = random_large_tree()
-        elif i == 8:
+        elif i == 7:
             run = random_binary_symetric()
-        elif i == 9:
+        elif i == 8:
             run = random_binary_left()
-        elif i == 10:
+        elif i == 9:
             run = random_root()
-        elif i == 11:
+        elif i == 10:
             run = random_tree_left_right()
-        elif i == 12:
+        elif i == 11:
             run = random_tree_symetric()
-        elif i == 13:
+        elif i == 12:
             run = no_goal()
+        elif i == 13:
+            run = smaller_root()
+        elif i == 14:
+            run = smaller_other_path()
         goal_trees.append(run)  # Store the goal trees in the list
+        
+        
 
         level_order_transversal_two(run)
 
-    
+ # Create a figure and 3D axes that shows which agent has been assigned how many goals?
+    '''fig = plt.figure()
+    ax = plt.axes(projection='3d')
+    plt.show()'''
+
         
 
         

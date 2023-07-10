@@ -45,3 +45,4 @@ __version__ = '0.0.43'
 # 0.0.41: Updated 3d graphing
 # 0.0.42: altered dfs_allocation and random_tests
 # 0.0.43: altered dfs_allocation and random_tests again
+# 0.0.44: altered Dijsktra's algorithm, perform_auction and built some test cases. 
