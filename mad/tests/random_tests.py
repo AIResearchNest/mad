@@ -52,7 +52,7 @@ def _random_agents(agents, m , n):
 
     return chosen_agents
 
-# Functions
+# Results Scraper
 def get_results(agents_and_goals):
 
     best_case = 0
@@ -422,9 +422,9 @@ def main():
     tree_discrepancy = []
     tree_agents = []
 
-    for i in range(1, 8):
+    for i in range(5):
         
-        r.seed(1)
+        # r.seed(1)
 
         print()
         print("---------------------")
@@ -432,7 +432,7 @@ def main():
         print("---------------------")
         
         # Choose a tree
-        root = random_binary_symetric(i)
+        root = random_binary_symetric(3)
         # root = random_binary_left()
         # root = random_binary_right()
         # root = random_root()
@@ -461,31 +461,64 @@ def main():
         tree_agents.append(num_agents_used)
 
 
+    
+    # Create a figure and 3D axes
+    fig = plt.figure()
+    ax = plt.axes(projection='3d')
+
+    # Create the scatter plot
+    # ax.scatter3D(tree_agents, tree_score, tree_descrepancy)
+    ax.scatter3D(tree_agents, tree_skew, tree_discrepancy)
+
+    # Add labels to the points
+    for i in range(len(test)):
+        ax.text(tree_agents[i], tree_skew[i], tree_discrepancy[i], f'{test[i]}', fontsize=8)
+
+    # Set labels and title
+    ax.set_xlabel('Number of Agents')
+    ax.set_ylabel('Skew from Best Case')
+    ax.set_zlabel('Descrepancy')
+    ax.set_title('Algorithm Tests')
+
+    # Show the plot
+    plt.show()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     # Data for the bar graph
     # categories = test
     # values = tree_skew
 
-    # Create a figure and axis object
-    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(12, 4))
+    # # Create a figure and axis object
+    # fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(12, 4))
 
-    # Create the bar graph
+    # # Create the bar graph
 
-    # Skew: I take the best case allocation (the sum of min possible cost of each selected goal) and find the difference in cost between the best case and my algorithm's total cost from its allcoation. Smaller is better
-    ax[0].bar(test, tree_skew)
-    # Discrepancy: Is the difference in total cost between the least assigned agent and the most assigned agent. Smaller is better
-    ax[1].bar(test, tree_discrepancy)
+    # # Skew: I take the best case allocation (the sum of min possible cost of each selected goal) and find the difference in cost between the best case and my algorithm's total cost from its allcoation. Smaller is better
+    # ax[0].bar(test, tree_skew)
+    # # Discrepancy: Is the difference in total cost between the least assigned agent and the most assigned agent. Smaller is better
+    # ax[1].bar(test, tree_discrepancy)
 
-    # Customize the graph
-    ax[0].set_xlabel('Agents')
-    ax[0].set_ylabel('Skew')
-    ax[0].set_title('Skew Tests')
+    # # Customize the graph
+    # ax[0].set_xlabel('Agents')
+    # ax[0].set_ylabel('Skew')
+    # ax[0].set_title('Skew Tests')
 
-    ax[1].set_xlabel('Agents')
-    ax[1].set_ylabel('Discrepancy')
-    ax[1].set_title('Discrepancy Tests')
+    # ax[1].set_xlabel('Agents')
+    # ax[1].set_ylabel('Discrepancy')
+    # ax[1].set_title('Discrepancy Tests')
 
     # Display the graph
-    plt.show()
+    # plt.show()
 
 if __name__ == '__main__':
     main()
