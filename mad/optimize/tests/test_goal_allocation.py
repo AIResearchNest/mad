@@ -25,9 +25,9 @@ def test_optimized_goal_allocation_case_one():
     goal_allocation, remaining_resources = optimized_goal_allocation(G1, [10, 10, 10])
     
     # Assert the expected goal allocation for each agent
-    assert goal_allocation["grace"] == ["G3", "G5"]
+    assert goal_allocation["grace"] == [G3, G5]
     assert goal_allocation["remus"] == []
-    assert goal_allocation["franklin"] == ["G4"]
+    assert goal_allocation["franklin"] == [G4]
     
     # Assert the remaining resources for each agent
     assert remaining_resources["grace"] == 5
@@ -71,9 +71,9 @@ def test_optimized_goal_allocation_case_two():
     goal_allocation, remaining_resources = optimized_goal_allocation(G1, [12, 15, 14])
 
     # Assert the expected goal allocation for each agent
-    assert goal_allocation["grace"] == ["G5", "G9"]
-    assert goal_allocation["remus"] == ["G7", "G8", "G10"]
-    assert goal_allocation["franklin"] == ["G6"]
+    assert goal_allocation["grace"] == [G5, G9]
+    assert goal_allocation["remus"] == [G7, G10, G8]
+    assert goal_allocation["franklin"] == [G6]
 
     # Assert the remaining resources for each agent
     assert remaining_resources["grace"] == 6

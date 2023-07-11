@@ -453,7 +453,7 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
         return i + 1, list_goal, max_res
 
 
-def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -> Tuple[Dict[str, List[str]], Dict[str, List[str]]]:
+def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -> Tuple[Dict[str, List[GoalNode]], Dict[str, List[str]]]:
     
     """
     Optimizes allocation of goals to multiple agents
@@ -482,7 +482,7 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -> 
     for i in range(len(agents)):
         max_res[agents[i]] = max_resources[i]
 
-    goal_allocation: Dict[str, List[str]] = {"grace": [], "remus": [], "franklin": []}
+    goal_allocation: Dict[str, List[GoalNode]] = {"grace": [], "remus": [], "franklin": []}
 
     list_goal = []
     list_goal.append(goal_tree)
@@ -493,23 +493,22 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -> 
         
         for j in list_goal:
             print(j.name, " ")
-        print(max_res)
+        #print(max_res)
     print("\n\nThe "'most'" optimized goal tre: \n")
     level_order_transversal(goal_tree)
 
     for goal in list_goal:
-        goal_allocation[goal.agent].append(goal.name)
+        goal_allocation[goal.agent].append(goal)
 
     print("\nTo complete the goal in the most optimized way, we can assign goals like this:\n")
     
-    result, resource = goal_allocation, max_res
     
-    for agent in result:
+    for agent in goal_allocation:
         print (agent, end = ": ")
-        for i in result[agent]:
-            print (i, end = " ")
+        for goal in goal_allocation[agent]:
+            print (goal.name, end = " ")
         print("\n")
-        print("The remaining resource of " + agent +": " + str(resource[agent]) + "\n" * 2)
+        print("The remaining resource of " + agent +": " + str(max_res[agent]) + "\n" * 2)
     return goal_allocation, max_res
 """
 ########################################################
