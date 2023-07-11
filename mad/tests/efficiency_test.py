@@ -2,7 +2,7 @@
 #_____SCALABILITY TEST_____
 #
 from mad.data_structures import GoalNode, GoalNode2, print_goal_tree, level_order_transversal, level_order_transversal_two
-from mad.optimize import optimized_goal_allocation,  dfs_goal_allocation
+from mad.optimize import optimized_goal_allocation,  dfs_goal_allocation, _get_results
 from typing import Dict
 import random
 import copy
@@ -105,10 +105,7 @@ level_order_transversal(goal_tree)
 # Set the maximum resources for each agent (same resources)
 max_resources = [40,40,40]
 
-
-
-
-# Apply the optimized_goal_allocation algorithm
+#__FAY'S ALGORITHM__
 print("\n\n\nFay's Algorithm:\n")
 
 goal_tree2 = copy.deepcopy(goal_tree)
@@ -127,25 +124,32 @@ while len(q) != 0:
             q.append((child, node)) 
 level_order_transversal(goal_tree2)
 fresult, fresources = optimized_goal_allocation(goal_tree2, max_resources)
+
 f_remaining_resources = 0
 
 for agent, res in fresources.items():
     f_remaining_resources += res
-# Variable to store the total goal cost for Fay's Algorithm
+
+# Total goal cost for Fay's Algorithm
 f_util_res = sum(max_resources) - f_remaining_resources
 
 goal_tree1 = copy.deepcopy(goal_tree)
 
+
+#__JONATHAN'S ALGORITHM__
 print("Jonathan's Algorithm:\n")
 jresult = dfs_goal_allocation(goal_tree1, max_resources[0],1)
+j_util_res = _get_results(jresult)[0]
+
 
 #__PLOT__
 # Define the algorithm names and total resource utilization values
 algorithm_names = ['Fay\'s Algorithm', 'Jonathan\'s Algorithm']
-total_utilization_values = [f_util_res, jresult['total_utilization']]
+total_utilization_values = [f_util_res, j_util_res]
 
-# Generate data for the agents
+# Define the agents
 agents = ['grace', 'remus', 'franklin']
+
 X, Y = np.meshgrid(np.arange(len(agents)), np.arange(len(algorithm_names)))
 Z = np.zeros((len(algorithm_names), len(agents)))
 
@@ -153,27 +157,17 @@ Z = np.zeros((len(algorithm_names), len(agents)))
 for i in range(len(algorithm_names)):
     Z[i] = total_utilization_values[i]
 
-# Create the 3D plot
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
+# Create the figure and axis
+fig, ax = plt.subplots()
 
-# Plot the bars
-dx = dy = 0.8
-dz = Z.flatten()
-ax.bar3d(X.flatten(), Y.flatten(), np.zeros_like(Z.flatten()), dx, dy, dz, color='skyblue')
+# Plot the stacked bars for Z[1]
+ax.bar(agents, Z[1], label=algorithm_names[1])
 
 # Set the labels and title
-ax.set_xticks(np.arange(len(agents)))
-ax.set_xticklabels(agents)
-ax.set_yticks(np.arange(len(algorithm_names)))
-ax.set_yticklabels(algorithm_names)
 ax.set_xlabel('Agents')
-ax.set_ylabel('Algorithms')
-ax.set_zlabel('Total Resource Utilization')
+ax.set_ylabel('Total Resource Utilization')
 ax.set_title('Efficiency Comparison')
-
-# Rotate the plot for better visibility
-ax.view_init(azim=-60, elev=30)
+ax.legend()
 
 # Display the plot
 plt.show()
