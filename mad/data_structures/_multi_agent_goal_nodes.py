@@ -150,6 +150,22 @@ def level_order_transversal(root) -> None:
 
 def print_goal_tree(node, indent=0):
     prefix = "  " * indent
-    print(f"{prefix}- {node.name}: {node.cost}")
+    print(f"{prefix}- {node.name}: {min(node.data.values())}")
     for child in node.children:
         print_goal_tree(child, indent + 1)
+
+def print_tree_and_agents(node):
+    goals = []
+    q = []
+    q.append(node)
+
+    while q:
+        current = q[0]
+        q.pop(0)
+        print(f"- {current.name}: {min(current.data.values())}")
+
+        for agent in current.data.keys():
+            print(f"   - {agent}: {current.data[agent]}")
+
+        for child in current.get_children():
+            q.append(child)
