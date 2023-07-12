@@ -80,12 +80,12 @@ class GoalNode:
 
     def switch_agent(self) -> bool:
         if len(self.d) == 1:
-            print("No agent is capable to complete " + self.name)
+            #print("No agent is capable to complete " + self.name)
             self.agent = None
             self.cost = None
             return False
         self.d.pop(self.agent)
-        print(self.d)
+        #print(self.d)
         self.agent = _suitable_agent(self.d)
         self.cost = self.d[self.agent]
         return True
@@ -101,8 +101,6 @@ class GoalNode:
         low = min([x for x in self.data.values()])
 
         self.descrepancy = abs(high - low)
-
-    
 
 def level_order_transversal(root) -> None:
         

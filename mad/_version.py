@@ -1,4 +1,4 @@
-__version__ = '0.0.48'
+__version__ = '0.0.49'
 
 #change log:
 # 0.0.0: first version
@@ -50,3 +50,4 @@ __version__ = '0.0.48'
 # 0.0.46: new plots in random_tests.py
 # 0.0.47: altered the optimized_goal_allocation and created scalability test
 # 0.0.48: revamped dfs_algorithm a lot
+# 0.0.49: completed the efficiency test
