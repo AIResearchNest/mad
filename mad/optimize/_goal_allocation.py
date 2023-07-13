@@ -386,7 +386,7 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
             
             return i, list_goal, max_res
     
-    print(goal.name + " can be completed by " + goal.agent + "\n")
+    #print(goal.name + " can be completed by " + goal.agent + "\n")
 
     # If the current goal does not have child nodes
     if not goal.get_children(): 
@@ -455,7 +455,7 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
         return i + 1, list_goal, max_res
 
 
-def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -> Tuple[Dict[str, List[GoalNode]], Dict[str, List[str]]]:
+def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], verbose: int = 0) -> Tuple[Dict[str, List[GoalNode]], Dict[str, List[str]]]:
     
     """
     Optimizes allocation of goals to multiple agents
@@ -471,47 +471,53 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int]) -> 
         Allocates list of goals (value) to each agent (key)
     
     """
+    try:
+        if goal_tree is None:
+            raise ValueError("Goal tree is empty.")
 
-    if goal_tree is None:
-        raise ValueError("Goal tree is empty.")
-
-    #Dictionary that contains the name and the max resource of each agent
-    max_res: Dict[str,int] = {}
-    
-    #Name of the agents
-    agents = ["grace", "remus", "franklin"]
-    
-    for i in range(len(agents)):
-        max_res[agents[i]] = max_resources[i]
-
-    goal_allocation: Dict[str, List[GoalNode]] = {"grace": [], "remus": [], "franklin": []}
-
-    list_goal = []
-    list_goal.append(goal_tree)
-
-    i = 0
-    while i < len(list_goal):
-        i, list_goal, max_res = _decision_algorithm(list_goal,i, max_res)
+        #Dictionary that contains the name and the max resource of each agent
+        max_res: Dict[str,int] = {}
         
-        for j in list_goal:
-            print(j.name, " ")
-        #print(max_res)
-    print("\n\nThe "'most'" optimized goal tre: \n")
-    level_order_transversal(goal_tree)
+        #Name of the agents
+        agents = ["grace", "remus", "franklin"]
+        
+        for i in range(len(agents)):
+            max_res[agents[i]] = max_resources[i]
 
-    for goal in list_goal:
-        goal_allocation[goal.agent].append(goal)
+        goal_allocation: Dict[str, List[GoalNode]] = {"grace": [], "remus": [], "franklin": []}
 
-    print("\nTo complete the goal in the most optimized way, we can assign goals like this:\n")
-    
-    
-    for agent in goal_allocation:
-        print (agent, end = ": ")
-        for goal in goal_allocation[agent]:
-            print (goal.name, end = " ")
-        print("\n")
-        print("The remaining resource of " + agent +": " + str(max_res[agent]) + "\n" * 2)
+        list_goal = []
+        list_goal.append(goal_tree)
+
+        i = 0
+        while i < len(list_goal):
+            i, list_goal, max_res = _decision_algorithm(list_goal,i, max_res)
+        """
+            for j in list_goal:
+                print(j.name, " ")
+            print(max_res)
+        print("\n\nThe "'most'" optimized goal tre: \n")
+        level_order_transversal(goal_tree)
+        """    
+            
+
+        for goal in list_goal:
+            goal_allocation[goal.agent].append(goal)
+
+        #print("\nTo complete the goal in the most optimized way, we can assign goals like this:\n")
+        
+        if verbose:
+            for agent in goal_allocation:
+                print (agent, end = ": ")
+                for goal in goal_allocation[agent]:
+                    print (goal.name, end = " ")
+                print("\n")
+                print("The remaining resource of " + agent +": " + str(max_res[agent]) + "\n" * 2)
+
+    except ValueError as e:
+        print("Error:", str(e))
     return goal_allocation, max_res
+
 """
 ########################################################
 """
@@ -657,7 +663,7 @@ def extract_node_info_m(root_node, shortest_goals):
     while q:
         node = q.pop(0)
         if node.name in shortest_goals:
-            node_info[node.name] = node.cost
+            node_info[node.name] = node
 
         children = node.get_children()
         for child in children:
@@ -688,12 +694,15 @@ def get_agent_resources_m(max_resources):
 
 
 
+
 def perform_auction_m(node, agent_resources):
     """
     Author: Maheen
-    Performs the auction process for assigning an agent to a goal node based on available agent resources based on first sealed bid algorithm. 
-    If none of the agent's resources individually can cover the cost of goal then it shares the goal completion with multiple agent based on bidding winners until 
-    either goal is completed or all agents run out of resources.  
+    Performs the auction process for assigning an agent to a goal node based on available agent resources
+    based on first sealed bid algorithm. If the total resources of all agents combined cannot cover the cost of the goal, 
+    it uses the auction process to find the highest resource agent. It subtracts the agent's resources from the cost of the goal and repeats
+    the process until the remaining cost reaches 0 
+    Parameters
     ----------
     node : GoalNode
         The goal node to be assigned an agent.
@@ -726,7 +735,10 @@ def perform_auction_m(node, agent_resources):
         agent_resources[winning_bidder] -= node.cost
     elif len(bids) > 0:
             bids.pop(winning_bidder)
-            second_bidder = max(bids, key=bids.get)
+            second_bidder = max(bids,key=bids.get, default= None)
+            if second_bidder is None:
+                print("\n\tNo agent can cover the cost \n")
+                return
             second_bid = bids[second_bidder]
             if second_bid >= node.cost:
                 node.agent = second_bidder
@@ -780,7 +792,6 @@ def perform_auction_m(node, agent_resources):
             else:
                 print("\n\tNo agent can cover the cost \n")
 
-    # Print agent resources after the auction
 
 
 

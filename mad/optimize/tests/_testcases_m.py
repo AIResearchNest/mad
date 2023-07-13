@@ -576,7 +576,12 @@ def main():
  # Create a figure and 3D axes that shows which agent has been assigned how many goals?
     '''fig = plt.figure()
     ax = plt.axes(projection='3d')
-    plt.show()'''
+    plt.show()
+    
+    Ideas: Keeping costs same and see how goals are distributed among agents.
+           
+    
+    '''
 
         
 
