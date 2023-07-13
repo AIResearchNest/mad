@@ -692,12 +692,15 @@ def get_agent_resources_m(max_resources):
 
 
 
+
 def perform_auction_m(node, agent_resources):
     """
     Author: Maheen
-    Performs the auction process for assigning an agent to a goal node based on available agent resources based on first sealed bid algorithm. 
-    If none of the agent's resources individually can cover the cost of goal then it shares the goal completion with multiple agent based on bidding winners until 
-    either goal is completed or all agents run out of resources.  
+    Performs the auction process for assigning an agent to a goal node based on available agent resources
+    based on first sealed bid algorithm. If the total resources of all agents combined cannot cover the cost of the goal, 
+    it uses the auction process to find the highest resource agent. It subtracts the agent's resources from the cost of the goal and repeats
+    the process until the remaining cost reaches 0 
+    Parameters
     ----------
     node : GoalNode
         The goal node to be assigned an agent.
@@ -730,7 +733,10 @@ def perform_auction_m(node, agent_resources):
         agent_resources[winning_bidder] -= node.cost
     elif len(bids) > 0:
             bids.pop(winning_bidder)
-            second_bidder = max(bids, key=bids.get)
+            second_bidder = max(bids,key=bids.get, default= None)
+            if second_bidder is None:
+                print("\n\tNo agent can cover the cost \n")
+                return
             second_bid = bids[second_bidder]
             if second_bid >= node.cost:
                 node.agent = second_bidder
@@ -784,7 +790,6 @@ def perform_auction_m(node, agent_resources):
             else:
                 print("\n\tNo agent can cover the cost \n")
 
-    # Print agent resources after the auction
 
 
 
