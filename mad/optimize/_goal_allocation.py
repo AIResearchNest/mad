@@ -101,6 +101,7 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
         Dictionary of agent names (keys) and list of GoalNodes assigned (values)
     """
 
+    # Gather all agents available
     agents = []
     for goal in goal_nodes:
         for agent in goal.data:
@@ -130,6 +131,8 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
     # Sorts goals from most descrepancy between solutions to least descrepancy
     for goal in goal_nodes:
         goal.find_descrepancy()
+        # Potential change
+        # goal.find_descrepancy(len(agents)) 
 
     goals_sorted = list(reversed(sorted(goal_nodes, key=lambda goal: goal.descrepancy)))
 
@@ -166,8 +169,7 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
             curr_agent_goal_cost = goal.data[agent]
             
             # Checks that agent has enough resources and agent isn't doing too much work based on sensitivity
-            # if curr_resources >= curr_agent_goal_cost and agents_cost + curr_agent_goal_cost < sensitivity:
-            if curr_resources >= curr_agent_goal_cost and agents_cost < sensitivity:
+            if (curr_resources >= curr_agent_goal_cost and agents_cost + curr_agent_goal_cost < sensitivity) or (curr_resources >= curr_agent_goal_cost and agents_cost < sensitivity and len(agents) > len(goal_nodes)):
                 # Update agent
                 allocated_goals[agent].append(goal)
                 agents_resources[agent] -= curr_agent_goal_cost
