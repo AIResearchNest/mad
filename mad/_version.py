@@ -1,4 +1,4 @@
-__version__ = '0.0.49'
+__version__ = '0.0.51'
 
 #change log:
 # 0.0.0: first version
@@ -52,3 +52,4 @@ __version__ = '0.0.49'
 # 0.0.48: revamped dfs_algorithm a lot
 # 0.0.49: completed the efficiency test
 # 0.0.50: Built an efficiency test for goal completion 
+# 0.0.51: Scatterplot for comparison
