@@ -51,4 +51,4 @@ __version__ = '0.0.49'
 # 0.0.47: altered the optimized_goal_allocation and created scalability test
 # 0.0.48: revamped dfs_algorithm a lot
 # 0.0.49: completed the efficiency test
-# 0.0.50: Built an efficiency test for goal completion 
+# 0.0.50: Built an efficiency test for goal completion in effieciency_m
