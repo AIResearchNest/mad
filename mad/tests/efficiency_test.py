@@ -107,9 +107,9 @@ def _scalability_test_tree():
 
 
 #
-#____BINARY SYMETRIC TREE_____
+#____BINARY SYMMETRIC TREE_____
 #
-def _binary_symetric():
+def _binary_symmetric():
     
     root = GoalNode("Main Goal", _random_cost(25, 45))
     subgoal1 = GoalNode("Sub Goal 1", _random_cost(15, 20))
@@ -176,10 +176,10 @@ def _root():
     return root
 
 #
-#____SYMETRIC TREE_____
+#____SYMMETRIC TREE_____
 #
 
-def _symetric():
+def _symmetric():
 
     root = GoalNode("Main Goal", _random_cost(30, 45))
     subgoal1 = GoalNode("Sub Goal 1", _random_cost(15, 25))
@@ -336,7 +336,7 @@ def effiency_test_and_plotting(goal_tree, title, max_res):
     # Set the maximum resources for each agent (same resources)
     max_resources = [max_res] * 3
     #__FAY'S ALGORITHM__
-    print("\n\n\nFay's Algorithm:\n")
+    print("\nFay's Algorithm:\n")
 
     goal_tree2 = copy.deepcopy(goal_tree)
 
@@ -484,30 +484,64 @@ def effiency_test_and_plotting(goal_tree, title, max_res):
         
     # Adjust the spacing between subplots
     plt.subplots_adjust(hspace=1)  # Increase the hspace value to increase spacing between subplots
-
-
-    # Display the plot
     plt.show()
+    return f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals
+
+   
+
+import matplotlib.pyplot as plt
 
 def main():
-    print("SCALABILITY TEST")
-    effiency_test_and_plotting(_scalability_test_tree(), "SCALABILITY TEST", 40)
-    print("BINARY SYMETRIC TREE")
-    effiency_test_and_plotting(_binary_symetric(), "BINARY SYMETRIC TREE", 20)
-    print("BINARY LEFT TREE")
-    effiency_test_and_plotting(_binary_left(), "BINARY LEFT TREE", 20)
-    print("BINARY RIGHT TREE")
-    effiency_test_and_plotting(_binary_right(), "BINARY RIGHT TREE", 20)
-    print("SYMETRIC TREE")
-    effiency_test_and_plotting(_symetric(), "SYMETRIC TREE", 25)
-    print("ROOT-ONLY TREE")
-    effiency_test_and_plotting(_root(), "ROOT-ONLY TREE", 35)
-    print("LEFT RIGHT TREE")
-    effiency_test_and_plotting(_left_right(), "LEFT RIGHT TREE", 20)
-    print("LARGE BINARY TREE")
-    effiency_test_and_plotting(_large_binary(), "LARGE BINARY TREE", 30)
+    test_cases = [(_scalability_test_tree, "SCALABILITY TEST", 40), (_binary_symmetric, "BINARY SYMMETRIC TREE", 20), (_binary_left, "BINARY LEFT TREE", 20), (_binary_right, "BINARY RIGHT TREE", 20), (_symmetric, "SYMMETRIC TREE", 25), (_root, "ROOT-ONLY TREE", 35), (_left_right, "LEFT RIGHT TREE", 20), (_large_binary, "LARGE BINARY TREE", 30)]
 
-if __name__ == "__main__":
-    main() 
+    markers = ['^', 'D']
+    colors = ['peachpuff', 'lightblue']
+    agents = ['grace', 'remus', 'franklin', 'total']
+    algorithms = ['Fay\'s Algorithm', 'Jonathan\'s Algorithm']
+    
+
+    for i, (generate_tree, title, max_res) in enumerate(test_cases):
+
+        algo_results_fay = []
+        algo_results_jonathan = []
+        agents_fay = []
+        agents_jonathan = []
+        results = []
+        # Run each goal tree
+        for _ in range(5):
+            tree = generate_tree()
+            print(title)
+            f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals = effiency_test_and_plotting(tree, title, max_res)
+            f_agents = sum([1 for agent in f_agent_goals[:3] if agent != 0])
+            j_agents = sum([1 for agent in j_agent_goals[:3] if agent != 0])
+
+            algo_results_fay.append(sum(f_agent_cost[:3]))
+            algo_results_jonathan.append(sum(j_agent_cost[:3]))
+
+            agents_fay.append(f_agents)
+            agents_jonathan.append(j_agents)
+
+        results.append((algo_results_fay, algo_results_jonathan))
+        fig, ax = plt.subplots(figsize=(8, 6))
+
+        # Scatter plot for Fay's Algorithm
+        ax.scatter(agents_fay, algo_results_fay, c=[colors[0]] * len(algo_results_fay), s=50, label=f'{algorithms[0]}', marker='D')
+
+        # Scatter plot for Jonathan's Algorithm
+        ax.scatter(agents_jonathan, algo_results_jonathan, c=[colors[1]] * len(algo_results_jonathan), s=50, label=f'{algorithms[1]}')
+
+        ax.set_ylim(0, max(max(algo_results_fay), max(algo_results_jonathan)) +20)
+
+        ax.set_xlabel('Number of Agents Used')
+        ax.set_ylabel('Total Cost')
+        ax.set_title(f'{title} - RESOURCES AND GOALS SCATTERPLOT')
+        ax.legend()
+
+        plt.xticks(ticks=np.arange(1, len(agents) + 1))  # Set x-axis ticks as agent names
+        plt.xticks(rotation=45, ha='right')
+        plt.tight_layout()
+        plt.show()
+
+main()
 
 
