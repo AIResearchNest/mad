@@ -705,7 +705,7 @@ def diff_agent_cost_test():
             agents_and_goals = dfs_goal_allocation(root, 50, 1)
 
             # Get results
-            num_goals, total_cost, skew, discrepancy, num_agents_used = get_results(agents_and_goals)
+            num_goals, total_cost, skew, discrepancy, num_agents_used, best_case, avg_case, worst_case = get_results(agents_and_goals)
 
             # Add data
             tree_test.append(test)
@@ -766,11 +766,11 @@ def worst_avg_best_test():
             print("---------------------")
             
             # Choose a tree
-            root = random_binary_symetric(test)
+            root = random_binary_symetric(3)
             # root = random_large_binary_tree(3)
             
             # Run algorithm
-            agents_and_goals = dfs_goal_allocation(root, 50, 1)
+            agents_and_goals = dfs_goal_allocation(root, {'grace': 50, 'remus': 50, 'franklin': 50}, 1)
 
             # Get results
             num_goals, total_cost, skew, discrepancy, num_agents_used, best_case, avg_case, worst_case = get_results(agents_and_goals)
@@ -836,11 +836,11 @@ def worst_avg_best_test_skew_discrepancy():
             print("---------------------")
             
             # Choose a tree
-            root = random_binary_symetric(test)
+            root = random_binary_symetric(3)
             # root = random_large_binary_tree(3)
             
             # Run algorithm
-            agents_and_goals = dfs_goal_allocation(root, 50, 1)
+            agents_and_goals = dfs_goal_allocation(root, {'grace': 50, 'remus': 50, 'franklin': 50}, 1)
 
             # Get results
             num_goals, total_cost, skew, discrepancy, num_agents_used, best_case, avg_case, worst_case = get_results(agents_and_goals)
@@ -883,15 +883,12 @@ def worst_avg_best_test_skew_discrepancy():
     plt.show()
 
 def main():
-    # num_agents_test()
-    # diff_agent_cost_test()
-    
-    # Test multiple agents
-    worst_avg_best_test()
-    worst_avg_best_test_skew_discrepancy()
 
-    # root = random_binary_select_agents()
-    # agents_and_goals = dfs_goal_allocation(root, 50, 1)
+    # worst_avg_best_test()
+    # worst_avg_best_test_skew_discrepancy()
+
+    root = random_binary_symetric(3)
+    agents_and_goals = dfs_goal_allocation(root, {'grace': 30, 'remus': 30, 'franklin': 30}, 1)
 
 if __name__ == '__main__':
     main()

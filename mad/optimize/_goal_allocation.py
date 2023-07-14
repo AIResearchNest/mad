@@ -39,7 +39,7 @@ Jonathan's Algorithm
 from mad.data_structures import print_goal_tree, print_tree_and_agents
 
 # Author: Jonathan
-# Time Complexity: O(n * k); n = number of goal nodes, k = average children per goal
+# Time Complexity: O(n * m); n = nodes, m = children
 def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     """
     Takes in a goal tree and max resources for each agent and finds the most optimal goal path based on the GoalNode.cost values through out the tree and returns a list of GoalNodes that should be accomplished
@@ -56,7 +56,12 @@ def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     selected_goals : List
         List of GoalNodes to be accomplished by agents in the world
     """
-    
+    # values = list(max_resources.values())
+    # if all(value == values[0] for value in values):
+    #     resources = max_resources.values()[0]
+    # else:
+    #     avg_resources = sum(x for x in max_resources.values()) / len(max_resources.values())
+
     # Break Case: if GoalNode has no children, return [goal_tree]
     if not goal_tree.children:
         return [goal_tree]
@@ -83,7 +88,7 @@ def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     return selected_goals
 
 # Author: Jonathan
-# Time Complexity: O(n * m) n = number of nodes, m = max agents per goal
+# Time Complexity: O(n * m); n = nodes, m = agents
 def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) -> Dict:
     """
     Takes in a list of GoalNodes and distributes them among available agents
@@ -101,7 +106,7 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
         Dictionary of agent names (keys) and list of GoalNodes assigned (values)
     """
 
-    # Gather all agents available
+    # Gather all agents available O(n * m)
     agents = []
     for goal in goal_nodes:
         for agent in goal.data:
@@ -113,18 +118,22 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
     # If main goal is cheapest use best agent
     if len(goal_nodes) == 1:
         goal = goal_nodes[0]
-        best_agent = min(goal.data, key=lambda k: goal.data[k])
-        agent_goal_cost = goal.data[best_agent]
+        best_agents = sorted(goal.data, key=lambda k: goal.data[k])
 
-        if max_resources >= agent_goal_cost:
-            allocated_goals[best_agent].append(goal)
-            goal.set_agent(best_agent)
-            return allocated_goals
-        else:
-            raise ValueError("Not enough resources")
+        for agent in best_agents:
+            curr_resources = max_resources[agent]
+            curr_agent_goal_cost = goal.data[agent]
+
+            if curr_resources >= curr_agent_goal_cost:
+                allocated_goals[agent].append(goal)
+                goal.set_agent(agent)
+                return allocated_goals
+            
+        raise ValueError("Not enough resources")
 
     # Else use multiple agents to solve multiple sub-goals
-    agents_resources = {agent: max_resources for agent in agents}
+    # agents_resources = {agent: max_resources for agent in agents}
+    agents_resources = max_resources
     agents_cost_total = {agent: 0 for agent in agents}
 
     # Goal Prioritization
@@ -134,7 +143,8 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
         # Potential change
         # goal.find_descrepancy(len(agents)) 
 
-    goals_sorted = list(reversed(sorted(goal_nodes, key=lambda goal: goal.descrepancy)))
+    # O(n log n)
+    goals_sorted = list(reversed(sorted(goal_nodes, key=lambda goal: goal.descrepancy))) 
 
     if verbose > 0:
         # Finds worst case distribution cost
@@ -155,6 +165,7 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
         print(f"Sensitivity: {sensitivity}")
         print()
     
+    # O(n * m)
     left_over_goals = []
     for goal in goals_sorted:
         # List of agents from best fit to worst fit
@@ -187,6 +198,7 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
         if verbose > 0:
             print("Left Over Goals:")
         
+        # O(n * m)
         for goal in left_over_goals:
             # Sorts agents from least assigned agent to most assigned
             least_assigned_agents = sorted(agents_cost_total, key=lambda k:agents_cost_total[k])
@@ -260,7 +272,7 @@ def _get_results(agents_and_goals: Dict) -> List:
     return [total_cost, skew, discrepancy, len(agents_used)]
 
 # Author: Jonathan
-# Time Complexity: O(n + m * a) n = nodes, m = selected goals, a = number of agents
+# Time Complexity: O(n * m) n = nodes, m = agents
 def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 0) -> Dict:
     """
     Takes in a goal tree and finds optimal goals to accomplish the main goal and distributes them to agents evenly
@@ -285,9 +297,16 @@ def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 
         print("Goal Tree:")
         print_goal_tree(goal_tree)
         print()
+    
+    values = list(max_resources.values())
+    if all(value == values[0] for value in values):
+        resources = list(max_resources.values())[0]
+    else:
+        resources = sum(x for x in max_resources.values()) / len(max_resources.values())
+    
+    print(resources)
 
-    # Finds the cheapest path to solve the goal tree and returns a list of chosen GoalNodes
-    selected_goals = _optimal_path(goal_tree, max_resources)
+    selected_goals = _optimal_path(goal_tree, resources)
 
     if verbose > 0:
         print("Selected Goals:")
