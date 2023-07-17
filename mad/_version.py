@@ -1,4 +1,4 @@
-__version__ = '0.0.52'
+__version__ = '0.0.53'
 
 #change log:
 # 0.0.0: first version
@@ -55,3 +55,4 @@ __version__ = '0.0.52'
 # 0.0.51: Scatterplot for comparison
 # 0.0.51: Bar charts comparison for resources vs agents.
 # 0.0.52: Added different agent resources capability to dfs_allocation
+# 0.0.53: Scenario 2 for efficiency tests
