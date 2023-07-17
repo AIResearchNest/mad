@@ -1,4 +1,4 @@
-__version__ = '0.0.53'
+__version__ = '0.0.54'
 
 #change log:
 # 0.0.0: first version
@@ -56,3 +56,4 @@ __version__ = '0.0.53'
 # 0.0.51: Bar charts comparison for resources vs agents.
 # 0.0.52: Added different agent resources capability to dfs_allocation
 # 0.0.53: Scenario 2 for efficiency tests
+# 0.0.54: First version of final_tests.py

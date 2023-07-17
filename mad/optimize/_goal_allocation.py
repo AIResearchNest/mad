@@ -141,7 +141,7 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
     for goal in goal_nodes:
         goal.find_descrepancy()
         # Potential change
-        # goal.find_descrepancy(len(agents)) 
+        # goal.find_descrepancy(len(agents))
 
     # O(n log n)
     goals_sorted = list(reversed(sorted(goal_nodes, key=lambda goal: goal.descrepancy))) 
@@ -303,8 +303,6 @@ def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 
         resources = list(max_resources.values())[0]
     else:
         resources = sum(x for x in max_resources.values()) / len(max_resources.values())
-    
-    print(resources)
 
     selected_goals = _optimal_path(goal_tree, resources)
 

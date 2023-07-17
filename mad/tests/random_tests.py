@@ -115,6 +115,25 @@ def get_results(agents_and_goals):
     return [num_goals, total_cost, skew, discrepancy, num_agents_used, best_case, avg_case, worst_case]
 
 # Test Trees
+def equal_binary_symetric(num_agents):
+
+    root = GoalNode("Main Goal", _equal_cost(25, 45, num_agents))
+    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(15, 20, num_agents))
+    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(15, 20, num_agents))
+    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(5, 15, num_agents))
+    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(5, 15, num_agents))
+    subgoal5 = GoalNode("Sub Goal 5", _equal_cost(5, 15, num_agents))
+    subgoal6 = GoalNode("Sub Goal 6", _equal_cost(5, 15, num_agents))
+
+    root.add_child(subgoal1)
+    root.add_child(subgoal2)
+    subgoal1.add_child(subgoal3)
+    subgoal1.add_child(subgoal4)
+    subgoal2.add_child(subgoal5)
+    subgoal2.add_child(subgoal6)
+
+    return root
+
 def random_binary_symetric(num_agents):
 
     root = GoalNode("Main Goal", _random_cost(25, 45, num_agents))
@@ -134,22 +153,18 @@ def random_binary_symetric(num_agents):
 
     return root
 
-def equal_binary_symetric(num_agents):
+def equal_binary_left():
 
-    root = GoalNode("Main Goal", _equal_cost(25, 45, num_agents))
-    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(15, 20, num_agents))
-    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(15, 20, num_agents))
-    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(5, 15, num_agents))
-    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(5, 15, num_agents))
-    subgoal5 = GoalNode("Sub Goal 5", _equal_cost(5, 15, num_agents))
-    subgoal6 = GoalNode("Sub Goal 6", _equal_cost(5, 15, num_agents))
-
+    root = GoalNode("Main Goal", _equal_cost(25, 45))
+    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(15, 20))
+    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(15, 20))
+    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(5, 15))
+    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(5, 15))
+    
     root.add_child(subgoal1)
     root.add_child(subgoal2)
     subgoal1.add_child(subgoal3)
     subgoal1.add_child(subgoal4)
-    subgoal2.add_child(subgoal5)
-    subgoal2.add_child(subgoal6)
 
     return root
 
@@ -888,7 +903,7 @@ def main():
     # worst_avg_best_test_skew_discrepancy()
 
     root = random_binary_symetric(3)
-    agents_and_goals = dfs_goal_allocation(root, {'grace': 30, 'remus': 30, 'franklin': 30}, 1)
+    agents_and_goals = dfs_goal_allocation(root, {'grace': 30, 'remus': 30, 'franklin': 30})
 
 if __name__ == '__main__':
     main()
