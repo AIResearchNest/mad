@@ -517,7 +517,8 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
     level_order_transversal(goal_tree)
     """    
     if not list_goal:
-        raise ValueError("Not enough resources")
+        print("Not enough resources")
+        return ()
     
     for goal in list_goal:
         goal_allocation[goal.agent].append(goal)
