@@ -10,7 +10,7 @@ from final_tests import _random_cost, _equal_cost
 
 def average_cost(root: GoalNode2) -> float:
     """
-    Calculates the average cost of the nodes that have an assigned agent.
+    Calculates the average cost and Total resources used of Goalnodes.
 
     Parameters
     ----------
