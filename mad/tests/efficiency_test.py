@@ -1,6 +1,6 @@
 from mad.data_structures import GoalNode, GoalNode2, level_order_transversal
 from mad.optimize import optimized_goal_allocation, dfs_goal_allocation
-from typing import Dict, Tuple
+from typing import Dict, Tuple, List
 import random
 import copy
 import numpy as np
@@ -69,15 +69,15 @@ def _equal_cost(m: int, n: int, agents: int) -> Dict[str, int]:
 
 #RANDOM TREES
 
-def random_binary_symmetric(n, m, num_agents = 3):
+def random_binary_symmetric(num_agents = 3):
 
-    root = GoalNode("Main Goal", _random_cost(n + 20, m + 20, num_agents))
-    subgoal1 = GoalNode("Sub Goal 1", _random_cost(n + 10,  m + 15, num_agents))
-    subgoal2 = GoalNode("Sub Goal 2", _random_cost(n + 10, m + 15, num_agents))
-    subgoal3 = GoalNode("Sub Goal 3", _random_cost(n, m, num_agents))
-    subgoal4 = GoalNode("Sub Goal 4", _random_cost(n, m, num_agents))
-    subgoal5 = GoalNode("Sub Goal 5", _random_cost(n, m, num_agents))
-    subgoal6 = GoalNode("Sub Goal 6", _random_cost(n, m, num_agents))
+    root = GoalNode("Main Goal", _random_cost(25, 45, num_agents))
+    subgoal1 = GoalNode("Sub Goal 1", _random_cost(15, 20, num_agents))
+    subgoal2 = GoalNode("Sub Goal 2", _random_cost(15, 20, num_agents))
+    subgoal3 = GoalNode("Sub Goal 3", _random_cost(5, 15, num_agents))
+    subgoal4 = GoalNode("Sub Goal 4", _random_cost(5, 15, num_agents))
+    subgoal5 = GoalNode("Sub Goal 5", _random_cost(5, 15, num_agents))
+    subgoal6 = GoalNode("Sub Goal 6", _random_cost(5, 15, num_agents))
 
     root.add_child(subgoal1)
     root.add_child(subgoal2)
@@ -88,13 +88,13 @@ def random_binary_symmetric(n, m, num_agents = 3):
 
     return root
 
-def random_binary_left(n, m, num_agents = 3):
+def random_binary_left(num_agents = 3):
 
-    root = GoalNode("Main Goal", _random_cost(n + 20, m + 20, num_agents))
-    subgoal1 = GoalNode("Sub Goal 1", _random_cost(n + 10,  m + 15, num_agents))
-    subgoal2 = GoalNode("Sub Goal 2",_random_cost(n + 10,  m + 15, num_agents))
-    subgoal3 = GoalNode("Sub Goal 3", _random_cost(n, m, num_agents))
-    subgoal4 = GoalNode("Sub Goal 4", _random_cost(n, m, num_agents))
+    root = GoalNode("Main Goal", _random_cost(25, 45, num_agents))
+    subgoal1 = GoalNode("Sub Goal 1", _random_cost(15, 20, num_agents))
+    subgoal2 = GoalNode("Sub Goal 2", _random_cost(15, 20, num_agents))
+    subgoal3 = GoalNode("Sub Goal 3", _random_cost(5, 15, num_agents))
+    subgoal4 = GoalNode("Sub Goal 4", _random_cost(5, 15, num_agents))
     
     root.add_child(subgoal1)
     root.add_child(subgoal2)
@@ -103,13 +103,13 @@ def random_binary_left(n, m, num_agents = 3):
 
     return root
 
-def random_binary_right(n, m, num_agents = 3):
+def random_binary_right(num_agents = 3):
 
-    root = GoalNode("Main Goal", _random_cost(n + 20, m + 20, num_agents))
-    subgoal1 = GoalNode("Sub Goal 1", _random_cost(n + 10,  m + 15, num_agents))
-    subgoal2 = GoalNode("Sub Goal 2", _random_cost(n + 10,  m + 15, num_agents))
-    subgoal3 = GoalNode("Sub Goal 3", _random_cost(n, m, num_agents))
-    subgoal4 = GoalNode("Sub Goal 4", _random_cost(n, m, num_agents))
+    root = GoalNode("Main Goal", _random_cost(25, 45, num_agents))
+    subgoal1 = GoalNode("Sub Goal 1", _random_cost(15, 20, num_agents))
+    subgoal2 = GoalNode("Sub Goal 2", _random_cost(15, 20, num_agents))
+    subgoal3 = GoalNode("Sub Goal 3", _random_cost(5, 15, num_agents))
+    subgoal4 = GoalNode("Sub Goal 4", _random_cost(5, 15, num_agents))
     
     root.add_child(subgoal1)
     root.add_child(subgoal2)
@@ -118,27 +118,27 @@ def random_binary_right(n, m, num_agents = 3):
 
     return root
 
-def random_root(n,m, num_agents = 3):
+def random_root(num_agents = 3):
 
-    root = root = GoalNode("Main Goal", _random_cost(n + 20, m + 20, num_agents))
+    root = root = GoalNode("Main Goal", _random_cost(25, 30, num_agents))
 
     return root
 
-def random_tree_symmetric(n, m, num_agents = 3):
+def random_tree_symmetric(num_agents = 3):
 
-    root = GoalNode("Main Goal", _random_cost(n + 20, m + 20, num_agents))
-    subgoal1 = GoalNode("Sub Goal 1", _random_cost(n + 10, m + 15, num_agents))
-    subgoal2 = GoalNode("Sub Goal 2", _random_cost(n + 10, m + 15, num_agents))
-    subgoal3 = GoalNode("Sub Goal 3", _random_cost(n + 10, m + 15, num_agents))
-    subgoal4 = GoalNode("Sub Goal 4", _random_cost(n, m, num_agents))
-    subgoal5 = GoalNode("Sub Goal 5", _random_cost(n, m, num_agents))
-    subgoal6 = GoalNode("Sub Goal 6", _random_cost(n, m, num_agents))
-    subgoal7 = GoalNode("Sub Goal 7", _random_cost(n, m, num_agents))
-    subgoal8 = GoalNode("Sub Goal 8", _random_cost(n, m, num_agents))
-    subgoal9 = GoalNode("Sub Goal 9", _random_cost(n, m, num_agents))
-    subgoal10 = GoalNode("Sub Goal 10", _random_cost(n, m, num_agents))
-    subgoal11 = GoalNode("Sub Goal 11", _random_cost(n, m, num_agents))
-    subgoal12 = GoalNode("Sub Goal 12", _random_cost(n, m, num_agents))
+    root = GoalNode("Main Goal", _random_cost(30, 45, num_agents))
+    subgoal1 = GoalNode("Sub Goal 1", _random_cost(15, 25, num_agents))
+    subgoal2 = GoalNode("Sub Goal 2", _random_cost(15, 25, num_agents))
+    subgoal3 = GoalNode("Sub Goal 3", _random_cost(15, 25, num_agents))
+    subgoal4 = GoalNode("Sub Goal 4", _random_cost(5, 10, num_agents))
+    subgoal5 = GoalNode("Sub Goal 5", _random_cost(5, 10, num_agents))
+    subgoal6 = GoalNode("Sub Goal 6", _random_cost(5, 10, num_agents))
+    subgoal7 = GoalNode("Sub Goal 7", _random_cost(5, 10, num_agents))
+    subgoal8 = GoalNode("Sub Goal 8", _random_cost(5, 10, num_agents))
+    subgoal9 = GoalNode("Sub Goal 9", _random_cost(5, 10, num_agents))
+    subgoal10 = GoalNode("Sub Goal 10", _random_cost(5, 10, num_agents))
+    subgoal11 = GoalNode("Sub Goal 11", _random_cost(5, 10, num_agents))
+    subgoal12 = GoalNode("Sub Goal 12", _random_cost(5, 10, num_agents))
 
     root.add_child(subgoal1)
     root.add_child(subgoal2)
@@ -155,18 +155,18 @@ def random_tree_symmetric(n, m, num_agents = 3):
     
     return root
 
-def random_tree_left_right(n,m, num_agents = 3):
+def random_tree_left_right(num_agents = 3):
 
-    root = GoalNode("Main Goal", _random_cost(n + 20, m + 20, num_agents))
-    subgoal1 = GoalNode("Sub Goal 1", _random_cost(n + 10, m + 15, num_agents))
-    subgoal2 = GoalNode("Sub Goal 2", _random_cost(n + 10, m + 15, num_agents))
-    subgoal3 = GoalNode("Sub Goal 3", _random_cost(n + 10, m + 15, num_agents))
-    subgoal4 = GoalNode("Sub Goal 4", _random_cost(n, m, num_agents))
-    subgoal5 = GoalNode("Sub Goal 5", _random_cost(n, m, num_agents))
-    subgoal6 = GoalNode("Sub Goal 6", _random_cost(n, m, num_agents))
-    subgoal7 = GoalNode("Sub Goal 7", _random_cost(n, m, num_agents))
-    subgoal8 = GoalNode("Sub Goal 8", _random_cost(n, m, num_agents))
-    subgoal9 = GoalNode("Sub Goal 9", _random_cost(n, m, num_agents))
+    root = GoalNode("Main Goal", _random_cost(30, 45, num_agents))
+    subgoal1 = GoalNode("Sub Goal 1", _random_cost(15, 25, num_agents))
+    subgoal2 = GoalNode("Sub Goal 2", _random_cost(15, 25, num_agents))
+    subgoal3 = GoalNode("Sub Goal 3", _random_cost(15, 25, num_agents))
+    subgoal4 = GoalNode("Sub Goal 4", _random_cost(5, 10, num_agents))
+    subgoal5 = GoalNode("Sub Goal 5", _random_cost(5, 10, num_agents))
+    subgoal6 = GoalNode("Sub Goal 6", _random_cost(5, 10, num_agents))
+    subgoal7 = GoalNode("Sub Goal 7", _random_cost(5, 10, num_agents))
+    subgoal8 = GoalNode("Sub Goal 8", _random_cost(5, 10, num_agents))
+    subgoal9 = GoalNode("Sub Goal 9", _random_cost(5, 10, num_agents))
 
     root.add_child(subgoal1)
     root.add_child(subgoal2)
@@ -180,37 +180,37 @@ def random_tree_left_right(n,m, num_agents = 3):
     
     return root
 
-def random_large_binary_tree(n, m, num_agents = 3):
+def random_large_binary_tree(num_agents = 3):
     
-    x = n + 20
-    y = m + 20
+    x = 40
+    y = 60
     root = GoalNode("Main Goal", _random_cost(x, y, num_agents))
     
-    x = n + 15
-    y = m + 15
+    x = 23
+    y = 30
     subgoal1 = GoalNode("Sub Goal 1", _random_cost(x, y, num_agents))
     subgoal2 = GoalNode("Sub Goal 2", _random_cost(x, y, num_agents))
     
-    x = n + 10
-    y = m + 10
+    x = 10
+    y = 20
     subgoal3 = GoalNode("Sub Goal 3", _random_cost(x, y, num_agents))
     subgoal4 = GoalNode("Sub Goal 4", _random_cost(x, y, num_agents))
     subgoal5 = GoalNode("Sub Goal 5", _random_cost(x, y, num_agents))
     subgoal6 = GoalNode("Sub Goal 6", _random_cost(x, y, num_agents))
     
-    x = n + 5
-    y = m + 5
+    x = 5
+    y = 10
     subgoal7 = GoalNode("Sub Goal 7", _random_cost(x, y, num_agents))
     subgoal8 = GoalNode("Sub Goal 8", _random_cost(x, y, num_agents))
     subgoal9 = GoalNode("Sub Goal 9", _random_cost(x, y, num_agents))
     subgoal10 = GoalNode("Sub Goal 10", _random_cost(x, y, num_agents))
     subgoal11 = GoalNode("Sub Goal 11", _random_cost(x, y, num_agents))
-    subgoal12 = GoalNode("Sub Goal 12",_random_cost(x, y, num_agents))
+    subgoal12 = GoalNode("Sub Goal 12", _random_cost(x, y, num_agents))
     subgoal13 = GoalNode("Sub Goal 13", _random_cost(x, y, num_agents))
     subgoal14 = GoalNode("Sub Goal 14", _random_cost(x, y, num_agents))
 
-    x = n
-    y = m
+    x = 3
+    y = 6
     subgoal15 = GoalNode("Sub Goal 15", _random_cost(x, y, num_agents)) 
     subgoal16 = GoalNode("Sub Goal 16", _random_cost(x, y, num_agents))
     subgoal17 = GoalNode("Sub Goal 17", _random_cost(x, y, num_agents))
@@ -263,20 +263,20 @@ def random_large_binary_tree(n, m, num_agents = 3):
 
     return root
 
-def random_large_tree(n, m, num_agents = 3):
+def random_large_tree(num_agents = 3):
 
-    x = n + 15
-    y = m + 15
+    x = 40
+    y = 60
     root = GoalNode("Main Goal", _random_cost(x, y, num_agents))
     
-    x = n + 10
-    y = m + 10
+    x = 13
+    y = 20
     subgoal1 = GoalNode("Sub Goal 1", _random_cost(x, y, num_agents))
     subgoal2 = GoalNode("Sub Goal 2", _random_cost(x, y, num_agents))
     subgoal3 = GoalNode("Sub Goal 3", _random_cost(x, y, num_agents))
 
-    x = n + 3
-    y = m + 3
+    x = 4
+    y = 7
     subgoal4 = GoalNode("Sub Goal 4", _random_cost(x, y, num_agents))
     subgoal5 = GoalNode("Sub Goal 5", _random_cost(x, y, num_agents))
     subgoal6 = GoalNode("Sub Goal 6", _random_cost(x, y, num_agents))
@@ -287,8 +287,9 @@ def random_large_tree(n, m, num_agents = 3):
     subgoal11 = GoalNode("Sub Goal 11", _random_cost(x, y, num_agents))
     subgoal12 = GoalNode("Sub Goal 12", _random_cost(x, y, num_agents))
     
-    x = n
-    y = m
+    x = 1
+    y = 3
+    
     subgoal13 = GoalNode("Sub Goal 13", _random_cost(x, y, num_agents))
     subgoal14 = GoalNode("Sub Goal 14", _random_cost(x, y, num_agents))
     subgoal15 = GoalNode("Sub Goal 15", _random_cost(x, y, num_agents)) 
@@ -361,21 +362,21 @@ def random_large_tree(n, m, num_agents = 3):
 
     return root
 
-def random_tree_1(n, m, num_agents = 3):
+def random_tree_1(num_agents = 3):
 
-    root = GoalNode("Main Goal", _random_cost(n + 20, m + 20, num_agents))
-    subgoal1 = GoalNode("Sub Goal 1", _random_cost(n + 10, m + 15, num_agents))
-    subgoal2 = GoalNode("Sub Goal 2", _random_cost(n + 10, m + 15, num_agents))
-    subgoal3 = GoalNode("Sub Goal 3", _random_cost(n + 1, m + 3, num_agents))
-    subgoal4 = GoalNode("Sub Goal 4", _random_cost(n + 1, m + 3, num_agents))
-    subgoal5 = GoalNode("Sub Goal 5", _random_cost(n + 1, m + 3, num_agents))
-    subgoal6 = GoalNode("Sub Goal 6", _random_cost(n + 1, m + 3, num_agents))
-    subgoal7 = GoalNode("Sub Goal 7", _random_cost(n + 3, m + 5, num_agents))
-    subgoal8 = GoalNode("Sub Goal 8", _random_cost(n + 3, m + 5, num_agents))
-    subgoal9 = GoalNode("Sub Goal 9", _random_cost(n - 2, m - 3, num_agents))
-    subgoal10 = GoalNode("Sub Goal 10", _random_cost(n - 2, m - 3, num_agents))
-    subgoal11 = GoalNode("Sub Goal 11", _random_cost(n - 2, m - 3, num_agents))
-    subgoal12 = GoalNode("Sub Goal 12", _random_cost(n - 2, m - 3, num_agents))
+    root = GoalNode("Main Goal", _random_cost(30, 45, num_agents))
+    subgoal1 = GoalNode("Sub Goal 1", _random_cost(15, 25, num_agents))
+    subgoal2 = GoalNode("Sub Goal 2", _random_cost(15, 25, num_agents))
+    subgoal3 = GoalNode("Sub Goal 3", _random_cost(1, 8, num_agents))
+    subgoal4 = GoalNode("Sub Goal 4", _random_cost(1, 8, num_agents))
+    subgoal5 = GoalNode("Sub Goal 5", _random_cost(1, 8, num_agents))
+    subgoal6 = GoalNode("Sub Goal 6", _random_cost(1, 8, num_agents))
+    subgoal7 = GoalNode("Sub Goal 7", _random_cost(5, 15, num_agents))
+    subgoal8 = GoalNode("Sub Goal 8", _random_cost(5, 15, num_agents))
+    subgoal9 = GoalNode("Sub Goal 9", _random_cost(1, 6, num_agents))
+    subgoal10 = GoalNode("Sub Goal 10", _random_cost(1, 6, num_agents))
+    subgoal11 = GoalNode("Sub Goal 11", _random_cost(1, 6, num_agents))
+    subgoal12 = GoalNode("Sub Goal 12", _random_cost(1, 6, num_agents))
 
     root.add_child(subgoal1)
     root.add_child(subgoal2)
@@ -392,21 +393,21 @@ def random_tree_1(n, m, num_agents = 3):
 
     return root
 
-def random_tree_2(n, m, num_agents = 3):
+def random_tree_2(num_agents = 3):
 
-    root = GoalNode("Main Goal", _random_cost(n + 20, m + 20, num_agents))
-    subgoal1 = GoalNode("Sub Goal 1", _random_cost(n + 3, m + 10, num_agents))
-    subgoal2 = GoalNode("Sub Goal 2", _random_cost(n + 3, m + 10, num_agents))
-    subgoal3 = GoalNode("Sub Goal 3", _random_cost(n + 3, m + 10, num_agents))
-    subgoal4 = GoalNode("Sub Goal 4", _random_cost(n + 3, m + 10, num_agents))
-    subgoal5 = GoalNode("Sub Goal 5", _random_cost(n, m, num_agents))
-    subgoal6 = GoalNode("Sub Goal 6", _random_cost(n, m, num_agents))
-    subgoal7 = GoalNode("Sub Goal 7", _random_cost(n, m, num_agents))
-    subgoal8 = GoalNode("Sub Goal 8", _random_cost(n, m, num_agents))
-    subgoal9 = GoalNode("Sub Goal 9", _random_cost(n, m, num_agents))
-    subgoal10 = GoalNode("Sub Goal 10", _random_cost(n, m, num_agents))
-    subgoal11 = GoalNode("Sub Goal 11", _random_cost(n, m, num_agents))
-    subgoal12 = GoalNode("Sub Goal 12", _random_cost(n, m, num_agents))
+    root = GoalNode("Main Goal", _random_cost(30, 45, num_agents))
+    subgoal1 = GoalNode("Sub Goal 1", _random_cost(6, 12, num_agents))
+    subgoal2 = GoalNode("Sub Goal 2", _random_cost(6, 12, num_agents))
+    subgoal3 = GoalNode("Sub Goal 3", _random_cost(6, 12, num_agents))
+    subgoal4 = GoalNode("Sub Goal 4", _random_cost(6, 12, num_agents))
+    subgoal5 = GoalNode("Sub Goal 5", _random_cost(3, 6, num_agents))
+    subgoal6 = GoalNode("Sub Goal 6", _random_cost(3, 6, num_agents))
+    subgoal7 = GoalNode("Sub Goal 7", _random_cost(3, 6, num_agents))
+    subgoal8 = GoalNode("Sub Goal 8", _random_cost(3, 6, num_agents))
+    subgoal9 = GoalNode("Sub Goal 9", _random_cost(3, 6, num_agents))
+    subgoal10 = GoalNode("Sub Goal 10", _random_cost(3, 6, num_agents))
+    subgoal11 = GoalNode("Sub Goal 11", _random_cost(3, 6, num_agents))
+    subgoal12 = GoalNode("Sub Goal 12", _random_cost(3, 6, num_agents))
 
     root.add_child(subgoal1)
     root.add_child(subgoal2)
@@ -425,15 +426,15 @@ def random_tree_2(n, m, num_agents = 3):
 
 #EQUAL TREES
 
-def equal_binary_symmetric(n, m, num_agents = 3):
+def equal_binary_symmetric(num_agents = 3):
 
-    root = GoalNode("Main Goal", _equal_cost(n + 20, m + 30, num_agents))
-    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(n + 10,  m + 15, num_agents))
-    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(n + 10,  m + 15, num_agents))
-    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(n, m, num_agents))
-    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(n, m, num_agents))
-    subgoal5 = GoalNode("Sub Goal 5", _equal_cost(n, m, num_agents))
-    subgoal6 = GoalNode("Sub Goal 6", _equal_cost(n, m, num_agents))
+    root = GoalNode("Main Goal", _equal_cost(25, 45, num_agents))
+    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(15, 20, num_agents))
+    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(15, 20, num_agents))
+    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(5, 15, num_agents))
+    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(5, 15, num_agents))
+    subgoal5 = GoalNode("Sub Goal 5", _equal_cost(5, 15, num_agents))
+    subgoal6 = GoalNode("Sub Goal 6", _equal_cost(5, 15, num_agents))
 
     root.add_child(subgoal1)
     root.add_child(subgoal2)
@@ -444,13 +445,13 @@ def equal_binary_symmetric(n, m, num_agents = 3):
 
     return root
 
-def equal_binary_left(n, m, num_agents = 3):
+def equal_binary_left(num_agents = 3):
 
-    root = GoalNode("Main Goal", _equal_cost(n + 20, m + 30, num_agents))
-    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(n + 10,  m + 15, num_agents))
-    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(n + 10,  m + 15, num_agents))
-    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(n, m, num_agents))
-    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(n, m, num_agents))
+    root = GoalNode("Main Goal", _equal_cost(25, 45, num_agents))
+    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(15, 20, num_agents))
+    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(15, 20, num_agents))
+    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(5, 15, num_agents))
+    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(5, 15, num_agents))
     
     root.add_child(subgoal1)
     root.add_child(subgoal2)
@@ -459,13 +460,13 @@ def equal_binary_left(n, m, num_agents = 3):
 
     return root
 
-def equal_binary_right(n, m, num_agents = 3):
+def equal_binary_right(num_agents = 3):
 
-    root = GoalNode("Main Goal", _equal_cost(n + 20, m + 30, num_agents))
-    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(n + 10,  m + 15, num_agents))
-    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(n + 10,  m + 15, num_agents))
-    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(n, m, num_agents))
-    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(n, m, num_agents))
+    root = GoalNode("Main Goal", _equal_cost(25, 45, num_agents))
+    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(15, 20, num_agents))
+    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(15, 20, num_agents))
+    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(5, 15, num_agents))
+    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(5, 15, num_agents))
     
     root.add_child(subgoal1)
     root.add_child(subgoal2)
@@ -474,27 +475,27 @@ def equal_binary_right(n, m, num_agents = 3):
 
     return root
 
-def equal_root(n ,m, num_agents = 3):
+def equal_root(num_agents = 3):
 
-    root = root = GoalNode("Main Goal", _equal_cost(n + 20, m + 20, num_agents))
+    root = root = GoalNode("Main Goal", _equal_cost(25, 45, num_agents))
 
     return root
 
-def equal_tree_symmetric(n, m, num_agents = 3):
+def equal_tree_symmetric(num_agents = 3):
 
-    root = GoalNode("Main Goal", _equal_cost(n + 20, m + 20, num_agents))
-    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(n + 10,  m + 15, num_agents))
-    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(n + 10,  m + 15, num_agents))
-    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(n + 10,  m + 15, num_agents))
-    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(n, m, num_agents))
-    subgoal5 = GoalNode("Sub Goal 5", _equal_cost(n, m, num_agents))
-    subgoal6 = GoalNode("Sub Goal 6", _equal_cost(n, m, num_agents))
-    subgoal7 = GoalNode("Sub Goal 7", _equal_cost(n, m, num_agents))
-    subgoal8 = GoalNode("Sub Goal 8", _equal_cost(n, m, num_agents))
-    subgoal9 = GoalNode("Sub Goal 9", _equal_cost(n, m, num_agents))
-    subgoal10 = GoalNode("Sub Goal 10", _equal_cost(n, m, num_agents))
-    subgoal11 = GoalNode("Sub Goal 11", _equal_cost(n, m, num_agents))
-    subgoal12 = GoalNode("Sub Goal 12", _equal_cost(n, m, num_agents))
+    root = GoalNode("Main Goal", _equal_cost(30, 45, num_agents))
+    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(15, 25, num_agents))
+    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(15, 25, num_agents))
+    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(15, 25, num_agents))
+    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(5, 10, num_agents))
+    subgoal5 = GoalNode("Sub Goal 5", _equal_cost(5, 10, num_agents))
+    subgoal6 = GoalNode("Sub Goal 6", _equal_cost(5, 10, num_agents))
+    subgoal7 = GoalNode("Sub Goal 7", _equal_cost(5, 10, num_agents))
+    subgoal8 = GoalNode("Sub Goal 8", _equal_cost(5, 10, num_agents))
+    subgoal9 = GoalNode("Sub Goal 9", _equal_cost(5, 10, num_agents))
+    subgoal10 = GoalNode("Sub Goal 10", _equal_cost(5, 10, num_agents))
+    subgoal11 = GoalNode("Sub Goal 11", _equal_cost(5, 10, num_agents))
+    subgoal12 = GoalNode("Sub Goal 12", _equal_cost(5, 10, num_agents))
 
     root.add_child(subgoal1)
     root.add_child(subgoal2)
@@ -511,19 +512,18 @@ def equal_tree_symmetric(n, m, num_agents = 3):
     
     return root
 
-def equal_tree_left_right(n, m, num_agents = 3):
+def equal_tree_left_right(num_agents = 3):
 
-    root = GoalNode("Main Goal", _equal_cost(n + 20, m + 30, num_agents))
-    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(n + 10,  m + 15, num_agents))
-    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(n + 10,  m + 15, num_agents))
-    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(n + 10,  m + 15, num_agents))
-    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(n, m, num_agents))
-    subgoal5 = GoalNode("Sub Goal 5", _equal_cost(n, m, num_agents))
-    subgoal6 = GoalNode("Sub Goal 6", _equal_cost(n, m, num_agents))
-    subgoal7 = GoalNode("Sub Goal 7", _equal_cost(n, m, num_agents))
-    subgoal8 = GoalNode("Sub Goal 8", _equal_cost(n, m, num_agents))
-    subgoal9 = GoalNode("Sub Goal 9", _equal_cost(n, m, num_agents))
-
+    root = GoalNode("Main Goal", _equal_cost(30, 45, num_agents))
+    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(15, 25, num_agents))
+    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(15, 25, num_agents))
+    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(15, 25, num_agents))
+    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(5, 10, num_agents))
+    subgoal5 = GoalNode("Sub Goal 5", _equal_cost(5, 10, num_agents))
+    subgoal6 = GoalNode("Sub Goal 6", _equal_cost(5, 10, num_agents))
+    subgoal7 = GoalNode("Sub Goal 7", _equal_cost(5, 10, num_agents))
+    subgoal8 = GoalNode("Sub Goal 8", _equal_cost(5, 10, num_agents))
+    subgoal9 = GoalNode("Sub Goal 9", _equal_cost(5, 10, num_agents))
 
     root.add_child(subgoal1)
     root.add_child(subgoal2)
@@ -537,37 +537,37 @@ def equal_tree_left_right(n, m, num_agents = 3):
     
     return root
 
-def equal_large_binary_tree(n, m, num_agents = 3):
+def equal_large_binary_tree(num_agents = 3):
     
-    x = n + 25
-    y = m + 30
+    x = 40
+    y = 60
     root = GoalNode("Main Goal", _equal_cost(x, y, num_agents))
     
-    x = n + 15
-    y = m + 15
+    x = 23
+    y = 30
     subgoal1 = GoalNode("Sub Goal 1", _equal_cost(x, y, num_agents))
     subgoal2 = GoalNode("Sub Goal 2", _equal_cost(x, y, num_agents))
     
-    x = n + 10
-    y = m + 10
+    x = 10
+    y = 20
     subgoal3 = GoalNode("Sub Goal 3", _equal_cost(x, y, num_agents))
     subgoal4 = GoalNode("Sub Goal 4", _equal_cost(x, y, num_agents))
     subgoal5 = GoalNode("Sub Goal 5", _equal_cost(x, y, num_agents))
     subgoal6 = GoalNode("Sub Goal 6", _equal_cost(x, y, num_agents))
     
-    x = n + 5
-    y = m + 5
+    x = 5
+    y = 10
     subgoal7 = GoalNode("Sub Goal 7", _equal_cost(x, y, num_agents))
     subgoal8 = GoalNode("Sub Goal 8", _equal_cost(x, y, num_agents))
     subgoal9 = GoalNode("Sub Goal 9", _equal_cost(x, y, num_agents))
     subgoal10 = GoalNode("Sub Goal 10", _equal_cost(x, y, num_agents))
     subgoal11 = GoalNode("Sub Goal 11", _equal_cost(x, y, num_agents))
-    subgoal12 = GoalNode("Sub Goal 12",_equal_cost(x, y, num_agents))
+    subgoal12 = GoalNode("Sub Goal 12", _equal_cost(x, y, num_agents))
     subgoal13 = GoalNode("Sub Goal 13", _equal_cost(x, y, num_agents))
     subgoal14 = GoalNode("Sub Goal 14", _equal_cost(x, y, num_agents))
 
-    x = n
-    y = m
+    x = 3
+    y = 6
     subgoal15 = GoalNode("Sub Goal 15", _equal_cost(x, y, num_agents)) 
     subgoal16 = GoalNode("Sub Goal 16", _equal_cost(x, y, num_agents))
     subgoal17 = GoalNode("Sub Goal 17", _equal_cost(x, y, num_agents))
@@ -620,20 +620,20 @@ def equal_large_binary_tree(n, m, num_agents = 3):
 
     return root
 
-def equal_large_tree(n, m, num_agents = 3):
+def equal_large_tree(num_agents = 3):
 
-    x = n + 15
-    y = m + 15
+    x = 40
+    y = 60
     root = GoalNode("Main Goal", _equal_cost(x, y, num_agents))
     
-    x = n + 10
-    y = m + 10
+    x = 13
+    y = 20
     subgoal1 = GoalNode("Sub Goal 1", _equal_cost(x, y, num_agents))
     subgoal2 = GoalNode("Sub Goal 2", _equal_cost(x, y, num_agents))
     subgoal3 = GoalNode("Sub Goal 3", _equal_cost(x, y, num_agents))
 
-    x = n + 3
-    y = m + 3
+    x = 4
+    y = 7
     subgoal4 = GoalNode("Sub Goal 4", _equal_cost(x, y, num_agents))
     subgoal5 = GoalNode("Sub Goal 5", _equal_cost(x, y, num_agents))
     subgoal6 = GoalNode("Sub Goal 6", _equal_cost(x, y, num_agents))
@@ -644,8 +644,8 @@ def equal_large_tree(n, m, num_agents = 3):
     subgoal11 = GoalNode("Sub Goal 11", _equal_cost(x, y, num_agents))
     subgoal12 = GoalNode("Sub Goal 12", _equal_cost(x, y, num_agents))
     
-    x = n 
-    y = m 
+    x = 1
+    y = 3
     
     subgoal13 = GoalNode("Sub Goal 13", _equal_cost(x, y, num_agents))
     subgoal14 = GoalNode("Sub Goal 14", _equal_cost(x, y, num_agents))
@@ -682,11 +682,9 @@ def equal_large_tree(n, m, num_agents = 3):
     subgoal1.add_child(subgoal4)
     subgoal1.add_child(subgoal5)
     subgoal1.add_child(subgoal6)
-
     subgoal2.add_child(subgoal7)
     subgoal2.add_child(subgoal8)
     subgoal2.add_child(subgoal9)
-    
     subgoal3.add_child(subgoal10)
     subgoal3.add_child(subgoal11)
     subgoal3.add_child(subgoal12)
@@ -694,56 +692,48 @@ def equal_large_tree(n, m, num_agents = 3):
     subgoal4.add_child(subgoal13)
     subgoal4.add_child(subgoal14)
     subgoal4.add_child(subgoal15)
-    
     subgoal5.add_child(subgoal16)
     subgoal5.add_child(subgoal17)
     subgoal5.add_child(subgoal18)
-    
     subgoal6.add_child(subgoal19)
     subgoal6.add_child(subgoal20)
     subgoal6.add_child(subgoal21)
-    
     subgoal7.add_child(subgoal22)
     subgoal7.add_child(subgoal23)
     subgoal7.add_child(subgoal24)
-    
     subgoal8.add_child(subgoal25)
     subgoal8.add_child(subgoal26)
     subgoal8.add_child(subgoal27)
-    
     subgoal9.add_child(subgoal28)
     subgoal9.add_child(subgoal29)
     subgoal9.add_child(subgoal30)
-    
     subgoal10.add_child(subgoal31)
     subgoal10.add_child(subgoal32)
     subgoal10.add_child(subgoal33)
-    
     subgoal11.add_child(subgoal34)
     subgoal11.add_child(subgoal35)
     subgoal11.add_child(subgoal36)
-    
     subgoal12.add_child(subgoal37)
     subgoal12.add_child(subgoal38)
     subgoal12.add_child(subgoal39)
 
     return root
 
-def equal_tree_1(n, m, num_agents = 3):
+def equal_tree_1(num_agents = 3):
 
-    root = GoalNode("Main Goal", _equal_cost(n + 20, m + 20, num_agents))
-    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(n + 10, m + 15, num_agents))
-    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(n + 10, m + 15, num_agents))
-    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(n + 1, m + 3, num_agents))
-    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(n + 1, m + 3, num_agents))
-    subgoal5 = GoalNode("Sub Goal 5", _equal_cost(n + 1, m + 3, num_agents))
-    subgoal6 = GoalNode("Sub Goal 6", _equal_cost(n + 1, m + 3, num_agents))
-    subgoal7 = GoalNode("Sub Goal 7", _equal_cost(n + 3, m + 5, num_agents))
-    subgoal8 = GoalNode("Sub Goal 8", _equal_cost(n + 3, m + 5, num_agents))
-    subgoal9 = GoalNode("Sub Goal 9", _equal_cost(n - 2, m - 3, num_agents))
-    subgoal10 = GoalNode("Sub Goal 10", _equal_cost(n - 2, m - 3, num_agents))
-    subgoal11 = GoalNode("Sub Goal 11", _equal_cost(n - 2, m - 3, num_agents))
-    subgoal12 = GoalNode("Sub Goal 12", _equal_cost(n - 2, m - 3, num_agents))
+    root = GoalNode("Main Goal", _equal_cost(30, 45, num_agents))
+    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(15, 25, num_agents))
+    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(15, 25, num_agents))
+    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(1, 8, num_agents))
+    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(1, 8, num_agents))
+    subgoal5 = GoalNode("Sub Goal 5", _equal_cost(1, 8, num_agents))
+    subgoal6 = GoalNode("Sub Goal 6", _equal_cost(1, 8, num_agents))
+    subgoal7 = GoalNode("Sub Goal 7", _equal_cost(5, 15, num_agents))
+    subgoal8 = GoalNode("Sub Goal 8", _equal_cost(5, 15, num_agents))
+    subgoal9 = GoalNode("Sub Goal 9", _equal_cost(1, 6, num_agents))
+    subgoal10 = GoalNode("Sub Goal 10", _equal_cost(1, 6, num_agents))
+    subgoal11 = GoalNode("Sub Goal 11", _equal_cost(1, 6, num_agents))
+    subgoal12 = GoalNode("Sub Goal 12", _equal_cost(1, 6, num_agents))
 
     root.add_child(subgoal1)
     root.add_child(subgoal2)
@@ -760,21 +750,21 @@ def equal_tree_1(n, m, num_agents = 3):
 
     return root
 
-def equal_tree_2(n, m, num_agents = 3):
+def equal_tree_2(num_agents = 3):
 
-    root = GoalNode("Main Goal", _equal_cost(n + 20, m + 20, num_agents))
-    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(n + 3, m + 10, num_agents))
-    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(n + 3, m + 10, num_agents))
-    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(n + 3, m + 10, num_agents))
-    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(n + 3, m + 10, num_agents))
-    subgoal5 = GoalNode("Sub Goal 5", _equal_cost(n, m, num_agents))
-    subgoal6 = GoalNode("Sub Goal 6", _equal_cost(n, m, num_agents))
-    subgoal7 = GoalNode("Sub Goal 7", _equal_cost(n, m, num_agents))
-    subgoal8 = GoalNode("Sub Goal 8", _equal_cost(n, m, num_agents))
-    subgoal9 = GoalNode("Sub Goal 9", _equal_cost(n, m, num_agents))
-    subgoal10 = GoalNode("Sub Goal 10", _equal_cost(n, m, num_agents))
-    subgoal11 = GoalNode("Sub Goal 11", _equal_cost(n, m, num_agents))
-    subgoal12 = GoalNode("Sub Goal 12", _equal_cost(n, m, num_agents))
+    root = GoalNode("Main Goal", _equal_cost(30, 45, num_agents))
+    subgoal1 = GoalNode("Sub Goal 1", _equal_cost(6, 12, num_agents))
+    subgoal2 = GoalNode("Sub Goal 2", _equal_cost(6, 12, num_agents))
+    subgoal3 = GoalNode("Sub Goal 3", _equal_cost(6, 12, num_agents))
+    subgoal4 = GoalNode("Sub Goal 4", _equal_cost(6, 12, num_agents))
+    subgoal5 = GoalNode("Sub Goal 5", _equal_cost(3, 6, num_agents))
+    subgoal6 = GoalNode("Sub Goal 6", _equal_cost(3, 6, num_agents))
+    subgoal7 = GoalNode("Sub Goal 7", _equal_cost(3, 6, num_agents))
+    subgoal8 = GoalNode("Sub Goal 8", _equal_cost(3, 6, num_agents))
+    subgoal9 = GoalNode("Sub Goal 9", _equal_cost(3, 6, num_agents))
+    subgoal10 = GoalNode("Sub Goal 10", _equal_cost(3, 6, num_agents))
+    subgoal11 = GoalNode("Sub Goal 11", _equal_cost(3, 6, num_agents))
+    subgoal12 = GoalNode("Sub Goal 12", _equal_cost(3, 6, num_agents))
 
     root.add_child(subgoal1)
     root.add_child(subgoal2)
@@ -792,25 +782,18 @@ def equal_tree_2(n, m, num_agents = 3):
     return root
 
 #__RUNNING THE EFFICIENCY TEST AND PLOTTING__
-def efficiency_test(goal_tree, max_res, same_resource):
+def efficiency_test(goal_tree, max_res: List):
     
     level_order_transversal(goal_tree)
 
     AGENT = list(goal_tree.data.keys())
     
     max_resources_j = {}
-    max_resources_f = []
-    if same_resource:
-        #Set the maximum resources for each agent (same resources)
-        max_resources_f = [max_res] * len(AGENT)
-        for agent in AGENT:
-            max_resources_j[agent] = max_res
-    else:
-        for agent in AGENT:
-            cost = random.randint(max_res - 5, max_res + 5)
-            max_resources_j[agent] = cost
-            max_resources_f.append(cost)
+    max_resources_f = max_res
+    for i in range(len(AGENT)):
+        max_resources_j[AGENT[i]] = max_res[i]
 
+    print(max_resources_f, "\n", max_resources_j)
 
     #__FAY'S ALGORITHM__
     print("\nFay's Algorithm:\n")
@@ -974,7 +957,7 @@ def plot_stacked_bar_chart(fay_averages, jonathan_averages, iteration, scenario)
     algorithms = ['Fay\'s Algorithm', 'Jonathan\'s Algorithm', 'Maheen\'s Algorithm']
 
     # Plot the stacked bar chart
-    x = range(iteration + 1) 
+    x = range(1, iteration + 2) 
     # width of the bars
     width = 0.1 
     fig, ax = plt.subplots(figsize=(8, 6))
@@ -1058,9 +1041,6 @@ def main():
 
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
-    starting, ending = 3, 5
-    max_res_starting = 20
-
     scenario_1_a = "Same Agent Cost - 3 Agents - Same Max Resources"
 
     # Store the average results for each algorithm
@@ -1068,22 +1048,19 @@ def main():
     jonathan_averages = []
 
     for j in range(5):
-        n = ending + j*5
-        m = starting + j*5
-        max_res =  max_res_starting + j * 5 
         algo_results_fay = 0
         algo_results_jonathan = 0
         no_trees = 0
 
         for i, (generate_tree, title) in enumerate(test_cases[1]):
-            tree = generate_tree(m, n)
+            tree = generate_tree()
             
             # Run each goal tree
-            result = efficiency_test(tree, max_res, 1)
+            result = efficiency_test(tree, [40,40,40])
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-            bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             algo_results_fay += f_total
             algo_results_jonathan += j_total
             no_trees += 1
@@ -1099,9 +1076,6 @@ def main():
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
-    starting, ending = 3, 5
-    max_res_starting = 20
-
     scenario_1_b = "Same Agent Cost - 3 Agents - Different Max Resources"
 
     # Store the average results for each algorithm
@@ -1109,22 +1083,19 @@ def main():
     jonathan_averages = []
 
     for j in range(5):
-        n = ending + j*5
-        m = starting + j*5
-        max_res =  max_res_starting + j * 5 
         algo_results_fay = 0
         algo_results_jonathan = 0
         no_trees = 0
 
         for i, (generate_tree, title) in enumerate(test_cases[1]):
-            tree = generate_tree(m, n)
+            tree = generate_tree()
             
             # Run each goal tree
-            result = efficiency_test(tree, max_res,0)
+            result = efficiency_test(tree, [20,40,60])
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-            bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             algo_results_fay += f_total
             algo_results_jonathan += j_total
             no_trees += 1
@@ -1156,24 +1127,21 @@ def main():
     fay_averages = []
     jonathan_averages = []
 
-    for j in range(5):
-        n = ending + j*3
-        m = starting + j*3
-        max_res =  max_res_starting + j * 5
+    for j in range(20):
         algo_results_fay = 0
         algo_results_jonathan = 0
         no_trees = 0
 
         for i, (generate_tree, title) in enumerate(test_cases[0]):
             # Exclude the equal agent cost tree
-            tree = generate_tree(m, n)
+            tree = generate_tree()
             
             # Run each goal tree
-            result = efficiency_test(tree, max_res, 1)
+            result = efficiency_test(tree, [40,40,40])
             if not result:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-            bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             algo_results_fay += f_total
             algo_results_jonathan += j_total
             no_trees += 1
@@ -1206,14 +1174,14 @@ def main():
 
         for i, (generate_tree, title) in enumerate(test_cases[0]):
             # Exclude the equal agent cost tree
-            tree = generate_tree(m, n)
+            tree = generate_tree()
             
             # Run each goal tree
-            result = efficiency_test(tree, max_res,0)            
+            result = efficiency_test(tree, [20,40,60])            
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-            bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             algo_results_fay += f_total
             algo_results_jonathan += j_total
             no_trees += 1
