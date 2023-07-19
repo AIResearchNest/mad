@@ -1047,7 +1047,7 @@ def main():
     fay_averages = []
     jonathan_averages = []
 
-    for j in range(5):
+    for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
         no_trees = 0
@@ -1072,7 +1072,7 @@ def main():
         fay_averages.append(algo_results_fay)
         jonathan_averages.append(algo_results_jonathan)
         
-        plot_stacked_bar_chart(fay_averages, jonathan_averages, j, scenario_1_a)
+    plot_stacked_bar_chart(fay_averages, jonathan_averages, j, scenario_1_a)
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
@@ -1082,7 +1082,7 @@ def main():
     fay_averages = []
     jonathan_averages = []
 
-    for j in range(5):
+    for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
         no_trees = 0
@@ -1107,9 +1107,7 @@ def main():
         fay_averages.append(algo_results_fay)
         jonathan_averages.append(algo_results_jonathan)
         
-        plot_stacked_bar_chart(fay_averages, jonathan_averages, j, scenario_1_b)
-
-
+    plot_stacked_bar_chart(fay_averages, jonathan_averages, j, scenario_1_b)
 
 
     """
@@ -1118,6 +1116,7 @@ def main():
         - Ten trees
         - 3 Agents
     """
+
     # SUB CASE: SAME MAX RESOURCES
     scenario_2_a = "Random Agent Cost - 3 Agents - Same Max Resources"
     # Test for 10 times each scenario
@@ -1127,7 +1126,7 @@ def main():
     fay_averages = []
     jonathan_averages = []
 
-    for j in range(20):
+    for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
         no_trees = 0
@@ -1153,21 +1152,16 @@ def main():
         fay_averages.append(algo_results_fay)
         jonathan_averages.append(algo_results_jonathan)
 
-        plot_stacked_bar_chart(fay_averages, jonathan_averages, j, scenario_2_a)
+    plot_stacked_bar_chart(fay_averages, jonathan_averages, j, scenario_2_a)
         
     # SUB CASE: DIFFERENT MAX RESOURCES
     scenario_2_b = "Random Agent Cost - 3 Agents - Different Max Resources"
 
-    starting, ending = 3, 5
-    max_res_starting = 20
     # Store the average results for each algorithm
     fay_averages = []
     jonathan_averages = []
 
-    for j in range(5):
-        n = ending + j*3
-        m = starting + j*3
-        max_res =  max_res_starting + j * 5 
+    for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
         no_trees = 0
@@ -1193,8 +1187,174 @@ def main():
         fay_averages.append(algo_results_fay)
         jonathan_averages.append(algo_results_jonathan)
 
-        plot_stacked_bar_chart(fay_averages, jonathan_averages, j, scenario_2_b)
+    plot_stacked_bar_chart(fay_averages, jonathan_averages, j, scenario_2_b)
 
+
+    """
+        SCENARIO 3: 
+        - Vary number of agents
+        - Ten trees -> hundred trees
+        - Same agent cost
+
+    """
+
+    # SUB CASE: SAME MAX RESOURCES
+    # Test for 10 times each scenario
+    scenario_3_a = "Same Agent Cost - Many Agents - Same Max Resources"
+
+    # Store the average results for each algorithm
+    fay_averages = []
+    jonathan_averages = []
+
+    for j in range(10):
+        algo_results_fay = 0
+        algo_results_jonathan = 0
+        no_trees = 0
+        for i, (generate_tree, title) in enumerate(test_cases[1]):
+            no_agents = random.randint(3,8)
+            tree = generate_tree(no_agents)
+
+            # Run each goal tree
+            result = efficiency_test(tree, [25] * no_agents)
+            if result == None:
+                continue
+            (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            algo_results_fay += f_total
+            algo_results_jonathan += j_total
+            no_trees += 1
+
+        algo_results_fay /= no_trees
+        algo_results_jonathan /= no_trees
+
+        # Append the averages to the lists
+        fay_averages.append(algo_results_fay)
+        jonathan_averages.append(algo_results_jonathan)
+        
+    plot_stacked_bar_chart(fay_averages, jonathan_averages, j, scenario_3_a)
+
+    # SUB CASE: DIFFERENT MAX RESOURCES
+    # Test for 10 times each scenario
+    scenario_3_b = "Same Agent Cost - Many Agents - Different Max Resources"
+
+    # Store the average results for each algorithm
+    fay_averages = []
+    jonathan_averages = []
+
+    for j in range(10):
+        algo_results_fay = 0
+        algo_results_jonathan = 0
+        no_trees = 0
+
+        for i, (generate_tree, title) in enumerate(test_cases[1]):
+            no_agents = random.randint(3,8)
+            tree = generate_tree(no_agents)
+            # Provide different max resources to each agent
+            starting_resources = 15
+            resources = []
+            for _ in range(no_agents):
+                resources.append(starting_resources)
+                starting_resources += 5
+            result = efficiency_test(tree, resources)
+            if result == None:
+                continue
+            (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            algo_results_fay += f_total
+            algo_results_jonathan += j_total
+            no_trees += 1
+
+        algo_results_fay /= no_trees
+        algo_results_jonathan /= no_trees
+
+        # Append the averages to the lists
+        fay_averages.append(algo_results_fay)
+        jonathan_averages.append(algo_results_jonathan)
+        
+    plot_stacked_bar_chart(fay_averages, jonathan_averages, j, scenario_3_b)
+
+
+    """
+        SCENARIO 4: 
+        - Vary number of agents
+        - Ten trees -> hundred trees
+        - Vary agent cost
+
+    """
+    # SUB CASE: SAME MAX RESOURCES
+    # Test for 10 times each scenario
+    scenario_4_a = "Different Agent Cost - Many Agents - Same Max Resources"
+
+    # Store the average results for each algorithm
+    fay_averages = []
+    jonathan_averages = []
+
+    for j in range(10):
+        algo_results_fay = 0
+        algo_results_jonathan = 0
+        no_trees = 0
+
+        for i, (generate_tree, title) in enumerate(test_cases[0]):
+            no_agents = random.randint(3,8)
+            tree = generate_tree(no_agents)
+            # Run each goal tree
+            result = efficiency_test(tree, [25] * no_agents)
+            if result == None:
+                continue
+            (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            algo_results_fay += f_total
+            algo_results_jonathan += j_total
+            no_trees += 1
+
+        algo_results_fay /= no_trees
+        algo_results_jonathan /= no_trees
+
+        # Append the averages to the lists
+        fay_averages.append(algo_results_fay)
+        jonathan_averages.append(algo_results_jonathan)
+        
+    plot_stacked_bar_chart(fay_averages, jonathan_averages, j, scenario_4_a)
+
+    # SUB CASE: DIFFERENT MAX RESOURCES
+    # Test for 10 times each scenario
+    scenario_4_b = "Different Agent Cost - 3 Agents - Different Max Resources"
+
+    # Store the average results for each algorithm
+    fay_averages = []
+    jonathan_averages = []
+
+    for j in range(10):
+        algo_results_fay = 0
+        algo_results_jonathan = 0
+        no_trees = 0
+
+        for i, (generate_tree, title) in enumerate(test_cases[0]):
+            no_agents = random.randint(3,8)
+            tree = generate_tree(no_agents)
+            # Provide different max resources to each agent
+            starting_resources = 15
+            resources = []
+            for _ in range(no_agents):
+                resources.append(starting_resources)
+                starting_resources += 5
+            result = efficiency_test(tree, resources)
+            if result == None:
+                continue
+            (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            algo_results_fay += f_total
+            algo_results_jonathan += j_total
+            no_trees += 1
+
+        algo_results_fay /= no_trees
+        algo_results_jonathan /= no_trees
+
+        # Append the averages to the lists
+        fay_averages.append(algo_results_fay)
+        jonathan_averages.append(algo_results_jonathan)
+        
+    plot_stacked_bar_chart(fay_averages, jonathan_averages, j, scenario_4_b)
 
         
 if __name__ == "__main__":

@@ -360,12 +360,12 @@ def _check_resources(goal: GoalNode, max_res: Dict[str, int]) -> bool:
 
     """
     if goal.agent:
-        return max_res[goal.agent] >= goal.cost
+        return max_res[goal.agent] > goal.cost
 
 
-def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, int]) -> Tuple[int, List[GoalNode], Dict[str, int]]:
+def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, int], num_agents: int) -> Tuple[int, List[GoalNode], Dict[str, int]]:
     """
-    Decides whether to choose the current goal or its subgoals
+    Decides whether to choose the current goal or its subgoals and equally distribute the goals among agents.
     
     Parameters
     ----------
@@ -375,6 +375,8 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
         The current index
     max_res: Dict[str,int]
         A dictionary with the agents as the keys and their corresponding resources as values
+    num_agents: int
+        The number of agents
     
     Returns
     -------
@@ -458,7 +460,7 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
         d[child.agent] -= child.cost  
         subgoals_cost += child.cost
 
-    if min(subgoals_cost, goal.cost) == subgoals_cost:
+    if subgoals_cost <= goal.cost:
         list_goal.remove(goal)
         for child in child_list:
             list_goal.append(child)
@@ -473,65 +475,89 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
 
 
 def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], verbose: int = 0) -> Tuple[Dict[str, List[GoalNode]], Dict[str, List[str]]]:
-    
     """
-    Optimizes allocation of goals to multiple agents
+    Equally distributes goals among agents while optimizing goal allocation and minimizing total resource cost.
 
     Parameters
     ----------
     goal_tree : mad.data_structures.GoalNode
         Hierarchical Multi Agent Goal Tree 
+    max_resources : List[int]
+        List of maximum resources for each agent
+    verbose : int, optional
+        Verbosity level (0 - no print statements, 1 - print goal allocation), by default 0
 
     Returns
     -------
     goal_allocation: Dict
         Allocates list of goals (value) to each agent (key)
-    
     """
 
     if goal_tree is None:
         raise ValueError("Goal tree is empty.")
 
-    #Dictionary that contains the name and the max resource of each agent
-    max_res: Dict[str,int] = {}
-    
-    #Name of the agents
-    agents = ["grace", "remus", "franklin"]
-    
-    for i in range(len(agents)):
-        max_res[agents[i]] = max_resources[i]
+    num_agents = len(max_resources)
 
-    goal_allocation: Dict[str, List[GoalNode]] = {"grace": [], "remus": [], "franklin": []}
+    # Dictionary that contains the name and the max resource of each agent
+    max_res: Dict[str, int] = {}
+    
+    # Name of the agents
+    agents = list(goal_tree.data.keys())
+    
+    for agent in agents:
+        max_res[agent] = max_resources[agents.index(agent)]
+
+    goal_allocation: Dict[str, List[GoalNode]] = {}
+
+    for a in agents:
+        goal_allocation[a] = []
 
     list_goal = []
     list_goal.append(goal_tree)
 
     i = 0
     while list_goal and i < len(list_goal):
-        i, list_goal, max_res = _decision_algorithm(list_goal,i, max_res)
-    """
-        for j in list_goal:
-            print(j.name, " ")
-        print(max_res)
-    print("\n\nThe "'most'" optimized goal tre: \n")
-    level_order_transversal(goal_tree)
-    """    
+        i, list_goal, max_res = _decision_algorithm(list_goal, i, max_res, num_agents)
+    
     if not list_goal:
         print("Not enough resources")
         return ()
     
-    for goal in list_goal:
-        goal_allocation[goal.agent].append(goal)
+    # Calculate the average cost per agent
+    total_cost = sum(max_resources) - sum(max_res.values())
+    avg_cost = total_cost // num_agents
+    remainder = total_cost % num_agents
 
-    #print("\nTo complete the goal in the most optimized way, we can assign goals like this:\n")
-    
+    # Create a sorted list of agents based on their current remaining resources
+    sorted_agents = sorted(max_res.keys(), key=lambda agent: max_res[agent])
+
+    # Distribute goals equally among agents
+    for goal in list_goal:
+        assigned = False
+
+        # Assign the goal to the agent with the least remaining resources
+        for agent in sorted_agents:
+            if _check_resources(goal, max_res):
+                goal_allocation[agent].append(goal)
+                max_res[agent] -= goal.cost
+                assigned = True
+                break
+
+        # If the goal couldn't be assigned to any agent, distribute it to the agents in a round-robin manner
+        if not assigned:
+            agent = sorted_agents[i % num_agents]
+            goal_allocation[agent].append(goal)
+            max_res[agent] -= goal.cost
+            i += 1
+
     if verbose:
         for agent in goal_allocation:
-            print (agent, end = ": ")
+            print(agent, end=": ")
             for goal in goal_allocation[agent]:
-                print (goal.name, end = " ")
+                print(goal.name, end=" ")
             print("\n")
-            print("The remaining resource of " + agent +": " + str(max_res[agent]) + "\n" * 2)
+            print("The remaining resource of " + agent + ": " + str(max_res[agent]) + "\n" * 2)
+
     return goal_allocation, max_res
 
 """
