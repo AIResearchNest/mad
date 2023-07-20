@@ -30,7 +30,7 @@ def _random_cost(m: int, n: int, agents: int = 3) -> Dict[str, int]:
     
     """
     
-    AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy"]
+    AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "julia", "Rose"]
 
     d = {}
     for i in range(agents):
@@ -57,7 +57,7 @@ def _equal_cost(m: int, n: int, agents: int) -> Dict[str, int]:
         A dictionary with the agents as keys and corresponding costs as values
     
     """
-    AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy"]
+    AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "julia", "Rose"]
 
     d = {}
     cost = random.randint(m,n)

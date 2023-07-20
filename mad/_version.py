@@ -60,3 +60,4 @@ __version__ = '0.0.56'
 # 0.0.55: Added Maheen test scenario's 2 and edited the algorithm and data structure. 
 # 0.0.56: Adjusted Fay's algorithm and efficiency test
 # 0.0.57: Adjusted __init__.py 
+# 0.0.58: Created all scenario's for Maheen Algorithm

@@ -730,7 +730,7 @@ def get_agent_resources_m(max_resources):
     -------
     
     '''
-    agents = ["grace", "remus", "franklin"] #edit
+    agents = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "julia", "Rose"] #edit
     agent_resources = {agent: resource for agent, resource in zip(agents, max_resources)}
     return agent_resources
 
