@@ -23,22 +23,24 @@ def average_cost(root: GoalNode2) -> float:
         The average cost of the nodes with an assigned agent.
     """
     resources_usage = 0
-    count = 0
+    agent_count = 0
 
     def traverse(node):
-        nonlocal resources_usage, count
+        nonlocal resources_usage, agent_count
         if node.assigned_agent != "":
             resources_usage += node.cost
-            count += 1
+            agent_count += 1
         for child in node.get_children():
             traverse(child)
 
     traverse(root)
 
-    if count > 0:
-        average_resources = resources_usage / count
+    if agent_count > 0:
+        average_resources = resources_usage / agent_count
         print("Total Resources Used",resources_usage)
-        return average_resources
+        print("Agents Used",agent_count)
+        print("Below as: (average_resources, resources_usage, agent_count)")
+        return average_resources, resources_usage, agent_count
     else:
         return 0
 
