@@ -23,22 +23,24 @@ def average_cost(root: GoalNode2) -> float:
         The average cost of the nodes with an assigned agent.
     """
     resources_usage = 0
-    count = 0
+    agent_count = 0
 
     def traverse(node):
-        nonlocal resources_usage, count
+        nonlocal resources_usage, agent_count
         if node.assigned_agent != "":
             resources_usage += node.cost
-            count += 1
+            agent_count += 1
         for child in node.get_children():
             traverse(child)
 
     traverse(root)
 
-    if count > 0:
-        average_resources = resources_usage / count
+    if agent_count > 0:
+        average_resources = resources_usage / agent_count
         print("Total Resources Used",resources_usage)
-        return average_resources
+        print("Agents Used",agent_count)
+        print("Below as: (average_resources, resources_usage, agent_count)")
+        return average_resources, resources_usage, agent_count
     else:
         return 0
 
@@ -52,7 +54,7 @@ def average_cost(root: GoalNode2) -> float:
        
 '''
 
-def random_binary_symetric(num_agent, new_max_resources):
+def random_binary_symetric_m(num_agent, new_max_resources):
 
     root = GoalNode2("Main Goal", 0)
     subgoal1 = GoalNode2("Sub Goal 1", 0 )
@@ -99,7 +101,7 @@ def random_binary_symetric(num_agent, new_max_resources):
 
 
 
-def random_binary_left(num_agent, new_max_resources):
+def random_binary_left_m(num_agent, new_max_resources):
 
     root = GoalNode2("Main Goal", 0)
     subgoal1 = GoalNode2("Sub Goal 1", 0)
@@ -134,7 +136,7 @@ def random_binary_left(num_agent, new_max_resources):
 
     return root
 
-def random_binary_right(num_agent, new_max_resources):
+def random_binary_right_m(num_agent, new_max_resources):
 
     
     root = GoalNode2("Main Goal", 0)
@@ -172,7 +174,7 @@ def random_binary_right(num_agent, new_max_resources):
     return root
 
 
-def random_root(num_agent, new_max_resources):
+def random_root_m(num_agent, new_max_resources):
 
     root = root = GoalNode2("Main Goal", 0)
     root.agents = _random_cost(25,30,num_agent)
@@ -188,7 +190,7 @@ def random_root(num_agent, new_max_resources):
 
 
 
-def random_tree_symetric(num_agent, new_max_resources):
+def random_tree_symetric_m(num_agent, new_max_resources):
 
 
     root = GoalNode2("Main Goal", 0)
@@ -265,7 +267,7 @@ def random_tree_symetric(num_agent, new_max_resources):
     
     return root
 
-def random_tree_left_right(num_agent, new_max_resources):
+def random_tree_left_right_m(num_agent, new_max_resources):
 
     root = GoalNode2("Main Goal", 0)
     subgoal1 = GoalNode2("Sub Goal 1", 0)
@@ -331,7 +333,7 @@ def random_tree_left_right(num_agent, new_max_resources):
 
     return root
 
-def random_large_binary_tree(num_agent, new_max_resources):
+def random_large_binary_tree_m(num_agent, new_max_resources):
     
      
     x = 40
@@ -507,7 +509,7 @@ def random_large_binary_tree(num_agent, new_max_resources):
 
     return root
 
-def random_large_tree(num_agent, new_max_resources):
+def random_large_tree_m(num_agent, new_max_resources):
         
     x = 40
     y = 60
@@ -730,7 +732,7 @@ def random_large_tree(num_agent, new_max_resources):
     return root
     
     
-def random_tree_1(num_agent, new_max_resources):
+def random_tree_1_m(num_agent, new_max_resources):
 
     root = GoalNode2("Main Goal", 0)
     subgoal1 = GoalNode2("Sub Goal 1", 0)
@@ -804,7 +806,7 @@ def random_tree_1(num_agent, new_max_resources):
     return root
 
 
-def random_tree_2(num_agent, new_max_resources):
+def random_tree_2_m(num_agent, new_max_resources):
 
     root = GoalNode2("Main Goal", 0)
     subgoal1 = GoalNode2("Sub Goal 1", 0)
@@ -889,7 +891,7 @@ EQUAL TREE STRUCTURES
 
 
 
-def equal_binary_symetric(num_agent, new_max_resources):
+def equal_binary_symetric_m(num_agent, new_max_resources):
 
     root = GoalNode2("Main Goal", 0)
     subgoal1 = GoalNode2("Sub Goal 1", 0 )
@@ -936,7 +938,7 @@ def equal_binary_symetric(num_agent, new_max_resources):
 
 
 
-def equal_binary_left(num_agent, new_max_resources):
+def equal_binary_left_m(num_agent, new_max_resources):
 
     root = GoalNode2("Main Goal", 0)
     subgoal1 = GoalNode2("Sub Goal 1", 0)
@@ -971,7 +973,7 @@ def equal_binary_left(num_agent, new_max_resources):
 
     return root
 
-def equal_binary_right(num_agent, new_max_resources):
+def equal_binary_right_m(num_agent, new_max_resources):
 
     
     root = GoalNode2("Main Goal", 0)
@@ -1009,7 +1011,7 @@ def equal_binary_right(num_agent, new_max_resources):
     return root
 
 
-def equal_root(num_agent, new_max_resources):
+def equal_root_m(num_agent, new_max_resources):
 
     root = root = GoalNode2("Main Goal", 0)
     root.agents = _equal_cost(25,30,num_agent)
@@ -1025,7 +1027,7 @@ def equal_root(num_agent, new_max_resources):
 
 
 
-def equal_tree_symetric(num_agent, new_max_resources):
+def equal_tree_symetric_m(num_agent, new_max_resources):
 
 
     root = GoalNode2("Main Goal", 0)
@@ -1102,7 +1104,7 @@ def equal_tree_symetric(num_agent, new_max_resources):
     
     return root
 
-def equal_tree_left_right(num_agent, new_max_resources):
+def equal_tree_left_right_m(num_agent, new_max_resources):
 
     root = GoalNode2("Main Goal", 0)
     subgoal1 = GoalNode2("Sub Goal 1", 0)
@@ -1168,7 +1170,7 @@ def equal_tree_left_right(num_agent, new_max_resources):
 
     return root
 
-def equal_large_binary_tree(num_agent, new_max_resources):
+def equal_large_binary_tree_m(num_agent, new_max_resources):
     
      
     x = 40
@@ -1344,7 +1346,7 @@ def equal_large_binary_tree(num_agent, new_max_resources):
 
     return root
 
-def equal_large_tree(num_agent, new_max_resources):
+def equal_large_tree_m(num_agent, new_max_resources):
         
     x = 40
     y = 60
@@ -1567,7 +1569,7 @@ def equal_large_tree(num_agent, new_max_resources):
     return root
     
     
-def equal_tree_1(num_agent, new_max_resources):
+def equal_tree_1_m(num_agent, new_max_resources):
 
     root = GoalNode2("Main Goal", 0)
     subgoal1 = GoalNode2("Sub Goal 1", 0)
@@ -1641,7 +1643,7 @@ def equal_tree_1(num_agent, new_max_resources):
     return root
 
 
-def equal_tree_2(num_agent, new_max_resources):
+def equal_tree_2_m(num_agent, new_max_resources):
 
     root = GoalNode2("Main Goal", 0)
     subgoal1 = GoalNode2("Sub Goal 1", 0)
@@ -1734,27 +1736,28 @@ def main():
     b) * Same agents: True, Equal costs: True, Same resources: False
 
     '''
-    test_cases = [ (equal_binary_symetric(3, [50, 50, 50]), "equal BINARY SYMMETRIC TREE, Same resources: TRUE"), #equal
-        (equal_binary_left(3, [50, 50, 50]), "equal BINARY LEFT TREE, Same resources: TRUE"),
-        (equal_binary_right(3, [50, 50, 50]), "equal BINARY RIGHT TREE, Same resources: TRUE"),
-        (equal_root(3, [50, 50, 50]), "equal ROOT-ONLY TREE, Same resources: TRUE "),
-        (equal_tree_symetric(3, [50, 50, 50]), "equal SYMMETRIC TREE, Same resources: TRUE"),
-        (equal_tree_left_right(3, [50, 50, 50]), "equal LEFT RIGHT TREE, Same resources: TRUE"),
-        (equal_large_binary_tree(3, [50, 50, 50]), "equal LARGE BINARY TREE, Same resources: TRUE"), #7
-        (equal_large_tree(3, [50, 50, 50]), "equal LARGE TREE, Same resources: TRUE"),
-        (equal_tree_1(3, [50, 50, 50]), "equal TREE -1, Same resources: TRUE" ),
-        (equal_tree_2(3, [50, 50, 50]), "equal TREE -2, Same resources: TRUE" ),
+    
+    test_cases = [ (equal_binary_symetric_m(3, [50, 50, 50]), "equal BINARY SYMMETRIC TREE, Same resources: TRUE"), #equal
+        (equal_binary_left_m(3, [50, 50, 50]), "equal BINARY LEFT TREE, Same resources: TRUE"),
+        (equal_binary_right_m(3, [50, 50, 50]), "equal BINARY RIGHT TREE, Same resources: TRUE"),
+        (equal_root_m(3, [50, 50, 50]), "equal ROOT-ONLY TREE, Same resources: TRUE "),
+        (equal_tree_symetric_m(3, [50, 50, 50]), "equal SYMMETRIC TREE, Same resources: TRUE"),
+        (equal_tree_left_right_m(3, [50, 50, 50]), "equal LEFT RIGHT TREE, Same resources: TRUE"),
+        (equal_large_binary_tree_m(3, [50, 50, 50]), "equal LARGE BINARY TREE, Same resources: TRUE"), #7
+        (equal_large_tree_m(3, [50, 50, 50]), "equal LARGE TREE, Same resources: TRUE"),
+        (equal_tree_1_m(3, [50, 50, 50]), "equal TREE -1, Same resources: TRUE" ),
+        (equal_tree_2_m(3, [50, 50, 50]), "equal TREE -2, Same resources: TRUE" ),
         
-        (equal_binary_symetric(3, [50, 60, 70]), "equal BINARY SYMMETRIC TREE, Same resources: False"), 
-        (equal_binary_left(3, [50, 60, 70]), "equal BINARY LEFT TREE, Same resources: False"),
-        (equal_binary_right(3, [50, 60, 70]), "equal BINARY RIGHT TREE, Same resources: False"),
-        (equal_root(3, [50, 60, 70]), "equal ROOT-ONLY TREE, Same resources: False"),
-        (equal_tree_symetric(3, [50, 60, 70]), "equal SYMMETRIC TREE,Same resources: False"),
-        (equal_tree_left_right(3, [50, 60, 70]), "equal LEFT RIGHT TREE, Same resources: False"),
-        (equal_large_binary_tree(3, [50, 60, 70]), "equal LARGE BINARY TREE, Same resources: False"), #7
-        (equal_large_tree(3, [50, 60, 70]), "equal LARGE TREE, Same resources: False"),
-        (equal_tree_1(3, [50, 60, 70]), "equal TREE -1, Same resources: False" ),
-        (equal_tree_2(3,[50, 60, 70]), "equal TREE -2, Same resources: False" ) 
+        (random_binary_symetric_m(3, [50, 60, 70]), "RANDOM BINARY SYMMETRIC TREE, Same resources: FALSE"),
+        (random_binary_left_m(3, [50, 60, 70]), "RANDOM BINARY LEFT TREE, Same resources: FALSE"),
+        (random_binary_right_m(3, [50, 60, 70]), "RANDOM BINARY RIGHT TREE, Same resources: FALSE"),
+        (random_root_m(3, [50, 60, 70]), "RANDOM ROOT-ONLY TREE, Same resources: FALSE"),
+        (random_tree_symetric_m(3, [50, 60, 70]), "RANDOM SYMMETRIC TREE, Same resources: FALSE"),
+        (random_tree_left_right_m(3, [50, 60, 70]), "RANDOM LEFT RIGHT TREE, Same resources: FALSE"),
+        (random_large_binary_tree_m(3, [50, 60, 70]), "RANDOM LARGE BINARY TREE, Same resources: FALSE"), #7
+        (random_large_tree_m(3, [50, 60, 70]), "RANDOM LARGE TREE, Same resources: FALSE"),
+        (random_tree_1_m(3, [50, 60, 70]), "RANDOM TREE -1, Same resources: FALSE"),
+        (random_tree_2_m(3, [50, 60, 70]), "RANDOM TREE -2, Same resources: FALSE")
    ]
     for tree, tree_name in test_cases:
         print("\n \t _____ANALYSIS______ \n")
@@ -1767,27 +1770,27 @@ def main():
     a) * Same agents: True, Equal costs: False, Same resources: TRUE
     b) * Same agents: True, Equal costs: False, Same resources: False  
     
-    test_cases_two = [(random_binary_symetric(3, [50, 50, 50]), "RANDOM BINARY SYMMETRIC TREE, Same resources: TRUE"),
-        (random_binary_left(3, [50, 50, 50]), "RANDOM BINARY LEFT TREE, Same resources: TRUE"),
-        (random_binary_right(3, [50, 50,50]), "RANDOM BINARY RIGHT TREE, Same resources: TRUE"),
-        (random_root(3, [50, 50,50]), "RANDOM ROOT-ONLY TREE, Same resources: TRUE"),
-        (random_tree_symetric(3, [50, 50,50]), "RANDOM SYMMETRIC TREE, Same resources: TRUE"),
-        (random_tree_left_right(3, [50, 50,50]), "RANDOM LEFT RIGHT TREE, Same resources: TRUE"),
-        (random_large_binary_tree(3, [50, 50,50]), "RANDOM LARGE BINARY TREE , Same resources: TRUE"), #7
-        (random_large_tree(3, [50, 50,50]), "RANDOM LARGE TREE , Same resources: TRUE"),
-        (random_tree_1(3, [50, 50,50]), "RANDOM TREE -1, Same resources: TRUE"),
-        (random_tree_2(3, [50, 50,50]), "RANDOM TREE -2, Same resources: TRUE"), 
+    test_cases_two = [(random_binary_symetric_m(3, [50, 50, 50]), "RANDOM BINARY SYMMETRIC TREE, Same resources: TRUE"),
+        (random_binary_left_m(3, [50, 50, 50]), "RANDOM BINARY LEFT TREE, Same resources: TRUE"),
+        (random_binary_right_m(3, [50, 50,50]), "RANDOM BINARY RIGHT TREE, Same resources: TRUE"),
+        (random_root_m(3, [50, 50,50]), "RANDOM ROOT-ONLY TREE, Same resources: TRUE"),
+        (random_tree_symetric_m(3, [50, 50,50]), "RANDOM SYMMETRIC TREE, Same resources: TRUE"),
+        (random_tree_left_right_m(3, [50, 50,50]), "RANDOM LEFT RIGHT TREE, Same resources: TRUE"),
+        (random_large_binary_tree_m(3, [50, 50,50]), "RANDOM LARGE BINARY TREE , Same resources: TRUE"), #7
+        (random_large_tree_m(3, [50, 50,50]), "RANDOM LARGE TREE , Same resources: TRUE"),
+        (random_tree_1_m(3, [50, 50,50]), "RANDOM TREE -1, Same resources: TRUE"),
+        (random_tree_2_m(3, [50, 50,50]), "RANDOM TREE -2, Same resources: TRUE"), 
         
-        (random_binary_symetric(3, [50, 60, 70]), "RANDOM BINARY SYMMETRIC TREE, Same resources: FALSE"),
-        (random_binary_left(3, [50, 60, 70]), "RANDOM BINARY LEFT TREE, Same resources: FALSE"),
-        (random_binary_right(3, [50, 60, 70]), "RANDOM BINARY RIGHT TREE, Same resources: FALSE"),
-        (random_root(3, [50, 60, 70]), "RANDOM ROOT-ONLY TREE, Same resources: FALSE"),
-        (random_tree_symetric(3, [50, 60, 70]), "RANDOM SYMMETRIC TREE, Same resources: FALSE"),
-        (random_tree_left_right(3, [50, 60, 70]), "RANDOM LEFT RIGHT TREE, Same resources: FALSE"),
-        (random_large_binary_tree(3, [50, 60, 70]), "RANDOM LARGE BINARY TREE, Same resources: FALSE"), #7
-        (random_large_tree(3, [50, 60, 70]), "RANDOM LARGE TREE, Same resources: FALSE"),
-        (random_tree_1(3, [50, 60, 70]), "RANDOM TREE -1, Same resources: FALSE"),
-        (random_tree_2(3, [50, 60, 70]), "RANDOM TREE -2, Same resources: FALSE")
+        (random_binary_symetric_m(3, [50, 60, 70]), "RANDOM BINARY SYMMETRIC TREE, Same resources: FALSE"),
+        (random_binary_left_m(3, [50, 60, 70]), "RANDOM BINARY LEFT TREE, Same resources: FALSE"),
+        (random_binary_right_m(3, [50, 60, 70]), "RANDOM BINARY RIGHT TREE, Same resources: FALSE"),
+        (random_root_m(3, [50, 60, 70]), "RANDOM ROOT-ONLY TREE, Same resources: FALSE"),
+        (random_tree_symetric_m(3, [50, 60, 70]), "RANDOM SYMMETRIC TREE, Same resources: FALSE"),
+        (random_tree_left_right_m(3, [50, 60, 70]), "RANDOM LEFT RIGHT TREE, Same resources: FALSE"),
+        (random_large_binary_tree_m(3, [50, 60, 70]), "RANDOM LARGE BINARY TREE, Same resources: FALSE"), #7
+        (random_large_tree_m(3, [50, 60, 70]), "RANDOM LARGE TREE, Same resources: FALSE"),
+        (random_tree_1_m(3, [50, 60, 70]), "RANDOM TREE -1, Same resources: FALSE"),
+        (random_tree_2_m(3, [50, 60, 70]), "RANDOM TREE -2, Same resources: FALSE")
         
         ]
         
@@ -1797,6 +1800,79 @@ def main():
         print(f"Average Cost ({tree_name}): {average_resources}")
          '''
 
+      
+ 
+      
+'''
+    #UNCOMMENT THIS FOR SCENERIO 3
+        test_case_two [] for scenerio  when:
+    a) * Same agents: False, Equal costs: False, Same resources: True
+    b) * Same agents: False, Equal costs: False, Same resources: False
+
+    test_cases_three = [(random_binary_symetric_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "RANDOM BINARY SYMMETRIC TREE, Same resources: TRUE"),
+        (random_binary_left_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "RANDOM BINARY LEFT TREE, Same resources: TRUE"),
+        (random_binary_right_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "RANDOM BINARY RIGHT TREE, Same resources: TRUE"),
+        (random_root_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "RANDOM ROOT-ONLY TREE, Same resources: TRUE"),
+        (random_tree_symetric_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "RANDOM SYMMETRIC TREE, Same resources: TRUE"),
+        (random_tree_left_right_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "RANDOM LEFT RIGHT TREE, Same resources: TRUE"),
+        (random_large_binary_tree_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "RANDOM LARGE BINARY TREE , Same resources: TRUE"), #7
+        (random_large_tree_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "RANDOM LARGE TREE , Same resources: TRUE"),
+        (random_tree_1_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "RANDOM TREE -1, Same resources: TRUE"),
+        (random_tree_2_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "RANDOM TREE -2, Same resources: TRUE"), 
+        
+        (random_binary_symetric_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "RANDOM BINARY SYMMETRIC TREE, Same resources: FALSE"),
+        (random_binary_left_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "RANDOM BINARY LEFT TREE, Same resources: FALSE"),
+        (random_binary_right_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "RANDOM BINARY RIGHT TREE, Same resources: FALSE"),
+        (random_root_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "RANDOM ROOT-ONLY TREE, Same resources: FALSE"),
+        (random_tree_symetric_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "RANDOM SYMMETRIC TREE, Same resources: FALSE"),
+        (random_tree_left_right_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "RANDOM LEFT RIGHT TREE, Same resources: FALSE"),
+        (random_large_binary_tree_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "RANDOM LARGE BINARY TREE, Same resources: FALSE"), #7
+        (random_large_tree_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "RANDOM LARGE TREE, Same resources: FALSE"),
+        (random_tree_1_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "RANDOM TREE -1, Same resources: FALSE"),
+        (random_tree_2_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "RANDOM TREE -2, Same resources: FALSE")
+        
+        ]
+        
+    for tree, tree_name in test_cases_three:
+        average_resources = average_cost(tree)
+        print(f"Average Cost ({tree_name}): {average_resources}")
+         '''
+
+
+
+'''
+    #UNCOMMENT THIS FOR SCENERIO 4
+        test_case_two [] for scenerio  when:
+    a) * Same agents: False, Equal costs: True, Same resources: True
+    b) * Same agents: False, Equal costs: True, Same resources: False 
+
+    test_cases_four = [ (equal_binary_symetric_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "equal BINARY SYMMETRIC TREE, Same resources: TRUE"), #equal
+        (equal_binary_left_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "equal BINARY LEFT TREE, Same resources: TRUE"),
+        (equal_binary_right_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "equal BINARY RIGHT TREE, Same resources: TRUE"),
+        (equal_root_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "equal ROOT-ONLY TREE, Same resources: TRUE "),
+        (equal_tree_symetric_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "equal SYMMETRIC TREE, Same resources: TRUE"),
+        (equal_tree_left_right_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "equal LEFT RIGHT TREE, Same resources: TRUE"),
+        (equal_large_binary_tree_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "equal LARGE BINARY TREE, Same resources: TRUE"), #7
+        (equal_large_tree_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "equal LARGE TREE, Same resources: TRUE"),
+        (equal_tree_1_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "equal TREE -1, Same resources: TRUE" ),
+        (equal_tree_2_m(10, [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]), "equal TREE -2, Same resources: TRUE" ),
+        
+        (equal_binary_symetric_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "equal BINARY SYMMETRIC TREE, Same resources: False"), 
+        (equal_binary_left_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "equal BINARY LEFT TREE, Same resources: False"),
+        (equal_binary_right_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "equal BINARY RIGHT TREE, Same resources: False"),
+        (equal_root_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "equal ROOT-ONLY TREE, Same resources: False"),
+        (equal_tree_symetric_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "equal SYMMETRIC TREE,Same resources: False"),
+        (equal_tree_left_right_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "equal LEFT RIGHT TREE, Same resources: False"),
+        (equal_large_binary_tree_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "equal LARGE BINARY TREE, Same resources: False"), #7
+        (equal_large_tree_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "equal LARGE TREE, Same resources: False"),
+        (equal_tree_1_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "equal TREE -1, Same resources: False" ),
+        (equal_tree_2_m(10, [50, 60, 70, 50, 60, 70, 50, 60, 70, 50]), "equal TREE -2, Same resources: False" ) ]
+        
+    for tree, tree_name in test_cases_four:
+        average_resources = average_cost(tree)
+        print(f"Average Cost ({tree_name}): {average_resources}")
+    '''     
+      
       
 
 
