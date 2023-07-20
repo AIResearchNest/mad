@@ -59,3 +59,4 @@ __version__ = '0.0.56'
 # 0.0.54: First version of final_tests.py
 # 0.0.55: Added Maheen test scenario's 2 and edited the algorithm and data structure. 
 # 0.0.56: Adjusted Fay's algorithm and efficiency test
+# 0.0.57: Adjusted __init__.py 
