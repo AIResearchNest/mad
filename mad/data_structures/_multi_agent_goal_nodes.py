@@ -100,19 +100,6 @@ class GoalNode:
 
         self.descrepancy = abs(high - low)
 
-    # Potential change
-    # def find_descrepancy(self, num_agents):
-        
-    #     low = min([x for x in self.data.values()])
-    #     curr_high = max([x for x in self.data.values()])
-    #     if len(self.data.values()) == num_agents:
-    #         high = curr_high
-    #     else:
-    #         multiplier = abs(num_agents - len(self.data.values()))
-    #         high = curr_high * multiplier
-
-    #     self.descrepancy = abs(high - low)
-
 def level_order_transversal(root) -> None:
         
         """

@@ -56,11 +56,6 @@ def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     selected_goals : List
         List of GoalNodes to be accomplished by agents in the world
     """
-    # values = list(max_resources.values())
-    # if all(value == values[0] for value in values):
-    #     resources = max_resources.values()[0]
-    # else:
-    #     avg_resources = sum(x for x in max_resources.values()) / len(max_resources.values())
 
     # Break Case: if GoalNode has no children, return [goal_tree]
     if not goal_tree.children:
@@ -140,8 +135,6 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
     # Sorts goals from most descrepancy between solutions to least descrepancy
     for goal in goal_nodes:
         goal.find_descrepancy()
-        # Potential change
-        # goal.find_descrepancy(len(agents))
 
     # O(n log n)
     goals_sorted = list(reversed(sorted(goal_nodes, key=lambda goal: goal.descrepancy))) 
