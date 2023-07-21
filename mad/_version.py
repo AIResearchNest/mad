@@ -1,4 +1,4 @@
-__version__ = '0.0.59'
+__version__ = '0.0.60'
 
 #change log:
 # 0.0.0: first version
@@ -62,3 +62,4 @@ __version__ = '0.0.59'
 # 0.0.57: Adjusted __init__.py 
 # 0.0.58: Created all scenario's for Maheen Algorithm
 # 0.0.59: Finished final_test.py for opt and dfs algos
+# 0.0.60: Finished efficiency_test.py for opt and dfs algos
