@@ -316,17 +316,20 @@ def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 
     distributed_goals = _distribute_goals(selected_goals, max_resources, verbose)
 
     if verbose > 0:
-        total_cost, skew, discrepancy, num_agents_used = _get_results(distributed_goals)
+        total_cost, skew, discrepancy, num_agents = _get_results(distributed_goals)
+        agents_used = 0
         print()
         print("Goal Allocation:")
-        for key, value in distributed_goals.items():
-            for goal in value:
-                print(f" - {key}: {goal.name}, {goal.cost}")
+        for agent, goals in distributed_goals.items():
+            if len(distributed_goals[agent]) != 0:
+                agents_used += 1
+            for goal in goals:
+                print(f" - {agent}: {goal.name}, {goal.cost}")
         print()
         print(f"Cost: {total_cost}")
         print(f"Skew: {skew}")
         print(f"Discrepancy: {discrepancy}")
-        print(f'Number of Agents: {num_agents_used}')
+        print(f'Number of Agents Used: {agents_used} / {num_agents}')
 
     return distributed_goals
 
