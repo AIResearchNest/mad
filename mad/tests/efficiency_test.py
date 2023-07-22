@@ -956,8 +956,8 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
     algorithms = ["Fay's Algorithm", "Jonathan's Algorithm", "Maheen's Algorithm"]
 
     # Create figure and axes
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 10))
-    bar_width = 0.2
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 12))
+    bar_width = 0.4
 
     # Determine the maximum length among fay_averages, jonathan_averages, and maheen_averages
     max_length = max(len(fay_averages), len(jonathan_averages), len(maheen_averages))
@@ -965,69 +965,34 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
     # Pad fay_averages and jonathan_averages with zeros
     fay_padded = np.pad(fay_averages, (0, max_length - len(fay_averages)))
     jonathan_padded = np.pad(jonathan_averages, (0, max_length - len(jonathan_averages)))
+    maheen_padded = np.pad(maheen_averages, (0, max_length - len(maheen_averages))) if maheen_averages else None
 
-    # Plot the stacked bar chart for average resources on ax1
-    x = np.arange(iteration + 1)
-    ax1.bar(x, fay_padded, width=bar_width, label="Fay's Algorithm", color=colors[0])
-    ax1.bar(x, jonathan_padded, width=bar_width, bottom=fay_padded, label="Jonathan's Algorithm", color=colors[1])
+    # Plot the side by side bar chart for average resources on ax1
+    x = np.arange(max_length)
+    ax1.bar(x - bar_width/2, fay_padded, width=bar_width, label="Fay's Algorithm", color=colors[0])
+    ax1.bar(x + bar_width/2, jonathan_padded, width=bar_width, label="Jonathan's Algorithm", color=colors[1])
 
     if maheen_averages:
-        ax1.bar(x, maheen_averages, width=bar_width, bottom=fay_padded+jonathan_padded, label="Maheen's Algorithm", color=colors[2])
+        ax1.bar(x + bar_width, maheen_padded, width=bar_width, label="Maheen's Algorithm", color=colors[2])
 
-    ax1.set_ylim(0, 120)
-    ax1.set_xlabel('Iteration')
+    ax1.set_ylim(0, 50)
+    ax1.set_xlabel('Test cases')
     ax1.set_ylabel('Average Resources')
     ax1.set_title(scenario)
     ax1.set_xticks(x)
-    ax1.set_xticklabels(x)
+    ax1.set_xticklabels(x + 1)
     ax1.legend(loc='upper left')
 
-    # Add annotations to each stack of the bars
-    for i in range(len(x)):
-        fay_value = fay_averages[i]
-        jonathan_value = jonathan_averages[i]
-        if maheen_averages and maheen_averages[i]:
-            maheen_value = maheen_averages[i]
-        else:
-            maheen_value = 0
-        total_value = fay_value + jonathan_value + maheen_value
-
-        # Calculate the center position of the stack for each algorithm
-        fay_center = fay_value / 2
-        jonathan_center = fay_value + jonathan_value / 2
-        maheen_center = fay_value + jonathan_value + maheen_value / 2
-
-        # Add the annotations at the center positions
-        ax1.annotate(f"{fay_value:.2f}",
-                    xy=(x[i], fay_center),
-                    xytext=(0, 3),
-                    textcoords="offset points",
-                    ha='center',
-                    va='bottom')
-
-        ax1.annotate(f"{jonathan_value:.2f}",
-                    xy=(x[i], jonathan_center),
-                    xytext=(0, 3),
-                    textcoords="offset points",
-                    ha='center',
-                    va='bottom')
-
-        if maheen_value:
-            ax1.annotate(f"{maheen_value:.2f}",
-                        xy=(x[i], maheen_center),
-                        xytext=(0, 3),
-                        textcoords="offset points",
-                        ha='center',
-                        va='bottom')
-
+    
+            
     # Plot the stacked bar chart for average agents used on ax2
     ax2.bar(x - bar_width/2, agent_fay_averages, bar_width, label="Fay's Algorithm", color=colors[0])
     ax2.bar(x + bar_width/2, agent_jonathan_averages, bar_width, label="Jonathan's Algorithm", color=colors[1])
 
-    ax2.set_xlabel('Iteration')
+    ax2.set_xlabel('Test cases')
     ax2.set_ylabel('Average Agents Used')
     ax2.set_xticks(x)
-    ax2.set_xticklabels(x)
+    ax2.set_xticklabels(x + 1)
 
     ax2.legend(loc='upper left')
 
@@ -1037,14 +1002,6 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
     plt.tight_layout()
     plt.show()
 
-def testcase():
-    root = GoalNode("Root", {"grace": 45, "remus": 45})
-    G1 = GoalNode("Sub Goal 1", {"grace": 25, "remus": 25})
-    G2 = GoalNode("Sub Goal 2", {"grace": 15, "remus": 15})
-    
-    root.add_child(G1)
-    root.add_child(G2)
-    return root
 
 def testcase2():
     root = GoalNode("Root", {"grace": 70, "remus": 70})
@@ -1094,7 +1051,7 @@ def main():
 
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_1_a = "SCENARIO 1: Same Agent Cost - 3 Agents - Same Max Resources"
+    scenario_1_a = "SCENARIO 1A: Same Agent Cost - 3 Agents - Same Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -1143,7 +1100,7 @@ def main():
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_1_b = "SCENARIO 1: Same Agent Cost - 3 Agents - Different Max Resources"
+    scenario_1_b = "SCENARIO 1B: Same Agent Cost - 3 Agents - Different Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -1162,7 +1119,7 @@ def main():
             tree = generate_tree()
             
             # Run each goal tree
-            result = efficiency_test(tree, [20,40,60])
+            result = efficiency_test(tree, [30,40,35])
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
@@ -1200,7 +1157,7 @@ def main():
     """
 
     # SUB CASE: SAME MAX RESOURCES
-    scenario_2_a = "SCENARIO 2: Random Agent Cost - 3 Agents - Same Max Resources"
+    scenario_2_a = "SCENARIO 2A: Random Agent Cost - 3 Agents - Same Max Resources"
     # Store the average results for each algorithm
     fay_averages = []
     jonathan_averages = []
@@ -1255,7 +1212,7 @@ def main():
     plotting(fay_averages, jonathan_averages, [], agent_fay_averages, agent_jonathan_averages, j, scenario_2_a)
         
     # SUB CASE: DIFFERENT MAX RESOURCES
-    scenario_2_b = "SCENARIO 2: Random Agent Cost - 3 Agents - Different Max Resources"
+    scenario_2_b = "SCENARIO 2B: Random Agent Cost - 3 Agents - Different Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -1315,7 +1272,7 @@ def main():
 
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_3_a = "SCENARIO 3: Same Agent Cost - Many Agents - Same Max Resources"
+    scenario_3_a = "SCENARIO 3A: Same Agent Cost - Many Agents - Same Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -1363,7 +1320,7 @@ def main():
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_3_b = "SCENARIO 3: Same Agent Cost - Many Agents - Different Max Resources"
+    scenario_3_b = "SCENARIO 3B: Same Agent Cost - Many Agents - Different Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -1426,7 +1383,7 @@ def main():
     """
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_4_a = "SCENARIO 4: Different Agent Cost - Many Agents - Same Max Resources"
+    scenario_4_a = "SCENARIO 4A: Different Agent Cost - Many Agents - Same Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -1476,7 +1433,7 @@ def main():
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_4_b = "SCENARIO 4: Different Agent Cost - 3 Agents - Different Max Resources"
+    scenario_4_b = "SCENARIO 4B: Different Agent Cost - 3 Agents - Different Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []

@@ -559,21 +559,25 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
             
     else:
         for goal in list_goal:
-            sorted_agents = sorted(max_res.keys(), key=lambda agent: resource_score(max_res[agent], max_resources[list(max_res.keys()).index(agent)]), reverse=True)
-            agent = sorted_agents[0]
+            sorted_agents = sorted(max_res.keys(), key=lambda agent: max_res[agent], reverse=True)
             cur_agent = goal.agent
+            #List of agents have the same agent cost
+            agents_with_same_cost = [agent for agent in sorted_agents if agent != cur_agent and abs(goal.data[agent] - goal.data[cur_agent]) <= 2]
+            
 
-            # Calculate resource scores for the current agents and the potential agents
-            cur_agent_score = resource_score(max_res[cur_agent], max_resources[list(max_res.keys()).index(cur_agent)])
-            potential_agent_score = resource_score(max_res[agent], max_resources[list(max_res.keys()).index(agent)])
-
+            best_agent = None
+            best_remaining_resources = -1
+            for agent in agents_with_same_cost:
+                if max_res[agent] > max_res[cur_agent] and max_res[agent] > best_remaining_resources:
+                    best_agent = agent
+                    best_remaining_resources = max_res[agent]
+    
             # Assign the goal to the agent with the most remaining resources (proportionally)
-            if potential_agent_score - cur_agent_score - goal.cost > goal.data[agent] / max_resources[list(max_res.keys()).index(agent)] - goal.cost:
-                goal_allocation[sorted_agents[0]].append(goal)
+            if best_agent:
+                goal_allocation[best_agent].append(goal)
                 goal_allocation[cur_agent].remove(goal)
-                max_res[agent] -= goal.cost
+                max_res[best_agent] -= goal.cost
                 max_res[cur_agent] += goal.cost
-                #print(f"Assigned goal {goal.name} to agent {agent}. Remaining resources: {max_res}")
                 print(max_res)
         
     if verbose:
