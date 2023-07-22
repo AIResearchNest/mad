@@ -1,4 +1,4 @@
-__version__ = '0.0.61'
+__version__ = '0.0.62'
 
 #change log:
 # 0.0.0: first version
@@ -64,3 +64,4 @@ __version__ = '0.0.61'
 # 0.0.59: Finished final_test.py for opt and dfs algos
 # 0.0.60: Finished efficiency_test.py for opt and dfs algos
 # 0.0.61: some tweaks in _goal_allocation and final_tests
+# 0.0.62: Adjust the goal distribution of opt algo 
