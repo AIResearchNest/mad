@@ -956,7 +956,7 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
     algorithms = ["Fay's Algorithm", "Jonathan's Algorithm", "Maheen's Algorithm"]
 
     # Create figure and axes
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 12))
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 10))
     bar_width = 0.4
 
     # Determine the maximum length among fay_averages, jonathan_averages, and maheen_averages
@@ -997,25 +997,11 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
     ax2.legend(loc='upper left')
 
     # Adjust spacing between subplots
-    plt.subplots_adjust(hspace=0.5)
+    plt.subplots_adjust(hspace=1)
 
     plt.tight_layout()
     plt.show()
 
-
-def testcase2():
-    root = GoalNode("Root", {"grace": 70, "remus": 70})
-    G1 = GoalNode("Sub Goal 1", {"grace": 25, "remus": 25})
-    G2 = GoalNode("Sub Goal 2", {"grace": 25, "remus": 25})
-    G3 = GoalNode("Sub Goal 3", {"grace": 15, "remus": 15})
-    G4 = GoalNode("Sub Goal 4", {"grace": 15, "remus": 15})
-    root.add_child(G1)
-    root.add_child(G2)
-
-    G1.add_child(G3)
-    G2.add_child(G4)
-
-    return root
 
 def main():
     test_cases = [[(random_binary_symmetric,"RANDOM BINARY SYMMETRIC TREE"),
@@ -1286,12 +1272,13 @@ def main():
         agent_used_fay = 0
         agent_used_jonathan = 0
         no_trees = 0
+        no_agents = random.randint(3,8)
+
         for i, (generate_tree, title) in enumerate(test_cases[1]):
-            no_agents = random.randint(3,8)
             tree = generate_tree(no_agents)
 
             # Run each goal tree
-            result = efficiency_test(tree, [30] * no_agents)
+            result = efficiency_test(tree, [60] * no_agents)
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
@@ -1327,17 +1314,26 @@ def main():
     jonathan_averages = []
     agent_fay_averages = []
     agent_jonathan_averages = []
+    
 
     for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
         agent_used_fay = 0
         agent_used_jonathan = 0
-
+        
+        no_agents = random.randint(3,8)
         no_trees = 0
 
+        agent_resources = [70, 80, 90, 70, 80, 90, 70, 80, 90, 70]
+        resources = []
+
+        for i in range(no_agents):
+            resources.append(agent_resources[i])
+        #Number of agent available of this case
+        no_agents = random.randint(3,8)
+
         for i, (generate_tree, title) in enumerate(test_cases[1]):
-            no_agents = random.randint(3,8)
             tree = generate_tree(no_agents)
             # Provide different max resources to each agent
             starting_resources = 20
@@ -1396,11 +1392,10 @@ def main():
         algo_results_jonathan = 0
         agent_used_fay = 0
         agent_used_jonathan = 0
-
+        no_agents = random.randint(3,8)
         no_trees = 0
 
         for i, (generate_tree, title) in enumerate(test_cases[0]):
-            no_agents = random.randint(3,8)
             tree = generate_tree(no_agents)
             # Run each goal tree
             result = efficiency_test(tree, [30] * no_agents)
@@ -1440,23 +1435,24 @@ def main():
     jonathan_averages = []
     agent_fay_averages = []
     agent_jonathan_averages = []
+
     for j in range(10):
+
         algo_results_fay = 0
         algo_results_jonathan = 0
         agent_used_fay = 0
         agent_used_jonathan = 0
-
+        #Number of agents available
+        no_agents = random.randint(3,8)
         no_trees = 0
+        agent_resources = [70, 80, 90, 70, 80, 90, 70, 80, 90, 70]
+        resources = []
+        for i in range(no_agents):
+            resources.append(agent_resources[i])
 
         for i, (generate_tree, title) in enumerate(test_cases[0]):
-            no_agents = random.randint(3,8)
             tree = generate_tree(no_agents)
             # Provide different max resources to each agent
-            starting_resources = 20
-            resources = []
-            for _ in range(no_agents):
-                resources.append(starting_resources)
-                starting_resources += 5
             result = efficiency_test(tree, resources)
             if result == None:
                 continue
