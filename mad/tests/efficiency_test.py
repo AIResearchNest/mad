@@ -31,7 +31,7 @@ def _random_cost(m: int, n: int, agents: int = 3) -> Dict[str, int]:
     """
     
     AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "julia", "Rose"]
-
+    #random.seed(100)
     d = {}
     for i in range(agents):
         d[AGENTS[i]] = random.randint(m,n)
@@ -57,6 +57,8 @@ def _equal_cost(m: int, n: int, agents: int) -> Dict[str, int]:
         A dictionary with the agents as keys and corresponding costs as values
     
     """
+    random.seed(100)
+    
     AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "julia", "Rose"]
 
     d = {}
@@ -951,6 +953,8 @@ def bar_chart_plotting(Results: Tuple, title):
     plt.subplots_adjust(hspace=1)  # Increase the hspace value to increase spacing between subplots
     plt.show()
     
+    
+    
 def plot_stacked_bar_chart(fay_averages, jonathan_averages, iteration, scenario):
     # Color of each algorithm
     colors = ['peachpuff', 'lightblue', 'khaki']
@@ -1330,7 +1334,7 @@ def main():
         no_trees = 0
 
         for i, (generate_tree, title) in enumerate(test_cases[0]):
-            no_agents = random.randint(3,8)
+            no_agents = random.randint(3,8) #???
             tree = generate_tree(no_agents)
             # Provide different max resources to each agent
             starting_resources = 15
