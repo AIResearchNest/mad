@@ -1,4 +1,4 @@
-__version__ = '0.0.56'
+__version__ = '0.0.62'
 
 #change log:
 # 0.0.0: first version
@@ -61,4 +61,9 @@ __version__ = '0.0.56'
 # 0.0.56: Adjusted Fay's algorithm and efficiency test
 # 0.0.57: Adjusted __init__.py 
 # 0.0.58: Created all scenario's for Maheen Algorithm
-# 0.0.59: Created plots for all algorithms in ALL_TESTING.py 
+# 0.0.59: Finished final_test.py for opt and dfs algos
+# 0.0.60: Finished efficiency_test.py for opt and dfs algos
+# 0.0.61: some tweaks in _goal_allocation and final_tests
+# 0.0.62: Adjust the goal distribution of opt algo 
+# 0.0.63: Created plots for all algorithms in ALL_TESTING.py 
+
