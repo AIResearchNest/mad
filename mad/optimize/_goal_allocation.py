@@ -361,134 +361,61 @@ def _check_resources(goal: GoalNode, max_res: Dict[str, int]) -> bool:
     return False
 
 
+def handle_unfeasible_goal(goal, list_goal, i, max_res):
+    goal = list_goal.pop(i)
+    if not goal.get_children():
+        return i, [], max_res
+    for child in goal.get_children():
+        list_goal.append(child)
+    return i, list_goal, max_res
+
 def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, int], num_agents: int) -> Tuple[int, List[GoalNode], Dict[str, int]]:
-
-    """
-    Decides whether to choose the current goal or its subgoals and equally distribute the goals among agents.
-    
-    Parameters
-    ----------
-    list_goal : List[GoalNode]
-        A list of the goals needed to be achieved
-    i: int
-        The current index
-    max_res: Dict[str,int]
-        A dictionary with the agents as the keys and their corresponding resources as values
-    num_agents: int
-        The number of agents
-    
-    Returns
-    -------
-        Returns a tuple containing: the updated index, the modified list of goals, the updated dictionary of maximum resources
-
-    """
-
     goal = list_goal[i]
 
-    # Check if the current goal can be completed by any agent
     while not _check_resources(goal, max_res):
-        # Try switching to another agent
-        goal.switch_agent() 
+        goal.switch_agent()
+        if goal.agent is None:
+            return handle_unfeasible_goal(goal, list_goal, i, max_res)
 
-        # If no agent can complete this goal
-        if goal.agent is None: 
-            goal = list_goal.pop(i)
-
-            # If the goal has no child, return empty list_goal
-            if not goal.get_children():
-                return i, [], max_res
-
-            # Add child goals to list_goal
-            for child in goal.get_children():
-                list_goal.append(child)
-            
-            return i, list_goal, max_res
-    
-    #print(goal.name + " can be completed by " + goal.agent + "\n")
-
-    # If the current goal does not have child nodes
-    if not goal.get_children(): 
+    if not goal.get_children():
         max_res[goal.agent] -= goal.cost
         return i + 1, list_goal, max_res 
-    
-    d = max_res.copy()
-    
-    child_list: List[GoalNode] = []
-    grand_child_list: List[GoalNode] = []
 
-    subgoals_cost = 0
+    temp_resources = max_res.copy()
+    child_list, grand_child_list, subgoals_cost = [], [], 0
+    sorted_children = sorted(goal.get_children(), key=lambda x: x.cost if x.cost is not None else float('inf'), reverse=True)
 
-    # Sort the children goals in descending order of their costs
-    children = sorted(goal.get_children(), key=lambda x: x.cost if x.cost is not None else float('inf'), reverse=True)
-    for child in children:
-        while not _check_resources(child, d):
-            # Switch to another agent
-            child.switch_agent()  
-
-            # If no agent can finish this child goal
-            if not child.agent:  
-                a = child
-
-                # If this child node does not have children nodes
-                if not a.get_children():  
+    for child in sorted_children:
+        while not _check_resources(child, temp_resources):
+            child.switch_agent()
+            if not child.agent:
+                if not child.get_children():
                     max_res[goal.agent] -= goal.cost
-                    
-                    # Return the same list without any change
                     return i + 1, list_goal, max_res  
-                
-                e = []
 
-                for grandchild in a.get_children():
-                    if _check_resources(grandchild, d):
+                for grandchild in child.get_children():
+                    if _check_resources(grandchild, temp_resources):
                         list_goal.append(grandchild)
-                        e.append(grandchild)
+                        grand_child_list.append(grandchild)
                     else:
                         grandchild.switch_agent()
-                        # If one grandchild could not complete, return the original goal list
-                        if grandchild.agent is None:  
+                        if grandchild.agent is None:
                             return i, list_goal, max_res
-                for goal in e:
-                     # Subtract the cost from the resource
-                    d[goal.agent] -= goal.cost 
-                    subgoals_cost += goal.cost
-
-        # If the child goal can be completed
-        # Add the child goal to the child list
+                for grandchild in grand_child_list:
+                    temp_resources[grandchild.agent] -= grandchild.cost 
+                    subgoals_cost += grandchild.cost
         child_list.append(child)
-        # Subtract the cost from the resource  
-        d[child.agent] -= child.cost  
+        temp_resources[child.agent] -= child.cost  
         subgoals_cost += child.cost
 
     if subgoals_cost <= goal.cost:
         list_goal.remove(goal)
-        for child in child_list:
-            list_goal.append(child)
-        if grand_child_list:
-            for grandchild in grand_child_list:
-                list_goal.append(grandchild)
+        list_goal.extend(child_list)
         return i, list_goal, max_res
 
     else:
         max_res[goal.agent] -= goal.cost
         return i + 1, list_goal, max_res
-
-def resource_score(remaining_res: int, max_res: int) -> float:
-    """
-    Calculate the resource score for an agent based on their remaining resources and maximum resources.
-
-    Parameters
-    ----------
-    remaining_res : int
-        The remaining resources of the agent.
-    max_res : int
-        The maximum resources of the agent.
-
-    Returns
-    -------
-    float
-        The resource score for the agent.
-    """
-    return remaining_res / max_res
 
 def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], verbose: int = 0) -> Tuple[Dict[str, List[GoalNode]], Dict[str, List[str]]]:
     """
@@ -540,35 +467,46 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
     
     for goal in list_goal:
         goal_allocation[goal.agent].append(goal)
-
+    
     # Distribute goals equally among agents same max resources
-    if same_resources:
-        for goal in list_goal:
-            sorted_agents = sorted(max_res.keys(), key=lambda agent: max_res[agent], reverse=True)
-            agent = sorted_agents[0]
-            cur_agent = goal.agent
+    #if same_resources:
+    for goal in list_goal:
+        # Sort agents by remaining resources
+        sorted_agents = sorted(max_res.keys(), key=lambda agent: max_res[agent], reverse=True)
+
+        # Select the current agent handling the goal
+        cur_agent = goal.agent
+
+        for agent in sorted_agents:
+            # Skip the current agent
+            if agent == cur_agent:
+                continue
             
-            # Assign the goal to the agent with the most remaining resources
-            if max_res[agent] - max_res[cur_agent] - goal.cost > goal.data[agent] - goal.cost:            
-                goal_allocation[sorted_agents[0]].append(goal)
-                goal_allocation[cur_agent].remove(goal)
+            # If this agent has enough remaining resources, they get the goal
+            if max_res[agent] - max_res[cur_agent] - goal.data[agent] > 1:
+                # Check if the goal is in the current agent's allocation before removing it
+                if goal in goal_allocation[cur_agent]:
+                    goal_allocation[cur_agent].remove(goal)
+
+                goal_allocation[agent].append(goal)
                 max_res[agent] -= goal.cost
                 max_res[cur_agent] += goal.cost
-                #print(f"Assigned goal {goal.name} to agent {agent}. Remaining resources: {max_res}")
-                #print (max_res)
-            
+                sorted_agents = sorted(max_res.keys(), key=lambda agent: max_res[agent], reverse=True)
+                # Exit the loop as the goal has been reassigned
+                break
+
+    """
     else:
         for goal in list_goal:
             sorted_agents = sorted(max_res.keys(), key=lambda agent: max_res[agent], reverse=True)
             cur_agent = goal.agent
-            #List of agents have the same agent cost
-            agents_with_same_cost = [agent for agent in sorted_agents if agent != cur_agent and abs(goal.data[agent] - goal.data[cur_agent]) <= 2]
+            potential_agents = [agent for agent in sorted_agents if agent != cur_agent and abs(goal.data[agent] - goal.data[cur_agent]) <= 10]
             
 
             best_agent = None
             best_remaining_resources = -1
-            for agent in agents_with_same_cost:
-                if max_res[agent] > max_res[cur_agent] and max_res[agent] > best_remaining_resources:
+            for agent in potential_agents:
+                if max_res[agent] > best_remaining_resources:
                     best_agent = agent
                     best_remaining_resources = max_res[agent]
     
@@ -578,7 +516,9 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
                 goal_allocation[cur_agent].remove(goal)
                 max_res[best_agent] -= goal.cost
                 max_res[cur_agent] += goal.cost
-                print(max_res)
+
+    """        
+    
         
     if verbose:
         for agent in goal_allocation:
