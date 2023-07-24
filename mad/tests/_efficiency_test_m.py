@@ -509,6 +509,7 @@ def random_large_binary_tree_m(num_agent, new_max_resources):
 
     return root
 
+
 def random_large_tree_m(num_agent, new_max_resources):
         
     x = 40
@@ -1718,24 +1719,178 @@ def equal_tree_2_m(num_agent, new_max_resources):
 
     return root
 
+def generate_plot_resources(tree_data):
+    test_case_names = []
+    resources_usage_list = []
+
+    for i, (tree, tree_name) in enumerate(tree_data, 1):
+        print("\n \t _____ANALYSIS______ \n")
+        average_resources, resources_usage, agent_count = average_cost(tree)
+        print(f"Average Cost ({tree_name}): {average_resources}")
+
+        test_case_names.append(i)
+        resources_usage_list.append(resources_usage)
+
+    plt.figure(figsize=(10, 6))
+    bars = plt.bar(range(1, len(test_case_names) + 1), resources_usage_list, color='mediumpurple')
+
+    for bar, value in zip(bars, resources_usage_list):
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width() / 2, height, str(value), ha='center', va='bottom')
+
+    plt.xticks(range(1, len(test_case_names) + 1), test_case_names, rotation=90)
+    plt.xlabel('Test Cases')
+    plt.ylabel('Resources Usage')
+    plt.title('Test Cases')
+    plt.tight_layout()
+    plt.show()
+    
+
+def generate_plot_agent(tree_data):
+    test_case_names = []
+    resources_usage_list = []
+
+    for i, (tree, tree_name) in enumerate(tree_data, 1):
+        print("\n \t _____ANALYSIS______ \n")
+        average_resources, resources_usage, agent_count = average_cost(tree)
+        print(f"Average Cost ({tree_name}): {average_resources}")
+
+        test_case_names.append(i)
+        resources_usage_list.append(agent_count)
+
+    plt.figure(figsize=(10, 6))
+    bars = plt.bar(range(1, len(test_case_names) + 1), resources_usage_list, color='mediumpurple')
+
+    for bar, value in zip(bars, resources_usage_list):
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width() / 2, height, str(value), ha='center', va='bottom')
+
+    plt.xticks(range(1, len(test_case_names) + 1), test_case_names, rotation=90)
+    plt.xlabel('Test Cases')
+    plt.ylabel('Agents Used')
+    plt.title('Test Cases')
+    plt.tight_layout()
+    plt.show()
 
 
+def generate_plot_average(tree_data):
+    test_case_names = []
+    resources_usage_list = []
 
+    for i, (tree, tree_name) in enumerate(tree_data, 1):
+        print("\n \t _____ANALYSIS______ \n")
+        average_resources, resources_usage, agent_count = average_cost(tree)
+        print(f"Average Cost ({tree_name}): {average_resources}")
+
+        test_case_names.append(i)
+        resources_usage_list.append(average_resources)
+
+    plt.figure(figsize=(10, 6))
+    bars = plt.bar(range(1, len(test_case_names) + 1), resources_usage_list, color='mediumpurple')
+
+    for bar, value in zip(bars, resources_usage_list):
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width() / 2, height, str(value), ha='center', va='bottom')
+
+    plt.xticks(range(1, len(test_case_names) + 1), test_case_names, rotation=90)
+    plt.xlabel('Test Cases')
+    plt.ylabel('Average Resources Usage')
+    plt.title('Test Cases')
+    plt.tight_layout()
+    plt.show()
+    
+
+def testing1( num_agent, new_max_resources):
+   
+
+    root = GoalNode2("Main Goal", 0)
+    subgoal1 = GoalNode2("Sub Goal 1", 0)
+    subgoal2 = GoalNode2("Sub Goal 2", 0)
+
+
+    root.add_child(subgoal1)
+    root.add_child(subgoal2)
+
+
+    root.agents = _equal_cost(45, 45, num_agent)
+        
+    subgoal1.agents =_equal_cost(25, 25, num_agent)
+    subgoal2.agents =_equal_cost(15, 15, num_agent)
+
+  
+
+
+    
+    equal_node(root)
+    equal_node(subgoal1)  # Assign cost to subgoal2
+    equal_node(subgoal2)
+
+     
+
+    nodes = [root, subgoal1, subgoal2] 
+    
+    
+    max_resources = new_max_resources
+
+    agent_goal_m(nodes, max_resources)
+
+    return root
+ 
+
+def testing2( num_agent, new_max_resources):
+   
+
+    root = GoalNode2("Main Goal", 0)
+    subgoal1 = GoalNode2("Sub Goal 1", 0)
+    subgoal2 = GoalNode2("Sub Goal 2", 0)
+    subgoal3 = GoalNode2("Sub Goal 3", 0)
+    subgoal4 = GoalNode2("Sub Goal 4", 0)
+
+    root.add_child(subgoal1)
+    root.add_child(subgoal2)
+    subgoal1.add_child(subgoal3)
+    subgoal2.add_child(subgoal4)
+
+    root.agents = _equal_cost(70, 70, num_agent)
+        
+    subgoal1.agents =_equal_cost(35, 35, num_agent) #25, 15
+    subgoal2.agents =_equal_cost(3, 3, num_agent)
+    subgoal3.agents = _equal_cost(25, 25, num_agent)  #
+    
+    subgoal4.agents = _equal_cost(15,15, num_agent)
+  
+
+
+    
+    equal_node(root)
+    equal_node(subgoal1)  # Assign cost to subgoal2
+    equal_node(subgoal2)
+    equal_node(subgoal3)  # Assign cost to subgoal1
+
+    equal_node(subgoal4)  # Assign cost to subgoal2
+
+     
+
+    nodes = [root, subgoal1, subgoal2, subgoal3, subgoal4] 
+    
+    
+    max_resources = new_max_resources
+
+    agent_goal_m(nodes, max_resources)
+
+    return root
+    
 
 def main():
-    '''
-    root = random_tree_2(3, [50, 50, 50])
-    average_resources = average_cost(root)
-    print("Average Cost:", average_resources)
-    '''
-    #testcase(agent no., [resources])
+    
+    root = testing2(3, [50, 50, 50])
     
     '''
     Test_case [] for scenrio 1 when:
     a) * Same agents: True, Equal costs: True, Same resources: TRUE
     b) * Same agents: True, Equal costs: True, Same resources: False
 
-    '''
+  
     
     test_cases = [ (equal_binary_symetric_m(3, [50, 50, 50]), "equal BINARY SYMMETRIC TREE, Same resources: TRUE"), #equal
         (equal_binary_left_m(3, [50, 50, 50]), "equal BINARY LEFT TREE, Same resources: TRUE"),
@@ -1764,6 +1919,13 @@ def main():
         average_resources = average_cost(tree)
         print(f"Average Cost ({tree_name}): {average_resources}")
 
+    generate_plot_resources(test_cases)
+    generate_plot_agent(test_cases)
+    generate_plot_average(test_cases)
+    #root = equal_large_tree_m(3, [50, 50, 50])
+    #average_cost(root)
+      '''
+    
     '''
     #UNCOMMENT THIS FOR SCENERIO 2
         test_case_two [] for scenerio  when:
@@ -1803,7 +1965,7 @@ def main():
       
  
       
-'''
+''' testcase_m
     #UNCOMMENT THIS FOR SCENERIO 3
         test_case_two [] for scenerio  when:
     a) * Same agents: False, Equal costs: False, Same resources: True

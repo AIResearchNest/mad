@@ -65,3 +65,5 @@ __version__ = '0.0.62'
 # 0.0.60: Finished efficiency_test.py for opt and dfs algos
 # 0.0.61: some tweaks in _goal_allocation and final_tests
 # 0.0.62: Adjust the goal distribution of opt algo 
+# 0.0.63: Created plots for all algorithms in ALL_TESTING.py 
+

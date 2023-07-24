@@ -636,6 +636,7 @@ def random_cost_m(start_range: int, end_range: int) -> int:
  
 
 #Diajkstraaas
+#Diajkstraaas
 
 def shortest_path_m(root_node: GoalNode2) -> tuple[int, List[str], List[str]]:
     """
@@ -684,7 +685,6 @@ def shortest_path_m(root_node: GoalNode2) -> tuple[int, List[str], List[str]]:
 
     # If no goal node is found, return None
     return None
-
    
 def compare_m(shortest_cost: int, root_node_cost: int):
     """

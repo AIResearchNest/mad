@@ -32,7 +32,7 @@ def _random_cost(m: int, n: int, agents: int = 3) -> Dict[str, int]:
     """
     
     AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "julia", "Rose"]
-
+    #random.seed(100)
     d = {}
     for i in range(agents):
         d[AGENTS[i]] = random.randint(m,n)
@@ -58,6 +58,8 @@ def _equal_cost(m: int, n: int, agents: int) -> Dict[str, int]:
         A dictionary with the agents as keys and corresponding costs as values
     
     """
+    random.seed(100)
+    
     AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "julia", "Rose"]
 
     d = {}
@@ -1451,6 +1453,7 @@ def main():
             resources.append(agent_resources[i])
 
         for i, (generate_tree, title) in enumerate(test_cases[0]):
+            no_agents = random.randint(3,8) #???
             tree = generate_tree(no_agents)
             # Provide different max resources to each agent
             result = efficiency_test(tree, resources)
