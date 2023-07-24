@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 
 
-def _random_cost(m: int, n: int, agents: int = 3) -> Dict[str, int]:
+def _random_cost(m: int, n: int, agents: int) -> Dict[str, int]:
     
     """
     This function randomizes the cost of an agent when it conducts a goal based on an assigned range
@@ -31,8 +31,7 @@ def _random_cost(m: int, n: int, agents: int = 3) -> Dict[str, int]:
     
     """
     
-    AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "julia", "Rose"]
-    #random.seed(100)
+    AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "julia", "rose"]
     d = {}
     for i in range(agents):
         d[AGENTS[i]] = random.randint(m,n)
@@ -58,7 +57,6 @@ def _equal_cost(m: int, n: int, agents: int) -> Dict[str, int]:
         A dictionary with the agents as keys and corresponding costs as values
     
     """
-    random.seed(100)
     
     AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "julia", "Rose"]
 
@@ -952,19 +950,13 @@ def bar_chart_plotting(Results: Tuple, title):
     plt.subplots_adjust(hspace=1)  # Increase the hspace value to increase spacing between subplots
     plt.show()
     
-<<<<<<< HEAD
-    
-    
-def plot_stacked_bar_chart(fay_averages, jonathan_averages, iteration, scenario):
-=======
-def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_averages, agent_jonathan_averages, iteration, scenario):
->>>>>>> a1eb53cebe9bdbf59acf6348f16077dfe9c2d489
+def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_averages, agent_jonathan_averages, iteration, scenario, num_agents_avail: List = [3] * 10):
     # Color of each algorithm
     colors = ['peachpuff', 'lightblue', 'khaki']
     algorithms = ["Fay's Algorithm", "Jonathan's Algorithm", "Maheen's Algorithm"]
 
     # Create figure and axes
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 12))
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 10))
     bar_width = 0.4
 
     # Determine the maximum length among fay_averages, jonathan_averages, and maheen_averages
@@ -990,12 +982,16 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
     ax1.set_xticks(x)
     ax1.set_xticklabels(x + 1)
     ax1.legend(loc='upper left')
-
+    # Add num_agents_avail below x-ticks
+    for i in range(max_length):
+        ax1.annotate(f'Agents: {num_agents_avail[i]}', (x[i], max(fay_padded[i], jonathan_padded[i]) + 2), ha='center')
     
             
     # Plot the stacked bar chart for average agents used on ax2
     ax2.bar(x - bar_width/2, agent_fay_averages, bar_width, label="Fay's Algorithm", color=colors[0])
     ax2.bar(x + bar_width/2, agent_jonathan_averages, bar_width, label="Jonathan's Algorithm", color=colors[1])
+
+    ax2.set_ylim(0, 10)
 
     ax2.set_xlabel('Test cases')
     ax2.set_ylabel('Average Agents Used')
@@ -1005,25 +1001,11 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
     ax2.legend(loc='upper left')
 
     # Adjust spacing between subplots
-    plt.subplots_adjust(hspace=0.5)
+    plt.subplots_adjust(hspace=2)
 
     plt.tight_layout()
     plt.show()
 
-
-def testcase2():
-    root = GoalNode("Root", {"grace": 70, "remus": 70})
-    G1 = GoalNode("Sub Goal 1", {"grace": 25, "remus": 25})
-    G2 = GoalNode("Sub Goal 2", {"grace": 25, "remus": 25})
-    G3 = GoalNode("Sub Goal 3", {"grace": 15, "remus": 15})
-    G4 = GoalNode("Sub Goal 4", {"grace": 15, "remus": 15})
-    root.add_child(G1)
-    root.add_child(G2)
-
-    G1.add_child(G3)
-    G2.add_child(G4)
-
-    return root
 
 def main():
     test_cases = [[(random_binary_symmetric,"RANDOM BINARY SYMMETRIC TREE"),
@@ -1075,10 +1057,10 @@ def main():
         no_trees = 0
 
         for i, (generate_tree, title) in enumerate(test_cases[1]):
-            tree = generate_tree()
             
+            tree = generate_tree()    
             # Run each goal tree
-            result = efficiency_test(tree, [40,40,40])
+            result = efficiency_test(tree, [30,30,30])
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
@@ -1241,7 +1223,7 @@ def main():
             tree = generate_tree()
             
             # Run each goal tree
-            result = efficiency_test(tree, [20,40,60])            
+            result = efficiency_test(tree, [30,40,35])            
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
@@ -1287,19 +1269,20 @@ def main():
     jonathan_averages = []
     agent_fay_averages = []
     agent_jonathan_averages = []
-
+    no_agents_avail = []
     for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
         agent_used_fay = 0
         agent_used_jonathan = 0
         no_trees = 0
+        no_agents = random.randint(3,8)
+        no_agents_avail.append(no_agents)
         for i, (generate_tree, title) in enumerate(test_cases[1]):
-            no_agents = random.randint(3,8)
             tree = generate_tree(no_agents)
 
             # Run each goal tree
-            result = efficiency_test(tree, [30] * no_agents)
+            result = efficiency_test(tree, [40] * no_agents)
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
@@ -1324,7 +1307,7 @@ def main():
         agent_fay_averages.append(agent_used_fay)
         agent_jonathan_averages.append(agent_used_jonathan)
         
-    plotting(fay_averages, jonathan_averages, [], agent_fay_averages, agent_jonathan_averages, j, scenario_3_a)
+    plotting(fay_averages, jonathan_averages, [], agent_fay_averages, agent_jonathan_averages, j, scenario_3_a, no_agents_avail)
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
@@ -1335,24 +1318,23 @@ def main():
     jonathan_averages = []
     agent_fay_averages = []
     agent_jonathan_averages = []
+    no_agents_avail = []
 
     for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
         agent_used_fay = 0
         agent_used_jonathan = 0
+        
+        no_agents = random.randint(3,8)
+        no_agents_avail.append(no_agents)
+        no_trees = 0 
+        resources = []
 
-        no_trees = 0
-
+        for i in range(no_agents):
+            resources.append(random.randint(40,60))
         for i, (generate_tree, title) in enumerate(test_cases[1]):
-            no_agents = random.randint(3,8)
             tree = generate_tree(no_agents)
-            # Provide different max resources to each agent
-            starting_resources = 20
-            resources = []
-            for _ in range(no_agents):
-                resources.append(starting_resources)
-                starting_resources += 5
             result = efficiency_test(tree, resources)
             if result == None:
                 continue
@@ -1379,7 +1361,7 @@ def main():
         agent_jonathan_averages.append(agent_used_jonathan)
 
         
-    plotting(fay_averages, jonathan_averages, [], agent_fay_averages, agent_jonathan_averages, j, scenario_3_b)
+    plotting(fay_averages, jonathan_averages, [], agent_fay_averages, agent_jonathan_averages, j, scenario_3_b, no_agents_avail)
 
 
     """
@@ -1398,20 +1380,22 @@ def main():
     jonathan_averages = []
     agent_fay_averages = []
     agent_jonathan_averages = []
+    no_agents_avail = []
 
     for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
         agent_used_fay = 0
         agent_used_jonathan = 0
+        no_agents = random.randint(3,8)
+        no_agents_avail.append(no_agents)
 
         no_trees = 0
 
         for i, (generate_tree, title) in enumerate(test_cases[0]):
-            no_agents = random.randint(3,8)
             tree = generate_tree(no_agents)
             # Run each goal tree
-            result = efficiency_test(tree, [30] * no_agents)
+            result = efficiency_test(tree, [40] * no_agents)
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
@@ -1437,7 +1421,7 @@ def main():
         agent_jonathan_averages.append(agent_used_jonathan)
 
         
-    plotting(fay_averages, jonathan_averages, [], agent_fay_averages, agent_jonathan_averages, j, scenario_4_a)
+    plotting(fay_averages, jonathan_averages, [], agent_fay_averages, agent_jonathan_averages, j, scenario_4_a, no_agents_avail)
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
@@ -1448,23 +1432,24 @@ def main():
     jonathan_averages = []
     agent_fay_averages = []
     agent_jonathan_averages = []
+    no_agents_avail = []
     for j in range(10):
+
         algo_results_fay = 0
         algo_results_jonathan = 0
         agent_used_fay = 0
         agent_used_jonathan = 0
-
+        #Number of agents available
+        no_agents = random.randint(3,8)
+        no_agents_avail.append(no_agents)
         no_trees = 0
+        resources = []
+        for i in range(no_agents):
+            resources.append(random.randint(40,60))
 
         for i, (generate_tree, title) in enumerate(test_cases[0]):
-            no_agents = random.randint(3,8) #???
             tree = generate_tree(no_agents)
             # Provide different max resources to each agent
-            starting_resources = 20
-            resources = []
-            for _ in range(no_agents):
-                resources.append(starting_resources)
-                starting_resources += 5
             result = efficiency_test(tree, resources)
             if result == None:
                 continue
@@ -1490,7 +1475,7 @@ def main():
         agent_fay_averages.append(agent_used_fay)
         agent_jonathan_averages.append(agent_used_jonathan)
         
-    plotting(fay_averages, jonathan_averages,[], agent_fay_averages, agent_jonathan_averages, j, scenario_4_b)
+    plotting(fay_averages, jonathan_averages,[], agent_fay_averages, agent_jonathan_averages, j, scenario_4_b,no_agents_avail)
 
         
 if __name__ == "__main__":
