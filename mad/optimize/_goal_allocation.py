@@ -705,6 +705,9 @@ def get_agent_resources_m(max_resources):
     agent_resources = {agent: resource for agent, resource in zip(agents, max_resources)}
     return agent_resources
 
+
+
+
 def perform_auction_m(node, agent_resources):
     """
     Author: Maheen
@@ -728,7 +731,6 @@ def perform_auction_m(node, agent_resources):
 
     # Create a participation dictionary to track the participation values of each agent in the goal's cost
 
-
     # Raise an error if the goal tree is empty
     if node is None:
         raise ValueError("Tree is empty!")
@@ -749,9 +751,6 @@ def perform_auction_m(node, agent_resources):
     if winning_bid >= node.cost:
         # Deduct the cost value from the winning bidder's resources
         agent_resources[winning_bidder] -= node.cost
-        # Increase the cost value of the winning bidder in the agents dictionary
-        if winning_bidder in node.agents:
-            node.agents[winning_bidder] += node.cost
         node.assigned_agent = winning_bidder
     elif len(bids) > 0:
         bids.pop(winning_bidder)
@@ -760,9 +759,6 @@ def perform_auction_m(node, agent_resources):
         if second_bid >= node.cost:
             # Deduct the cost value from the second bidder's resources
             agent_resources[second_bidder] -= node.cost
-            # Increase the cost value of the second bidder in the agents dictionary
-            if second_bidder in node.agents:
-                node.agents[second_bidder] += node.cost
             node.assigned_agent = second_bidder
         else:
             total_resources = sum(agent_resources.values())
@@ -796,16 +792,10 @@ def perform_auction_m(node, agent_resources):
                                 if resource <= remaining_cost:
                                     remaining_cost = remaining_cost - resource
                                     agent_resources[agent_with_highest_resource] -= resource
-                                    # Deduct the cost value from the agent's resources
-                                    if agent_with_highest_resource in node.agents:
-                                        node.agents[agent_with_highest_resource] += resource
                                     assigned_agents.append(agent_with_highest_resource)
                                     print("Agent Updated Resources:", agent_resources)
                                 else:
                                     agent_resources[agent_with_highest_resource] -= remaining_cost
-                                    # Deduct the cost value from the agent's resources
-                                    if agent_with_highest_resource in node.agents:
-                                        node.agents[agent_with_highest_resource] += remaining_cost
                                     assigned_agents.append(agent_with_highest_resource)
                                     remaining_cost = 0
                                     print("Agent Updated Resources:", agent_resources)
@@ -817,6 +807,7 @@ def perform_auction_m(node, agent_resources):
                         print("Remaining Agent Resources:", agent_resources)
                     else:
                         print("\n\tNo agent can cover the cost\n")
+
 
 
 
