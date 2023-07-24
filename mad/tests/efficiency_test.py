@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 
 
-def _random_cost(m: int, n: int, agents: int) -> Dict[str, int]:
+def _random_cost(m: int, n: int, agents: int, seed: int = 5) -> Dict[str, int]:
     
     """
     This function randomizes the cost of an agent when it conducts a goal based on an assigned range
@@ -38,7 +38,7 @@ def _random_cost(m: int, n: int, agents: int) -> Dict[str, int]:
 
     return d
 
-def _equal_cost(m: int, n: int, agents: int) -> Dict[str, int]:
+def _equal_cost(m: int, n: int, agents: int, seed: int = 5) -> Dict[str, int]:
     
     """
     This function randomizes the cost of an agent when it conducts a goal based on an assigned range
@@ -59,13 +59,13 @@ def _equal_cost(m: int, n: int, agents: int) -> Dict[str, int]:
     """
     
     AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "julia", "Rose"]
-
     d = {}
     cost = random.randint(m,n)
     for i in range(agents):
         d[AGENTS[i]] = cost
 
     return d
+    
 
 def random_binary_symmetric(num_agents = 3):
 
@@ -421,8 +421,6 @@ def random_tree_2(num_agents = 3):
     subgoal4.add_child(subgoal12)
     
     return root
-
-
 #EQUAL TREES
 
 def equal_binary_symmetric(num_agents = 3):
@@ -1006,6 +1004,45 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
     plt.tight_layout()
     plt.show()
 
+#MAHEEN EFFICIENCY TEST
+def average_cost(root: GoalNode2) -> float:
+    """
+    Author: Maheen
+    Calculates the average cost and Total resources used of Goalnodes.
+
+    Parameters
+    ----------
+    root : GoalNode2
+        The root node of the goal tree.
+
+    Returns
+    -------
+    float
+        The average cost of the nodes with an assigned agent.
+    """
+    resources_usage = 0
+    agent_count = 0
+
+    def traverse(node):
+        nonlocal resources_usage, agent_count
+        if node.assigned_agent != "":
+            resources_usage += node.cost
+            agent_count += 1
+        for child in node.get_children():
+            traverse(child)
+
+    traverse(root)
+
+    if agent_count > 0:
+        average_resources = resources_usage / agent_count
+        print("Total Resources Used",resources_usage)
+        print("Agents Used",agent_count)
+        print("Below as: (average_resources, resources_usage, agent_count)")
+        return average_resources, resources_usage, agent_count
+    else:
+        return 0
+    
+    #MAHEEN EFFICIENCY TEST
 
 def main():
     test_cases = [[(random_binary_symmetric,"RANDOM BINARY SYMMETRIC TREE"),
@@ -1030,7 +1067,7 @@ def main():
         (equal_tree_2, "EQUAL TREE 2"),]
    
     ]
-    
+
     """
         SCENARIO 1: 
             - Same agent cost

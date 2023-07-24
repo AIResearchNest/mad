@@ -469,33 +469,32 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
         goal_allocation[goal.agent].append(goal)
     
     # Distribute goals equally among agents same max resources
-    #if same_resources:
-    for goal in list_goal:
-        # Sort agents by remaining resources
-        sorted_agents = sorted(max_res.keys(), key=lambda agent: max_res[agent], reverse=True)
+    if same_resources:
+        for goal in list_goal:
+            # Sort agents by remaining resources
+            sorted_agents = sorted(max_res.keys(), key=lambda agent: max_res[agent], reverse=True)
 
-        # Select the current agent handling the goal
-        cur_agent = goal.agent
+            # Select the current agent handling the goal
+            cur_agent = goal.agent
 
-        for agent in sorted_agents:
-            # Skip the current agent
-            if agent == cur_agent:
-                continue
-            
-            # If this agent has enough remaining resources, they get the goal
-            if max_res[agent] - max_res[cur_agent] - goal.data[agent] > 1:
-                # Check if the goal is in the current agent's allocation before removing it
-                if goal in goal_allocation[cur_agent]:
-                    goal_allocation[cur_agent].remove(goal)
+            for agent in sorted_agents:
+                # Skip the current agent
+                if agent == cur_agent:
+                    continue
+                
+                # If this agent has enough remaining resources, they get the goal
+                if max_res[agent] - max_res[cur_agent] - goal.data[agent] > 0:
+                    # Check if the goal is in the current agent's allocation before removing it
+                    if goal in goal_allocation[cur_agent]:
+                        goal_allocation[cur_agent].remove(goal)
 
-                goal_allocation[agent].append(goal)
-                max_res[agent] -= goal.cost
-                max_res[cur_agent] += goal.cost
-                sorted_agents = sorted(max_res.keys(), key=lambda agent: max_res[agent], reverse=True)
-                # Exit the loop as the goal has been reassigned
-                break
+                    goal_allocation[agent].append(goal)
+                    max_res[agent] -= goal.cost
+                    max_res[cur_agent] += goal.cost
+                    sorted_agents = sorted(max_res.keys(), key=lambda agent: max_res[agent], reverse=True)
+                    # Exit the loop as the goal has been reassigned
+                    break
 
-    """
     else:
         for goal in list_goal:
             sorted_agents = sorted(max_res.keys(), key=lambda agent: max_res[agent], reverse=True)
@@ -517,7 +516,7 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
                 max_res[best_agent] -= goal.cost
                 max_res[cur_agent] += goal.cost
 
-    """        
+        
     
         
     if verbose:
