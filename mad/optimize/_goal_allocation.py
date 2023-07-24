@@ -499,7 +499,7 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
         for goal in list_goal:
             sorted_agents = sorted(max_res.keys(), key=lambda agent: max_res[agent], reverse=True)
             cur_agent = goal.agent
-            potential_agents = [agent for agent in sorted_agents if agent != cur_agent and abs(goal.data[agent] - goal.data[cur_agent]) <= 10]
+            potential_agents = [agent for agent in sorted_agents if agent != cur_agent and abs(goal.data[agent] - goal.data[cur_agent]) <= 5]
             
 
             best_agent = None
