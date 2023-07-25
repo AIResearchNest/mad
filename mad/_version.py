@@ -1,4 +1,4 @@
-__version__ = '0.0.62'
+__version__ = '0.0.65'
 
 #change log:
 # 0.0.0: first version
@@ -67,4 +67,5 @@ __version__ = '0.0.62'
 # 0.0.62: Adjust the goal distribution of opt algo 
 # 0.0.63: Created plots for all algorithms in ALL_TESTING.py 
 # 0.0.64: fixed a bug in algorithm 
+# 0.0.65: updated final_tests to run 1000 trees
 
