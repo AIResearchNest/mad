@@ -416,6 +416,47 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
     else:
         max_res[goal.agent] -= goal.cost
         return i + 1, list_goal, max_res
+    
+def allocate_goals_greedy(list_goal, max_res, same_resources):
+    # Initialize the goal allocation dictionary
+    goal_allocation = {agent: [] for agent in max_res.keys()}
+
+    # Initialize a dictionary to keep track of the number of goals assigned to each agent
+    num_goals = {agent: 0 for agent in max_res.keys()}
+
+    # Sort the goals based on cost
+    sorted_goals = sorted(list_goal, key=lambda goal: goal.cost)
+
+    for goal in sorted_goals:
+        # Sort the agents based on remaining resources and the number of goals assigned to each agent
+        sorted_agents = sorted(max_res.keys(), key=lambda agent: (num_goals[agent], -max_res[agent]))
+
+        # Select the current agent handling the goal
+        cur_agent = goal.agent
+        assigned = False
+
+        for agent in sorted_agents:
+            # Skip the current agent
+            if agent == cur_agent:
+                continue
+
+            if (same_resources and max_res[agent] - max_res[cur_agent] - goal.data[agent] > 0) or \
+                (not same_resources and abs(goal.data[agent] - goal.data[cur_agent]) <= 10 and max_res[agent] > 0):
+                # Assign the goal to the agent
+                goal_allocation[agent].append(goal)
+                # Update the remaining resources of the agent
+                max_res[agent] -= goal.cost
+                max_res[cur_agent] += goal.cost
+                # Increment the count of goals assigned to the agent
+                num_goals[agent] += 1
+                assigned = True
+                break
+
+        # If the goal was not reassigned to a new agent, give it back to the current agent
+        if not assigned:
+            goal_allocation[cur_agent].append(goal)
+            num_goals[cur_agent] += 1
+    return goal_allocation
 
 def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], verbose: int = 0) -> Tuple[Dict[str, List[GoalNode]], Dict[str, List[str]]]:
     """
@@ -465,56 +506,14 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
     if not list_goal:
         return ()
     
+    goal_allocation = allocate_goals_greedy(list_goal, max_res, same_resources)
+    """
     for goal in list_goal:
         goal_allocation[goal.agent].append(goal)
     
-    # Distribute goals equally among agents same max resources
-    if same_resources:
-        for goal in list_goal:
-            # Sort agents by remaining resources
-            sorted_agents = sorted(max_res.keys(), key=lambda agent: max_res[agent], reverse=True)
-
-            # Select the current agent handling the goal
-            cur_agent = goal.agent
-
-            for agent in sorted_agents:
-                # Skip the current agent
-                if agent == cur_agent:
-                    continue
-                
-                # If this agent has enough remaining resources, they get the goal
-                if max_res[agent] - max_res[cur_agent] - goal.data[agent] > 0:
-                    # Check if the goal is in the current agent's allocation before removing it
-                    if goal in goal_allocation[cur_agent]:
-                        goal_allocation[cur_agent].remove(goal)
-
-                    goal_allocation[agent].append(goal)
-                    max_res[agent] -= goal.cost
-                    max_res[cur_agent] += goal.cost
-                    sorted_agents = sorted(max_res.keys(), key=lambda agent: max_res[agent], reverse=True)
-                    # Exit the loop as the goal has been reassigned
-                    break
-
-    else:
-        for goal in list_goal:
-            sorted_agents = sorted(max_res.keys(), key=lambda agent: max_res[agent], reverse=True)
-            cur_agent = goal.agent
-            potential_agents = [agent for agent in sorted_agents if agent != cur_agent and abs(goal.data[agent] - goal.data[cur_agent]) <= 5]
-            
-
-            best_agent = None
-            best_remaining_resources = -1
-            for agent in potential_agents:
-                if max_res[agent] > best_remaining_resources:
-                    best_agent = agent
-                    best_remaining_resources = max_res[agent]
+    """
     
-            # Assign the goal to the agent with the most remaining resources (proportionally)
-            if best_agent:
-                goal_allocation[best_agent].append(goal)
-                goal_allocation[cur_agent].remove(goal)
-                max_res[best_agent] -= goal.cost
-                max_res[cur_agent] += goal.cost
+    
 
         
     
