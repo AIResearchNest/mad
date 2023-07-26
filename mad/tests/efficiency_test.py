@@ -1305,6 +1305,34 @@ def efficiency_test(goal_tree, max_res: List):
 
     print(max_resources_f, "\n", max_resources_j)
 
+    #__JONATHAN'S ALGORITHM__
+    goal_tree1 = copy.deepcopy(goal_tree)
+    print("\n\nJonathan's Algorithm:")
+    try:
+        jresult = dfs_goal_allocation(goal_tree1, max_resources_j, 0)
+    except ValueError as e:
+        # Handle the error raised in the inner function of dfs_goal_allocation()
+        print(f"Error encountered in inner function of dfs_goal_allocation(): {str(e)}")
+        return
+
+    j_agent_cost = []
+    j_agent_goals = []
+
+    j_total_resources = 0
+
+    for _ in range(len(AGENT)):
+        j_agent_cost.append(0)
+        j_agent_goals.append(0)
+
+    # Get the number of goals each agent assigned and cost consumed
+    for agent, goals in jresult.items():
+        for goal in goals:
+            print(goal.name + ": " + agent + " " + str(goal.cost))
+            j_total_resources += goal.cost
+            i = AGENT.index(agent)
+            j_agent_cost[i] += goal.cost
+            j_agent_goals[i] += 1
+            
     #__FAY'S ALGORITHM__
     print("\nFay's Algorithm:\n")
 
@@ -1350,33 +1378,7 @@ def efficiency_test(goal_tree, max_res: List):
 
     
 
-    #__JONATHAN'S ALGORITHM__
-    goal_tree1 = copy.deepcopy(goal_tree)
-    print("\n\nJonathan's Algorithm:")
-    try:
-        jresult = dfs_goal_allocation(goal_tree1, max_resources_j, 0)
-    except ValueError as e:
-        # Handle the error raised in the inner function of dfs_goal_allocation()
-        print(f"Error encountered in inner function of dfs_goal_allocation(): {str(e)}")
-        return
-
-    j_agent_cost = []
-    j_agent_goals = []
-
-    j_total_resources = 0
-
-    for _ in range(len(AGENT)):
-        j_agent_cost.append(0)
-        j_agent_goals.append(0)
-
-    # Get the number of goals each agent assigned and cost consumed
-    for agent, goals in jresult.items():
-        for goal in goals:
-            print(goal.name + ": " + agent + " " + str(goal.cost))
-            j_total_resources += goal.cost
-            i = AGENT.index(agent)
-            j_agent_cost[i] += goal.cost
-            j_agent_goals[i] += 1
+    
     
     return f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total_resources, j_total_resources, AGENT
 
