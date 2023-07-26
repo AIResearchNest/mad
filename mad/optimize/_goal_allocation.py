@@ -360,7 +360,7 @@ def _check_resources(goal: GoalNode, max_res: Dict[str, int]) -> bool:
     return False
 
 
-def handle_unfeasible_goal(goal, list_goal, i, max_res):
+def handle_unachievable_goal(goal, list_goal, i, max_res):
     goal = list_goal.pop(i)
     if not goal.get_children():
         return i, [], max_res
@@ -374,7 +374,7 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
     while not _check_resources(goal, max_res):
         goal.switch_agent()
         if goal.agent is None:
-            return handle_unfeasible_goal(goal, list_goal, i, max_res)
+            return handle_unachievable_goal(goal, list_goal, i, max_res)
 
     if not goal.get_children():
         max_res[goal.agent] -= goal.cost
@@ -434,7 +434,7 @@ def allocate_goals_greedy(list_goal, max_res):
 
     for goal in list_goal:
         # Sort the agents based on remaining resources and the number of goals assigned to each agent
-        sorted_agents = sorted(max_res.keys(), key=lambda agent: (num_goals[agent]))
+        sorted_agents = sorted(max_res.keys(), key=lambda agent: (num_goals[agent], goal.data[agent]))
         total_resources = sum([goal.cost for goal in list_goal])
 
         # Select the current agent handling the goal
@@ -448,17 +448,15 @@ def allocate_goals_greedy(list_goal, max_res):
             if max_res[agent] < goal.data[agent]:
                 continue
             resource_diff = goal.data[agent] - goal.cost
-            if num_goals[agent] < num_goals[cur_agent] and ((total_resources + resource_diff)/total_resources < 1.008):
+            if (num_goals[agent] <= num_goals[cur_agent] and resource_diff <= 0) or (num_goals[agent] < num_goals[cur_agent] and ((total_resources + resource_diff)/total_resources < 1.005)):
                 goal_allocation[agent].append(goal)
 
                 # Update the remaining resources of the agents
-                max_res[agent] -= goal.cost
+                max_res[agent] -= goal.data[agent]
                 max_res[cur_agent] += goal.cost
 
                 goal.set_agent(agent)
 
-                # Decrement total resources by the cost of the assigned goal
-                total_resources -= goal.cost
 
                 # Increment the count of goals assigned to the agent
                 num_goals[agent] += 1

@@ -1291,6 +1291,21 @@ def tree_2(random = False, num_agents = 3):
 
     return (root, rootm)
 
+def get_discrepancy(agents_and_goals):
+
+    agents_costs = []
+
+    for agent in agents_and_goals.keys():
+
+        curr_agent_cost = 0
+
+        for goal in agents_and_goals[agent]:
+            curr_agent_cost += goal.data[agent]
+        
+        agents_costs.append(curr_agent_cost)
+
+    return abs(max(agents_costs) - min(agents_costs))
+
 #__RUNNING THE EFFICIENCY TEST FOR JONATHAN'S AND FAY'S
 def efficiency_test(goal_tree, max_res: List):
     
@@ -1351,10 +1366,14 @@ def efficiency_test(goal_tree, max_res: List):
             for child in children:
                 q.append((child, node)) 
     
-    result = optimized_goal_allocation(goal_tree2, max_resources_f)
+    try:
+        result = optimized_goal_allocation(goal_tree2, max_resources_f)
+    except ValueError as e:
+        print(f"Error encountered in inner function of optimized_goal_allocation(): {str(e)}")
+        return
+    
     if result:
         fresult, fresources = result
-    # Rest of the code to process jresult and include it in the total
     else:
         return
     
@@ -1375,10 +1394,6 @@ def efficiency_test(goal_tree, max_res: List):
             f_agent_cost[i] += goal.cost
             f_agent_goals[i] += 1
 
-
-    
-
-    
     
     return f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total_resources, j_total_resources, AGENT
 
@@ -1529,6 +1544,7 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
     ax1.bar(x, jonathan_padded, width=bar_width, color=colors[1], label="Jonathan's Algorithm")
     ax1.bar(x + bar_width, maheen_padded, width=bar_width, color=colors[2], label="Maheen's Algorithm")
 
+    
     ax1.set_ylim(0, max(max(fay_padded), max(jonathan_padded), max(maheen_padded)) + 20)    
     ax1.set_xlabel('Test cases')
     ax1.set_ylabel('Average Resources')
@@ -1626,6 +1642,7 @@ def main():
         algo_results_fay /= no_trees
         algo_results_jonathan /= no_trees
         algo_results_maheen /= no_trees
+
         agent_used_fay /= no_trees
         agent_used_jonathan /= no_trees
         agent_used_maheen /= no_trees
@@ -1634,6 +1651,7 @@ def main():
         fay_averages.append(algo_results_fay)
         jonathan_averages.append(algo_results_jonathan)
         maheen_averages.append(algo_results_maheen)
+
         agent_fay_averages.append(agent_used_fay)
         agent_jonathan_averages.append(agent_used_jonathan)
         agent_maheen_averages.append(agent_used_maheen)
@@ -1660,7 +1678,7 @@ def main():
         agent_used_jonathan = 0
         agent_used_maheen = 0
         no_trees = 0
-        resources = [random.randint(35,45), random.randint(35,45), random.randint(35,45)]
+        resources = [random.randint(35,45),random.randint(35,45),random.randint(35,45)]
 
         for (generate_tree, title) in test_cases:
             tree, tree_m= generate_tree() 
@@ -1796,7 +1814,7 @@ def main():
         agent_used_maheen = 0
 
         no_trees = 0
-        resources = [random.randint(35,45), random.randint(35,45), random.randint(35,45)]
+        resources = [random.randint(35,45),random.randint(35,45),random.randint(35,45)]
 
         for (generate_tree, title) in test_cases:
             # Exclude the equal agent cost tree
@@ -2209,7 +2227,7 @@ def main():
             agent_used_jonathan = 0
             agent_used_maheen = 0
             no_trees = 0
-            resources = [random.randint(35,45), random.randint(35,45), random.randint(35,45)]
+            resources = [random.randint(35,45),random.randint(35,45),random.randint(35,45)]
 
             for (generate_tree, title) in test_cases:
                 test_case = generate_tree
@@ -2347,7 +2365,7 @@ def main():
             agent_used_jonathan = 0
             agent_used_maheen = 0
             no_trees = 0
-            resources = [random.randint(35,45), random.randint(35,45), random.randint(35,45)]
+            resources = [random.randint(35,45),random.randint(35,45),random.randint(35,45)]
             for (generate_tree, title) in test_cases:
                 test_case = generate_tree
                 # each tree run 10 times
