@@ -416,39 +416,39 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
     else:
         max_res[goal.agent] -= goal.cost
         return i + 1, list_goal, max_res
-    
-def allocate_goals_greedy(list_goal, max_res, same_resources):
+def allocate_goals_greedy(list_goal, max_res):
     # Initialize the goal allocation dictionary
     goal_allocation = {agent: [] for agent in max_res.keys()}
 
     # Initialize a dictionary to keep track of the number of goals assigned to each agent
     num_goals = {agent: 0 for agent in max_res.keys()}
 
-    # Sort the goals based on cost
-    sorted_goals = sorted(list_goal, key=lambda goal: goal.cost)
+    for goal in list_goal:
+        num_goals[goal.agent] += 1    
 
-    for goal in sorted_goals:
-        # Sort the agents based on remaining resources and the number of goals assigned to each agent
-        sorted_agents = sorted(max_res.keys(), key=lambda agent: (num_goals[agent], -max_res[agent]))
-
+    while list_goal:
+        goal = list_goal[0]
+        sorted_agents = sorted(max_res.keys(), key=lambda agent: (-max_res[agent], num_goals[agent]))
         # Select the current agent handling the goal
         cur_agent = goal.agent
         assigned = False
 
         for agent in sorted_agents:
-            # Skip the current agent
+
             if agent == cur_agent:
                 continue
 
-            if (same_resources and max_res[agent] - max_res[cur_agent] - goal.data[agent] > 0) or \
-                (not same_resources and abs(goal.data[agent] - goal.data[cur_agent]) <= 10 and max_res[agent] > 0):
+            if max_res[agent] > goal.data[agent]:
                 # Assign the goal to the agent
                 goal_allocation[agent].append(goal)
-                # Update the remaining resources of the agent
-                max_res[agent] -= goal.cost
                 max_res[cur_agent] += goal.cost
+                goal.set_agent(agent)
+                # Update the remaining resources of the agent
+                max_res[agent] -= goal.data[agent]
+
                 # Increment the count of goals assigned to the agent
                 num_goals[agent] += 1
+                num_goals[cur_agent] -= 1
                 assigned = True
                 break
 
@@ -456,7 +456,13 @@ def allocate_goals_greedy(list_goal, max_res, same_resources):
         if not assigned:
             goal_allocation[cur_agent].append(goal)
             num_goals[cur_agent] += 1
+
+        # Remove the goal from the list
+        list_goal.remove(goal)
+
     return goal_allocation
+
+
 
 def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], verbose: int = 0) -> Tuple[Dict[str, List[GoalNode]], Dict[str, List[str]]]:
     """
@@ -506,18 +512,8 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
     if not list_goal:
         return ()
     
-    goal_allocation = allocate_goals_greedy(list_goal, max_res, same_resources)
-    """
-    for goal in list_goal:
-        goal_allocation[goal.agent].append(goal)
+    goal_allocation = allocate_goals_greedy(list_goal, max_res)
     
-    """
-    
-    
-
-        
-    
-        
     if verbose:
         for agent in goal_allocation:
             print(agent, end=": ")

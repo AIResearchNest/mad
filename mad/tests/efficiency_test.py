@@ -1543,7 +1543,7 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
     ax2.bar(x, agent_jonathan_averages, width=bar_width, color=colors[1], label="Jonathan's Algorithm")
     ax2.bar(x + bar_width, agent_maheen_averages, width=bar_width, color=colors[2], label="Maheen's Algorithm")
 
-    ax2.set_ylim(0, max(max(agent_fay_averages), max(agent_jonathan_averages), max(agent_maheen_averages)) + 2)
+    ax2.set_ylim(0, max(max(agent_fay_averages), max(agent_jonathan_averages), max(agent_maheen_averages)) + 1)
 
     ax2.set_xlabel('Test cases')
     ax2.set_ylabel('Average Agents Used')
@@ -1658,17 +1658,18 @@ def main():
         agent_used_jonathan = 0
         agent_used_maheen = 0
         no_trees = 0
+        resources = [random.randint(35,45), random.randint(35,45), random.randint(35,45)]
 
         for (generate_tree, title) in test_cases:
             tree, tree_m= generate_tree() 
             
             # Run each goal tree
-            result = efficiency_test(tree, [30,40,35])
+            result = efficiency_test(tree, resources)
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
             #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
-            m_total, agents_used_m = efficiency_test_m(tree_m, [30,40,35])
+            m_total, agents_used_m = efficiency_test_m(tree_m, resources)
             algo_results_fay += f_total
             algo_results_jonathan += j_total
             algo_results_maheen += m_total
@@ -1793,18 +1794,19 @@ def main():
         agent_used_maheen = 0
 
         no_trees = 0
+        resources = [random.randint(35,45), random.randint(35,45), random.randint(35,45)]
 
         for (generate_tree, title) in test_cases:
             # Exclude the equal agent cost tree
             tree, tree_m= generate_tree(True,3) 
             
             # Run each goal tree
-            result = efficiency_test(tree, [30,40,35])            
+            result = efficiency_test(tree, resources)            
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
             #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
-            m_total, agents_used_m = efficiency_test_m(tree_m, [30,40,35])
+            m_total, agents_used_m = efficiency_test_m(tree_m, resources)
             algo_results_fay += f_total
             algo_results_jonathan += j_total
             algo_results_maheen += m_total
@@ -1933,7 +1935,7 @@ def main():
         resources = []
 
         for i in range(no_agents):
-            resources.append(random.randint(30,50))
+            resources.append(random.randint(35,45))
         for (generate_tree, title) in test_cases:
             tree, tree_m= generate_tree(False, no_agents) 
             result = efficiency_test(tree, resources)
@@ -2071,7 +2073,7 @@ def main():
         resources = []
 
         for i in range(no_agents):
-            resources.append(random.randint(30,50))
+            resources.append(random.randint(35,45))
         for (generate_tree, title) in test_cases:
 
             tree, tree_m= generate_tree(True, no_agents) 
@@ -2115,7 +2117,6 @@ def main():
     """
         SCENARIO 5: 
             - Same agent cost
-            - Ten trees
             - 3 Agents
             - 1000 trees
     """
@@ -2187,7 +2188,7 @@ def main():
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_5_b = "SCENARIO 5b\n 1000 Trees - Same Agent Cost - 3 Agents - Different Max Resources"
+    scenario_5_b = "SCENARIO 5B\n 1000 Trees - Same Agent Cost - 3 Agents - Different Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -2198,7 +2199,7 @@ def main():
     agent_jonathan_averages = []
     agent_maheen_averages = []
 
-    for _ in range(10):
+    for j in range(10):
             algo_results_fay = 0
             algo_results_jonathan = 0
             algo_results_maheen = 0
@@ -2206,7 +2207,8 @@ def main():
             agent_used_jonathan = 0
             agent_used_maheen = 0
             no_trees = 0
-            
+            resources = [random.randint(35,45), random.randint(35,45), random.randint(35,45)]
+
             for (generate_tree, title) in test_cases:
                 test_case = generate_tree
                 # each tree run 10 times
@@ -2214,11 +2216,11 @@ def main():
                     tree, tree_m= test_case()
                 
                     # Run each goal tree
-                    result = efficiency_test(tree, [30,40,45])
+                    result = efficiency_test(tree, resources)
                     if result == None:
                         continue
                     (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-                    m_total, agents_used_m = efficiency_test_m(tree_m, [30,40,45])
+                    m_total, agents_used_m = efficiency_test_m(tree_m, resources)
                     algo_results_fay += f_total
                     algo_results_jonathan += j_total
                     algo_results_maheen += m_total
@@ -2249,6 +2251,446 @@ def main():
 
     # Plotting for each test case
     plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_5_b) 
+
+    """
+        SCENARIO 6: 
+            - Random agent cost
+            - 3 Agents
+            - 1000 trees
+    """
+
+    # SUB CASE: SAME MAX RESOURCES
+    # Test for 10 times each scenario
+    scenario_6_a = "SCENARIO 6A\n 1000 Trees - Random Agent Cost - 3 Agents - Same Max Resources"
+
+    # Store the average results for each algorithm
+    fay_averages = []
+    jonathan_averages = []
+    maheen_averages = []
+
+    agent_fay_averages = []
+    agent_jonathan_averages = []
+    agent_maheen_averages = []
+
+    for j in range(10):  # 10 trees per test case
+            algo_results_fay = 0
+            algo_results_jonathan = 0
+            algo_results_maheen = 0
+            agent_used_fay = 0
+            agent_used_jonathan = 0
+            agent_used_maheen = 0
+            no_trees = 0
+            
+            for (generate_tree, title) in test_cases:
+                test_case = generate_tree
+                # each tree run 10 times
+                for _ in range(10):  
+                    tree, tree_m= test_case(True, 3)
+                
+                    # Run each goal tree
+                    result = efficiency_test(tree, [40,40,40])
+                    if result == None:
+                        continue
+                    (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+                    m_total, agents_used_m = efficiency_test_m(tree_m, [40,40,40])
+                    algo_results_fay += f_total
+                    algo_results_jonathan += j_total
+                    algo_results_maheen += m_total
+                    for a in f_agent_goals:
+                        if a:
+                            agent_used_fay += 1
+                    for a in j_agent_goals:
+                        if a:
+                            agent_used_jonathan += 1  
+                    agent_used_maheen += agents_used_m 
+                    no_trees += 1
+
+            # Calculate averages for this tree
+            algo_results_fay /= no_trees
+            algo_results_jonathan /= no_trees
+            algo_results_maheen /= no_trees
+            agent_used_fay /= no_trees
+            agent_used_jonathan /= no_trees
+            agent_used_maheen /= no_trees
+            
+            # Append the averages to the lists
+            fay_averages.append(algo_results_fay)
+            jonathan_averages.append(algo_results_jonathan)
+            maheen_averages.append(algo_results_maheen)
+            agent_fay_averages.append(agent_used_fay)
+            agent_jonathan_averages.append(agent_used_jonathan)
+            agent_maheen_averages.append(agent_used_maheen)
+
+    # Plotting for each test case
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_6_a) 
+
+    # SUB CASE: DIFFERENT MAX RESOURCES
+    # Test for 10 times each scenario
+    scenario_6_b = "SCENARIO 6B\n 1000 Trees - Random Agent Cost - Many Agents - Different Max Resources"
+
+    # Store the average results for each algorithm
+    fay_averages = []
+    jonathan_averages = []
+    maheen_averages = []
+
+    agent_fay_averages = []
+    agent_jonathan_averages = []
+    agent_maheen_averages = []
+
+    for j in range(10):
+            algo_results_fay = 0
+            algo_results_jonathan = 0
+            algo_results_maheen = 0
+            agent_used_fay = 0
+            agent_used_jonathan = 0
+            agent_used_maheen = 0
+            no_trees = 0
+            resources = [random.randint(35,45), random.randint(35,45), random.randint(35,45)]
+            for (generate_tree, title) in test_cases:
+                test_case = generate_tree
+                # each tree run 10 times
+                for _ in range(10):  
+                    tree, tree_m= test_case(True, 3)
+                
+                    # Run each goal tree
+                    result = efficiency_test(tree, resources)
+                    if result == None:
+                        continue
+                    (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+                    m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                    algo_results_fay += f_total
+                    algo_results_jonathan += j_total
+                    algo_results_maheen += m_total
+                    for a in f_agent_goals:
+                        if a:
+                            agent_used_fay += 1
+                    for a in j_agent_goals:
+                        if a:
+                            agent_used_jonathan += 1  
+                    agent_used_maheen += agents_used_m 
+                    no_trees += 1
+
+            # Calculate averages for this tree
+            algo_results_fay /= no_trees
+            algo_results_jonathan /= no_trees
+            algo_results_maheen /= no_trees
+            agent_used_fay /= no_trees
+            agent_used_jonathan /= no_trees
+            agent_used_maheen /= no_trees
+            
+            # Append the averages to the lists
+            fay_averages.append(algo_results_fay)
+            jonathan_averages.append(algo_results_jonathan)
+            maheen_averages.append(algo_results_maheen)
+            agent_fay_averages.append(agent_used_fay)
+            agent_jonathan_averages.append(agent_used_jonathan)
+            agent_maheen_averages.append(agent_used_maheen)
+
+    # Plotting for each test case
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_6_b) 
+
+    """
+        SCENARIO 7: 
+            - Same agent cost
+            - Varying Agents
+            - 1000 trees
+    """
+
+    # SUB CASE: SAME MAX RESOURCES
+    # Test for 10 times each scenario
+    scenario_7_a = "SCENARIO 7A\n 1000 Trees - Same Agent Cost - Many Agents - Same Max Resources"
+
+    # Store the average results for each algorithm
+    fay_averages = []
+    jonathan_averages = []
+    maheen_averages = []
+
+    agent_fay_averages = []
+    agent_jonathan_averages = []
+    agent_maheen_averages = []
+
+    no_agents_avail = []
+
+    for j in range(10):  # 10 trees per test case
+            algo_results_fay = 0
+            algo_results_jonathan = 0
+            algo_results_maheen = 0
+            agent_used_fay = 0
+            agent_used_jonathan = 0
+            agent_used_maheen = 0
+            no_trees = 0
+
+            no_agents = random.randint(3,10)
+            no_agents_avail.append(no_agents)
+
+            for (generate_tree, title) in test_cases:
+                test_case = generate_tree
+                # each tree run 10 times
+                for _ in range(10):  
+                    tree, tree_m= test_case(False, no_agents)
+                
+                    # Run each goal tree
+                    result = efficiency_test(tree, [40] * no_agents)
+                    if result == None:
+                        continue
+                    (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+                    m_total, agents_used_m = efficiency_test_m(tree_m, [40] * no_agents)
+                    algo_results_fay += f_total
+                    algo_results_jonathan += j_total
+                    algo_results_maheen += m_total
+                    for a in f_agent_goals:
+                        if a:
+                            agent_used_fay += 1
+                    for a in j_agent_goals:
+                        if a:
+                            agent_used_jonathan += 1  
+                    agent_used_maheen += agents_used_m 
+                    no_trees += 1
+
+            # Calculate averages for this tree
+            algo_results_fay /= no_trees
+            algo_results_jonathan /= no_trees
+            algo_results_maheen /= no_trees
+            agent_used_fay /= no_trees
+            agent_used_jonathan /= no_trees
+            agent_used_maheen /= no_trees
+            
+            # Append the averages to the lists
+            fay_averages.append(algo_results_fay)
+            jonathan_averages.append(algo_results_jonathan)
+            maheen_averages.append(algo_results_maheen)
+            agent_fay_averages.append(agent_used_fay)
+            agent_jonathan_averages.append(agent_used_jonathan)
+            agent_maheen_averages.append(agent_used_maheen)
+
+    # Plotting for each test case
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_7_a, no_agents_avail) 
+
+    # SUB CASE: DIFFERENT MAX RESOURCES
+    # Test for 10 times each scenario
+    scenario_7_b = "SCENARIO 7B\n 1000 Trees - Same Agent Cost - Many Agents - Different Max Resources"
+
+    # Store the average results for each algorithm
+    fay_averages = []
+    jonathan_averages = []
+    maheen_averages = []
+
+    agent_fay_averages = []
+    agent_jonathan_averages = []
+    agent_maheen_averages = []
+
+    no_agents_avail = []
+    for j in range(10):
+            algo_results_fay = 0
+            algo_results_jonathan = 0
+            algo_results_maheen = 0
+            agent_used_fay = 0
+            agent_used_jonathan = 0
+            agent_used_maheen = 0
+            no_trees = 0
+            
+            no_agents = random.randint(3,10)
+            no_agents_avail.append(no_agents)
+            resources = []
+
+            for i in range(no_agents):
+                resources.append(random.randint(35,45))
+
+            for (generate_tree, title) in test_cases:
+                test_case = generate_tree
+                # each tree run 10 times
+                for _ in range(10):  
+                    tree, tree_m= test_case(False, no_agents)
+                
+                    # Run each goal tree
+                    result = efficiency_test(tree, resources)
+                    if result == None:
+                        continue
+                    (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+                    m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                    algo_results_fay += f_total
+                    algo_results_jonathan += j_total
+                    algo_results_maheen += m_total
+                    for a in f_agent_goals:
+                        if a:
+                            agent_used_fay += 1
+                    for a in j_agent_goals:
+                        if a:
+                            agent_used_jonathan += 1  
+                    agent_used_maheen += agents_used_m 
+                    no_trees += 1
+
+            # Calculate averages for this tree
+            algo_results_fay /= no_trees
+            algo_results_jonathan /= no_trees
+            algo_results_maheen /= no_trees
+            agent_used_fay /= no_trees
+            agent_used_jonathan /= no_trees
+            agent_used_maheen /= no_trees
+            
+            # Append the averages to the lists
+            fay_averages.append(algo_results_fay)
+            jonathan_averages.append(algo_results_jonathan)
+            maheen_averages.append(algo_results_maheen)
+            agent_fay_averages.append(agent_used_fay)
+            agent_jonathan_averages.append(agent_used_jonathan)
+            agent_maheen_averages.append(agent_used_maheen)
+
+    # Plotting for each test case
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_7_b, no_agents_avail) 
+
+    """
+        SCENARIO 8: 
+            - Random agent cost
+            - 3 Agents
+            - 1000 trees
+    """
+
+    # SUB CASE: SAME MAX RESOURCES
+    # Test for 10 times each scenario
+    scenario_8_a = "SCENARIO 8A\n 1000 Trees - Random Agent Cost - Many Agents - Same Max Resources"
+
+    # Store the average results for each algorithm
+    fay_averages = []
+    jonathan_averages = []
+    maheen_averages = []
+
+    agent_fay_averages = []
+    agent_jonathan_averages = []
+    agent_maheen_averages = []
+
+    no_agents_avail = []
+
+    for j in range(10):  # 10 trees per test case
+            algo_results_fay = 0
+            algo_results_jonathan = 0
+            algo_results_maheen = 0
+            agent_used_fay = 0
+            agent_used_jonathan = 0
+            agent_used_maheen = 0
+            no_trees = 0
+
+            no_agents = random.randint(3,10)
+            no_agents_avail.append(no_agents)
+            
+            for (generate_tree, title) in test_cases:
+                test_case = generate_tree
+                # each tree run 10 times
+                for _ in range(10):  
+                    tree, tree_m= test_case(True,  no_agents)
+                
+                    # Run each goal tree
+                    result = efficiency_test(tree, [40] * no_agents )
+                    if result == None:
+                        continue
+                    (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+                    m_total, agents_used_m = efficiency_test_m(tree_m, [40] * no_agents)
+                    algo_results_fay += f_total
+                    algo_results_jonathan += j_total
+                    algo_results_maheen += m_total
+                    for a in f_agent_goals:
+                        if a:
+                            agent_used_fay += 1
+                    for a in j_agent_goals:
+                        if a:
+                            agent_used_jonathan += 1  
+                    agent_used_maheen += agents_used_m 
+                    no_trees += 1
+
+            # Calculate averages for this tree
+            algo_results_fay /= no_trees
+            algo_results_jonathan /= no_trees
+            algo_results_maheen /= no_trees
+            agent_used_fay /= no_trees
+            agent_used_jonathan /= no_trees
+            agent_used_maheen /= no_trees
+            
+            # Append the averages to the lists
+            fay_averages.append(algo_results_fay)
+            jonathan_averages.append(algo_results_jonathan)
+            maheen_averages.append(algo_results_maheen)
+            agent_fay_averages.append(agent_used_fay)
+            agent_jonathan_averages.append(agent_used_jonathan)
+            agent_maheen_averages.append(agent_used_maheen)
+
+    # Plotting for each test case
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_8_a, no_agents_avail) 
+
+    # SUB CASE: DIFFERENT MAX RESOURCES
+    # Test for 10 times each scenario
+    scenario_8_b = "SCENARIO 8B\n 1000 Trees - Random Agent Cost - Many Agents - Different Max Resources"
+
+    # Store the average results for each algorithm
+    fay_averages = []
+    jonathan_averages = []
+    maheen_averages = []
+
+    agent_fay_averages = []
+    agent_jonathan_averages = []
+    agent_maheen_averages = []
+
+    no_agents_avail = []
+
+    for j in range(10):
+            algo_results_fay = 0
+            algo_results_jonathan = 0
+            algo_results_maheen = 0
+            agent_used_fay = 0
+            agent_used_jonathan = 0
+            agent_used_maheen = 0
+            no_trees = 0
+
+            no_agents = random.randint(3,10)
+            no_agents_avail.append(no_agents)
+
+            resources = []
+
+            for i in range(no_agents):
+                resources.append(random.randint(35,45))
+
+            for (generate_tree, title) in test_cases:
+                test_case = generate_tree
+                # each tree run 10 times
+                for _ in range(10):  
+                    tree, tree_m= test_case(True, 3)
+                
+                    # Run each goal tree
+                    result = efficiency_test(tree, resources)
+                    if result == None:
+                        continue
+                    (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+                    m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                    algo_results_fay += f_total
+                    algo_results_jonathan += j_total
+                    algo_results_maheen += m_total
+                    for a in f_agent_goals:
+                        if a:
+                            agent_used_fay += 1
+                    for a in j_agent_goals:
+                        if a:
+                            agent_used_jonathan += 1  
+                    agent_used_maheen += agents_used_m 
+                    no_trees += 1
+
+            # Calculate averages for this tree
+            algo_results_fay /= no_trees
+            algo_results_jonathan /= no_trees
+            algo_results_maheen /= no_trees
+            agent_used_fay /= no_trees
+            agent_used_jonathan /= no_trees
+            agent_used_maheen /= no_trees
+            
+            # Append the averages to the lists
+            fay_averages.append(algo_results_fay)
+            jonathan_averages.append(algo_results_jonathan)
+            maheen_averages.append(algo_results_maheen)
+            agent_fay_averages.append(agent_used_fay)
+            agent_jonathan_averages.append(agent_used_jonathan)
+            agent_maheen_averages.append(agent_used_maheen)
+
+    # Plotting for each test case
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_8_b, no_agents_avail) 
+
 
 if __name__ == "__main__":
     main()
