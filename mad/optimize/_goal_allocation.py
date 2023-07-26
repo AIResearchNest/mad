@@ -537,7 +537,7 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
 Maheen's Algorithm
 ########################################################
 """
-import random
+import random as r
 from typing import Dict, List, Tuple
 import heapq
 from mad.data_structures._multi_agent_goal_node_two import GoalNode2, level_order_transversal_two
@@ -572,53 +572,195 @@ def random_cost_m(start_range: int, end_range: int) -> int:
 #Diajkstraaas
 #Diajkstraaas
 
-def shortest_path_m(root_node: GoalNode2) -> tuple[int, List[str], List[str]]:
+   
+def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, int]]:
     """
-    Author: Maheen
-    Implements Dijkstra's algorithm to find the shortest path with the given conditions.
+    Finds the most optimal goal path based on the GoalNode2.cost values throughout the tree and returns the cost
+    and the list of goal names to be accomplished by agents.
 
     Parameters
     ----------
-    root_node : GoalNode2
-        The root node of the goal tree.
+    goal_tree : GoalNode2
+        Hierarchical Multi Agent Goal Tree.
+    max_resources : List[int]
+        List of max amount of resources each agent has available.
 
     Returns
     -------
-    Tuple[int, List[str], List[str]]
-        The shortest path cost, list of goals, and list of agents (if any)  """
+    Tuple[int, List[str], Dict[str, Dict[str, int]]]
+        Tuple containing:
+        - The most optimal total cost.
+        - List of goal names to be accomplished by agents.
+        - Dictionary containing root node children names and their respective children names and their added cost.
+    """
 
-   
-    # Initialize a priority queue to store nodes based on their costs
-    pq = [(0, root_node)]  # Cost of root_node is set to 0
+    def calculate_cost(node: GoalNode2) -> Dict[str, int]:
+        """
+        Recursively calculates the added cost for all children of the given node.
 
-    # Initialize dictionaries to store costs and paths
-    costs = {root_node: 0}
-    paths = {root_node: []}
+        Parameters
+        ----------
+        node : GoalNode2
+            The current node.
 
-    # Process nodes in the priority queue until it becomes empty
-    while pq:
-        current_cost, current_node = heapq.heappop(pq)
+        Returns
+        -------
+        Dict[str, int]
+            A dictionary containing the added cost of all children of the current node.
+        """
+        def calculate_child_cost(child: GoalNode2, parent_cost: int) -> int:
+            """
+            Recursively calculates the cost of a child node while excluding the parent's cost.
+
+            Parameters
+            ----------
+            child : GoalNode2
+                The current child node.
+            parent_cost : int
+                The cost of the parent node.
+
+            Returns
+            -------
+            int
+                The added cost of the child node and its descendants.
+            """
+            if not child.get_children():
+                return child.cost
+
+            child_cost = child.cost
+            for grandchild in child.get_children():
+                child_cost += calculate_child_cost(grandchild, parent_cost=node.cost)
+
+            return child_cost
+
+        if not node.get_children():
+            return {}
+
+        children_costs = {}
+        for child in node.get_children():
+            child_cost = calculate_child_cost(child, parent_cost=node.cost)
+            children_costs[child.name] = child_cost
+
+        return children_costs
+    
+    def _root_child_calculate_cost(node: GoalNode2) -> int:
+        """
+        Recursively calculates the added cost for all children of the given node.
+
+        Parameters
+        ----------
+        node : GoalNode2
+            The current node.
+
+        Returns
+        -------
+        int
+            The added cost of all children of the current node.
+        """
+        if not node.get_children():
+            return node.cost
+
+        total_cost = node.cost
+        
+        for child in node.get_children():
+            total_cost += _root_child_calculate_cost(child)
+
+        return total_cost
+
+    # Data structures to store the optimal path information
+    #min_cost_children = float('inf')  # Minimum cost among children of the root node
+       # List of goal names for the optimal path among root node children
+    best_agents_children = {}         # Dictionary containing goal names and assigned agent names for the optimal path among root node children
+    children_costs = {}               # Dictionary to store added costs of all children for each root node child
+    min_cost_children = {} 
+    
+    #root node children:
+    root_children = {}  # Dictionary to store root node children names and their respective costs
+    root_children_total = 0
+    for child in goal_tree.get_children():
+        root_children[child.name] = child.cost
+        root_children_total += child.cost
+    #print("root children total=",root_children_total)
+    #print("root children nodes:", root_children)
+    
+    #children's children
+     # Update the min_cost_children dictionary with each child name and its cost
+    # Initialize the variable to store the sum of children costs
+    children_total = 0
+    for child in goal_tree.get_children():
+        child_cost = sum(calculate_cost(child).values())
+        children_costs[child.name] = calculate_cost(child)
+        min_cost_children[child.name] = child_cost
+        children_total += child_cost
+    #print("Children total=",children_total)  
+    #print("Each root child's children added sum each", min_cost_children)
+  
+    #storing garndchildren names etc:
+    for child in goal_tree.get_children():
+        child_cost = sum(calculate_cost(child).values())
+        children_costs[child.name] = calculate_cost(child)
+        #print(child_cost) # Cost of parents has been removed , it gives only cost of children now. 
+        # Extract the sub-dictionaries as a list
+    sub_dictionaries = list(children_costs.values())    
+    #print("List of nodes",sub_dictionaries)
+
+    
+    #comparsion for best_goals_children and shortest_cost
+    # Comparison for best_goals_children and shortest_cost
+    shortest_cost = 0
+    best_goals_children = []
+    #sum of node + opposite children. 
+    
+    both_min_sum = 0
+    #both_min_sum =  
+    #print(both_min_sum)
+    
+    # Cross-over approach: Find the minimum pair of children's costs
+    min_pair_cost = float('inf')
+    all_crossover_pairs = []
+    min_pair_list = []
+    for root_child_name, root_child_cost in root_children.items():
+        for child_name, child_cost in min_cost_children.items():
+            if root_child_name != child_name:  # Avoid making a pair with its own children
+                pair_cost = root_child_cost + child_cost
+                #print(pair_cost)
+                min_pair_list.append(pair_cost)
+                #print(min_pair_list)
+                min_pair_cost = min(min_pair_list)
+                #print(min_pair_cost)
+                    
+                # Store all crossover pairs for later comparison
+                all_crossover_pairs.append({root_child_name: root_child_cost, child_name: child_cost})
+        #print("all",all_crossover_pairs)
+    
+    
+    if root_children_total <= children_total:
+        shortest_cost = root_children_total
+        best_goals_children = root_children
+    elif children_total < root_children_total and children_total < min_pair_cost:
+        shortest_cost = children_total
+        best_goals_children = sub_dictionaries
+    else:
+
+        # Check if any pair in all_crossover_pairs sums to be equal to min_pair_cost
+        matching_pairs = [pair for pair in all_crossover_pairs if pair[list(pair.keys())[0]] + pair[list(pair.keys())[1]] == min_pair_cost]
+
+        if matching_pairs:
+            # Randomly choose one pair from the matching pairs
+            best_pair = r.choice(matching_pairs)
+            shortest_cost = min_pair_cost
+            #print("hbfbhwjrf", best_pair)
+            best_goals_children.append(best_pair)
         
 
-        # Check if the current node is the goal node
-        if not current_node.children:
-            # Return the shortest path cost, list of goals, and list of agents
-            return current_cost, paths[current_node] + [current_node.name], [current_node.agents]
+       
 
-        # Explore child nodes
-        for child_node in current_node.children:
-            child_cost = current_cost + child_node.cost
+    print("Shortest cost =", shortest_cost)
+    print("Best goals =", best_goals_children)
+    
+    
+    return shortest_cost, best_goals_children
 
-            # Update the cost and path if a shorter path is found
-            if child_node not in costs or child_cost < costs[child_node]:
-                costs[child_node] = child_cost
-                paths[child_node] = paths[current_node] + [current_node.name]
-
-                # Add the child node to the priority queue
-                heapq.heappush(pq, (child_cost, child_node))
-
-    # If no goal node is found, return None
-    return None
    
 def compare_m(shortest_cost: int, root_node_cost: int):
     """
@@ -643,42 +785,63 @@ def compare_m(shortest_cost: int, root_node_cost: int):
         
 
 
+        
 def extract_node_info_m(root_node, shortest_goals):
     """
     Author: Maheen
-    Extracts node names and costs from GoalNode2s that have the same name as the nodes in the shortest_goals list,
-    and stores them in a dictionary.
+    Extracts GoalNode2 instances that have the same name as the nodes in the shortest_goals list,
+    and stores them in a list.
 
     Parameters
     ----------
     root_node : GoalNode2
         The root node of the goal tree.
 
-    shortest_goals : List[str]
-        The list of goal names representing the shortest path.
+    shortest_goals : Dict[str, int] or List[Dict[str, int]]
+        The dictionary or list of dictionaries representing the shortest path,
+        where each dictionary contains node names and costs.
 
     Returns
     -------
-    Dict[str, int]
-        Dictionary containing node names and costs for the nodes in the shortest path.
+    List[GoalNode2]
+        List containing GoalNode2 instances with the same names as the nodes in the shortest path.
     """
-    
-    node_info = {}
 
-    # Traverse the tree in level order
-    q = []
-    q.append(root_node)
+    def find_node_by_name(node, name):
+        # Helper function to find a GoalNode2 instance by its name
+        if node.name == name:
+            return node
+        for child in node.get_children():
+            result = find_node_by_name(child, name)
+            if result:
+                return result
+        return None
 
-    while q:
-        node = q.pop(0)
-        if node.name in shortest_goals:
-            node_info[node.name] = node
+    def extract_nodes_from_dict(goal_dict):
+        nodes_info = []
+        if isinstance(goal_dict, dict):
+            for name, cost in goal_dict.items():
+                node = find_node_by_name(root_node, name)
+                if node:
+                    nodes_info.append((node))
+        return nodes_info
 
-        children = node.get_children()
-        for child in children:
-            q.append(child)
+    node_info_list = []
+    # If shortest_goals is an empty list, return an empty node_info_list
+    if not shortest_goals:
+        return node_info_list
 
-    return node_info
+    # Convert single dictionary input into a list with a single element
+    if isinstance(shortest_goals, dict):
+        shortest_goals = [shortest_goals]
+
+    # If shortest_goals contains dictionaries, extract nodes from the dictionaries
+    for goal in shortest_goals:
+        nodes_info = extract_nodes_from_dict(goal)
+        node_info_list.extend(nodes_info)
+
+    print("List of GoalNode2 instances with their costs:", node_info_list)
+    return node_info_list
 
 
 
@@ -807,6 +970,7 @@ def perform_auction_m(node, agent_resources):
 
 
 
+
 def agent_goal_m(nodes, max_resources):
     """
     Author: Maheen
@@ -828,15 +992,18 @@ def agent_goal_m(nodes, max_resources):
     agent_resources = get_agent_resources_m(max_resources)
    
 
-    shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
+    shortest_cost, shortest_goals = shortest_path_m(root)
+    #print("qerfgthguju  ",shortest_goals[-1])
+    
     print("\n\t Initial cost allocation:\n")
     level_order_transversal_two(root)
     print("\nAgent Initial Resources:", agent_resources)
-    print("\nList of Goals for minimum cost:", shortest_goals[1:])
+    print("\nList of Goals for minimum cost:", shortest_goals)
     compare_m(shortest_cost, root.cost)
     
 
-    node_info = extract_node_info_m(root, shortest_goals[1:])
+    node_info = extract_node_info_m(root, shortest_goals)
+    #print(node_info)
     print("\n\tGoal assignment to agents Info:\n\t")
 
     if root.cost <= shortest_cost or len(root.get_children()) == 0:
@@ -845,18 +1012,31 @@ def agent_goal_m(nodes, max_resources):
     
         print("\n\t\tFINAL INFO\n")
         level_order_transversal_two(root)
+    
     else:
-        for name, cost in node_info.items():
-            if name != root.name:
-                node = next((n for n in nodes if n.name == name), None)
-                if node:
-                    perform_auction_m(node, agent_resources)
+        node_info = extract_node_info_m(root, shortest_goals)
+
+        # If shortest_goals contains dictionaries, extract nodes from the dictionaries
+        if isinstance(shortest_goals, dict):
+            for node in node_info:
+                if node.name != root.name:
+                    found_node = next((n for n in nodes if n.name == node.name), None)
+                    if found_node:
+                        perform_auction_m(found_node, agent_resources)  # Pass the cost to perform_auction_m
+        else:  # If shortest_goals contains only node names
+            for node in node_info:
+                if node.name != root.name:
+                    found_node = next((n for n in nodes if n.name == node.name), None)
+                    if found_node:
+                        perform_auction_m(found_node, agent_resources)  # Pass None as the cost
+
 
         print("\n\t\tFINAL INFO\n")
         level_order_transversal_two(root)
 
     print("Final Agent Resources:", agent_resources)
     print("\n")
+
 
 
 #varying costs

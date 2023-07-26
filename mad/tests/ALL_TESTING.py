@@ -2639,25 +2639,24 @@ def plot_stacked_bar_chart(fay_averages, jonathan_averages, maheen_averages, ite
     colors = ['peachpuff', 'lightblue', 'mediumpurple']
     algorithms = ["Fay's Algorithm", "Jonathan's Algorithm", "Maheen's Algorithm"]
 
-    # Plot the stacked bar chart
-    x = range(1, iteration + 2) 
-    # width of the bars
-    width = 0.1 
-    fig, ax = plt.subplots(figsize=(8, 6))
+    # Plot the grouped bar chart
+    x = np.arange(iteration + 1)
+    # width of each bar
+    width = 0.2
+    fig, ax = plt.subplots(figsize=(12, 6))
 
     # Plot the bars for Fay's averages
-    ax.bar(x, fay_averages, width, label="Fay's Algorithm", color=colors[0])
+    fay_bars = ax.bar(x - width, fay_averages, width, label="Fay's Algorithm", color=colors[0])
 
     # Plot the bars for Jonathan's averages
-    ax.bar(x, jonathan_averages, width, bottom=fay_averages, label="Jonathan's Algorithm", color=colors[1])
+    jonathan_bars = ax.bar(x, jonathan_averages, width, label="Jonathan's Algorithm", color=colors[1])
 
     # Plot the bars for Maheen's average
+    maheen_bars = ax.bar(x + width, maheen_averages, width, label="Maheen's Algorithm", color=colors[2])
+
     # Calculate the maximum value from the combined averages of Fay, Jonathan, and Maheen
-    combined_averages = [f + j + m for f, j, m in zip(fay_averages, jonathan_averages, maheen_averages)]
+    combined_averages = np.add(fay_averages, np.add(jonathan_averages, maheen_averages))
     max_combined_average = max(combined_averages)
-
-    # Plot the bars for Maheen's average
-    ax.bar(x, maheen_averages, width, bottom=[f + j for f, j in zip(fay_averages, jonathan_averages)], label="Maheen's Algorithm", color=colors[2])
 
     # Set the y-axis limits to include the maximum combined average value
     ax.set_ylim(0, max_combined_average)
@@ -2667,41 +2666,23 @@ def plot_stacked_bar_chart(fay_averages, jonathan_averages, maheen_averages, ite
     ax.set_ylabel("Average Resources Usage")
     ax.set_title(scenario)
     ax.set_xticks(x)
+    ax.set_xticklabels(x + 1)  # Shift the x-ticks to start from 1 instead of 0
     ax.legend()
+    # Function to add y-axis numbers on top of the bars
+    def add_bar_labels(bars):
+        for bar in bars:
+            height = bar.get_height()
+            ax.annotate(f"{height:.2f}",
+                        xy=(bar.get_x() + bar.get_width() / 2, height),
+                        xytext=(0, 3),  # 3 points vertical offset
+                        textcoords="offset points",
+                        ha='center',
+                        va='bottom',
+                        fontsize = 5.5)
 
-    # Add annotations to each stack of the bars
-    for i in range(len(x)):
-        fay_value = fay_averages[i]
-        jonathan_value = jonathan_averages[i]
-        maheen_value = maheen_averages[i]
-        total_value = fay_value + jonathan_value + maheen_value
-
-        # Calculate the center position of the stack for each algorithm
-        fay_center = fay_value / 2
-        jonathan_center = fay_value + jonathan_value / 2
-        maheen_center = fay_value + jonathan_value + maheen_value / 2
-
-        # Add the annotations at the center positions
-        ax.annotate(f"{fay_value:.2f}",
-                    xy=(x[i], fay_center),
-                    xytext=(0, 3),
-                    textcoords="offset points",
-                    ha='center',
-                    va='bottom')
-
-        ax.annotate(f"{jonathan_value:.2f}",
-                    xy=(x[i], jonathan_center),
-                    xytext=(0, 3),
-                    textcoords="offset points",
-                    ha='center',
-                    va='bottom')
-
-        ax.annotate(f"{maheen_value:.2f}",
-                    xy=(x[i], maheen_center),
-                    xytext=(0, 3),
-                    textcoords="offset points",
-                    ha='center',
-                    va='bottom')
+    add_bar_labels(fay_bars)
+    add_bar_labels(jonathan_bars)
+    add_bar_labels(maheen_bars)
 
     plt.show()
 
@@ -2753,6 +2734,7 @@ def average_cost(root: GoalNode2) -> float:
 
 
 def main():
+    
     test_cases = [[(random_binary_symmetric, "RANDOM BINARY SYMMETRIC TREE"),
         (random_binary_left, "RANDOM BINARY LEFT TREE"),
         (random_binary_right, "RANDOM BINARY RIGHT TREE"),
@@ -2840,10 +2822,10 @@ def main():
 
     for scenario, scenario_desc in test_case_1a:
         root = scenario  # Get the tree from the test_case_m list
-        shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
+        shortest_cost, shortest_goals = shortest_path_m(root)
         print(f"Shortest Cost: {shortest_cost}")
         print(f"Shortest Goals: {shortest_goals}")
-        print(f"Shortest Agents: {shortest_agents}")
+        
     
         average_resources_list = []  # Store average_resources for each run
         resources_usage_list = []
@@ -2935,10 +2917,10 @@ def main():
 
     for scenario, scenario_desc in test_case_1b:
         root = scenario  # Get the tree from the test_case_m list
-        shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
+        shortest_cost, shortest_goals = shortest_path_m(root)
         print(f"Shortest Cost: {shortest_cost}")
         print(f"Shortest Goals: {shortest_goals}")
-        print(f"Shortest Agents: {shortest_agents}")
+        
     
         average_resources_list = []  # Store average_resources for each run
         resources_usage_list = []
@@ -3040,10 +3022,10 @@ def main():
 
     for scenario, scenario_desc in test_case_2a:
         root = scenario  # Get the tree from the test_case_m list
-        shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
+        shortest_cost, shortest_goals = shortest_path_m(root)
         print(f"Shortest Cost: {shortest_cost}")
         print(f"Shortest Goals: {shortest_goals}")
-        print(f"Shortest Agents: {shortest_agents}")
+        
     
         average_resources_list = []  # Store average_resources for each run
         resources_usage_list = []
@@ -3136,10 +3118,10 @@ def main():
 
     for scenario, scenario_desc in test_case_2b:
         root = scenario  # Get the tree from the test_case_m list
-        shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
+        shortest_cost, shortest_goals = shortest_path_m(root)
         print(f"Shortest Cost: {shortest_cost}")
         print(f"Shortest Goals: {shortest_goals}")
-        print(f"Shortest Agents: {shortest_agents}")
+        
     
         average_resources_list = []  # Store average_resources for each run
         resources_usage_list = []
@@ -3242,10 +3224,10 @@ def main():
 
     for scenario, scenario_desc in test_case_3a:
         root = scenario  # Get the tree from the test_case_m list
-        shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
+        shortest_cost, shortest_goals = shortest_path_m(root)
         print(f"Shortest Cost: {shortest_cost}")
         print(f"Shortest Goals: {shortest_goals}")
-        print(f"Shortest Agents: {shortest_agents}")
+        
     
         average_resources_list = []  # Store average_resources for each run
         resources_usage_list = []
@@ -3340,10 +3322,10 @@ def main():
 
     for scenario, scenario_desc in test_case_3b:
         root = scenario  # Get the tree from the test_case_m list
-        shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
+        shortest_cost, shortest_goals = shortest_path_m(root)
         print(f"Shortest Cost: {shortest_cost}")
         print(f"Shortest Goals: {shortest_goals}")
-        print(f"Shortest Agents: {shortest_agents}")
+        
     
         average_resources_list = []  # Store average_resources for each run
         resources_usage_list = []
@@ -3445,10 +3427,10 @@ def main():
 
     for scenario, scenario_desc in test_case_4a:
         root = scenario  # Get the tree from the test_case_m list
-        shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
+        shortest_cost, shortest_goals = shortest_path_m(root)
         print(f"Shortest Cost: {shortest_cost}")
         print(f"Shortest Goals: {shortest_goals}")
-        print(f"Shortest Agents: {shortest_agents}")
+        
     
         average_resources_list = []  # Store average_resources for each run
         resources_usage_list = []
@@ -3544,10 +3526,10 @@ def main():
 
     for scenario, scenario_desc in test_case_4b:
         root = scenario  # Get the tree from the test_case_m list
-        shortest_cost, shortest_goals, shortest_agents = shortest_path_m(root)
+        shortest_cost, shortest_goals = shortest_path_m(root)
         print(f"Shortest Cost: {shortest_cost}")
         print(f"Shortest Goals: {shortest_goals}")
-        print(f"Shortest Agents: {shortest_agents}")
+        
     
         average_resources_list = []  # Store average_resources for each run
         resources_usage_list = []
@@ -3579,8 +3561,8 @@ def main():
      #plot
     plot_stacked_bar_chart(fay_averages, jonathan_averages, master_overall_resources_usage_list, j, scenario_4_b)
     #____scenario end____
-
-        
+    
+   
 if __name__ == "__main__":
     main()
 
