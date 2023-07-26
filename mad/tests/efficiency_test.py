@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 
 
-def _random_cost(m: int, n: int, agents: int, seed: int = 5) -> Dict[str, int]:
+def _random_cost(m: int, n: int, agents: int) -> Dict[str, int]:
     
     """
     This function randomizes the cost of an agent when it conducts a goal based on an assigned range
@@ -37,7 +37,7 @@ def _random_cost(m: int, n: int, agents: int, seed: int = 5) -> Dict[str, int]:
 
     return d
 
-def _equal_cost(m: int, n: int, agents: int, seed: int = 5) -> Dict[str, int]:
+def _equal_cost(m: int, n: int, agents: int) -> Dict[str, int]:
     
     """
     This function randomizes the cost of an agent when it conducts a goal based on an assigned range
@@ -1318,8 +1318,6 @@ def efficiency_test(goal_tree, max_res: List):
     for i in range(len(AGENT)):
         max_resources_j[AGENT[i]] = max_res[i]
 
-    print(max_resources_f, "\n", max_resources_j)
-
     #__JONATHAN'S ALGORITHM__
     goal_tree1 = copy.deepcopy(goal_tree)
     print("\n\nJonathan's Algorithm:")
@@ -1365,7 +1363,7 @@ def efficiency_test(goal_tree, max_res: List):
             children = node.get_children()
             for child in children:
                 q.append((child, node)) 
-    
+    level_order_transversal(goal_tree2)
     try:
         result = optimized_goal_allocation(goal_tree2, max_resources_f)
     except ValueError as e:
@@ -1412,6 +1410,8 @@ def efficiency_test_m(root: GoalNode2, max_resources) -> Tuple[int,int]:
     float
         The average cost of the nodes with an assigned agent.
     """
+    if len(max_resources) == 1:
+        return (root.cost, 1)
     nodes = []
     stacks = [root]
 
@@ -1546,15 +1546,15 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
 
     
     ax1.set_ylim(0, max(max(fay_padded), max(jonathan_padded), max(maheen_padded)) + 20)    
-    ax1.set_xlabel('Test cases')
+    if num_agents_avail != [3] * 10:
+        ax1.set_xlabel('Number of Available Agents')
+    else:
+        ax1.set_xlabel('Test cases')
     ax1.set_ylabel('Average Resources')
     ax1.set_title(scenario)
     ax1.set_xticks(x)
     ax1.set_xticklabels(x + 1)
     ax1.legend(loc='upper left')
-    # Add num_agents_avail below x-ticks
-    for i in range(max_length):
-        ax1.annotate(f'Agents: {num_agents_avail[i]}', (x[i], max(fay_padded[i], jonathan_padded[i], maheen_padded[i]) + 2), ha='center')
     
             
     ax2.bar(x - bar_width, agent_fay_averages, width=bar_width, color=colors[0], label="Fay's Algorithm")
@@ -1563,7 +1563,10 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
 
     ax2.set_ylim(0, max(max(agent_fay_averages), max(agent_jonathan_averages), max(agent_maheen_averages)) + 1)
 
-    ax2.set_xlabel('Test cases')
+    if num_agents_avail != [3] * 10:
+        ax2.set_xlabel('Number of Available Agents')
+    else:
+        ax2.set_xlabel('Test cases')
     ax2.set_ylabel('Average Agents Used')
     ax2.set_xticks(x)
     ax2.set_xticklabels(x + 1)
@@ -1868,7 +1871,7 @@ def main():
 
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_3_a = "SCENARIO 3A: Same Agent Cost - Many Agents - Same Max Resources"
+    scenario_3_a = "SCENARIO 3A: Same Agent Cost - Varying Agents - Same Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -1878,6 +1881,7 @@ def main():
     agent_jonathan_averages = []
     agent_maheen_averages = []
     no_agents_avail = []
+
     for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
@@ -1887,7 +1891,7 @@ def main():
         agent_used_maheen = 0
         no_trees = 0
 
-        no_agents = random.randint(3,10)
+        no_agents = j + 1
         no_agents_avail.append(no_agents)
         for (generate_tree, title) in test_cases:
             tree, tree_m= generate_tree(False, no_agents) 
@@ -1930,7 +1934,7 @@ def main():
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_3_b = "SCENARIO 3B: Same Agent Cost - Many Agents - Different Max Resources"
+    scenario_3_b = "SCENARIO 3B: Same Agent Cost - Varying Agents - Different Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -1950,7 +1954,7 @@ def main():
         agent_used_maheen = 0
         no_trees = 0
         
-        no_agents = random.randint(3,10)
+        no_agents = j + 1
         no_agents_avail.append(no_agents)
         resources = []
 
@@ -2004,7 +2008,7 @@ def main():
     """
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_4_a = "SCENARIO 4A: Different Agent Cost - Many Agents - Same Max Resources"
+    scenario_4_a = "SCENARIO 4A: Different Agent Cost - Varying Agents - Same Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -2024,7 +2028,7 @@ def main():
         agent_used_maheen = 0
         no_trees = 0
 
-        no_agents = random.randint(3,10)
+        no_agents = j + 1
         no_agents_avail.append(no_agents)
         
 
@@ -2088,7 +2092,7 @@ def main():
         agent_used_jonathan = 0
         agent_used_maheen = 0
         no_trees = 0
-        no_agents = random.randint(3,10)
+        no_agents = j + 1
         no_agents_avail.append(no_agents)
         resources = []
 
@@ -2346,7 +2350,7 @@ def main():
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_6_b = "SCENARIO 6B\n 1000 Trees - Random Agent Cost - Many Agents - Different Max Resources"
+    scenario_6_b = "SCENARIO 6B\n 1000 Trees - Random Agent Cost - Varying Agents - Different Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -2418,7 +2422,7 @@ def main():
 
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_7_a = "SCENARIO 7A\n 1000 Trees - Same Agent Cost - Many Agents - Same Max Resources"
+    scenario_7_a = "SCENARIO 7A\n 1000 Trees - Same Agent Cost - Varying Agents - Same Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -2440,7 +2444,7 @@ def main():
             agent_used_maheen = 0
             no_trees = 0
 
-            no_agents = random.randint(3,10)
+            no_agents = j + 1
             no_agents_avail.append(no_agents)
 
             for (generate_tree, title) in test_cases:
@@ -2488,7 +2492,7 @@ def main():
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_7_b = "SCENARIO 7B\n 1000 Trees - Same Agent Cost - Many Agents - Different Max Resources"
+    scenario_7_b = "SCENARIO 7B\n 1000 Trees - Same Agent Cost - Varying Agents - Different Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -2509,7 +2513,7 @@ def main():
             agent_used_maheen = 0
             no_trees = 0
             
-            no_agents = random.randint(3,10)
+            no_agents = j + 1
             no_agents_avail.append(no_agents)
             resources = []
 
@@ -2568,7 +2572,7 @@ def main():
 
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_8_a = "SCENARIO 8A\n 1000 Trees - Random Agent Cost - Many Agents - Same Max Resources"
+    scenario_8_a = "SCENARIO 8A\n 1000 Trees - Random Agent Cost - Varying Agents - Same Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -2590,7 +2594,7 @@ def main():
             agent_used_maheen = 0
             no_trees = 0
 
-            no_agents = random.randint(3,10)
+            no_agents = j + 1
             no_agents_avail.append(no_agents)
             
             for (generate_tree, title) in test_cases:
@@ -2638,7 +2642,7 @@ def main():
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_8_b = "SCENARIO 8B\n 1000 Trees - Random Agent Cost - Many Agents - Different Max Resources"
+    scenario_8_b = "SCENARIO 8B\n 1000 Trees - Random Agent Cost - Varying Agents - Different Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -2660,7 +2664,7 @@ def main():
             agent_used_maheen = 0
             no_trees = 0
 
-            no_agents = random.randint(3,10)
+            no_agents = j + 1
             no_agents_avail.append(no_agents)
 
             resources = []

@@ -381,6 +381,7 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
         return i + 1, list_goal, max_res 
 
     temp_resources = max_res.copy()
+    temp_resources[goal.agent] += goal.cost
     child_list, grand_child_list, subgoals_cost = [], [], 0
     sorted_children = sorted(goal.get_children(), key=lambda x: x.cost if x.cost is not None else float('inf'), reverse=True)
 
@@ -448,7 +449,7 @@ def allocate_goals_greedy(list_goal, max_res):
             if max_res[agent] < goal.data[agent]:
                 continue
             resource_diff = goal.data[agent] - goal.cost
-            if (num_goals[agent] <= num_goals[cur_agent] and resource_diff <= 0) or (num_goals[agent] < num_goals[cur_agent] and ((total_resources + resource_diff)/total_resources < 1.005)):
+            if (num_goals[agent] < num_goals[cur_agent] and resource_diff <= 0) or (num_goals[agent] < num_goals[cur_agent] // 2 and ((total_resources + resource_diff)/total_resources < 1.005)):
                 goal_allocation[agent].append(goal)
 
                 # Update the remaining resources of the agents
@@ -474,6 +475,7 @@ def allocate_goals_greedy(list_goal, max_res):
 
 
     return goal_allocation
+
 
 
 
@@ -509,6 +511,34 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
         i += 1
 
     agents = list(goal_tree.data.keys())
+
+    # Handle the case when there's only one agent
+    if num_agents == 1:
+        max_res: Dict[str, int] = {agents[0]: max_resources[0]}
+        goal_allocation: Dict[str, List[GoalNode]] = {agents[0]: []}
+
+        # Start with the root goal
+        list_goal = [goal_tree]
+
+        i = 0
+        while list_goal and i < len(list_goal):
+            i, list_goal, max_res = _decision_algorithm(list_goal, i, max_res, num_agents)
+            if not list_goal:
+                break
+
+        # Allocate the goals to the single agent
+        goal_allocation[agents[0]] = list_goal
+
+        if verbose:
+            print(agents[0], end=": ")
+            for goal in goal_allocation[agents[0]]:
+                print(goal.name, end=" ")
+            print("\n")
+            print("The remaining resource of " + agents[0] + ": " + str(max_res[agents[0]]) + "\n" * 2)
+
+        return goal_allocation, max_res
+
+
     # Initialize max_res with the initial resources for each agent
     max_res: Dict[str, int] = {agent: max_resources[i] for i, agent in enumerate(agents)}
 
