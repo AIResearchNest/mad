@@ -1,6 +1,7 @@
-import random
+import random as r
 from typing import Dict, List, Tuple
 import heapq
+from collections import deque
 
 # Start of class
 
@@ -38,15 +39,21 @@ class GoalNode2:
         self.agents = {}
         self.children = []
         self.assigned_agent = ""  # New attribute for assigned agent
+        self.parent = []
 
-    def add_child(self, a):
-        self.children.append(a)
+    
 
-    def get_children(self) -> List:
+    
+    def get_children(self) -> List['GoalNode2']:
         return self.children
+
 
     def set_agents(self, agents: Dict[str, int]):
         self.agents = agents
+    
+    def get_parent(self) -> List:
+        return self.parent
+    
     
     def __lt__(self, other):
         """
@@ -64,6 +71,92 @@ class GoalNode2:
             True if the current node's cost is less than the other node's cost, False otherwise.
         """
         return self.cost < other.cost
+
+
+    def add_child(self, child: 'GoalNode2'):
+        """
+        Add Child Goal into the Children list and set the parent of the child.
+
+        Parameters
+        ----------
+        child : GoalNode2
+            The child node to be added.
+        """
+        self.children.append(child)
+        child.set_parent(self)
+
+    def set_parent(self, parent: 'GoalNode2'):
+        """
+        Set the parent of the node.
+
+        Parameters
+        ----------
+        parent : GoalNode2
+            The parent node of the current node.
+        """
+        if not isinstance(parent, list):
+            parent = [parent]
+        self.parent = parent
+
+    def get_sibling_cost(self, sibling_name):
+        """
+        Get the cost of the sibling node with the given name.
+
+        Parameters
+    ----------
+    sibling_name : str
+        The name of the sibling node.
+
+    Returns
+    -------
+    int
+        The cost of the sibling node.
+    """
+        for parent in self.parent:  # Iterate over the list of parent nodes
+            for sibling in parent.get_children():
+                if sibling.name == sibling_name:
+                    return sibling.cost
+        return 0
+
+   
+
+    def get_child_cost(self, child_name):
+        """
+        Get the cost of a child node with the given name.
+
+        Parameters
+        ----------
+        child_name : str
+            The name of the child node.
+
+        Returns
+        -------
+        int
+            The cost of the child node.
+        """
+        for child in self.children:
+            if child.name == child_name:
+                return child.cost
+        return 0
+
+    
+    def get_parent_cost(self, node_name):
+        """
+        Get the cost of the parent node.
+
+        Parameters
+        ----------
+        node_name : str
+            The name of the current node.
+
+        Returns
+        -------
+        int
+            The cost of the parent node.
+        """
+        return self.parent.cost if self.parent and self.parent.name == node_name else 0
+    
+
 
 
 
@@ -90,7 +183,7 @@ def level_order_transversal_two(root) -> None:
             node, parent = q.pop(0)
             if parent is not None:
                 print(parent.name + "|", end="")  # Print branch symbol if the node has a parent
-            print(node.name + " GoalCost:", node.cost, "Agents:", node.agents, "\nAssigned Agent:", node.assigned_agent,end="\n")
+            print(node.name + " GoalCost:", node.cost, "Agents:", node.agents, "\nAssigned Agent:", node.assigned_agent,"\n",end="\n")
 
             children = node.get_children()
             for child in children:
@@ -99,3 +192,5 @@ def level_order_transversal_two(root) -> None:
             level_size -= 1
 
         print()  # Print a new line after traversing each level
+        
+        
