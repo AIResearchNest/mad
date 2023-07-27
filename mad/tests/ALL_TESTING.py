@@ -2382,71 +2382,35 @@ def equal_tree_1_m(num_agent, new_max_resources):
 
 def equal_tree_2_m(num_agent, new_max_resources):
 
+    # GoalNode2
     root = GoalNode2("Main Goal", 0)
-    subgoal1 = GoalNode2("Sub Goal 1", 0)
+    subgoal1 = GoalNode2("Sub Goal 1", 0 )
     subgoal2 = GoalNode2("Sub Goal 2", 0)
     subgoal3 = GoalNode2("Sub Goal 3", 0)
     subgoal4 = GoalNode2("Sub Goal 4", 0)
-    subgoal5 = GoalNode2("Sub Goal 5", 0)
-    subgoal6 = GoalNode2("Sub Goal 6", 0)
-    subgoal7 = GoalNode2("Sub Goal 7", 0)
-    subgoal8 = GoalNode2("Sub Goal 8", 0)
-    subgoal9 = GoalNode2("Sub Goal 9", 0)
-    subgoal10 = GoalNode2("Sub Goal 10", 0)
-    subgoal11 = GoalNode2("Sub Goal 11",0)
-    subgoal12 = GoalNode2("Sub Goal 12", 0)
-    
+
     root.add_child(subgoal1)
     root.add_child(subgoal2)
-    subgoal1.add_child(subgoal3)
-    subgoal1.add_child(subgoal4)
-    subgoal1.add_child(subgoal5)
-    subgoal1.add_child(subgoal6)
-    subgoal2.add_child(subgoal7)
-    subgoal2.add_child(subgoal8)
-    subgoal7.add_child(subgoal9)
-    subgoal7.add_child(subgoal10)
-    subgoal4.add_child(subgoal11)
-    subgoal4.add_child(subgoal12)
-    
-    root.agents = _equal_cost(30, 45, num_agent)
-        
-    subgoal1.agents =_equal_cost(6, 12, num_agent)
-    subgoal2.agents =_equal_cost(6, 12, num_agent)
-    subgoal3.agents = _equal_cost(6, 12, num_agent)
-    
-    subgoal4.agents = _equal_cost(6,12, num_agent)
-    subgoal5.agents = _equal_cost(3, 6 , num_agent)
-    subgoal6.agents = _equal_cost(3, 6, num_agent)
-    subgoal7.agents = _equal_cost(3, 6, num_agent)
-    subgoal8.agents = _equal_cost(3, 6, num_agent)
-    subgoal9.agents = _equal_cost(3, 6, num_agent)
-    subgoal10.agents = _equal_cost(3, 6, num_agent)
-    subgoal11.agents = _equal_cost(3, 6, num_agent)
-    subgoal12.agents = _equal_cost(3, 6, num_agent)
+    subgoal2.add_child(subgoal3)
+    subgoal2.add_child(subgoal4)
+
+    root.agents = _equal_cost(25, 45, num_agent)
+    subgoal1.agents = _equal_cost(15, 20, num_agent)
+    subgoal2.agents = _equal_cost(15, 20, num_agent)
+    subgoal3.agents = _equal_cost(5, 15, num_agent)
+    subgoal4.agents = _equal_cost(5, 15, num_agent)
+
+    cost_node(root)
+    cost_node(subgoal1)
+    cost_node(subgoal2)
+    cost_node(subgoal3)
+    cost_node(subgoal4)
 
 
-    
-    equal_node(root)
-    equal_node(subgoal1)  # Assign cost to subgoal2
-    equal_node(subgoal2)
-    equal_node(subgoal3)  # Assign cost to subgoal1
-
-    equal_node(subgoal4)  # Assign cost to subgoal2
-    equal_node(subgoal5)
-    equal_node(subgoal6)
-    equal_node(subgoal7)  # Assign cost to subgoal2
-    equal_node(subgoal8)
-    equal_node(subgoal9)  # Assign cost to subgoal1
-
-    equal_node(subgoal10)  # Assign cost to subgoal2
-    equal_node(subgoal11)
-    equal_node(subgoal12)
     
      
 
-    nodes = [root, subgoal1, subgoal2, subgoal3, subgoal4, subgoal5, subgoal6, subgoal7, subgoal8, subgoal9, subgoal10, subgoal11,
-             subgoal12] 
+    nodes = [root, subgoal1, subgoal2, subgoal3, subgoal4] 
     
     
     max_resources = new_max_resources
@@ -2832,6 +2796,7 @@ def main():
         agent_count_list = []
 
         for j in range(10):
+            shortest_cost, shortest_goals = shortest_path_m(root)
             average_resources, resources_usage, agent_count = average_cost(root)
             print("Average Cost:", average_resources)
             resources_usage_list.append(resources_usage)
@@ -2853,6 +2818,7 @@ def main():
         maheen_overall_averages.append(maheen_overall_average_resources_usage)
         master_overall_resources_usage_list.append(maheen_overall_average_resources_usage)
         print("Master Average Resources Usage:", master_overall_resources_usage_list)
+        num_scenarios = len(test_case_1a)
     
     #plot
     plot_stacked_bar_chart(fay_averages, jonathan_averages, master_overall_resources_usage_list, j, scenario_1_a)
