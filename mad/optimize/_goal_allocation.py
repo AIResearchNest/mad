@@ -49,7 +49,7 @@ def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     goal_tree : mad.data_structures.GoalNode
         Hierarchical Multi Agent Goal Tree
     max_resources : int
-        Value for the max amount of resources each agent has available
+        Integer value of max resources for each agent
 
     Returns
     -------
@@ -61,7 +61,7 @@ def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     if not goal_tree.children:
         return [goal_tree]
     
-    # Goals that will be returned upwards for each recursion call
+    # Goals that will be returned
     selected_goals = []
 
     # Current GoalNode's children GoalNodes
@@ -86,14 +86,14 @@ def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
 # Time Complexity: O(n * m); n = nodes, m = agents
 def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) -> Dict:
     """
-    Takes in a list of GoalNodes and distributes them among available agents
+    Takes in a list of GoalNodes and max resources for each agent and distributes the goals too available agents
 
     Parameters
     ----------
     goal_nodes : List
         List of GoalNodes to distribute among agents
     max_resources : int
-        Value for the max amount of resources each agent has available
+        Integer value of max resources for each agent
 
     Returns
     -------
@@ -127,7 +127,6 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
         raise ValueError("Not enough resources")
 
     # Else use multiple agents to solve multiple sub-goals
-    # agents_resources = {agent: max_resources for agent in agents}
     agents_resources = max_resources
     agents_cost_total = {agent: 0 for agent in agents}
 
@@ -136,7 +135,6 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
     for goal in goal_nodes:
         goal.find_descrepancy()
 
-    # O(n log n)
     goals_sorted = list(reversed(sorted(goal_nodes, key=lambda goal: goal.descrepancy))) 
 
     if verbose > 0:
@@ -158,7 +156,6 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
         print(f"Sensitivity: {sensitivity}")
         print()
     
-    # O(n * m)
     left_over_goals = []
     for goal in goals_sorted:
         # List of agents from best fit to worst fit
@@ -224,7 +221,7 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
 
 # Author: Jonathan
 # Time Complexity: O(n * m) n = nodes, m = agents
-def _get_results(agents_and_goals: Dict) -> List:
+def _get_results(agents_and_goals: Dict) -> List[int]:
     """
     Takes in dict of agents' name and assigned goals and returns a list of results
 
@@ -266,7 +263,7 @@ def _get_results(agents_and_goals: Dict) -> List:
 
 # Author: Jonathan
 # Time Complexity: O(n * m) n = nodes, m = agents
-def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 0) -> Dict:
+def dfs_goal_allocation(goal_tree: GoalNode, max_resources: Dict, verbose: int = 0) -> Dict:
     """
     Takes in a goal tree and finds optimal goals to accomplish the main goal and distributes them to agents evenly
 
@@ -274,8 +271,10 @@ def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 
     ----------
     goal_tree : mad.data_structures.GoalNode
         Hierarchical Multi Agent Goal Tree
-    max_resources : int
-        Value for the max amount of resources each agent has available
+    max_resources : Dict
+        Agent names as keys and the amount of resources they have (int) as values
+    verbose : int = 0
+        Enter number greater than 0 to be provided with output information
 
     Returns
     -------
@@ -297,6 +296,7 @@ def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 
     else:
         resources = sum(x for x in max_resources.values()) / len(max_resources.values())
 
+    # Find optimal solution
     selected_goals = _optimal_path(goal_tree, resources)
 
     if verbose > 0:
