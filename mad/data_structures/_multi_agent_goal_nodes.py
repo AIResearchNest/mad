@@ -45,6 +45,16 @@ class GoalNode:
     
     Methods
     ----------
+    set_agent(self, name) -> None:
+        Assign a specific agent to the goal node
+
+    initial_agent_assign(self) -> None:
+        Assign the agent with the lowest agent cost at the very first step
+
+    switch_agent(self) -> bool:
+        If the current assigned agent could not achieve the goal, switch to another suitable agent and return True
+        If no agent can achieve this goal, return False
+
     add_child(self, GoalNode)
         Add Child Goal into the Children list
 
