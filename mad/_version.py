@@ -1,4 +1,4 @@
-__version__ = '0.0.66'
+__version__ = '0.0.68'
 
 #change log:
 # 0.0.0: first version
@@ -70,4 +70,5 @@ __version__ = '0.0.66'
 # 0.0.65: updated final_tests to run 1000 trees
 # 0.0.66: Final updates to Maheen algorithm. 
 # 0.0.67: Optimize Fay's algoritm and added 1000-tree scenarios
+# 0.0.68: Finished final_test.py and completed documentation for dfs_algorithm
 

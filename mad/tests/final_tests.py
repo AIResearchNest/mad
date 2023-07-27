@@ -122,6 +122,28 @@ def get_discrepancy(agents_and_goals):
 
     return abs(max(agents_costs) - min(agents_costs))
 
+def get_discrepancy_opt(opt_agents_and_goals, root):
+    agents_and_goals = {}
+
+    for agent in root.data.keys():
+        agents_and_goals[agent] = []
+
+    for agent, value in opt_agents_and_goals.items():
+        agents_and_goals[agent] = value
+
+    agents_costs = []
+
+    for agent in agents_and_goals.keys():
+
+        curr_agent_cost = 0
+
+        for goal in agents_and_goals[agent]:
+            curr_agent_cost += goal.data[agent]
+        
+        agents_costs.append(curr_agent_cost)
+
+    return abs(max(agents_costs) - min(agents_costs))
+
 def get_skew_dfs(dfs_agents_and_goals):
     best_case = 0
     total_cost = 0
@@ -1589,7 +1611,7 @@ def Test1(total_tests, seed):
                     fresult, fresources = optimized_goal_allocation(opt_root, [50,50,50])
                     curr_opt_avg_cost += get_total_cost(fresult)
                     curr_opt_agents_used += get_agents_used(fresult)
-                    curr_opt_discrepancy += get_discrepancy(fresult)
+                    curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
                     curr_opt_skew += get_skew_opt(fresult, best_case)
                     num_opt_trees_passed += 1
                 except ValueError:
@@ -1784,7 +1806,7 @@ def Test2(total_tests, seed):
                     fresult, fresources = optimized_goal_allocation(opt_root, [50,60,70])
                     curr_opt_avg_cost += get_total_cost(fresult)
                     curr_opt_agents_used += get_agents_used(fresult)
-                    curr_opt_discrepancy += get_discrepancy(fresult)
+                    curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
                     curr_opt_skew += get_skew_opt(fresult, best_case)
                     num_opt_trees_passed += 1
                 except ValueError:
@@ -1980,7 +2002,7 @@ def Test3(total_tests, seed):
                     fresult, fresources = optimized_goal_allocation(opt_root, [50,50,50])
                     curr_opt_avg_cost += get_total_cost(fresult)
                     curr_opt_agents_used += get_agents_used(fresult)
-                    curr_opt_discrepancy += get_discrepancy(fresult)
+                    curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
                     curr_opt_skew += get_skew_opt(fresult, best_case)
                     num_opt_trees_passed += 1
                 except ValueError: 
@@ -2175,7 +2197,7 @@ def Test4(total_tests, seed):
                     fresult, fresources = optimized_goal_allocation(opt_root, [50,60,70])
                     curr_opt_avg_cost += get_total_cost(fresult)
                     curr_opt_agents_used += get_agents_used(fresult)
-                    curr_opt_discrepancy += get_discrepancy(fresult)
+                    curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
                     curr_opt_skew += get_skew_opt(fresult, best_case)
                     num_opt_trees_passed += 1
                 except ValueError: 
@@ -2373,7 +2395,7 @@ def Test5(total_tests, seed):
                     fresult, fresources = optimized_goal_allocation(opt_root, [100] * num_agents)
                     curr_opt_avg_cost += get_total_cost(fresult)
                     curr_opt_agents_used += get_agents_used(fresult)
-                    curr_opt_discrepancy += get_discrepancy(fresult)
+                    curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
                     curr_opt_skew += get_skew_opt(fresult, best_case)
                     num_opt_trees_passed += 1
                 except ValueError: 
@@ -2577,7 +2599,7 @@ def Test6(total_tests, seed):
                     fresult, fresources = optimized_goal_allocation(opt_root, opt_and_m_resources)
                     curr_opt_avg_cost += get_total_cost(fresult)
                     curr_opt_agents_used += get_agents_used(fresult)
-                    curr_opt_discrepancy += get_discrepancy(fresult)
+                    curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
                     curr_opt_skew += get_skew_opt(fresult, best_case)
                     num_opt_trees_passed += 1
                 except ValueError: 
@@ -2775,7 +2797,7 @@ def Test7(total_tests, seed):
                     fresult, fresources = optimized_goal_allocation(opt_root, [100] * num_agents)
                     curr_opt_avg_cost += get_total_cost(fresult)
                     curr_opt_agents_used += get_agents_used(fresult)
-                    curr_opt_discrepancy += get_discrepancy(fresult)
+                    curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
                     curr_opt_skew += get_skew_opt(fresult, best_case)
                     num_opt_trees_passed += 1
                 except ValueError: 
@@ -2979,7 +3001,7 @@ def Test8(total_tests, seed):
                     fresult, fresources = optimized_goal_allocation(opt_root, opt_and_m_resources)
                     curr_opt_avg_cost += get_total_cost(fresult)
                     curr_opt_agents_used += get_agents_used(fresult)
-                    curr_opt_discrepancy += get_discrepancy(fresult)
+                    curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
                     curr_opt_skew += get_skew_opt(fresult, best_case)
                     num_opt_trees_passed += 1
                 except ValueError: 
@@ -3085,9 +3107,9 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
     ax1.set_ylim(0, max(max(avg_costs1), max(avg_costs2), max(avg_costs3)) + 20)
 
     # Set the labels and title
-    ax1.set_xlabel('Test Group')
-    ax1.set_ylabel('Average Total Cost')
-    ax1.set_title(f'Scenario {scenario} - Total Costs')
+    ax1.set_xlabel('Test Groups of 1000 Trees')
+    ax1.set_ylabel('Resources Used')
+    ax1.set_title('Average Resources Used')
     ax1.set_xticks(x + bar_width)
     ax1.set_xticklabels(x + 1)
     ax1.legend()
@@ -3107,9 +3129,9 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
     ax2.set_ylim(0, max(max(avg_agents1), max(avg_agents2), max(avg_agents3)) + 5)
 
     # Set the labels and title
-    ax2.set_xlabel('Test Group')
-    ax2.set_ylabel('Average Number of Agents')
-    ax2.set_title(f'Scenario {scenario} - Agents Used')
+    ax2.set_xlabel('Test Groups of 1000 Trees')
+    ax2.set_ylabel('Agents Used')
+    ax2.set_title('Average Number of Agents Used')
     ax2.set_xticks(x + bar_width)
     ax2.set_xticklabels(x + 1)
     # ax2.legend()
@@ -3129,9 +3151,9 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
     ax3.set_ylim(0, max(max(avg_discrepancy1), max(avg_discrepancy2), max(avg_discrepancy3)) + 5)
     
     # Set the labels and title
-    ax3.set_xlabel('Test Group')
-    ax3.set_ylabel('Discrepancy')
-    ax3.set_title(f'Scenario {scenario} - Discrepancy')
+    ax3.set_xlabel('Test Groups of 1000 Trees')
+    ax3.set_ylabel('Difference in Agent\'s Cost')
+    ax3.set_title('Average Cost Distribution Disparity of Agents')
     ax3.set_xticks(x + bar_width)
     ax3.set_xticklabels(x + 1)
     # ax3.legend()
@@ -3151,9 +3173,9 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
     ax4.set_ylim(min(0, min(avg_skew3)), max(max(avg_skew1), max(avg_skew2), max(avg_skew3)) + 5)
     
     # Set the labels and title
-    ax4.set_xlabel('Test Group')
-    ax4.set_ylabel('Skew')
-    ax4.set_title(f'Scenario {scenario} - Skew')
+    ax4.set_xlabel('Test Groups of 1000 Trees')
+    ax4.set_ylabel('Difference from Cheapest Allocation')
+    ax4.set_title('Average Cost Efficiency of Goal Allocation')
     ax4.set_xticks(x + bar_width)
     ax4.set_xticklabels(x + 1)
     # ax4.legend()
@@ -3201,9 +3223,9 @@ def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discr
     ax1.set_ylim(0, max(max(avg_costs1), max(avg_costs2), max(avg_costs3)) + 20)
 
     # Set the labels and title
-    ax1.set_xlabel('Number of Agents')
-    ax1.set_ylabel('Average Total Cost')
-    ax1.set_title(f'Scenario {scenario} - Total Costs')
+    ax1.set_xlabel('Number of Agents Available')
+    ax1.set_ylabel('Resources Used')
+    ax1.set_title('Average Resources Used')
     ax1.set_xticks(x + bar_width)
     ax1.set_xticklabels(x + 1)
     ax1.legend()
@@ -3223,9 +3245,9 @@ def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discr
     ax2.set_ylim(0, max(max(avg_agents1), max(avg_agents2), max(avg_agents3)) + 5)
 
     # Set the labels and title
-    ax2.set_xlabel('Number of Agents')
-    ax2.set_ylabel('Average Number of Agents')
-    ax2.set_title(f'Scenario {scenario} - Agents Used')
+    ax2.set_xlabel('Number of Agents Available')
+    ax2.set_ylabel('Agents Used')
+    ax2.set_title('Average Number of Agents Used')
     ax2.set_xticks(x + bar_width)
     ax2.set_xticklabels(x + 1)
     # ax2.legend()
@@ -3245,9 +3267,9 @@ def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discr
     ax3.set_ylim(0, max(max(avg_discrepancy1), max(avg_discrepancy2), max(avg_discrepancy3)) + 5)
     
     # Set the labels and title
-    ax3.set_xlabel('Number of Agents')
-    ax3.set_ylabel('Discrepancy')
-    ax3.set_title(f'Scenario {scenario} - Discrepancy')
+    ax3.set_xlabel('Number of Agents Available')
+    ax3.set_ylabel('Difference in Agent\'s Cost')
+    ax3.set_title('Average Cost Distribution Disparity of Agents')
     ax3.set_xticks(x + bar_width)
     ax3.set_xticklabels(x + 1)
     # ax3.legend()
@@ -3267,9 +3289,9 @@ def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discr
     ax4.set_ylim(min(0, min(avg_skew3)), max(max(avg_skew1), max(avg_skew2), max(avg_skew3)) + 5)
     
     # Set the labels and title
-    ax4.set_xlabel('Number of Agents')
-    ax4.set_ylabel('Skew')
-    ax4.set_title(f'Scenario {scenario} - Skew')
+    ax4.set_xlabel('Number of Agents Available')
+    ax4.set_ylabel('Difference from Cheapest Allocation')
+    ax4.set_title('Average Cost Efficiency of Goal Allocation')
     ax4.set_xticks(x + bar_width)
     ax4.set_xticklabels(x + 1)
     # ax4.legend()
@@ -3286,28 +3308,28 @@ def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discr
 # Main
 def main():
     dfs_costs1, dfs_agents1, dfs_discrepancy1, dfs_skew1, dfs_fails1, opt_costs1, opt_agents1, opt_discrepancy1, opt_skew1, opt_fails1, m_avg_costs1, m_avg_agents1, m_avg_discrepancy1, m_avg_skew1, m_fails1 = Test1(10, 0)
-    plot_results(1, "3 Agents, Equal Costs, Same Resources, 1000 Trees", dfs_costs1, dfs_agents1, dfs_discrepancy1, dfs_skew1, dfs_fails1, opt_costs1, opt_agents1, opt_discrepancy1, opt_skew1, opt_fails1, m_avg_costs1, m_avg_agents1, m_avg_discrepancy1, m_avg_skew1, m_fails1)
+    plot_results(1, "Scenario 1: 3 Agents, Equal Costs, Same Resources, 1000 Trees", dfs_costs1, dfs_agents1, dfs_discrepancy1, dfs_skew1, dfs_fails1, opt_costs1, opt_agents1, opt_discrepancy1, opt_skew1, opt_fails1, m_avg_costs1, m_avg_agents1, m_avg_discrepancy1, m_avg_skew1, m_fails1)
 
     dfs_costs2, dfs_agents2, dfs_discrepancy2, dfs_skew2, dfs_fails2, opt_costs2, opt_agents2, opt_discrepancy2, opt_skew2, opt_fails2, m_avg_costs2, m_avg_agents2, m_avg_discrepancy2, m_avg_skew2, m_fails2 = Test2(10, 1000)
-    plot_results(2, "3 Agents, Equal Costs, Different Resources, 1000 Trees", dfs_costs2, dfs_agents2, dfs_discrepancy2, dfs_skew2, dfs_fails2, opt_costs2, opt_agents2, opt_discrepancy2, opt_skew2, opt_fails2, m_avg_costs2, m_avg_agents2, m_avg_discrepancy2, m_avg_skew2, m_fails2)
+    plot_results(2, "Scenario 2: 3 Agents, Equal Costs, Different Resources, 1000 Trees", dfs_costs2, dfs_agents2, dfs_discrepancy2, dfs_skew2, dfs_fails2, opt_costs2, opt_agents2, opt_discrepancy2, opt_skew2, opt_fails2, m_avg_costs2, m_avg_agents2, m_avg_discrepancy2, m_avg_skew2, m_fails2)
 
     dfs_costs3, dfs_agents3, dfs_discrepancy3, dfs_skew3, dfs_fails3, opt_costs3, opt_agents3, opt_discrepancy3, opt_skew3, opt_fails3, m_avg_costs3, m_avg_agents3, m_avg_discrepancy3, m_avg_skew3, m_fails3 = Test3(10, 2000)
-    plot_results(3, "3 Agents, Varying Costs, Same Resources, 1000 Trees", dfs_costs3, dfs_agents3, dfs_discrepancy3, dfs_skew3, dfs_fails3, opt_costs3, opt_agents3, opt_discrepancy3, opt_skew3, opt_fails3, m_avg_costs3, m_avg_agents3, m_avg_discrepancy3, m_avg_skew3, m_fails3)
+    plot_results(3, "Scenario 3: 3 Agents, Varying Costs, Same Resources, 1000 Trees", dfs_costs3, dfs_agents3, dfs_discrepancy3, dfs_skew3, dfs_fails3, opt_costs3, opt_agents3, opt_discrepancy3, opt_skew3, opt_fails3, m_avg_costs3, m_avg_agents3, m_avg_discrepancy3, m_avg_skew3, m_fails3)
 
     dfs_costs4, dfs_agents4, dfs_discrepancy4, dfs_skew4, dfs_fails4, opt_costs4, opt_agents4, opt_discrepancy4, opt_skew4, opt_fails4, m_avg_costs4, m_avg_agents4, m_avg_discrepancy4, m_avg_skew4, m_fails4 = Test4(10, 3000)
-    plot_results(4, "3 Agents, Varying Costs, Different Resources, 1000 Trees", dfs_costs4, dfs_agents4, dfs_discrepancy4, dfs_skew4, dfs_fails4, opt_costs4, opt_agents4, opt_discrepancy4, opt_skew4, opt_fails4, m_avg_costs4, m_avg_agents4, m_avg_discrepancy4, m_avg_skew4, m_fails4)
+    plot_results(4, "Scenario 4: 3 Agents, Varying Costs, Different Resources, 1000 Trees", dfs_costs4, dfs_agents4, dfs_discrepancy4, dfs_skew4, dfs_fails4, opt_costs4, opt_agents4, opt_discrepancy4, opt_skew4, opt_fails4, m_avg_costs4, m_avg_agents4, m_avg_discrepancy4, m_avg_skew4, m_fails4)
 
     dfs_costs5, dfs_agents5, dfs_discrepancy5, dfs_skew5, dfs_fails5, opt_costs5, opt_agents5, opt_discrepancy5, opt_skew5, opt_fails5, m_avg_costs5, m_avg_agents5, m_avg_discrepancy5, m_avg_skew5, m_fails5 = Test5(10, 4000)
-    plot_results_vary_agents(5, "Varying Agents, Equal Costs, Same Resources, 1000 Trees", dfs_costs5, dfs_agents5, dfs_discrepancy5, dfs_skew5, dfs_fails5, opt_costs5, opt_agents5, opt_discrepancy5, opt_skew5, opt_fails5, m_avg_costs5, m_avg_agents5, m_avg_discrepancy5, m_avg_skew5, m_fails5)
+    plot_results_vary_agents(5, "Scenario 5: Varying Agents, Equal Costs, Same Resources, 1000 Trees", dfs_costs5, dfs_agents5, dfs_discrepancy5, dfs_skew5, dfs_fails5, opt_costs5, opt_agents5, opt_discrepancy5, opt_skew5, opt_fails5, m_avg_costs5, m_avg_agents5, m_avg_discrepancy5, m_avg_skew5, m_fails5)
 
     dfs_costs6, dfs_agents6, dfs_discrepancy6, dfs_skew6, dfs_fails6, opt_costs6, opt_agents6, opt_discrepancy6, opt_skew6, opt_fails6, m_avg_costs6, m_avg_agents6, m_avg_discrepancy6, m_avg_skew6, m_fails6 = Test6(10, 5000)
-    plot_results_vary_agents(6, "Varying Agents, Equal Costs, Different Resources, 1000 Trees", dfs_costs6, dfs_agents6, dfs_discrepancy6, dfs_skew6, dfs_fails6, opt_costs6, opt_agents6, opt_discrepancy6, opt_skew6, opt_fails6, m_avg_costs6, m_avg_agents6, m_avg_discrepancy6, m_avg_skew6, m_fails6)
+    plot_results_vary_agents(6, "Scenario 6: Varying Agents, Equal Costs, Different Resources, 1000 Trees", dfs_costs6, dfs_agents6, dfs_discrepancy6, dfs_skew6, dfs_fails6, opt_costs6, opt_agents6, opt_discrepancy6, opt_skew6, opt_fails6, m_avg_costs6, m_avg_agents6, m_avg_discrepancy6, m_avg_skew6, m_fails6)
 
     dfs_costs7, dfs_agents7, dfs_discrepancy7, dfs_skew7, dfs_fails7, opt_costs7, opt_agents7, opt_discrepancy7, opt_skew7, opt_fails7, m_avg_costs7, m_avg_agents7, m_avg_discrepancy7, m_avg_skew7, m_fails7 = Test7(10, 6000)
-    plot_results_vary_agents(7, "Varying Agents, Varying Costs, Same Resources, 1000 Trees", dfs_costs7, dfs_agents7, dfs_discrepancy7, dfs_skew7, dfs_fails7, opt_costs7, opt_agents7, opt_discrepancy7, opt_skew7, opt_fails7, m_avg_costs7, m_avg_agents7, m_avg_discrepancy7, m_avg_skew7, m_fails7)
+    plot_results_vary_agents(7, "Scenario 7: Varying Agents, Varying Costs, Same Resources, 1000 Trees", dfs_costs7, dfs_agents7, dfs_discrepancy7, dfs_skew7, dfs_fails7, opt_costs7, opt_agents7, opt_discrepancy7, opt_skew7, opt_fails7, m_avg_costs7, m_avg_agents7, m_avg_discrepancy7, m_avg_skew7, m_fails7)
 
     dfs_costs8, dfs_agents8, dfs_discrepancy8, dfs_skew8, dfs_fails8, opt_costs8, opt_agents8, opt_discrepancy8, opt_skew8, opt_fails8, m_avg_costs8, m_avg_agents8, m_avg_discrepancy8, m_avg_skew8, m_fails8 = Test8(10, 7000)
-    plot_results_vary_agents(8, "Varying Agents, Varying Costs, Different Resources, 1000 Trees", dfs_costs8, dfs_agents8, dfs_discrepancy8, dfs_skew8, dfs_fails8, opt_costs8, opt_agents8, opt_discrepancy8, opt_skew8, opt_fails8, m_avg_costs8, m_avg_agents8, m_avg_discrepancy8, m_avg_skew8, m_fails8)
+    plot_results_vary_agents(8, "Scenario 8: Varying Agents, Varying Costs, Different Resources, 1000 Trees", dfs_costs8, dfs_agents8, dfs_discrepancy8, dfs_skew8, dfs_fails8, opt_costs8, opt_agents8, opt_discrepancy8, opt_skew8, opt_fails8, m_avg_costs8, m_avg_agents8, m_avg_discrepancy8, m_avg_skew8, m_fails8)
 
 if __name__ == '__main__':
     main()
