@@ -111,7 +111,6 @@ class GoalNode:
         self.descrepancy = abs(high - low)
 
 def level_order_transversal(root) -> None:
-        
         """
         Transverses through the goal tree and prints out the goals (with the parent node in the front if the node has a parent)
 

@@ -505,7 +505,6 @@ def allocate_goals_greedy(list_goal, max_res):
     for goal in list_goal:
         num_goals[goal.agent] += 1
 
-
     for goal in list_goal:
         # Sort the agents based on remaining resources and the number of goals assigned to each agent
         sorted_agents = sorted(max_res.keys(), key=lambda agent: (num_goals[agent], goal.data[agent]))
