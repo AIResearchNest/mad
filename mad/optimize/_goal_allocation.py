@@ -625,7 +625,7 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
 
     i = 0
     while list_goal and i < len(list_goal):
-        i, list_goal, max_res = _decision_algorithm(list_goal, i, max_res, num_agents)
+        i, list_goal, max_res = _decision_algorithm(list_goal, i, max_res)
     if not list_goal:
         return ()
     
