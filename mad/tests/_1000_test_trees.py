@@ -1,5 +1,5 @@
 from mad.data_structures import GoalNode, GoalNode2
-from mad.optimize import dfs_goal_allocation, agent_goal_m, cost_node, optimized_goal_allocation
+from mad.optimize import dfs_goal_allocation, agent_goal_m, cost_node, optimized_goal_allocation, assign_agents_to_goal_nodes, count_goals
 from typing import Dict
 import random as r
 import matplotlib.pyplot as plt
@@ -304,9 +304,11 @@ def discrepancy_m(root):
                 agents_used_m [current.assigned_agent] += current.agents[current.assigned_agent]
         for child in current.get_children():
             q.append(child)
-    
+    ###Issue 
+   # print (agents_used_m .values(), "NOOOOO")
     if len(agents_used_m.keys()) < num_agents:
         return max(agents_used_m .values())
+    
     return abs(max(agents_used_m .values()) - min(agents_used_m.values()))
 
 #Skew Maheen

@@ -616,7 +616,7 @@ def random_cost_m(start_range: int, end_range: int) -> int:
  
 
 #Diajkstraaas
-#Diajkstraaas
+
 
    
 def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, int]]:
@@ -712,6 +712,15 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
             total_cost += _root_child_calculate_cost(child)
 
         return total_cost
+    
+    def extract_nodes_from_dict(goal_dict):
+        nodes_info = []
+        if isinstance(goal_dict, dict):
+            for name, cost in goal_dict.items():
+                node = find_node_by_name(goal_tree ,name)
+                if node:
+                    nodes_info.append((node))
+            return nodes_info
 
     # Data structures to store the optimal path information
     #min_cost_children = float('inf')  # Minimum cost among children of the root node
@@ -780,12 +789,108 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
         #print("all",all_crossover_pairs)
     
     
+    def check_pure_grandchildren(node, grandchildren, root_node_grandchildren, all_grandchild):
+        """
+        Recursively checks if grandchildren are purely leaf nodes of the same root node child.
+
+        Parameters
+        ----------
+        node : GoalNode2
+            The current node in the goal tree.
+        grandchildren : dict or int
+            The dictionary containing grandchildren and their costs, or an integer if it is a leaf node.
+        root_node_grandchildren : set
+            Set to store grandchildren keys of the root node child.
+        all_grandchild : bool
+            Flag to track if all grandchildren are leaf nodes.
+
+        Returns
+        -------
+        bool
+            True if grandchildren are purely leaf nodes of only one root node child, False otherwise.
+        """
+        if isinstance(grandchildren, int):
+            return all_grandchild
+        
+        for grandchild_name, grandchild_cost in grandchildren.items():
+            if all_grandchild:
+                grandchild_node = find_node_by_name(node, grandchild_name)
+                if grandchild_node and grandchild_node.get_children():
+                    all_grandchild = False
+                    break
+                
+            if root_node_grandchildren is None:
+                root_node_grandchildren = set(grandchildren.keys())
+            else:
+                if set(grandchildren.keys()) != root_node_grandchildren:
+                    all_grandchild = False
+                    break
+
+            # Recursively check if grandchildren are leaf nodes for nested grandchildren
+            all_grandchild = check_pure_grandchildren(node, grandchild_cost, root_node_grandchildren, all_grandchild)
+
+        return all_grandchild
+
+    
+    
     if root_children_total <= children_total:
         shortest_cost = root_children_total
         best_goals_children = root_children
     elif children_total < root_children_total and children_total < min_pair_cost:
         shortest_cost = children_total
         best_goals_children = sub_dictionaries
+        #check if best_goals_children consists of purely all children of one rootnode child.
+        print(best_goals_children)
+        # Check if best_goals_children consists of purely all grandchildren of only one rootnode child.
+        # Check if best_goals_children consists of purely all grandchildren of only one rootnode child.
+        # Check if best_goals_children consists of purely all grandchildren/leaf nodes of only one rootnode child.
+        root_node_grandchildren = None
+        is_single_root_node_child = True
+        all_grandchild = True
+    
+        for child_dict in best_goals_children:
+            if isinstance(child_dict, dict):
+                # Case 1: Child node with grandchildren
+                if not child_dict:  # Skip empty dictionaries
+                    break
+                # Case 1: Child node with grandchildren
+                child_name = next(iter(child_dict))  # Get the child node name
+                grandchildren_cost_dict = child_dict[child_name]  # Get the grandchildren and their costs as a dictionary
+                
+                all_grandchild = check_pure_grandchildren(goal_tree, grandchildren_cost_dict, root_node_grandchildren, all_grandchild)
+                is_single_root_node_child = False
+                if not is_single_root_node_child:
+                    break
+            
+    
+    
+
+        if is_single_root_node_child:
+            print("best_goals_children consists of purely all grandchildren of only one rootnode child.")
+        else:
+            print("best_goals_children does not consist of purely all grandchildren of only one rootnode child.")
+        
+        if is_single_root_node_child == True:   #issue 
+            # Add all the other root node's children to the optimal solution
+            for child_name, child_cost in children_costs.items():
+                if child_name != root_child_name:
+                    best_goals_children.append({child_name: child_cost})
+            
+            
+            #find nodes to update shortets_cost
+            shortest_cost = 0
+            for goal in best_goals_children:
+                if goal:  # Skip empty dictionaries
+                    
+                    goal_name = goal.keys()  # Get the goal name (dictionary key)
+                    print(goal_name, "fec")
+                    nodes = extract_nodes_from_dict(goal)
+                    for node in nodes:
+                        shortest_cost += node.cost
+            
+        
+        
+        
     else:
 
         # Check if any pair in all_crossover_pairs sums to be equal to min_pair_cost
@@ -806,6 +911,23 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
     
     
     return shortest_cost, best_goals_children
+
+
+
+
+
+def find_node_by_name(node, name):
+        # Helper function to find a GoalNode2 instance by its name
+    if node.name == name:
+        return node
+    for child in node.get_children():
+        result = find_node_by_name(child, name)
+        if result:
+            return result
+    return None
+
+ 
+ 
 
    
 def compare_m(shortest_cost: int, root_node_cost: int):
@@ -911,7 +1033,6 @@ def get_agent_resources_m(max_resources):
 
 
 
-
 def perform_auction_m(node, agent_resources):
     """
     Author: Maheen
@@ -1011,6 +1132,7 @@ def perform_auction_m(node, agent_resources):
                         print("Remaining Agent Resources:", agent_resources)
                     else:
                         print("\n\tNo agent can cover the cost\n")
+
 
 
 
