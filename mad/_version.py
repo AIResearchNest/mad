@@ -1,4 +1,4 @@
-__version__ = '0.0.69'
+__version__ = '0.0.70'
 
 #change log:
 # 0.0.0: first version
@@ -72,3 +72,4 @@ __version__ = '0.0.69'
 # 0.0.67: Optimize Fay's algoritm and added 1000-tree scenarios
 # 0.0.68: Finished final_test.py and completed documentation for dfs_algorithm
 # 0.0.69: Completed documentation for opt_algorithm and GoalNode data structure
+# 0.0.70: Added sphinx documentation

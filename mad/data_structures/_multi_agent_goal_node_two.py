@@ -55,7 +55,7 @@ class GoalNode2:
         return self.parent
     
     
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
         """
         Defines the less than (<) operator for comparing GoalNode2 objects.
         It compares the costs of the nodes for the priority queue.
@@ -73,7 +73,7 @@ class GoalNode2:
         return self.cost < other.cost
 
 
-    def add_child(self, child: 'GoalNode2'):
+    def add_child(self, child: 'GoalNode2') -> None:
         """
         Add Child Goal into the Children list and set the parent of the child.
 
@@ -103,15 +103,15 @@ class GoalNode2:
         Get the cost of the sibling node with the given name.
 
         Parameters
-    ----------
-    sibling_name : str
-        The name of the sibling node.
+        ----------
+        sibling_name : str
+            The name of the sibling node.
 
-    Returns
-    -------
-    int
-        The cost of the sibling node.
-    """
+        Returns
+        -------
+        sibling.cost : int
+            The cost of the sibling node.
+        """
         for parent in self.parent:  # Iterate over the list of parent nodes
             for sibling in parent.get_children():
                 if sibling.name == sibling_name:
