@@ -153,13 +153,29 @@ def level_order_transversal(root) -> None:
 
             print("\n" * 2)
 
-def print_goal_tree(node, indent=0):
+def print_goal_tree(node, indent=0) -> None:
+    """
+    Prints all the GoalNodes in a tree
+
+    Parameters
+    ----------
+    node : GoalNode
+        Root node for a goal tree
+    """
     prefix = "  " * indent
     print(f"{prefix}- {node.name}: {min(node.data.values())}")
     for child in node.children:
         print_goal_tree(child, indent + 1)
 
-def print_tree_and_agents(node):
+def print_tree_and_agents(node) -> None:
+    """
+    Prints all the GoalNodes in a tree and their child GoalNodes
+
+    Parameters
+    ----------
+    node : GoalNode
+        Root node for a goal tree
+    """
     q = []
     q.append(node)
 

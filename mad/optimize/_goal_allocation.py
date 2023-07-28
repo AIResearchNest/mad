@@ -968,14 +968,16 @@ def get_agent_resources_m(max_resources):
     '''
     Author: Maheen
     Gives agents resources
-     Parameters
+
+    Parameters
     ----------
     max_resources: List[int]
-        
-    The list of max resources for each agent
+        The list of max resources for each agent
 
-    Returns agent_resources: storing the list.
+    Returns
     -------
+    agent_resources: Dict
+        storing the list.
     
     '''
     agents = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "trent", "karen"] #edit
@@ -1090,18 +1092,18 @@ def perform_auction_m(node, agent_resources):
 
 
 
-def agent_goal_m(nodes, max_resources):
+def agent_goal_m(nodes, max_resources) -> None:
     """
     Author: Maheen
-    Description: This basically calls the required functions and prints the info. This function assigns agents to goals by
-                 calculating the shortest path using Dijkstra's and performing an auction-based allocation.
+    Description: This basically calls the required functions and prints the info. This function assigns agents to goals by calculating the shortest path using Dijkstra's and performing an auction-based allocation.
 
-    Parameters:
-    - nodes (list): A list of nodes representing the goals to be assigned to agents.
-    - max_resources: Gets list of maximum resources of each agent in int
-
-    Returns:
-    - None
+    Parameters
+    ----------
+    nodes : list
+        A list of nodes representing the goals to be assigned to agents.
+    
+    max_resources : list
+        Gets list of maximum resources of each agent in int
     """
     if not nodes:
         print("No node has been assigned.")
