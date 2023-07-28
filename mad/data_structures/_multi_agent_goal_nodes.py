@@ -45,6 +45,16 @@ class GoalNode:
     
     Methods
     ----------
+    set_agent(self, name) -> None:
+        Assign a specific agent to the goal node
+
+    initial_agent_assign(self) -> None:
+        Assign the agent with the lowest agent cost at the very first step
+
+    switch_agent(self) -> bool:
+        If the current assigned agent could not achieve the goal, switch to another suitable agent and return True
+        If no agent can achieve this goal, return False
+
     add_child(self, GoalNode)
         Add Child Goal into the Children list
 
@@ -101,7 +111,6 @@ class GoalNode:
         self.descrepancy = abs(high - low)
 
 def level_order_transversal(root) -> None:
-        
         """
         Transverses through the goal tree and prints out the goals (with the parent node in the front if the node has a parent)
 
@@ -144,13 +153,29 @@ def level_order_transversal(root) -> None:
 
             print("\n" * 2)
 
-def print_goal_tree(node, indent=0):
+def print_goal_tree(node, indent=0) -> None:
+    """
+    Prints all the GoalNodes in a tree
+
+    Parameters
+    ----------
+    node : GoalNode
+        Root node for a goal tree
+    """
     prefix = "  " * indent
     print(f"{prefix}- {node.name}: {min(node.data.values())}")
     for child in node.children:
         print_goal_tree(child, indent + 1)
 
-def print_tree_and_agents(node):
+def print_tree_and_agents(node) -> None:
+    """
+    Prints all the GoalNodes in a tree and their child GoalNodes
+
+    Parameters
+    ----------
+    node : GoalNode
+        Root node for a goal tree
+    """
     q = []
     q.append(node)
 

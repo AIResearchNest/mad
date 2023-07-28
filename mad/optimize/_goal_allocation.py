@@ -49,7 +49,7 @@ def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     goal_tree : mad.data_structures.GoalNode
         Hierarchical Multi Agent Goal Tree
     max_resources : int
-        Value for the max amount of resources each agent has available
+        Integer value of max resources for each agent
 
     Returns
     -------
@@ -61,7 +61,7 @@ def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     if not goal_tree.children:
         return [goal_tree]
     
-    # Goals that will be returned upwards for each recursion call
+    # Goals that will be returned
     selected_goals = []
 
     # Current GoalNode's children GoalNodes
@@ -86,14 +86,14 @@ def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
 # Time Complexity: O(n * m); n = nodes, m = agents
 def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) -> Dict:
     """
-    Takes in a list of GoalNodes and distributes them among available agents
+    Takes in a list of GoalNodes and max resources for each agent and distributes the goals too available agents
 
     Parameters
     ----------
     goal_nodes : List
         List of GoalNodes to distribute among agents
     max_resources : int
-        Value for the max amount of resources each agent has available
+        Integer value of max resources for each agent
 
     Returns
     -------
@@ -127,7 +127,6 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
         raise ValueError("Not enough resources")
 
     # Else use multiple agents to solve multiple sub-goals
-    # agents_resources = {agent: max_resources for agent in agents}
     agents_resources = max_resources
     agents_cost_total = {agent: 0 for agent in agents}
 
@@ -136,7 +135,6 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
     for goal in goal_nodes:
         goal.find_descrepancy()
 
-    # O(n log n)
     goals_sorted = list(reversed(sorted(goal_nodes, key=lambda goal: goal.descrepancy))) 
 
     if verbose > 0:
@@ -158,7 +156,6 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
         print(f"Sensitivity: {sensitivity}")
         print()
     
-    # O(n * m)
     left_over_goals = []
     for goal in goals_sorted:
         # List of agents from best fit to worst fit
@@ -224,7 +221,7 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
 
 # Author: Jonathan
 # Time Complexity: O(n * m) n = nodes, m = agents
-def _get_results(agents_and_goals: Dict) -> List:
+def _get_results(agents_and_goals: Dict) -> List[int]:
     """
     Takes in dict of agents' name and assigned goals and returns a list of results
 
@@ -266,7 +263,7 @@ def _get_results(agents_and_goals: Dict) -> List:
 
 # Author: Jonathan
 # Time Complexity: O(n * m) n = nodes, m = agents
-def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 0) -> Dict:
+def dfs_goal_allocation(goal_tree: GoalNode, max_resources: Dict, verbose: int = 0) -> Dict:
     """
     Takes in a goal tree and finds optimal goals to accomplish the main goal and distributes them to agents evenly
 
@@ -274,8 +271,10 @@ def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 
     ----------
     goal_tree : mad.data_structures.GoalNode
         Hierarchical Multi Agent Goal Tree
-    max_resources : int
-        Value for the max amount of resources each agent has available
+    max_resources : Dict
+        Agent names as keys and the amount of resources they have (int) as values
+    verbose : int = 0
+        Enter number greater than 0 to be provided with output information
 
     Returns
     -------
@@ -297,6 +296,7 @@ def dfs_goal_allocation(goal_tree: GoalNode, max_resources: int, verbose: int = 
     else:
         resources = sum(x for x in max_resources.values()) / len(max_resources.values())
 
+    # Find optimal solution
     selected_goals = _optimal_path(goal_tree, resources)
 
     if verbose > 0:
@@ -336,8 +336,8 @@ Fay's Algorithm
 """
 from typing import Dict, List, Tuple
 from mad.data_structures import GoalNode
-import heapq
-import copy
+
+#Author: Fay
 def _check_resources(goal: GoalNode, max_res: Dict[str, int]) -> bool:
     """
     Checks if an agent has enough resources to conduct a goal.
@@ -352,15 +352,41 @@ def _check_resources(goal: GoalNode, max_res: Dict[str, int]) -> bool:
 
     Returns
     -------
-    Returns True if the agent has enough resources, False otherwise.
+    bool
+        Returns True if the agent has enough resources, False otherwise
+
     """
     
     if goal.agent:
         return max_res[goal.agent] >= goal.cost
     return False
 
+#Author: Fay
+#Time Complexity: 
+def handle_unachievable_goal(goal: GoalNode, list_goal: List[GoalNode], i, max_res: Dict[str,int]):
+    
+    """
+    Checks if an agent has enough resources to conduct a goal.
 
-def handle_unachievable_goal(goal, list_goal, i, max_res):
+    Parameters
+    ----------
+    goal: GoalNode
+        The current goal node
+
+    list_goal: List[GoalNode]
+        The list of goal nodes to be achieved
+
+    max_res: Dict[str,int]  
+        A dictionary with the agents as the keys and their corresponding resources as values
+
+    Returns
+    -------
+    int, List[GoalNode], Dict[str, int]
+        Returns the index of the next goal to be processed, the updated list_goal with children added,
+        and the updated max_res if any resources are consumed during goal processing
+    
+    """
+
     goal = list_goal.pop(i)
     if not goal.get_children():
         return i, [], max_res
@@ -368,7 +394,34 @@ def handle_unachievable_goal(goal, list_goal, i, max_res):
         list_goal.append(child)
     return i, list_goal, max_res
 
-def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, int], num_agents: int) -> Tuple[int, List[GoalNode], Dict[str, int]]:
+#Author: Fay
+def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, int]) -> Tuple[int, List[GoalNode], Dict[str, int]]:
+    
+    """
+    Implements a decision algorithm to assign agents to goals and manage resources
+
+    Parameters
+    ----------
+    list_goal: List[GoalNode]
+        The list of goal nodes to be achieved
+
+    i: int
+        The index of the current goal in the list_goal.
+
+    max_res: Dict[str, int]
+        A dictionary with the agents as the keys and their corresponding maximum available resources as values.
+
+    Returns
+    -------
+    Tuple[int, List[GoalNode], Dict[str, int]]
+        Returns a tuple containing:
+        - The index of the next goal to be processed
+        - The updated list_goal with any necessary adjustments
+        - The updated max_res dictionary based on the agent-goal assignments and resource consumption
+
+    """
+    
+    
     goal = list_goal[i]
 
     while not _check_resources(goal, max_res):
@@ -416,8 +469,28 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
     else:
         max_res[goal.agent] -= goal.cost
         return i + 1, list_goal, max_res
-    
+
+#Author: Fay
 def allocate_goals_greedy(list_goal, max_res):
+    """
+
+    Allocates goals to agents using a greedy approach for an equal goal distribution
+
+    Parameters
+    ----------
+    list_goal: List[GoalNode]
+        The list of goal nodes to be achieved.
+
+    max_res: Dict[str, int]
+        A dictionary with the agents as the keys and their corresponding maximum available resources as values.
+
+    Returns
+    -------
+    Dict[str, List[GoalNode]]
+        Returns a dictionary that maps agents to the list of goals allocated to them.
+
+    """
+
     # Initialize the goal allocation dictionary
     if len(list_goal) == 1:
         return {list_goal[0].agent: [list_goal[0]]}
@@ -431,7 +504,6 @@ def allocate_goals_greedy(list_goal, max_res):
 
     for goal in list_goal:
         num_goals[goal.agent] += 1
-
 
     for goal in list_goal:
         # Sort the agents based on remaining resources and the number of goals assigned to each agent
@@ -476,27 +548,28 @@ def allocate_goals_greedy(list_goal, max_res):
 
     return goal_allocation
 
-
-
-
-
+#Author: Fay
 def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], verbose: int = 0) -> Tuple[Dict[str, List[GoalNode]], Dict[str, List[str]]]:
     """
     Equally distributes goals among agents while optimizing goal allocation and minimizing total resource cost.
 
     Parameters
     ----------
-    goal_tree : mad.data_structures.GoalNode
-        Hierarchical Multi Agent Goal Tree 
+    goal_tree : GoalNode
+        The root node of the hierarchical Multi Agent Goal Tree.
+
     max_resources : List[int]
-        List of maximum resources for each agent
+        A list of maximum available resources for each agent.
+
     verbose : int, optional
         Verbosity level (0 - no print statements, 1 - print goal allocation), by default 0
 
     Returns
     -------
-    goal_allocation: Dict
-        Allocates list of goals (value) to each agent (key)
+    Tuple[Dict[str, List[GoalNode]], Dict[str, List[str]]]
+        A tuple containing two dictionaries:
+        1. goal_allocation: A dictionary that maps agents (keys) to the list of goals allocated to them (values)
+        2. max_res: A dictionary that maps agents (keys) to the remaining resources after goal allocation (values)
     """
 
     if goal_tree is None:
@@ -522,7 +595,7 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
 
         i = 0
         while list_goal and i < len(list_goal):
-            i, list_goal, max_res = _decision_algorithm(list_goal, i, max_res, num_agents)
+            i, list_goal, max_res = _decision_algorithm(list_goal, i, max_res)
             if not list_goal:
                 break
 
@@ -552,7 +625,7 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
 
     i = 0
     while list_goal and i < len(list_goal):
-        i, list_goal, max_res = _decision_algorithm(list_goal, i, max_res, num_agents)
+        i, list_goal, max_res = _decision_algorithm(list_goal, i, max_res)
     if not list_goal:
         return ()
     
@@ -1017,14 +1090,16 @@ def get_agent_resources_m(max_resources):
     '''
     Author: Maheen
     Gives agents resources
-     Parameters
+
+    Parameters
     ----------
     max_resources: List[int]
-        
-    The list of max resources for each agent
+        The list of max resources for each agent
 
-    Returns agent_resources: storing the list.
+    Returns
     -------
+    agent_resources: Dict
+        storing the list.
     
     '''
     agents = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "trent", "karen"] #edit
@@ -1138,19 +1213,23 @@ def perform_auction_m(node, agent_resources):
 
 
 
+<<<<<<< HEAD
 
 def agent_goal_m(nodes, max_resources):
+=======
+def agent_goal_m(nodes, max_resources) -> None:
+>>>>>>> a8cd25eb547e0b80e64ad49a71979dd7639bec34
     """
     Author: Maheen
-    Description: This basically calls the required functions and prints the info. This function assigns agents to goals by
-                 calculating the shortest path using Dijkstra's and performing an auction-based allocation.
+    Description: This basically calls the required functions and prints the info. This function assigns agents to goals by calculating the shortest path using Dijkstra's and performing an auction-based allocation.
 
-    Parameters:
-    - nodes (list): A list of nodes representing the goals to be assigned to agents.
-    - max_resources: Gets list of maximum resources of each agent in int
-
-    Returns:
-    - None
+    Parameters
+    ----------
+    nodes : list
+        A list of nodes representing the goals to be assigned to agents.
+    
+    max_resources : list
+        Gets list of maximum resources of each agent in int
     """
     if not nodes:
         print("No node has been assigned.")
