@@ -32,21 +32,21 @@ class GoalNode:
     ----------
     name : str
         Goal Name
-    data : dict
-        Dictonary containing key as agent and value as planning cost
-    children: List
-        List of children GoalNodes, initializing with an empty list
+    data : dict{str: int}
+        Dictonary containing agent name as key and a planning cost as a value
+    children: List[GoalNodes]
+        List of children GoalNodes, initializes with an empty list
     agent: str
-        Agent that costs the least
+        Name of the agent assigned to the GoalNode
     cost: int
-        Most optimized cost
+        Cost of the agent assigned to the GoalNode
     descrepancy: int
         Finds cost difference between best fit agent and worst fit agent
     
     Methods
     ----------
     set_agent(self, name) -> None:
-        Assign a specific agent to the goal node
+        Assigns a specific agent to the goal node
 
     initial_agent_assign(self) -> None:
         Assign the agent with the lowest agent cost at the very first step
@@ -55,13 +55,13 @@ class GoalNode:
         If the current assigned agent could not achieve the goal, switch to another suitable agent and return True
         If no agent can achieve this goal, return False
 
-    add_child(self, GoalNode)
-        Add Child Goal into the Children list
+    add_child(self, GoalNode) -> None:
+        Add child GoalNode into the children list
 
-    get_children(self) -> List[GoalNode]
+    get_children(self) -> List[GoalNode]:
         Return the list of the Child Goals
 
-    find_descrepancy(self)
+    find_descrepancy(self) -> None:
         Finds the descrepancy between best fit agent and worst fit agent and assigns it to self.descrepancy
     """
 
@@ -155,7 +155,7 @@ def level_order_transversal(root) -> None:
 
 def print_goal_tree(node, indent=0) -> None:
     """
-    Prints all the GoalNodes in a tree
+    Prints all the GoalNodes in a tree in a formated way 
 
     Parameters
     ----------
@@ -169,7 +169,7 @@ def print_goal_tree(node, indent=0) -> None:
 
 def print_tree_and_agents(node) -> None:
     """
-    Prints all the GoalNodes in a tree and their child GoalNodes
+    Prints all the GoalNodes in a tree and their child GoalNodes using BFS
 
     Parameters
     ----------

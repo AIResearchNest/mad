@@ -1,4 +1,4 @@
-__version__ = '0.0.72'
+__version__ = '0.0.73'
 
 #change log:
 # 0.0.0: first version
@@ -75,3 +75,4 @@ __version__ = '0.0.72'
 # 0.0.70: Made Maheen's algoritm better and added 1000-tree scenarios
 # 0.0.71: Added sphinx documentation
 # 0.0.72: Added labels for plots
+# 0.0.73: Added better comments for GoalNode and DFS Goal Allocation

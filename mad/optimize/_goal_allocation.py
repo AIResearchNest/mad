@@ -42,7 +42,7 @@ from mad.data_structures import print_goal_tree, print_tree_and_agents
 # Time Complexity: O(n * m); n = nodes, m = children
 def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     """
-    Takes in a goal tree and max resources for each agent and finds the most optimal goal path based on the GoalNode.cost values through out the tree and returns a list of GoalNodes that should be accomplished
+    Takes in a root node to a GoalNode goal tree and a max resources int for all the agents and finds the most optimal goal path based on the GoalNode.cost values through out the tree and returns a list of GoalNodes that should be accomplished. The returned GoalNodes are selected by finding the cheapest possible solution to the goal tree.
 
     Parameters
     ----------
@@ -54,7 +54,7 @@ def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
     Returns
     -------
     selected_goals : List
-        List of GoalNodes to be accomplished by agents in the world
+        List of GoalNodes to be accomplished by agents in the domain
     """
 
     # Break Case: if GoalNode has no children, return [goal_tree]
@@ -84,21 +84,21 @@ def _optimal_path(goal_tree: GoalNode, max_resources: int) -> List:
 
 # Author: Jonathan
 # Time Complexity: O(n * m); n = nodes, m = agents
-def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) -> Dict:
+def _distribute_goals(goal_nodes: List, max_resources: Dict, verbose: int = 0) -> Dict:
     """
-    Takes in a list of GoalNodes and max resources for each agent and distributes the goals too available agents
+    Takes in a list of solution GoalNodes and max resources for each agent and distributes the goals too available agents evenly by making sure that each agent gets as equal of a percentage of the work as possible.
 
     Parameters
     ----------
     goal_nodes : List
-        List of GoalNodes to distribute among agents
-    max_resources : int
-        Integer value of max resources for each agent
+        List of GoalNodes to distribute among available agents
+    max_resources : Dict
+        Dictionary containing each agent names as the keys and an int value of the amount of resources they have individually. Can be the same or different from agent to agent.
 
     Returns
     -------
     allocated_goals : Dict
-        Dictionary of agent names (keys) and list of GoalNodes assigned (values)
+        Dictionary of agent names (keys) and list of GoalNodes assigned to them (values)
     """
 
     # Gather all agents available O(n * m)
@@ -223,12 +223,12 @@ def _distribute_goals(goal_nodes: List, max_resources: int, verbose: int = 0) ->
 # Time Complexity: O(n * m) n = nodes, m = agents
 def _get_results(agents_and_goals: Dict) -> List[int]:
     """
-    Takes in dict of agents' name and assigned goals and returns a list of results
+    Takes in a Dict of agent names and assigned goals and calculates result data. The returned data involves the total cost of the goal solution and distribution to the agents, the differences from the cheapest possible case, the range of cost disparity between agents, and the number of agents used out of the available agents
 
     Parameters
     ----------
     agents_and_goals : Dict
-        Agent name as string and list of GoalNodes as values
+        Agent name as string and list of assigned GoalNodes as values
 
     Returns 
     -------
@@ -265,12 +265,18 @@ def _get_results(agents_and_goals: Dict) -> List[int]:
 # Time Complexity: O(n * m) n = nodes, m = agents
 def dfs_goal_allocation(goal_tree: GoalNode, max_resources: Dict, verbose: int = 0) -> Dict:
     """
-    Takes in a goal tree and finds optimal goals to accomplish the main goal and distributes them to agents evenly
+    The DFS Goal Allocation algorithm takes in the root of a GoalNode hierarchical goal tree and a Dict of agent names as keys and the amount of resources they each individually have as values {str: int}. 
+    
+    DFS Goal Allocation starts by finding the cheapest possible solution to the given GoalNode tree by using DFS to compare the sum of the leaf GoalNodes cost to the parent GoalNode's cost and passing the cheaper set of goals upward. This process of comparing the sum of the children GoalNodes costs against the cost of the parent GoalNode continues all the up the levels until finally the root GoalNode is compared to the cheapest solution from subgoals. The cheapest solution set of GoalNodes is returned and given to the distribution algorithm.
+
+    The distribution algorithm then tries to evenly distribute the selected GoalNodes to the available agents so that each agent gets an even percentage of the cost of the solution.
+
+    Finally, a Dict with the agent names as string and the assigned GoalNodes in a list as values is returned {str: list}.  
 
     Parameters
     ----------
     goal_tree : mad.data_structures.GoalNode
-        Hierarchical Multi Agent Goal Tree
+        The root GoalNode of a Hierarchical Multi Agent Goal Tree
     max_resources : Dict
         Agent names as keys and the amount of resources they have (int) as values
     verbose : int = 0
