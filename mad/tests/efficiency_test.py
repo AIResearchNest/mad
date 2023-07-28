@@ -1529,6 +1529,7 @@ def efficiency_test(goal_tree, max_res: List):
 def efficiency_test_m(root: GoalNode2, max_resources: List[int]) -> Tuple[int,int]:
     """
     Calculates the average cost and total resources used by Maheen's algorithm in a goal tree.
+    
     Parameters
     ----------
     root : GoalNode2
@@ -1677,7 +1678,7 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
 
     Returns
     -------
-
+    
         None: This function generates the side-by-side bar chart and displays it using plt.show()
 
     """
@@ -2321,7 +2322,7 @@ def main() -> None:
     agent_jonathan_averages = []
     agent_maheen_averages = []
 
-    for j in range(10):  # 10 trees per test case
+    for j in range(10):  
             algo_results_fay = 0
             algo_results_jonathan = 0
             algo_results_maheen = 0
@@ -2332,8 +2333,8 @@ def main() -> None:
             
             for (generate_tree, title) in test_cases:
                 test_case = generate_tree
-                # each tree run 10 times
-                for _ in range(10):  
+                # each tree run 100 times
+                for _ in range(100):  
                     tree, tree_m= test_case()
                 
                     # Run each goal tree
@@ -2398,8 +2399,8 @@ def main() -> None:
 
             for (generate_tree, title) in test_cases:
                 test_case = generate_tree
-                # each tree run 10 times
-                for _ in range(10):  
+                # each tree run 100 times
+                for _ in range(100):  
                     tree, tree_m= test_case()
                 
                     # Run each goal tree
@@ -2470,8 +2471,8 @@ def main() -> None:
             
             for (generate_tree, title) in test_cases:
                 test_case = generate_tree
-                # each tree run 10 times
-                for _ in range(10):  
+                # each tree run 100 times
+                for _ in range(100):  
                     tree, tree_m= test_case(True, 3)
                 
                     # Run each goal tree
@@ -2513,7 +2514,7 @@ def main() -> None:
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
-    scenario_6_b = "SCENARIO 6B\n 1000 Trees - Random Agent Cost - Varying Agents - Different Max Resources"
+    scenario_6_b = "SCENARIO 6B\n 1000 Trees - Random Agent Cost - 3 Agents - Different Max Resources"
 
     # Store the average results for each algorithm
     fay_averages = []
@@ -2535,8 +2536,8 @@ def main() -> None:
             resources = [random.randint(35,45),random.randint(35,45),random.randint(35,45)]
             for (generate_tree, title) in test_cases:
                 test_case = generate_tree
-                # each tree run 10 times
-                for _ in range(10):  
+                # each tree run 100 times
+                for _ in range(100):  
                     tree, tree_m= test_case(True, 3)
                 
                     # Run each goal tree
@@ -2598,7 +2599,7 @@ def main() -> None:
 
     no_agents_avail = []
 
-    for j in range(10):  # 10 trees per test case
+    for j in range(10):  
             algo_results_fay = 0
             algo_results_jonathan = 0
             algo_results_maheen = 0
@@ -2612,8 +2613,8 @@ def main() -> None:
 
             for (generate_tree, title) in test_cases:
                 test_case = generate_tree
-                # each tree run 10 times
-                for _ in range(10):  
+                # each tree run 100 times
+                for _ in range(100):  
                     tree, tree_m= test_case(False, no_agents)
                 
                     # Run each goal tree
@@ -2685,8 +2686,8 @@ def main() -> None:
 
             for (generate_tree, title) in test_cases:
                 test_case = generate_tree
-                # each tree run 10 times
-                for _ in range(10):  
+                # each tree run 100 times
+                for _ in range(100):  
                     tree, tree_m= test_case(False, no_agents)
                 
                     # Run each goal tree
@@ -2762,8 +2763,8 @@ def main() -> None:
             
             for (generate_tree, title) in test_cases:
                 test_case = generate_tree
-                # each tree run 10 times
-                for _ in range(10):  
+                # each tree run 100 times
+                for _ in range(100):  
                     tree, tree_m= test_case(True,  no_agents)
                 
                     # Run each goal tree
@@ -2837,9 +2838,9 @@ def main() -> None:
 
             for (generate_tree, title) in test_cases:
                 test_case = generate_tree
-                # each tree run 10 times
-                for _ in range(10):  
-                    tree, tree_m= test_case(True, 3)
+                # each tree run 100 times
+                for _ in range(100):  
+                    tree, tree_m= test_case(True, no_agents)
                 
                     # Run each goal tree
                     result = efficiency_test(tree, resources)
