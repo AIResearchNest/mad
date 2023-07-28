@@ -1,6 +1,5 @@
 from mad.data_structures import GoalNode, GoalNode2
-from mad.optimize import dfs_goal_allocation, agent_goal_m, cost_node, optimized_goal_allocation, assign_agents_to_goal_nodes, count_goals
-from typing import Dict
+from mad.optimize import dfs_goal_allocation, agent_goal_m, cost_node, optimized_goal_allocation
 import random as r
 import matplotlib.pyplot as plt
 import copy
@@ -41,7 +40,7 @@ def equal_node(node):
 
 #for all
 
-def _random_cost(m: int, n: int, agents: int) -> Dict[str, int]:
+def _random_cost(m: int, n: int, agents: int) -> dict[str, int]:
     
     """
     This function randomizes the cost of an agent when it conducts a goal based on an assigned range
@@ -56,7 +55,7 @@ def _random_cost(m: int, n: int, agents: int) -> Dict[str, int]:
     Returns
     -------
     
-    Dict[str,int]
+    dict[str,int]
         A dictionary with the agents as keys and corresponding costs as values
     
     """
@@ -94,7 +93,7 @@ def print_tree_and_agents_custom(node):
 
 
 
-def custom_equal_cost(m: int, n: int, agents: int) -> Dict[str, int]:
+def custom_equal_cost(m: int, n: int, agents: int) -> dict[str, int]:
     """
     This function randomizes the cost of an agent when it conducts a goal based on an assigned range but
     gives one goal to all 
@@ -108,7 +107,7 @@ def custom_equal_cost(m: int, n: int, agents: int) -> Dict[str, int]:
     
     Returns
     -------
-    Dict[str, int]
+    dict[str, int]
         A dictionary with the agents as keys and corresponding costs as values
     """
     AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "trent", "karen"]
@@ -125,7 +124,7 @@ def get_custom_total_cost(agents_and_goals):
     '''
     Description: This function calculates the total cost of all agents and their assigned goals.
         Parameters:
-        agents_and_goals (Dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
+        agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
     Returns:
     int: The total cost of all agents' assigned goals.
     '''
@@ -141,7 +140,7 @@ def get_agents_used(agents_and_goals):
     '''
       Description: This function calculates the number of agents who have been assigned goals.
     Parameters:
-    agents_and_goals (Dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
+    agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
     Returns:
     int: The number of agents who have been assigned goals.
     '''
@@ -157,7 +156,7 @@ def discrepancy(agents_and_goals):
     '''
         Description: This function calculates the discrepancy in the costs of agents' assigned goals.
     Parameters:
-    agents_and_goals (Dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
+    agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
     Returns:
     int: The discrepancy in the costs of agents' assigned goals, i.e., the absolute difference between the maximum and minimum cost.
     '''
@@ -180,7 +179,7 @@ def get_skew(agents_and_goals_dfs):
     '''
     Description: This function calculates the skew in the costs of agents' assigned goals and the best-case scenario cost.
     Parameters:
-    agents_and_goals_dfs (Dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
+    agents_and_goals_dfs (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
     Returns:
     List[int]: A list containing two elements: the skew in the costs of agents' assigned goals and the best-case scenario cost.
     
@@ -205,7 +204,7 @@ def  _skew_new(opt_agents_and_goals, best_case):
     '''
     Description: This is a helper function that calculates the skew in the costs of agents' assigned goals compared to the best-case scenario cost.
     Parameters:
-    opt_agents_and_goals (Dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
+    opt_agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
     best_case (int): The best-case scenario cost.
     Returns:
     int: The skew in the costs of agents' assigned goals compared to the best-case scenario cost.
@@ -3820,9 +3819,9 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
     ax1.set_ylim(0, max(max(avg_costs1), max(avg_costs2), max(avg_costs3)) + 20)
 
     # Set the labels and title
-    ax1.set_xlabel('Test Group')
+    ax1.set_xlabel('Test Groups of 1000 Trees')
     ax1.set_ylabel('Average Total Cost')
-    ax1.set_title(f'Scenario {scenario} - Total Costs')
+    ax1.set_title('Average Resources Used')
     ax1.set_xticks(x + bar_width)
     ax1.set_xticklabels(x + 1)
     ax1.legend()
@@ -3842,9 +3841,9 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
     ax2.set_ylim(0, max(max(avg_agents1), max(avg_agents2), max(avg_agents3)) + 5)
 
     # Set the labels and title
-    ax2.set_xlabel('Test Group')
-    ax2.set_ylabel('Average Number of Agents')
-    ax2.set_title(f'Scenario {scenario} - Agents Used')
+    ax2.set_xlabel('Test Groups of 1000 Trees')
+    ax2.set_ylabel('Agents Used')
+    ax2.set_title(f'Average Number of Agents Used')
     ax2.set_xticks(x + bar_width)
     ax2.set_xticklabels(x + 1)
     # ax2.legend()
@@ -3864,9 +3863,9 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
     ax3.set_ylim(0, max(max(avg_discrepancy1), max(avg_discrepancy2), max(avg_discrepancy3)) + 5)
     
     # Set the labels and title
-    ax3.set_xlabel('Test Group')
-    ax3.set_ylabel('Discrepancy')
-    ax3.set_title(f'Scenario {scenario} - Discrepancy')
+    ax3.set_xlabel('Test Groups of 1000 Trees')
+    ax3.set_ylabel('Difference in Agent\'s Cost')
+    ax3.set_title('Average Cost Distribution Disparity of Agents')
     ax3.set_xticks(x + bar_width)
     ax3.set_xticklabels(x + 1)
     # ax3.legend()
@@ -3886,9 +3885,9 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
     ax4.set_ylim(min(0, min(avg_skew3)), max(max(avg_skew1), max(avg_skew2), max(avg_skew3)) + 5)
     
     # Set the labels and title
-    ax4.set_xlabel('Test Group')
-    ax4.set_ylabel('Skew')
-    ax4.set_title(f'Scenario {scenario} - Skew')
+    ax4.set_xlabel('Test Groups of 1000 Trees')
+    ax4.set_ylabel('Difference from Cheapest Allocation')
+    ax4.set_title('Average Cost Efficiency of Goal Allocation')
     ax4.set_xticks(x + bar_width)
     ax4.set_xticklabels(x + 1)
     # ax4.legend()

@@ -1213,12 +1213,7 @@ def perform_auction_m(node, agent_resources):
 
 
 
-<<<<<<< HEAD
-
-def agent_goal_m(nodes, max_resources):
-=======
 def agent_goal_m(nodes, max_resources) -> None:
->>>>>>> a8cd25eb547e0b80e64ad49a71979dd7639bec34
     """
     Author: Maheen
     Description: This basically calls the required functions and prints the info. This function assigns agents to goals by calculating the shortest path using Dijkstra's and performing an auction-based allocation.
