@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import copy
 import numpy as np
 
-# Print Functions
+# Print Functions for Maheen
 def print_goal_tree_m(node, indent=0):
     prefix = "  " * indent
     print(f"{prefix}- {node.name}: {node.assigned_agent}")
@@ -3075,10 +3075,10 @@ def Test8(total_tests, seed):
 def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg_skew1, fails1, avg_costs2, avg_agents2, avg_discrepancy2, avg_skew2, fails2, avg_costs3, avg_agents3, avg_discrepancy3, avg_skew3, fails3):
 
     print(f"\nScenario {scenario}")
-    print("\nJonathan Results")
+    print("\nDFS Goal Allocation Results")
     for i in range(len(avg_costs1)):
         print(f"Test {i}: TC: {avg_costs1[i]}, F: {fails1[i]}, A: {avg_agents1[i]}, D: {avg_discrepancy1[i]}, S: {avg_skew1[i]}")
-    print("\nFay Results")
+    print("\nOptimize Results")
     for i in range(len(avg_costs2)):
         print(f"Test {i}: TC: {avg_costs2[i]}, F: {fails2[i]}, A: {avg_agents2[i]}, D: {avg_discrepancy2[i]}, S: {avg_skew2[i]}")
     print("\nMaheen Results")
@@ -3095,10 +3095,10 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
 
     # Plot 1
     # Plot the bars for Jonathan's Algorithm
-    rects1 = ax1.bar(x, avg_costs1, width=bar_width, label="Jonathan's Algorithm", color='lightblue')
+    rects1 = ax1.bar(x, avg_costs1, width=bar_width, label="DFS Goal Allocation Algorithm", color='lightblue')
 
     # Plot the bars for Fay's Algorithm
-    rects2 = ax1.bar(x + bar_width, avg_costs2, width=bar_width, label="Fay's Algorithm", color='peachpuff')
+    rects2 = ax1.bar(x + bar_width, avg_costs2, width=bar_width, label="Optimize Algorithm", color='peachpuff')
 
     # Plot the bars for Maheen's Algorithm
     rects3 = ax1.bar(x + bar_width * 2, avg_costs3, width=bar_width, label="Maheen's Algorithm", color='lightgreen')
@@ -3117,10 +3117,10 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
 
     # Plot 2
     # Plot the bars for Jonathan's Algorithm
-    rects4 = ax2.bar(x, avg_agents1, width=bar_width, label="Jonathan's Algorithm", color='lightblue')
+    rects4 = ax2.bar(x, avg_agents1, width=bar_width, label="DFS Goal Allocation Algorithm", color='lightblue')
 
     # Plot the bars for Fay's Algorithm
-    rects5 = ax2.bar(x + bar_width, avg_agents2, width=bar_width, label="Fay's Algorithm", color='peachpuff')
+    rects5 = ax2.bar(x + bar_width, avg_agents2, width=bar_width, label="Optimize Algorithm", color='peachpuff')
 
     # Plot the bars for Maheen's Algorithm
     rects6 = ax2.bar(x + bar_width * 2, avg_agents3, width=bar_width, label="Maheen's Algorithm", color='lightgreen')
@@ -3139,10 +3139,10 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
 
     # Plot 3
     # Plot the bars for Jonathan's Algorithm
-    rects7 = ax3.bar(x, avg_discrepancy1, width=bar_width, label="Jonathan's Algorithm", color='lightblue')
+    rects7 = ax3.bar(x, avg_discrepancy1, width=bar_width, label="DFS Goal Allocation Algorithm", color='lightblue')
 
     # Plot the bars for Fay's Algorithm
-    rects8 = ax3.bar(x + bar_width, avg_discrepancy2, width=bar_width, label="Fay's Algorithm", color='peachpuff')
+    rects8 = ax3.bar(x + bar_width, avg_discrepancy2, width=bar_width, label="Optimize Algorithm", color='peachpuff')
 
     # Plot the bars for Maheen's Algorithm
     rects9 = ax3.bar(x + bar_width * 2, avg_discrepancy3, width=bar_width, label="Maheen's Algorithm", color='lightgreen')
@@ -3161,10 +3161,10 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
 
     # Plot 4
     # Plot the bars for Jonathan's Algorithm
-    rects10 = ax4.bar(x, avg_skew1, width=bar_width, label="Jonathan's Algorithm", color='lightblue')
+    rects10 = ax4.bar(x, avg_skew1, width=bar_width, label="DFS Goal Allocation Algorithm", color='lightblue')
 
     # Plot the bars for Fay's Algorithm
-    rects11 = ax4.bar(x + bar_width, avg_skew2, width=bar_width, label="Fay's Algorithm", color='peachpuff')
+    rects11 = ax4.bar(x + bar_width, avg_skew2, width=bar_width, label="Optimize Algorithm", color='peachpuff')
 
     # Plot the bars for Maheen's Algorithm
     rects12 = ax4.bar(x + bar_width * 2, avg_skew3, width=bar_width, label="Maheen's Algorithm", color='lightgreen')
@@ -3191,10 +3191,10 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
 def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg_skew1, fails1, avg_costs2, avg_agents2, avg_discrepancy2, avg_skew2, fails2, avg_costs3, avg_agents3, avg_discrepancy3, avg_skew3, fails3):
 
     print(f"\nScenario {scenario}")
-    print("\nJonathan Results")
+    print("\nDFS Goal Allocation Results")
     for i in range(len(avg_costs1)):
         print(f"Test {i}: TC: {avg_costs1[i]}, F: {fails1[i]}, A: {avg_agents1[i]}, D: {avg_discrepancy1[i]}, S: {avg_skew1[i]}")
-    print("\nFay Results")
+    print("\nOptimize Results")
     for i in range(len(avg_costs2)):
         print(f"Test {i}: TC: {avg_costs2[i]}, F: {fails2[i]}, A: {avg_agents2[i]}, D: {avg_discrepancy2[i]}, S: {avg_skew2[i]}")
     print("\nMaheen Results")
@@ -3211,10 +3211,10 @@ def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discr
 
     # Plot 1
     # Plot the bars for Jonathan's Algorithm
-    rects1 = ax1.bar(x, avg_costs1, width=bar_width, label="Jonathan's Algorithm", color='lightblue')
+    rects1 = ax1.bar(x, avg_costs1, width=bar_width, label="DFS Goal Allocation Algorithm", color='lightblue')
 
     # Plot the bars for Fay's Algorithm
-    rects2 = ax1.bar(x + bar_width, avg_costs2, width=bar_width, label="Fay's Algorithm", color='peachpuff')
+    rects2 = ax1.bar(x + bar_width, avg_costs2, width=bar_width, label="Optimize Algorithm", color='peachpuff')
 
     # Plot the bars for Maheen's Algorithm
     rects3 = ax1.bar(x + bar_width * 2, avg_costs3, width=bar_width, label="Maheen's Algorithm", color='lightgreen')
@@ -3233,10 +3233,10 @@ def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discr
 
     # Plot 2
     # Plot the bars for Jonathan's Algorithm
-    rects4 = ax2.bar(x, avg_agents1, width=bar_width, label="Jonathan's Algorithm", color='lightblue')
+    rects4 = ax2.bar(x, avg_agents1, width=bar_width, label="DFS Goal Allocation Algorithm", color='lightblue')
 
     # Plot the bars for Fay's Algorithm
-    rects4 = ax2.bar(x + bar_width, avg_agents2, width=bar_width, label="Fay's Algorithm", color='peachpuff')
+    rects4 = ax2.bar(x + bar_width, avg_agents2, width=bar_width, label="Optimize Algorithm", color='peachpuff')
 
     # Plot the bars for Maheen's Algorithm
     rects6 = ax2.bar(x + bar_width * 2, avg_agents3, width=bar_width, label="Maheen's Algorithm", color='lightgreen')
@@ -3255,10 +3255,10 @@ def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discr
 
     # Plot 3
     # Plot the bars for Jonathan's Algorithm
-    rects7 = ax3.bar(x, avg_discrepancy1, width=bar_width, label="Jonathan's Algorithm", color='lightblue')
+    rects7 = ax3.bar(x, avg_discrepancy1, width=bar_width, label="DFS Goal Allocation Algorithm", color='lightblue')
 
     # Plot the bars for Fay's Algorithm
-    rects8 = ax3.bar(x + bar_width, avg_discrepancy2, width=bar_width, label="Fay's Algorithm", color='peachpuff')
+    rects8 = ax3.bar(x + bar_width, avg_discrepancy2, width=bar_width, label="Optimize Algorithm", color='peachpuff')
 
     # Plot the bars for Maheen's Algorithm
     rects9 = ax3.bar(x + bar_width * 2, avg_discrepancy3, width=bar_width, label="Maheen's Algorithm", color='lightgreen')
@@ -3277,10 +3277,10 @@ def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discr
 
     # Plot 4
     # Plot the bars for Jonathan's Algorithm
-    rects10 = ax4.bar(x, avg_skew1, width=bar_width, label="Jonathan's Algorithm", color='lightblue')
+    rects10 = ax4.bar(x, avg_skew1, width=bar_width, label="DFS Goal Allocation Algorithm", color='lightblue')
 
     # Plot the bars for Fay's Algorithm
-    rects11 = ax4.bar(x + bar_width, avg_skew2, width=bar_width, label="Fay's Algorithm", color='peachpuff')
+    rects11 = ax4.bar(x + bar_width, avg_skew2, width=bar_width, label="Optimize Algorithm", color='peachpuff')
 
     # Plot the bars for Maheen's Algorithm
     rects12 = ax4.bar(x + bar_width * 2, avg_skew3, width=bar_width, label="Maheen's Algorithm", color='lightgreen')
