@@ -152,8 +152,7 @@ def binary_left(random = False, num_agents = 3):
     Generate two binary left goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
@@ -217,8 +216,7 @@ def binary_right(random = False, num_agents = 3):
     Generate two binary right goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
@@ -282,8 +280,7 @@ def root(random = False, num_agents = 3):
     Generate two root-only goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
@@ -313,8 +310,7 @@ def tree_symmetric (random=False, num_agents = 3):
     Generate two symmetric goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
@@ -443,8 +439,7 @@ def tree_left_right(random = False, num_agents = 3):
     Generate two left right goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
@@ -548,8 +543,7 @@ def large_binary_tree(random = False, num_agents = 3):
     Generate two large binary goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
@@ -821,8 +815,7 @@ def large_tree(random = False, num_agents = 3):
     Generate two large goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
@@ -1166,8 +1159,7 @@ def tree_1(random = False, num_agents = 3):
     Generate two random goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
@@ -1295,8 +1287,7 @@ def tree_2(random = False, num_agents = 3):
     Generate two random goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
@@ -1426,20 +1417,15 @@ def efficiency_test(goal_tree, max_res: List):
 
     Parameters
     ----------
-    
-        goal_tree (GoalNode): The root node of the goal hierarchy represented by `GoalNode` objects.
-        max_res (List[int]): A list of maximum resources available for each agent in the hierarchy.
+    goal_tree : GoalNode 
+        The root node of the goal hierarchy represented by `GoalNode` objects.
+    max_res : List[int]
+        A list of maximum resources available for each agent in the hierarchy.
 
     Return
     ----------
-        tuple: A tuple containing the following elements:
-               - f_agent_cost (List[int]): A list representing the total cost of goals allocated to each agent using Fay's algorithm.
-               - f_agent_goals (List[int]): A list representing the number of goals allocated to each agent using Fay's algorithm.
-               - j_agent_cost (List[int]): A list representing the total cost of goals allocated to each agent using Jonathan's algorithm.
-               - j_agent_goals (List[int]): A list representing the number of goals allocated to each agent using Jonathan's algorithm.
-               - f_total_resources (int): The total resources consumed using Fay's algorithm.
-               - j_total_resources (int): The total resources consumed using Jonathan's algorithm.
-               - AGENT (List[str]): A list of agent names in the goal hierarchy.
+    tuple : tuple
+        A tuple containing the following elements, f_agent_cost (List[int]): A list representing the total cost of goals allocated to each agent using Fay's algorithm, f_agent_goals (List[int]): A list representing the number of goals allocated to each agent using Fay's algorithm, j_agent_cost (List[int]): A list representing the total cost of goals allocated to each agent using Jonathan's algorithm, j_agent_goals (List[int]): A list representing the number of goals allocated to each agent using Jonathan's algorithm, f_total_resources (int): The total resources consumed using Fay's algorithm, j_total_resources (int): The total resources consumed using Jonathan's algorithm, AGENT (List[str]): A list of agent names in the goal hierarchy.
     """
     AGENT = list(goal_tree.data.keys())
     
@@ -1540,10 +1526,8 @@ def efficiency_test_m(root: GoalNode2, max_resources: List[int]) -> Tuple[int,in
 
     Returns
     -------
-    Tuple[int, int]:
-        A tuple containing the following elements:
-        - The total cost of all assigned Goalnodes (int)
-        - The number of unique agents used to achieve the goals (int)
+    Tuple[int, int] : tuple
+        A tuple containing the following elements: The total cost of all assigned Goalnodes (int), The number of unique agents used to achieve the goals (int)
 
     """
     if len(max_resources) == 1:
@@ -1664,17 +1648,24 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
 
     Parameters
     ----------
-
-        fay_averages (List[float]): List of average resources used by Fay's Algorithm.
-        jonathan_averages (List[float]): List of average resources used by Jonathan's Algorithm.
-        maheen_averages (List[float]): List of average resources used by Maheen's Algorithm.
-        agent_fay_averages (List[float]): List of average agents used by Fay's Algorithm.
-        agent_jonathan_averages (List[float]): List of average agents used by Jonathan's Algorithm.
-        agent_maheen_averages (List[float]): List of average agents used by Maheen's Algorithm.
-        iteration (int): The iteration of the experiment.
-        scenario (str): The scenario of the experiment.
-        num_agents_avail (List[int], optional): A list of the number of available agents for each test case.
-            Default is [3] * 10.
+    fay_averages : (List[float]) 
+        List of average resources used by Fay's Algorithm.
+    jonathan_averages : (List[float]) 
+        List of average resources used by Jonathan's Algorithm.
+    maheen_averages : (List[float]) 
+        List of average resources used by Maheen's Algorithm.
+    agent_fay_averages : (List[float]) 
+        List of average agents used by Fay's Algorithm.
+    agent_jonathan_averages : (List[float]) 
+        List of average agents used by Jonathan's Algorithm.
+    agent_maheen_averages : (List[float]) 
+        List of average agents used by Maheen's Algorithm.
+    iteration : (int) 
+        The iteration of the experiment.
+    scenario : (str) 
+        The scenario of the experiment.
+    num_agents_avail : (List[int], optional)
+        A list of the number of available agents for each test case. Default is [3] * 10.
 
     Returns
     -------
@@ -1754,7 +1745,7 @@ def main() -> None:
         (large_tree, "LARGE TREE"),
         (tree_1,  "TREE 1"),
         (tree_2, "TREE 2"),]
-   
+
     """
         SCENARIO 1: 
             - Same agent cost
