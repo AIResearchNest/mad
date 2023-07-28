@@ -67,6 +67,19 @@ def _equal_cost(m: int, n: int, agents: int) -> Dict[str, int]:
 
 # Trees
 def binary_symmetric(random=False, num_agents = 3):
+    """
+    Generate two binary symmetric goal hierarchical trees with associated agent costs
+
+    Parameters:
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
     if random:
         root_agents = _random_cost(25, 45, num_agents)
         subgoal1_agents = _random_cost(15, 20, num_agents)
@@ -135,6 +148,19 @@ def binary_symmetric(random=False, num_agents = 3):
     return (root,rootm)
 
 def binary_left(random = False, num_agents = 3):
+    """
+    Generate two binary left goal hierarchical trees with associated agent costs
+
+    Parameters:
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
     if random:
         root_agents = _random_cost(25, 45, num_agents)
         subgoal1_agents = _random_cost(15, 20, num_agents)
@@ -187,6 +213,19 @@ def binary_left(random = False, num_agents = 3):
     return (root,rootm)
 
 def binary_right(random = False, num_agents = 3):
+    """
+    Generate two binary right goal hierarchical trees with associated agent costs
+
+    Parameters:
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
     if random:
         root_agents = _random_cost(25, 45, num_agents)
         subgoal1_agents = _random_cost(15, 20, num_agents)
@@ -239,6 +278,19 @@ def binary_right(random = False, num_agents = 3):
     return (root,rootm)
 
 def root(random = False, num_agents = 3):
+    """
+    Generate two root-only goal hierarchical trees with associated agent costs
+
+    Parameters:
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
     if random:
         root_agents = _random_cost(25, 45, num_agents)
     else:
@@ -257,6 +309,19 @@ def root(random = False, num_agents = 3):
     return (root,rootm)
 
 def tree_symmetric (random=False, num_agents = 3):
+    """
+    Generate two symmetric goal hierarchical trees with associated agent costs
+
+    Parameters:
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
     if random:
         root_agents = _random_cost(30, 45, num_agents)
         subgoal1_agents = _random_cost(15, 25, num_agents)
@@ -374,6 +439,19 @@ def tree_symmetric (random=False, num_agents = 3):
     return (root,rootm)
 
 def tree_left_right(random = False, num_agents = 3):
+    """
+    Generate two left right goal hierarchical trees with associated agent costs
+
+    Parameters:
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
     if random:
         root_agents = _random_cost(30, 45, num_agents)
         subgoal1_agents = _random_cost(15, 25, num_agents)
@@ -466,7 +544,19 @@ def tree_left_right(random = False, num_agents = 3):
     return (root,rootm)
 
 def large_binary_tree(random = False, num_agents = 3):
-    
+    """
+    Generate two large binary goal hierarchical trees with associated agent costs
+
+    Parameters:
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
     if random:
         root_agents = _random_cost(40, 60, num_agents)
         subgoal1_agents = _random_cost(23, 30, num_agents)
@@ -727,7 +817,19 @@ def large_binary_tree(random = False, num_agents = 3):
     return (root,rootm)
 
 def large_tree(random = False, num_agents = 3):
-    
+    """
+    Generate two large goal hierarchical trees with associated agent costs
+
+    Parameters:
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
     if random:
         root_agents = _random_cost(40, 60, num_agents)
         subgoal1_agents = _random_cost(13, 20, num_agents)
@@ -1060,6 +1162,19 @@ def large_tree(random = False, num_agents = 3):
     return (root,rootm)
 
 def tree_1(random = False, num_agents = 3):
+    """
+    Generate two random goal hierarchical trees with associated agent costs
+
+    Parameters:
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
     if random:
         root_agents = _random_cost(30, 45, num_agents)
         subgoal1_agents = _random_cost(15, 25, num_agents)
@@ -1176,6 +1291,19 @@ def tree_1(random = False, num_agents = 3):
     return (root,rootm)
 
 def tree_2(random = False, num_agents = 3):
+    """
+    Generate two random goal hierarchical trees with associated agent costs
+
+    Parameters:
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
     if random:
         root_agents = _random_cost(30, 45, num_agents)
         subgoal1_agents = _random_cost(6, 12, num_agents)
@@ -1291,26 +1419,28 @@ def tree_2(random = False, num_agents = 3):
 
     return (root, rootm)
 
-def get_discrepancy(agents_and_goals):
-
-    agents_costs = []
-
-    for agent in agents_and_goals.keys():
-
-        curr_agent_cost = 0
-
-        for goal in agents_and_goals[agent]:
-            curr_agent_cost += goal.data[agent]
-        
-        agents_costs.append(curr_agent_cost)
-
-    return abs(max(agents_costs) - min(agents_costs))
-
-#__RUNNING THE EFFICIENCY TEST FOR JONATHAN'S AND FAY'S
+#FAY AND JONATHAN'S EFFICIENCY TEST
 def efficiency_test(goal_tree, max_res: List):
-    
-    #level_order_transversal(goal_tree)
+    """
+    Compare and evaluate the efficiency of Jonathan's and Fay's algorithms for goal allocation.
 
+    Parameters
+    ----------
+    
+        goal_tree (GoalNode): The root node of the goal hierarchy represented by `GoalNode` objects.
+        max_res (List[int]): A list of maximum resources available for each agent in the hierarchy.
+
+    Return
+    ----------
+        tuple: A tuple containing the following elements:
+               - f_agent_cost (List[int]): A list representing the total cost of goals allocated to each agent using Fay's algorithm.
+               - f_agent_goals (List[int]): A list representing the number of goals allocated to each agent using Fay's algorithm.
+               - j_agent_cost (List[int]): A list representing the total cost of goals allocated to each agent using Jonathan's algorithm.
+               - j_agent_goals (List[int]): A list representing the number of goals allocated to each agent using Jonathan's algorithm.
+               - f_total_resources (int): The total resources consumed using Fay's algorithm.
+               - j_total_resources (int): The total resources consumed using Jonathan's algorithm.
+               - AGENT (List[str]): A list of agent names in the goal hierarchy.
+    """
     AGENT = list(goal_tree.data.keys())
     
     max_resources_j = {}
@@ -1396,19 +1526,24 @@ def efficiency_test(goal_tree, max_res: List):
     return f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total_resources, j_total_resources, AGENT
 
 #MAHEEN EFFICIENCY TEST
-def efficiency_test_m(root: GoalNode2, max_resources) -> Tuple[int,int]:
+def efficiency_test_m(root: GoalNode2, max_resources: List[int]) -> Tuple[int,int]:
     """
-    Calculates the average cost and Total resources used of Goalnodes.
-
+    Calculates the average cost and total resources used by Maheen's algorithm in a goal tree.
     Parameters
     ----------
     root : GoalNode2
         The root node of the goal tree.
 
+    max_resources : List[int]
+        List of the maximum resources of all agents.
+
     Returns
     -------
-    float
-        The average cost of the nodes with an assigned agent.
+    Tuple[int, int]:
+        A tuple containing the following elements:
+        - The total cost of all assigned Goalnodes (int)
+        - The number of unique agents used to achieve the goals (int)
+
     """
     if len(max_resources) == 1:
         return (root.cost, 1)
@@ -1442,7 +1577,7 @@ def efficiency_test_m(root: GoalNode2, max_resources) -> Tuple[int,int]:
     else:
         return (0, 0)
         
-def bar_chart_plotting(Results: Tuple, title):
+def _bar_chart_plotting(Results: Tuple, title):
     # Define the algorithm names and total resource utilization values
     algorithm_names = ['Fay\'s Algorithm', 'Jonathan\'s Algorithm']
 
@@ -1522,7 +1657,31 @@ def bar_chart_plotting(Results: Tuple, title):
     plt.subplots_adjust(hspace=1)  # Increase the hspace value to increase spacing between subplots
     plt.show()
     
-def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, iteration, scenario, num_agents_avail: List = [3] * 10):
+def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, iteration, scenario, num_agents_avail: List = [3] * 10) -> None:
+    """
+    Generate a side-by-side bar chart to compare average resources and average agents used by three algorithms.
+
+    Parameters
+    ----------
+
+        fay_averages (List[float]): List of average resources used by Fay's Algorithm.
+        jonathan_averages (List[float]): List of average resources used by Jonathan's Algorithm.
+        maheen_averages (List[float]): List of average resources used by Maheen's Algorithm.
+        agent_fay_averages (List[float]): List of average agents used by Fay's Algorithm.
+        agent_jonathan_averages (List[float]): List of average agents used by Jonathan's Algorithm.
+        agent_maheen_averages (List[float]): List of average agents used by Maheen's Algorithm.
+        iteration (int): The iteration of the experiment.
+        scenario (str): The scenario of the experiment.
+        num_agents_avail (List[int], optional): A list of the number of available agents for each test case.
+            Default is [3] * 10.
+
+    Returns
+    -------
+
+        None: This function generates the side-by-side bar chart and displays it using plt.show()
+
+    """
+    
     # Color of each algorithm
     colors = ['peachpuff', 'lightblue', 'khaki']
     algorithms = ["Fay's Algorithm", "Jonathan's Algorithm", "Maheen's Algorithm"]
@@ -1549,8 +1708,8 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
     if num_agents_avail != [3] * 10:
         ax1.set_xlabel('Number of Available Agents')
     else:
-        ax1.set_xlabel('Test cases')
-    ax1.set_ylabel('Average Resources')
+        ax1.set_xlabel('Test Group')
+    ax1.set_ylabel('Average Resources Used')
     ax1.set_title(scenario)
     ax1.set_xticks(x)
     ax1.set_xticklabels(x + 1)
@@ -1566,7 +1725,7 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
     if num_agents_avail != [3] * 10:
         ax2.set_xlabel('Number of Available Agents')
     else:
-        ax2.set_xlabel('Test cases')
+        ax2.set_xlabel('Test Group')
     ax2.set_ylabel('Average Agents Used')
     ax2.set_xticks(x)
     ax2.set_xticklabels(x + 1)
@@ -1579,7 +1738,11 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
     plt.tight_layout()
     plt.show()
 
-def main():
+def main() -> None:
+    """
+    Runs test cases for every scenario.    
+
+    """
     test_cases = [(binary_symmetric,"BINARY SYMMETRIC TREE"),
         (binary_left, "BINARY LEFT TREE"),
         (binary_right, "BINARY RIGHT TREE"),
@@ -1628,7 +1791,7 @@ def main():
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             m_total, agents_used_m = efficiency_test_m(tree_m, [40,40,40])
             algo_results_fay += f_total
             algo_results_jonathan += j_total
@@ -1691,7 +1854,7 @@ def main():
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             m_total, agents_used_m = efficiency_test_m(tree_m, resources)
             algo_results_fay += f_total
             algo_results_jonathan += j_total
@@ -1761,7 +1924,7 @@ def main():
             if not result:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             m_total, agents_used_m = efficiency_test_m(tree_m, [40,40,40])
             algo_results_fay += f_total
             algo_results_jonathan += j_total
@@ -1828,7 +1991,7 @@ def main():
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             m_total, agents_used_m = efficiency_test_m(tree_m, resources)
             algo_results_fay += f_total
             algo_results_jonathan += j_total
@@ -1901,7 +2064,7 @@ def main():
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             m_total, agents_used_m = efficiency_test_m(tree_m, [40] * no_agents)
             algo_results_fay += f_total
             algo_results_jonathan += j_total
@@ -1966,7 +2129,7 @@ def main():
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             m_total, agents_used_m = efficiency_test_m(tree_m, resources)
             algo_results_fay += f_total
             algo_results_jonathan += j_total
@@ -2039,7 +2202,7 @@ def main():
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             m_total, agents_used_m = efficiency_test_m(tree_m, [40] * no_agents)
             algo_results_fay += f_total
             algo_results_jonathan += j_total
@@ -2106,7 +2269,7 @@ def main():
             if result == None:
                 continue
             (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-            #bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             m_total, agents_used_m = efficiency_test_m(tree_m, resources)
             algo_results_fay += f_total
             algo_results_jonathan += j_total
@@ -2714,7 +2877,6 @@ def main():
 
     # Plotting for each test case
     plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_8_b, no_agents_avail) 
-
 
 if __name__ == "__main__":
     main()

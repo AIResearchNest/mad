@@ -15,8 +15,8 @@ def test_set_agent():
     root_node.set_agent("grace")
     print(root_node.agent, root_node.cost)
 
-    assert root_node.agent is "grace"
-    assert root_node.cost is 10
+    assert root_node.agent == "grace"
+    assert root_node.cost == 10
 
     
 
