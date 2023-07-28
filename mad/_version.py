@@ -1,4 +1,4 @@
-__version__ = '0.0.70'
+__version__ = '0.0.72'
 
 #change log:
 # 0.0.0: first version
@@ -75,5 +75,3 @@ __version__ = '0.0.70'
 # 0.0.70: Made Maheen's algoritm better and added 1000-tree scenarios
 # 0.0.71: Added sphinx documentation
 # 0.0.72: Added labels for plots
-
-
