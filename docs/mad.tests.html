@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mad.tests package &mdash; Multi Agent Development API  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="setup module" href="setup.html" />
+    <link rel="prev" title="mad.optimize.tests package" href="mad.optimize.tests.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Multi Agent Development API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">mad</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="mad.html">mad package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="mad.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="mad.data_structures.html">mad.data_structures package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mad.optimize.html">mad.optimize package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">mad.tests package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mad.html#module-mad">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Multi Agent Development API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">mad</a></li>
+          <li class="breadcrumb-item"><a href="mad.html">mad package</a></li>
+      <li class="breadcrumb-item active">mad.tests package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/mad.tests.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mad-tests-package">
+<h1>mad.tests package<a class="headerlink" href="#mad-tests-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="mad-tests-all-testing-module">
+<h2>mad.tests.ALL_TESTING module<a class="headerlink" href="#mad-tests-all-testing-module" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-mad.tests.efficiency_test">
+<span id="mad-tests-efficiency-test-module"></span><h2>mad.tests.efficiency_test module<a class="headerlink" href="#module-mad.tests.efficiency_test" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.efficiency_test.binary_left">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.efficiency_test.</span></span><span class="sig-name descname"><span class="pre">binary_left</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_agents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.efficiency_test.binary_left" title="Permalink to this definition"></a></dt>
+<dd><p>Generate two binary left goal hierarchical trees with associated agent costs</p>
+<dl>
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.</dt><dd><p>Default is False.</p>
+</dd>
+</dl>
+<p>num_agents (int, optional): The number of agents associated with each goal node. Default is 3.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing two root nodes of two goal hierarchical trees</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.efficiency_test.binary_right">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.efficiency_test.</span></span><span class="sig-name descname"><span class="pre">binary_right</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_agents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.efficiency_test.binary_right" title="Permalink to this definition"></a></dt>
+<dd><p>Generate two binary right goal hierarchical trees with associated agent costs</p>
+<dl>
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.</dt><dd><p>Default is False.</p>
+</dd>
+</dl>
+<p>num_agents (int, optional): The number of agents associated with each goal node. Default is 3.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing two root nodes of two goal hierarchical trees</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.efficiency_test.binary_symmetric">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.efficiency_test.</span></span><span class="sig-name descname"><span class="pre">binary_symmetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_agents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.efficiency_test.binary_symmetric" title="Permalink to this definition"></a></dt>
+<dd><p>Generate two binary symmetric goal hierarchical trees with associated agent costs</p>
+<dl>
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.</dt><dd><p>Default is False.</p>
+</dd>
+</dl>
+<p>num_agents (int, optional): The number of agents associated with each goal node. Default is 3.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing two root nodes of two goal hierarchical trees</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.efficiency_test.efficiency_test">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.efficiency_test.</span></span><span class="sig-name descname"><span class="pre">efficiency_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goal_tree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.efficiency_test.efficiency_test" title="Permalink to this definition"></a></dt>
+<dd><p>Compare and evaluate the efficiency of Jonathan’s and Fay’s algorithms for goal allocation.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><p>goal_tree (GoalNode): The root node of the goal hierarchy represented by <cite>GoalNode</cite> objects.
+max_res (List[int]): A list of maximum resources available for each agent in the hierarchy.</p>
+</div></blockquote>
+</section>
+<section id="return">
+<h3>Return<a class="headerlink" href="#return" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><dl class="simple">
+<dt>tuple: A tuple containing the following elements:</dt><dd><ul class="simple">
+<li><p>f_agent_cost (List[int]): A list representing the total cost of goals allocated to each agent using Fay’s algorithm.</p></li>
+<li><p>f_agent_goals (List[int]): A list representing the number of goals allocated to each agent using Fay’s algorithm.</p></li>
+<li><p>j_agent_cost (List[int]): A list representing the total cost of goals allocated to each agent using Jonathan’s algorithm.</p></li>
+<li><p>j_agent_goals (List[int]): A list representing the number of goals allocated to each agent using Jonathan’s algorithm.</p></li>
+<li><p>f_total_resources (int): The total resources consumed using Fay’s algorithm.</p></li>
+<li><p>j_total_resources (int): The total resources consumed using Jonathan’s algorithm.</p></li>
+<li><p>AGENT (List[str]): A list of agent names in the goal hierarchy.</p></li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.efficiency_test.efficiency_test_m">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.efficiency_test.</span></span><span class="sig-name descname"><span class="pre">efficiency_test_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="mad.data_structures.html#mad.data_structures.GoalNode2" title="mad.data_structures._multi_agent_goal_node_two.GoalNode2"><span class="pre">GoalNode2</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_resources</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mad.tests.efficiency_test.efficiency_test_m" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the average cost and total resources used by Maheen’s algorithm in a goal tree.</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>root<span class="classifier">GoalNode2</span></dt><dd><p>The root node of the goal tree.</p>
+</dd>
+<dt>max_resources<span class="classifier">List[int]</span></dt><dd><p>List of the maximum resources of all agents.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>Tuple[int, int]:</dt><dd><p>A tuple containing the following elements:
+- The total cost of all assigned Goalnodes (int)
+- The number of unique agents used to achieve the goals (int)</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.efficiency_test.large_binary_tree">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.efficiency_test.</span></span><span class="sig-name descname"><span class="pre">large_binary_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_agents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.efficiency_test.large_binary_tree" title="Permalink to this definition"></a></dt>
+<dd><p>Generate two large binary goal hierarchical trees with associated agent costs</p>
+<dl>
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.</dt><dd><p>Default is False.</p>
+</dd>
+</dl>
+<p>num_agents (int, optional): The number of agents associated with each goal node. Default is 3.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing two root nodes of two goal hierarchical trees</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.efficiency_test.large_tree">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.efficiency_test.</span></span><span class="sig-name descname"><span class="pre">large_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_agents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.efficiency_test.large_tree" title="Permalink to this definition"></a></dt>
+<dd><p>Generate two large goal hierarchical trees with associated agent costs</p>
+<dl>
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.</dt><dd><p>Default is False.</p>
+</dd>
+</dl>
+<p>num_agents (int, optional): The number of agents associated with each goal node. Default is 3.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing two root nodes of two goal hierarchical trees</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.efficiency_test.main">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.efficiency_test.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mad.tests.efficiency_test.main" title="Permalink to this definition"></a></dt>
+<dd><p>Runs test cases for every scenario.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.efficiency_test.plotting">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.efficiency_test.</span></span><span class="sig-name descname"><span class="pre">plotting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fay_averages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jonathan_averages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maheen_averages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent_fay_averages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent_jonathan_averages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent_maheen_averages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iteration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_agents_avail</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[3,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">3]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mad.tests.efficiency_test.plotting" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a side-by-side bar chart to compare average resources and average agents used by three algorithms.</p>
+<section id="id2">
+<h3>Parameters<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><p>fay_averages (List[float]): List of average resources used by Fay’s Algorithm.
+jonathan_averages (List[float]): List of average resources used by Jonathan’s Algorithm.
+maheen_averages (List[float]): List of average resources used by Maheen’s Algorithm.
+agent_fay_averages (List[float]): List of average agents used by Fay’s Algorithm.
+agent_jonathan_averages (List[float]): List of average agents used by Jonathan’s Algorithm.
+agent_maheen_averages (List[float]): List of average agents used by Maheen’s Algorithm.
+iteration (int): The iteration of the experiment.
+scenario (str): The scenario of the experiment.
+num_agents_avail (List[int], optional): A list of the number of available agents for each test case.</p>
+<blockquote>
+<div><p>Default is [3] * 10.</p>
+</div></blockquote>
+</div></blockquote>
+</section>
+<section id="id3">
+<h3>Returns<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><p>None: This function generates the side-by-side bar chart and displays it using plt.show()</p>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.efficiency_test.root">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.efficiency_test.</span></span><span class="sig-name descname"><span class="pre">root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_agents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.efficiency_test.root" title="Permalink to this definition"></a></dt>
+<dd><p>Generate two root-only goal hierarchical trees with associated agent costs</p>
+<dl>
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.</dt><dd><p>Default is False.</p>
+</dd>
+</dl>
+<p>num_agents (int, optional): The number of agents associated with each goal node. Default is 3.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing two root nodes of two goal hierarchical trees</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.efficiency_test.tree_1">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.efficiency_test.</span></span><span class="sig-name descname"><span class="pre">tree_1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_agents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.efficiency_test.tree_1" title="Permalink to this definition"></a></dt>
+<dd><p>Generate two random goal hierarchical trees with associated agent costs</p>
+<dl>
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.</dt><dd><p>Default is False.</p>
+</dd>
+</dl>
+<p>num_agents (int, optional): The number of agents associated with each goal node. Default is 3.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing two root nodes of two goal hierarchical trees</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.efficiency_test.tree_2">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.efficiency_test.</span></span><span class="sig-name descname"><span class="pre">tree_2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_agents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.efficiency_test.tree_2" title="Permalink to this definition"></a></dt>
+<dd><p>Generate two random goal hierarchical trees with associated agent costs</p>
+<dl>
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.</dt><dd><p>Default is False.</p>
+</dd>
+</dl>
+<p>num_agents (int, optional): The number of agents associated with each goal node. Default is 3.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing two root nodes of two goal hierarchical trees</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.efficiency_test.tree_left_right">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.efficiency_test.</span></span><span class="sig-name descname"><span class="pre">tree_left_right</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_agents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.efficiency_test.tree_left_right" title="Permalink to this definition"></a></dt>
+<dd><p>Generate two left right goal hierarchical trees with associated agent costs</p>
+<dl>
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.</dt><dd><p>Default is False.</p>
+</dd>
+</dl>
+<p>num_agents (int, optional): The number of agents associated with each goal node. Default is 3.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing two root nodes of two goal hierarchical trees</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.efficiency_test.tree_symmetric">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.efficiency_test.</span></span><span class="sig-name descname"><span class="pre">tree_symmetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_agents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.efficiency_test.tree_symmetric" title="Permalink to this definition"></a></dt>
+<dd><p>Generate two symmetric goal hierarchical trees with associated agent costs</p>
+<dl>
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.</dt><dd><p>Default is False.</p>
+</dd>
+</dl>
+<p>num_agents (int, optional): The number of agents associated with each goal node. Default is 3.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing two root nodes of two goal hierarchical trees</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-mad.tests.final_tests">
+<span id="mad-tests-final-tests-module"></span><h2>mad.tests.final_tests module<a class="headerlink" href="#module-mad.tests.final_tests" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.Test1">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">Test1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_tests</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.Test1" title="Permalink to this definition"></a></dt>
+<dd><p>3 agents
+Equal Cost
+Same resources</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.Test2">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">Test2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_tests</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.Test2" title="Permalink to this definition"></a></dt>
+<dd><p>3 agents
+Equal Cost
+Different resources</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.Test3">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">Test3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_tests</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.Test3" title="Permalink to this definition"></a></dt>
+<dd><p>3 agents
+Varying Cost
+Same resources</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.Test4">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">Test4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_tests</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.Test4" title="Permalink to this definition"></a></dt>
+<dd><p>3 agents
+Varying Cost
+Different resources</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.Test5">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">Test5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_tests</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.Test5" title="Permalink to this definition"></a></dt>
+<dd><p>Varying agents
+Equal Cost
+Same resources</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.Test6">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">Test6</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_tests</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.Test6" title="Permalink to this definition"></a></dt>
+<dd><p>Varying agents
+Equal Cost
+Different resources</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.Test7">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">Test7</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_tests</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.Test7" title="Permalink to this definition"></a></dt>
+<dd><p>Varying agents
+Varying Cost
+Same resources</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.Test8">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">Test8</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_tests</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.Test8" title="Permalink to this definition"></a></dt>
+<dd><p>Varying agents
+Varying Cost
+Different resources</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.binary_left">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">binary_left</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_agents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.binary_left" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.binary_right">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">binary_right</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_agents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.binary_right" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.binary_symmetric">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">binary_symmetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_agents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.binary_symmetric" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.get_agents_used">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">get_agents_used</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents_and_goals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.get_agents_used" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.get_agents_used_m">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">get_agents_used_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.get_agents_used_m" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.get_discrepancy">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">get_discrepancy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents_and_goals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.get_discrepancy" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.get_discrepancy_m">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">get_discrepancy_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.get_discrepancy_m" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.get_discrepancy_opt">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">get_discrepancy_opt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opt_agents_and_goals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.get_discrepancy_opt" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.get_goals_m">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">get_goals_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.get_goals_m" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.get_skew_dfs">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">get_skew_dfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfs_agents_and_goals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.get_skew_dfs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.get_skew_m">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">get_skew_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_case</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.get_skew_m" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.get_skew_opt">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">get_skew_opt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opt_agents_and_goals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_case</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.get_skew_opt" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.get_total_cost">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">get_total_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents_and_goals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.get_total_cost" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.get_total_cost_m">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">get_total_cost_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.get_total_cost_m" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.large_binary_tree">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">large_binary_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_agents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.large_binary_tree" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.large_tree">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">large_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_agents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.large_tree" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.main">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.main" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.plot_results">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">plot_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_costs1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_agents1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_discrepancy1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_skew1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fails1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_costs2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_agents2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_discrepancy2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_skew2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fails2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_costs3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_agents3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_discrepancy3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_skew3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fails3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.plot_results" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.plot_results_vary_agents">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">plot_results_vary_agents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_costs1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_agents1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_discrepancy1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_skew1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fails1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_costs2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_agents2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_discrepancy2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_skew2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fails2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_costs3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_agents3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_discrepancy3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_skew3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fails3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.plot_results_vary_agents" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.print_goal_tree_m">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">print_goal_tree_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.print_goal_tree_m" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.print_tree_and_agents_m">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">print_tree_and_agents_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.print_tree_and_agents_m" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.root">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_agents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.root" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.tree_1">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">tree_1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_agents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.tree_1" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.tree_2">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">tree_2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_agents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.tree_2" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.tree_left_right">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">tree_left_right</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_agents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.tree_left_right" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.tests.final_tests.tree_symmetric">
+<span class="sig-prename descclassname"><span class="pre">mad.tests.final_tests.</span></span><span class="sig-name descname"><span class="pre">tree_symmetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_agents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.tests.final_tests.tree_symmetric" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-mad.tests">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mad.tests" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mad.optimize.tests.html" class="btn btn-neutral float-left" title="mad.optimize.tests package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="setup.html" class="btn btn-neutral float-right" title="setup module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Sravya Kondrakunta, Maheen Asim, Khanh Tra Nguyen Tran, Jonathan Young.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
