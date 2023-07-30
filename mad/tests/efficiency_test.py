@@ -1493,9 +1493,8 @@ def efficiency_test(goal_tree, max_res: List):
             children = node.get_children()
             for child in children:
                 q.append((child, node)) 
-    level_order_transversal(goal_tree2)
     try:
-        result = optimized_goal_allocation(goal_tree2, max_resources_f)
+        result = optimized_goal_allocation(goal_tree2, max_resources_f, 1)
     except ValueError as e:
         print(f"Error encountered in inner function of optimized_goal_allocation(): {str(e)}")
         return
