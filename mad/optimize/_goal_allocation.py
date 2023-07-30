@@ -675,7 +675,10 @@ from mad.data_structures._multi_agent_goal_node_two import GoalNode2, level_orde
 def random_cost_m(start_range: int, end_range: int) -> int:
     """
     Author: Maheen
-    Discription This function generates a random cost for a node based on a specified cost range.
+    
+    Discription
+    -----------
+    This function generates a random cost for a node based on a specified cost range.
 
     Parameters
     ----------
@@ -739,9 +742,18 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
     '''
     Author: Maheen
     
-    Description: Finds the most optimal goal path based on the `GoalNode2.cost` values throughout the tree and returns the cost and the list of goal names to be accomplished by agents.
+    Description
+    ------------
+    This function finds the most optimal goal(s) path based on the `GoalNode2.cost` values throughout the tree and returns the cost and the list of goal names to be accomplished by agents. 
+    It is a hybrid approach to BFS and DFS because it recursively traverses the tree in a top-down manner, calculating the costs for all children and grandchildren of a node before moving on to the next node. Unlike BFS, the function does not explore the goal tree layer by layer from the root or like DFS it does not follow the traditional DFS approach where it fully explores one branch before backtracking. 
+    Instead, it calculates the added cost for all children and grandchildren of a node and then proceeds to the next node as given in the order. Therefore, it has characteristics of both but is a customized approach tailored to the specific problem of finding the most optimal goals. The recursive nature of calculating costs for children and grandchildren nodes is akin to dynamic programming's approach of breaking down a complex problem into smaller overlapping subproblems. 
+    Additionally, it can be seen as employing a branch and bound algorithm like strategy too as it recursively explores different branches of the goal tree while keeping track of the best cost found so far. 
+    The function makes several cross-over pairs which involves mkaing a dictionary to store node, its children names and their respective costs added in several combinations. For instance, a pair of added cost of all children of root node, a pair with all leaf nodes added cost, and pairs of each root node's child added with its own grandchildren. Then it utilizes Heuristic Search technique guided by some rules to look over the cross-over pairs costs to compare pairs costs to identify a pair that consist of minimum cost. 
+    The final result is the most optimal total cost and the list of goal names that makes the most optimal goal path in the Multi-Agent Goal Tree. 
+    
 
-    Parameters:
+    Parameters
+    ----------
         goal_tree (GoalNode2): The hierarchical Multi-Agent Goal Tree.
 
     Returns:
@@ -1051,6 +1063,9 @@ def compare_m(shortest_cost: int, root_node_cost: int):
 def extract_node_info_m(root_node, shortest_goals):
     """
     Author: Maheen
+    
+    Description
+    -----------
     Extracts GoalNode2 instances that have the same name as the nodes in the shortest_goals list,
     and stores them in a list.
 
@@ -1138,15 +1153,19 @@ def perform_auction_m(root, goals, agents, cost):
     
     Description
     -----------
-        Implements a resource allocation algorithm. It assigns agents to goal nodes so that the agents can share a percentage of the participation in covering the total cost of the optimal goals.
-    The algorithm aims to distribute the goals among the agents in a way that the cost is shared evenly.
+        Implements an equal allocation algorithm. It assigns all agents to goal nodes in optimal path so that the each agent can share a percentage of the participation in covering the total cost of the optimal goals. Such that,
+        the algorithm aims to distribute the goals among the agents in a way that the cost is shared evenly. It also updates the resources of each agent according to its participation. 
     
     Parameters:
     ----------
-        root (GoalNode2): The root node representing the overall goal structure.
-        goals (list of GoalNode2): The list of individual goal nodes to be achieved.
-        agents (dict): A dictionary containing agents' names as keys and their available resources as values.
-        cost (float): The total cost to be distributed among agents.
+    root (GoalNode2):
+        The root node representing the overall goal structure.
+    goals (list of GoalNode2):
+        The list of individual goal nodes to be achieved.
+    agents (dict): 
+        A dictionary containing agents' names as keys and their available resources as values.
+    cost (float): 
+        The total cost to be distributed among agents.
         
     Returns
     ------
@@ -1263,8 +1282,7 @@ def agent_goal_m(nodes, max_resources) -> None:
     
     Description
     ---------- 
-    This basically calls the required functions and prints the info. This function assigns agents to goals by calculating the shortest path using Dijkstra's and performing an auction-based allocation.
-
+    This basically calls the required functions for finding optimla path, assigning agents and prints the information
     Parameters
     ----------
     nodes : list

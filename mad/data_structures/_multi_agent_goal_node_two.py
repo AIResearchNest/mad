@@ -19,24 +19,29 @@ class GoalNode2:
         Dictionary of agents and their cost values
     children : List
         List of child GoalNode2s, initialized with an empty list
-    assigned_agent : str
+    assigned_agent : List
         Name of the agent assigned to the goal node
 
     Methods
     ----------
     add_child(self, GoalNode2)
+    --------------------------
         Add Child Goal into the Children list
 
     get_children(self) -> List[GoalNode2]
+    --------------------------
         Return the list of child Goals
         
     set_agents(self, agents: Dict[str, int])
+    ---------------------------
         Set the agents dictionary for the node
         
     get_parent(self) -> List:
+    ---------------------------
         Gives the lists with parents of the node
         
     __lt__(self, other) -> bool:
+    ---------------------------
     
         Description
         -----------
@@ -53,7 +58,9 @@ class GoalNode2:
         bool
             True if the current node's cost is less than the other node's cost, False otherwise.
             
+            
     add_child(self, child: 'GoalNode2') -> None:
+    ---------------------------
         
         Description
         -----------
@@ -65,6 +72,7 @@ class GoalNode2:
             The child node to be added.
             
     set_parent(self, parent: 'GoalNode2'):
+    ---------------------------
 
         Description
         -----------
@@ -77,7 +85,7 @@ class GoalNode2:
             
             
     get_sibling_cost(self, sibling_name):
-      
+    ---------------------------  
         Description
         -----------
         Get the cost of the sibling node with the given name.
@@ -94,7 +102,7 @@ class GoalNode2:
             
             
     get_child_cost(self, child_name):
-    
+    ---------------------------
         Descripion
         ----------
         Get the cost of a child node with the given name.
@@ -109,7 +117,9 @@ class GoalNode2:
         int
             The cost of the child node.
             
+            
     get_parent_cost(self, node_name):
+    ---------------------------
     
         Description
         -----------
