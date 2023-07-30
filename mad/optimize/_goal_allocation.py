@@ -746,17 +746,27 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
     ------------
     This function finds the most optimal goal(s) path based on the `GoalNode2.cost` values throughout the tree and returns the cost and the list of goal names to be accomplished by agents. 
     It is a hybrid approach to BFS and DFS because it recursively traverses the tree in a top-down manner, calculating the costs for all children and grandchildren of a node before moving on to the next node. Unlike BFS, the function does not explore the goal tree layer by layer from the root or like DFS it does not follow the traditional DFS approach where it fully explores one branch before backtracking. 
-    Instead, it calculates the added cost for all children and grandchildren of a node and then proceeds to the next node as given in the order. Therefore, it has characteristics of both but is a customized approach tailored to the specific problem of finding the most optimal goals. The recursive nature of calculating costs for children and grandchildren nodes is akin to dynamic programming's approach of breaking down a complex problem into smaller overlapping subproblems. 
+    Instead, it calculates the added cost for all children and grandchildren of a node using some helper functions given below and then proceeds to the next node as given in the order. It starts from the children of root node so Level -1 nodes. 
+    Therefore, it has characteristics of both but is a customized approach tailored to the specific problem of finding the most optimal goals. The recursive nature of calculating costs for children and grandchildren nodes is akin to dynamic programming's approach of breaking down a complex problem into smaller overlapping subproblems. 
+    
     Additionally, it can be seen as employing a branch and bound algorithm like strategy too as it recursively explores different branches of the goal tree while keeping track of the best cost found so far. 
-    The function makes several cross-over pairs which involves mkaing a dictionary to store node, its children names and their respective costs added in several combinations. For instance, a pair of added cost of all children of root node, a pair with all leaf nodes added cost, and pairs of each root node's child added with its own grandchildren. Then it utilizes Heuristic Search technique guided by some rules to look over the cross-over pairs costs to compare pairs costs to identify a pair that consist of minimum cost. 
-    The final result is the most optimal total cost and the list of goal names that makes the most optimal goal path in the Multi-Agent Goal Tree. 
+    The function makes several cross-over pairs which involves making a dictionary to store node, its children names and their respective costs added in several combinations. For instance, a pair of added cost of all children of root node, a pair with all leaf nodes added cost, and pairs of each root node's child added with its own grandchildren. Then it utilizes Heuristic Search technique guided by some rules to look over the cross-over pairs costs to compare pairs costs to identify a pair that consist of minimum cost. 
+    The final result is the most optimal total cost and the list of goal names that makes the most optimal goal path in the Multi-Agent Goal Tree. This optimal cost is comapred with root node's cost in agent_goal_m() and whichevr is minimum is passed to perform_auction_m() to assign agents. 
     
 
     Parameters
     ----------
         goal_tree (GoalNode2): The hierarchical Multi-Agent Goal Tree.
+        
+    Helper Functions
+    ----------------
+        - calculate_cost
+        - calculate_child_cost
+        - _root_child_calculate_cost
+        - check_pure_grandchildren
 
-    Returns:
+    Returns
+    -------
         Tuple[int, List[str], Dict[str, int]]: A tuple containing:
             - The most optimal total cost.
             - List of goal names to be accomplished by agents.
@@ -958,8 +968,6 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
         best_goals_children = sub_dictionaries
         #check if best_goals_children consists of purely all children of one rootnode child.
         print(best_goals_children)
-        # Check if best_goals_children consists of purely all grandchildren of only one rootnode child.
-        # Check if best_goals_children consists of purely all grandchildren of only one rootnode child.
         # Check if best_goals_children consists of purely all grandchildren/leaf nodes of only one rootnode child.
         root_node_grandchildren = None
         is_single_root_node_child = True
@@ -1279,10 +1287,9 @@ def extract_goalnodes_dict(root , goal_nodes):
 def agent_goal_m(nodes, max_resources) -> None:
     """
     Author: Maheen
-    
-    Description
-    ---------- 
+
     This basically calls the required functions for finding optimla path, assigning agents and prints the information
+    
     Parameters
     ----------
     nodes : list
