@@ -675,7 +675,7 @@ from mad.data_structures._multi_agent_goal_node_two import GoalNode2, level_orde
 def random_cost_m(start_range: int, end_range: int) -> int:
     """
     Author: Maheen
-    This function generates a random cost for a node based on a specified cost range.
+    Discription This function generates a random cost for a node based on a specified cost range.
 
     Parameters
     ----------
@@ -694,34 +694,63 @@ def random_cost_m(start_range: int, end_range: int) -> int:
 
  
 
-#Diajkstraaas
+
+def find_node_by_name(node, name):
+        #description: Helper function to find a GoalNode2 instance by its name
+    if node.name == name:
+        return node
+    for child in node.get_children():
+        result = find_node_by_name(child, name)
+        if result:
+            return result
+    return None
+
+
+def count_total_goals(goals_list):
+    '''
+    Author: Maheen
+    
+    Description: Helper function for `perform_auction_m` to count the total number of goals in the `goals_list`.
+    
+    Parameters:
+        goals_list (list of dict): A list of dictionaries representing goal nodes and their costs.
+        
+    Returns:
+        int: The total number of goals in the `goals_list`.
+    '''
+    
+    total_goals = 0
+
+    for goals_dict in goals_list:
+        total_goals += len(goals_dict)
+
+    return total_goals
+
+
+
 
 
    
 def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, int]]:
-    """
-    Finds the most optimal goal path based on the GoalNode2.cost values throughout the tree and returns the cost
-    and the list of goal names to be accomplished by agents.
+    '''
+    Author: Maheen
+    
+    Description: Finds the most optimal goal path based on the `GoalNode2.cost` values throughout the tree and returns the cost and the list of goal names to be accomplished by agents.
 
-    Parameters
-    ----------
-    goal_tree : GoalNode2
-        Hierarchical Multi Agent Goal Tree.
-    max_resources : List[int]
-        List of max amount of resources each agent has available.
+    Parameters:
+        goal_tree (GoalNode2): The hierarchical Multi-Agent Goal Tree.
 
-    Returns
-    -------
-    Tuple[int, List[str], Dict[str, Dict[str, int]]]
-        Tuple containing:
-        - The most optimal total cost.
-        - List of goal names to be accomplished by agents.
-        - Dictionary containing root node children names and their respective children names and their added cost.
-    """
+    Returns:
+        Tuple[int, List[str], Dict[str, int]]: A tuple containing:
+            - The most optimal total cost.
+            - List of goal names to be accomplished by agents.
+            - Dictionary containing root node children names and their respective children names and their added cost.
+    '''
 
     def calculate_cost(node: GoalNode2) -> Dict[str, int]:
         """
-        Recursively calculates the added cost for all children of the given node.
+        Author: Maheen 
+        Description: Recursively calculates the added cost for all children of the given node.
 
         Parameters
         ----------
@@ -735,7 +764,9 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
         """
         def calculate_child_cost(child: GoalNode2, parent_cost: int) -> int:
             """
-            Recursively calculates the cost of a child node while excluding the parent's cost.
+            Author: Maheen 
+            
+            Description:Recursively calculates the cost of a child node while excluding the parent's cost.
 
             Parameters
             ----------
@@ -770,7 +801,9 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
     
     def _root_child_calculate_cost(node: GoalNode2) -> int:
         """
-        Recursively calculates the added cost for all children of the given node.
+        Author: Maheen 
+        
+        Description: Recursively calculates the added cost for all children of the given node.
 
         Parameters
         ----------
@@ -801,9 +834,6 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
                     nodes_info.append((node))
             return nodes_info
 
-    # Data structures to store the optimal path information
-    #min_cost_children = float('inf')  # Minimum cost among children of the root node
-       # List of goal names for the optimal path among root node children
     best_agents_children = {}         # Dictionary containing goal names and assigned agent names for the optimal path among root node children
     children_costs = {}               # Dictionary to store added costs of all children for each root node child
     min_cost_children = {} 
@@ -814,11 +844,7 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
     for child in goal_tree.get_children():
         root_children[child.name] = child.cost
         root_children_total += child.cost
-    #print("root children total=",root_children_total)
-    #print("root children nodes:", root_children)
-    
-    #children's children
-     # Update the min_cost_children dictionary with each child name and its cost
+
     # Initialize the variable to store the sum of children costs
     children_total = 0
     for child in goal_tree.get_children():
@@ -826,29 +852,23 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
         children_costs[child.name] = calculate_cost(child)
         min_cost_children[child.name] = child_cost
         children_total += child_cost
-    #print("Children total=",children_total)  
-    #print("Each root child's children added sum each", min_cost_children)
+
   
     #storing garndchildren names etc:
     for child in goal_tree.get_children():
         child_cost = sum(calculate_cost(child).values())
         children_costs[child.name] = calculate_cost(child)
-        #print(child_cost) # Cost of parents has been removed , it gives only cost of children now. 
+        
         # Extract the sub-dictionaries as a list
     sub_dictionaries = list(children_costs.values())    
-    #print("List of nodes",sub_dictionaries)
 
-    
-    #comparsion for best_goals_children and shortest_cost
     # Comparison for best_goals_children and shortest_cost
     shortest_cost = 0
     best_goals_children = []
     #sum of node + opposite children. 
     
     both_min_sum = 0
-    #both_min_sum =  
-    #print(both_min_sum)
-    
+   
     # Cross-over approach: Find the minimum pair of children's costs
     min_pair_cost = float('inf')
     all_crossover_pairs = []
@@ -870,7 +890,9 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
     
     def check_pure_grandchildren(node, grandchildren, root_node_grandchildren, all_grandchild):
         """
-        Recursively checks if grandchildren are purely leaf nodes of the same root node child.
+        Author: Maheen
+        
+        Description: Recursively checks if grandchildren are purely leaf nodes of the same root node child.
 
         Parameters
         ----------
@@ -966,9 +988,7 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
                     nodes = extract_nodes_from_dict(goal)
                     for node in nodes:
                         shortest_cost += node.cost
-            
-        
-        
+                 
         
     else:
 
@@ -991,20 +1011,6 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
     
     return shortest_cost, best_goals_children
 
-
-
-
-
-def find_node_by_name(node, name):
-        # Helper function to find a GoalNode2 instance by its name
-    if node.name == name:
-        return node
-    for child in node.get_children():
-        result = find_node_by_name(child, name)
-        if result:
-            return result
-    return None
-
  
  
 
@@ -1012,7 +1018,7 @@ def find_node_by_name(node, name):
 def compare_m(shortest_cost: int, root_node_cost: int):
     """
     Author: Maheen
-    Compare the shortest path cost with the cost of the root node's agent and print the result.
+    Compare the shortest path cost with the cost of the root node's agent and prints the result.
 
     Parameters
     ----------
@@ -1095,7 +1101,7 @@ def extract_node_info_m(root_node, shortest_goals):
 def get_agent_resources_m(max_resources):
     '''
     Author: Maheen
-    Gives agents resources
+    description: Gives agents resources to all agents
 
     Parameters
     ----------
@@ -1114,109 +1120,123 @@ def get_agent_resources_m(max_resources):
 
 
 
-def perform_auction_m(node, agent_resources):
+def perform_auction_m(root, goals, agents, cost):
+    '''
+    Author: Maheen
+    
+    Description:
+        Implements a resource allocation algorithm. It assigns agents to goal nodes so that the agents can share a percentage of the participation in covering the total cost of the optimal goals.
+    The algorithm aims to distribute the goals among the agents in a way that the cost is shared evenly.
+    
+    Parameters:
+        root (GoalNode2): The root node representing the overall goal structure.
+        goals (list of GoalNode2): The list of individual goal nodes to be achieved.
+        agents (dict): A dictionary containing agents' names as keys and their available resources as values.
+        cost (float): The total cost to be distributed among agents.
+        
+    Return: None
+    '''
+    
+    
+    
+        #add when root node alone condition 
+    if root == goals:
+        total_agents = len(agents)
+        total_goals = 1
+        avg_goals_per_agent = (total_goals / total_agents)
+        
+   
+        for agent in agents:
+            root.assigned_agent.append(agent)
+        
+    else:    
+        total_agents = len(agents)
+        print(total_agents, "Total Agents")
+        
+        total_goals = count_total_goals(goals)
+        print(total_goals, "Total_goals") 
+        avg_goals_per_agent = (total_goals / total_agents) #round
+        print(avg_goals_per_agent, "average")
+        
+        #Step1:  Extract the individual goals and costs from each GoalNode2 instance
+        all_goals = extract_goalnodes_dict(root, goals)
+        print(all_goals, "all goals........\n")
+        
+    
+        # Step 2: Assign all agents to each goal
+        for goal in all_goals:
+            
+            for agent in agents:
+                goal.assigned_agent.append(agent)
+            
+#outside elese
+    # Step 3: Update resources for each agent
+    for agent_name, agent_resources in agents.items():
+        resource = (avg_goals_per_agent * cost)/100
+        new_resource = agent_resources - resource
+        agents[agent_name] = round(new_resource, 2)  # Rounding to 2 decimal places
+        print(agents[agent_name], "new agent resources")
+    
+
+
+
+def extract_goalnodes_dict(root , goal_nodes):
+
     """
     Author: Maheen
-    Performs the auction process for assigning an agent to a goal node based on available agent resources based on the
-    first sealed bid algorithm.
-    If none of the agent's resources individually can cover the cost of the goal, then it shares the goal completion
-    with multiple agents based on bidding winners until either the goal is completed or all agents run out of resources.
+    Extracts GoalNode2 instances that have the same name as the nodes in the shortest_goals list,
+    and stores them in a list.
 
     Parameters
     ----------
-    node : GoalNode2
-        The goal node to be assigned an agent.
-    agent_resources : Dict[str, int]
-        Dictionary containing the available resources for each agent.
+    root_node : GoalNode2
+        The root node of the goal tree.
+
+    shortest_goals : Dict[str, int] or List[Dict[str, int]]
+        The dictionary or list of dictionaries representing the shortest path,
+        where each dictionary contains node names and costs.
 
     Returns
     -------
-    None
+    List[GoalNode2]
+        List containing GoalNode2 instances with the same names as the nodes in the shortest path.
     """
-    bids = {}  # Dictionary to store the bids of each agent
 
-    # Create a participation dictionary to track the participation values of each agent in the goal's cost
+    def find_node_by_name(node, name):
+        # Helper function to find a GoalNode2 instance by its name
+        if node.name == name:
+            return node
+        for child in node.get_children():
+            result = find_node_by_name(child, name)
+            if result:
+                return result
+        return None
 
-    # Raise an error if the goal tree is empty
-    if node is None:
-        raise ValueError("Tree is empty!")
+    def extract_nodes_from_dict(goal_dict):
+        nodes_info = []
+        if isinstance(goal_dict, dict):
+            for name, cost in goal_dict.items():
+                node = find_node_by_name(root, name)
+                if node:
+                    nodes_info.append((node))
+        return nodes_info
 
-    # Generate bids from each agent based on their available resources
-    for agent in agent_resources:
-        if agent_resources[agent] > 0:
-            bids[agent] = agent_resources[agent]
+    node_info_list = []
+    # If shortest_goals is an empty list, return an empty node_info_list
+    if not goal_nodes:
+        return node_info_list
 
-    # Print agent resources before the auction
-    print("Agent Resources:", agent_resources)
+    # Convert single dictionary input into a list with a single element
+    if isinstance(goal_nodes, dict):
+        goal_nodes = [goal_nodes]
 
-    # Determine the winning bidder based on the highest bid
-    winning_bidder = max(bids, key=bids.get)
-    winning_bid = bids[winning_bidder]
+    # If shortest_goals contains dictionaries, extract nodes from the dictionaries
+    for goal in goal_nodes:
+        nodes_info = extract_nodes_from_dict(goal)
+        node_info_list.extend(nodes_info)
 
-    # Check if the winning bidder can cover the cost of the goal node
-    if winning_bid >= node.cost:
-        # Deduct the cost value from the winning bidder's resources
-        agent_resources[winning_bidder] -= node.cost
-        node.assigned_agent = winning_bidder
-    elif len(bids) > 0:
-        bids.pop(winning_bidder)
-        second_bidder = max(bids, key=bids.get)
-        second_bid = bids[second_bidder]
-        if second_bid >= node.cost:
-            # Deduct the cost value from the second bidder's resources
-            agent_resources[second_bidder] -= node.cost
-            node.assigned_agent = second_bidder
-        else:
-            total_resources = sum(agent_resources.values())
-            print("\nResources Total...:", total_resources)
-            print("Cost of Goal...:", node.cost)
-
-            if total_resources >= node.cost:
-                # Generate bids from each agent based on their available resources
-                bids = {agent: resource for agent, resource in agent_resources.items() if resource > 0}
-
-                print("Agent Resources:", agent_resources)
-
-                winning_bidder = max(bids, key=bids.get)
-                winning_bid = bids[winning_bidder]
-
-                if winning_bid <= node.cost:
-                    # Deduct the cost value from the winning bidder's resources
-                    if agent_resources[winning_bidder] < node.cost:
-                        remaining_cost = node.cost - agent_resources[winning_bidder]
-                        agent_resources[winning_bidder] = 0
-                        print("Agent Updated Resources:", agent_resources)
-
-                        assigned_agents = []
-                        assigned_agents.append(winning_bidder)
-
-                        while remaining_cost > 0:
-                            agent_with_highest_resource = max(agent_resources, key=agent_resources.get)
-                            resource = agent_resources[agent_with_highest_resource]
-
-                            if resource > 0:
-                                if resource <= remaining_cost:
-                                    remaining_cost = remaining_cost - resource
-                                    agent_resources[agent_with_highest_resource] -= resource
-                                    assigned_agents.append(agent_with_highest_resource)
-                                    print("Agent Updated Resources:", agent_resources)
-                                else:
-                                    agent_resources[agent_with_highest_resource] -= remaining_cost
-                                    assigned_agents.append(agent_with_highest_resource)
-                                    remaining_cost = 0
-                                    print("Agent Updated Resources:", agent_resources)
-
-                        print("\nAssigned Agents:", assigned_agents)
-                        print("\nRemaining Cost:", remaining_cost)
-                        node.assigned_agent = assigned_agents
-                        # Print agent resources after the auction
-                        print("Remaining Agent Resources:", agent_resources)
-                    else:
-                        print("\n\tNo agent can cover the cost\n")
-
-
-
-
+    print("List of GoalNode2 instances with their costs:", node_info_list)
+    return node_info_list
 
 
 def agent_goal_m(nodes, max_resources) -> None:
@@ -1255,35 +1275,29 @@ def agent_goal_m(nodes, max_resources) -> None:
     print("\n\tGoal assignment to agents Info:\n\t")
 
     if root.cost <= shortest_cost or len(root.get_children()) == 0:
-        perform_auction_m(root, agent_resources)
+        cost = root.cost
+        perform_auction_m(root, root, agent_resources, cost)
         
     
         print("\n\t\tFINAL INFO\n")
         level_order_transversal_two(root)
+        
     
     else:
         node_info = extract_node_info_m(root, shortest_goals)
-
-        # If shortest_goals contains dictionaries, extract nodes from the dictionaries
-        if isinstance(shortest_goals, dict):
-            for node in node_info:
-                if node.name != root.name:
-                    found_node = next((n for n in nodes if n.name == node.name), None)
-                    if found_node:
-                        perform_auction_m(found_node, agent_resources)  # Pass the cost to perform_auction_m
-        else:  # If shortest_goals contains only node names
-            for node in node_info:
-                if node.name != root.name:
-                    found_node = next((n for n in nodes if n.name == node.name), None)
-                    if found_node:
-                        perform_auction_m(found_node, agent_resources)  # Pass None as the cost
+        cost = shortest_cost
+        perform_auction_m(root, shortest_goals, agent_resources, cost)  # Pass None as the cost
 
 
         print("\n\t\tFINAL INFO\n")
         level_order_transversal_two(root)
+        
+    
 
     print("Final Agent Resources:", agent_resources)
     print("\n")
+    return cost
+    
 
 
 

@@ -38,7 +38,7 @@ class GoalNode2:
         self.cost = cost
         self.agents = {}
         self.children = []
-        self.assigned_agent = ""  # New attribute for assigned agent
+        self.assigned_agent = []  # New attribute for assigned agent
         self.parent = []
 
     
