@@ -1,5 +1,5 @@
 from mad.optimize._goal_allocation import dfs_goal_allocation, optimized_goal_allocation
-from mad.optimize._goal_allocation import random_cost_m, agent_goal_m, compare_m, shortest_path_m, perform_auction_m, extract_node_info_m, get_agent_resources_m, cost_node
+from mad.optimize._goal_allocation import random_cost_m, agent_goal_m, compare_m, shortest_path_m, perform_auction_m, extract_node_info_m, get_agent_resources_m, cost_node, extract_goalnodes_dict, count_total_goals
 
 __all__ = [
     'dfs_goal_allocation',
@@ -11,5 +11,7 @@ __all__ = [
     'perform_auction_m', 
     'extract_node_info_m' , 
     'get_agent_resources_m', 
-    'cost_node'
+    'cost_node', 
+    'extract_goalnodes_dict',
+    'count_total_goals'
 ]

@@ -1,5 +1,5 @@
 from mad.data_structures import GoalNode, GoalNode2
-from mad.optimize import dfs_goal_allocation, agent_goal_m, cost_node, optimized_goal_allocation
+from mad.optimize import dfs_goal_allocation, agent_goal_m, cost_node, optimized_goal_allocation, count_total_goals, extract_goalnodes_dict
 import random as r
 import matplotlib.pyplot as plt
 import copy
@@ -122,7 +122,7 @@ def custom_equal_cost(m: int, n: int, agents: int) -> dict[str, int]:
 # Scoring
 def get_custom_total_cost(agents_and_goals):
     '''
-    Description: This function calculates the total cost of all agents and their assigned goals.
+    Description: This function calculates the total cost of all  assigned goals.
         Parameters:
         agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
     Returns:
@@ -243,7 +243,7 @@ def get_goals_m(root):
 
 #Total_cost MAHEEN
 def get_custom_total_cost_m(root):
-    
+    ###cost of goalS_optimal ones 
     total_cost = 0
     
     q = []
@@ -253,8 +253,8 @@ def get_custom_total_cost_m(root):
         current = q[0]
         q.pop(0)
 
-        if current.assigned_agent != "":
-            total_cost += current.agents[current.assigned_agent]
+        if current.assigned_agent != []:
+            total_cost += current.cost #added cost then agent
 
         for child in current.get_children():
             q.append(child)
@@ -263,31 +263,18 @@ def get_custom_total_cost_m(root):
 
 #Agents used Maheen count
 def get_agents_used_m(root):
+    '''
+  iterate over the optimized goal nodes to see how many agents have been used 
+    '''
+    total_agents = 10 
+    return total_agents
 
-    agents_used_count = []
-
-    q = []
-    q.append(root)
-
-    while q:
-        current = q[0]
-        q.pop(0)
-
-        if current.assigned_agent != "":
-            if current.assigned_agent not in  agents_used_count:
-                agents_used_count.append(current.assigned_agent)
-
-        for child in current.get_children():
-            q.append(child)
-    
-    return len(agents_used_count)
 
 #Discrepancy of Maheen 
-
 def discrepancy_m(root):
 
     num_agents = len(root.agents)
-    agents_used_m = {}
+    agents_used = {}
 
     q = []
     q.append(root)
@@ -296,13 +283,24 @@ def discrepancy_m(root):
         current = q[0]
         q.pop(0)
 
-        if current.assigned_agent != "":
-            if current.assigned_agent not in agents_used_m.keys():
-               agents_used_m [current.assigned_agent] = current.agents[current.assigned_agent]
-            else:
-                agents_used_m [current.assigned_agent] += current.agents[current.assigned_agent]
+        if current.assigned_agent:
+            for agent_name in current.assigned_agent:
+                agent_key = tuple(agent_name)  # Convert to tuple to use as a dictionary key
+                if agent_key not in agents_used:
+                    agents_used[agent_key] = current.agents[agent_name]
+                else:
+                    agents_used[agent_key] += current.agents[agent_name]
+
         for child in current.get_children():
             q.append(child)
+
+    if len(agents_used) < num_agents:
+        return max(agents_used.values())
+    return abs(max(agents_used.values()) - min(agents_used.values()))
+
+
+
+
     ###Issue 
    # print (agents_used_m .values(), "NOOOOO")
     if len(agents_used_m.keys()) < num_agents:
@@ -2334,11 +2332,16 @@ def Test1(total_tests, seed):
                     agent_goal_m(get_goals_m(m_root), [50,50,50])
                     curr_m_avg_cost += get_custom_total_cost_m(m_root)
                     curr_m_agents_used += get_agents_used_m(m_root)
-                    curr_m_discrepancy +=discrepancy_m(m_root)
+                    curr_m_discrepancy += discrepancy_m(m_root)
                     curr_m_skew += get_skew_m(m_root, best_case)
-                    num_m_trees_passed += 1
-                except TypeError:
+                    
+                    num_m_trees_passed +=1
+                    
+                    
+                except:
                     curr_m_failures.append(number_of_tests)
+                
+
 
             # Add Jonathan Results
             if num_dfs_trees_passed != 0:
@@ -2352,6 +2355,7 @@ def Test1(total_tests, seed):
 
             # Add Fay Results
             if num_opt_trees_passed != 0:
+                print(".......", num_opt_trees_passed)
                 opt_avg_costs += curr_opt_avg_cost / num_opt_trees_passed
                 opt_avg_agents += curr_opt_agents_used / num_opt_trees_passed
                 opt_avg_discrepancy += curr_opt_discrepancy / num_opt_trees_passed
@@ -2361,7 +2365,9 @@ def Test1(total_tests, seed):
                 opt_fails.extend(curr_opt_failures)
 
             # Add Maheen Results
+
             if num_opt_trees_passed != 0:
+                #print("checking tree number", num_m_trees_passed)
                 m_avg_costs += curr_m_avg_cost / num_m_trees_passed
                 m_avg_agents += curr_m_agents_used / num_m_trees_passed
                 m_avg_discrepancy += curr_m_discrepancy / num_m_trees_passed
@@ -2529,11 +2535,15 @@ def Test2(total_tests, seed):
                     agent_goal_m(get_goals_m(m_root), [50,60,70])
                     curr_m_avg_cost += get_custom_total_cost_m(m_root)
                     curr_m_agents_used += get_agents_used_m(m_root)
-                    curr_m_discrepancy +=discrepancy_m(m_root)
+                    # Calculate the discrepancy for each root node
+                    curr_m_discrepancy += discrepancy_m(m_root)
                     curr_m_skew += get_skew_m(m_root, best_case)
-                    num_m_trees_passed += 1
+                    
+                    num_m_trees_passed +=1
                 except TypeError:
                     curr_m_failures.append(number_of_tests)
+
+
 
             # Add Jonathan Results
             if num_dfs_trees_passed != 0:
@@ -2725,7 +2735,7 @@ def Test3(total_tests, seed):
                     agent_goal_m(get_goals_m(m_root), [50,50,50])
                     curr_m_avg_cost += get_custom_total_cost_m(m_root)
                     curr_m_agents_used += get_agents_used_m(m_root)
-                    curr_m_discrepancy +=discrepancy_m(m_root)
+                    curr_m_discrepancy += discrepancy_m(m_root)
                     curr_m_skew += get_skew_m(m_root, best_case)
                     num_m_trees_passed += 1
                 except TypeError:
@@ -2920,7 +2930,7 @@ def Test4(total_tests, seed):
                     agent_goal_m(get_goals_m(m_root), [50,60,70])
                     curr_m_avg_cost += get_custom_total_cost_m(m_root)
                     curr_m_agents_used += get_agents_used_m(m_root)
-                    curr_m_discrepancy +=discrepancy_m(m_root)
+                    curr_m_discrepancy += discrepancy_m(m_root)
                     curr_m_skew += get_skew_m(m_root, best_case)
                     num_m_trees_passed += 1
                 except TypeError:
@@ -3118,9 +3128,10 @@ def Test5(total_tests, seed):
                     agent_goal_m(get_goals_m(m_root), [100] * num_agents)
                     curr_m_avg_cost += get_custom_total_cost_m(m_root)
                     curr_m_agents_used += get_agents_used_m(m_root)
-                    curr_m_discrepancy +=discrepancy_m(m_root)
-                    curr_m_skew += get_skew_m(m_root, best_case)
-                    num_m_trees_passed += 1
+                    print(curr_m_agents_used, "HAHA")
+                    # Calculate the discrepancy for each root node
+                    curr_m_discrepancy += discrepancy_m(m_root)
+                    num_m_trees_passed +=1
                 except TypeError:
                     curr_m_failures.append(number_of_tests)
 
@@ -3322,8 +3333,8 @@ def Test6(total_tests, seed):
                     agent_goal_m(get_goals_m(m_root), opt_and_m_resources)
                     curr_m_avg_cost += get_custom_total_cost_m(m_root)
                     curr_m_agents_used += get_agents_used_m(m_root)
-                    curr_m_discrepancy +=discrepancy_m(m_root)
-                    curr_m_skew += get_skew_m(m_root, best_case)
+                    # Calculate the discrepancy for each root node
+                    curr_m_discrepancy += discrepancy_m(m_root)
                     num_m_trees_passed += 1
                 except TypeError:
                     curr_m_failures.append(number_of_tests)
@@ -3520,8 +3531,8 @@ def Test7(total_tests, seed):
                     agent_goal_m(get_goals_m(m_root), [100] * num_agents)
                     curr_m_avg_cost += get_custom_total_cost_m(m_root)
                     curr_m_agents_used += get_agents_used_m(m_root)
-                    curr_m_discrepancy +=discrepancy_m(m_root)
-                    curr_m_skew += get_skew_m(m_root, best_case)
+                    # Calculate the discrepancy for each root node
+                    curr_m_discrepancy += discrepancy_m(m_root)
                     num_m_trees_passed += 1
                 except TypeError:
                     curr_m_failures.append(number_of_tests)
@@ -3724,8 +3735,11 @@ def Test8(total_tests, seed):
                     agent_goal_m(get_goals_m(m_root), opt_and_m_resources)
                     curr_m_avg_cost += get_custom_total_cost_m(m_root)
                     curr_m_agents_used += get_agents_used_m(m_root)
-                    curr_m_discrepancy +=discrepancy_m(m_root)
-                    curr_m_skew += get_skew_m(m_root, best_case)
+                     # Calculate the discrepancy for each root node
+                    discrepancy_values = discrepancy_m(m_root)
+
+                    # Accumulate the discrepancy values in the integer curr_m_discrepancy
+                    curr_m_discrepancy += discrepancy_m(m_root)
                     num_m_trees_passed += 1
                 except TypeError:
                     curr_m_failures.append(number_of_tests)
@@ -4019,7 +4033,7 @@ def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discr
 
 # Main
 def main():
-    dfs_costs1, dfs_agents1, dfs_discrepancy1, dfs_skew1, dfs_fails1, opt_costs1, opt_agents1, opt_discrepancy1, opt_skew1, opt_fails1, m_avg_costs1, m_avg_agents1, m_avg_discrepancy1, m_avg_skew1, m_fails1 = Test1(10, 0)
+    '''dfs_costs1, dfs_agents1, dfs_discrepancy1, dfs_skew1, dfs_fails1, opt_costs1, opt_agents1, opt_discrepancy1, opt_skew1, opt_fails1, m_avg_costs1, m_avg_agents1, m_avg_discrepancy1, m_avg_skew1, m_fails1 = Test1(10, 0)
     plot_results(1, "3 Agents, Equal Costs, Same Resources, 1000 Trees", dfs_costs1, dfs_agents1, dfs_discrepancy1, dfs_skew1, dfs_fails1, opt_costs1, opt_agents1, opt_discrepancy1, opt_skew1, opt_fails1, m_avg_costs1, m_avg_agents1, m_avg_discrepancy1, m_avg_skew1, m_fails1)
 
     dfs_costs2, dfs_agents2, dfs_discrepancy2, dfs_skew2, dfs_fails2, opt_costs2, opt_agents2, opt_discrepancy2, opt_skew2, opt_fails2, m_avg_costs2, m_avg_agents2, m_avg_discrepancy2, m_avg_skew2, m_fails2 = Test2(10, 1000)
@@ -4030,7 +4044,7 @@ def main():
 
     dfs_costs4, dfs_agents4, dfs_discrepancy4, dfs_skew4, dfs_fails4, opt_costs4, opt_agents4, opt_discrepancy4, opt_skew4, opt_fails4, m_avg_costs4, m_avg_agents4, m_avg_discrepancy4, m_avg_skew4, m_fails4 = Test4(10, 3000)
     plot_results(4, "3 Agents, Varying Costs, Different Resources, 1000 Trees", dfs_costs4, dfs_agents4, dfs_discrepancy4, dfs_skew4, dfs_fails4, opt_costs4, opt_agents4, opt_discrepancy4, opt_skew4, opt_fails4, m_avg_costs4, m_avg_agents4, m_avg_discrepancy4, m_avg_skew4, m_fails4)
-
+'''
     dfs_costs5, dfs_agents5, dfs_discrepancy5, dfs_skew5, dfs_fails5, opt_costs5, opt_agents5, opt_discrepancy5, opt_skew5, opt_fails5, m_avg_costs5, m_avg_agents5, m_avg_discrepancy5, m_avg_skew5, m_fails5 = Test5(10, 4000)
     plot_results_vary_agents(5, "Varying Agents, Equal Costs, Same Resources, 1000 Trees", dfs_costs5, dfs_agents5, dfs_discrepancy5, dfs_skew5, dfs_fails5, opt_costs5, opt_agents5, opt_discrepancy5, opt_skew5, opt_fails5, m_avg_costs5, m_avg_agents5, m_avg_discrepancy5, m_avg_skew5, m_fails5)
 
