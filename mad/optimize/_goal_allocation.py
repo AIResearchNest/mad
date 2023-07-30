@@ -710,12 +710,16 @@ def count_total_goals(goals_list):
     '''
     Author: Maheen
     
-    Description: Helper function for `perform_auction_m` to count the total number of goals in the `goals_list`.
+    Description
+    -----------
+        Helper function for `perform_auction_m` to count the total number of goals in the `goals_list`.
     
-    Parameters:
+    Parameters
+    ----------
         goals_list (list of dict): A list of dictionaries representing goal nodes and their costs.
         
-    Returns:
+    Returns
+    -------
         int: The total number of goals in the `goals_list`.
     '''
     
@@ -777,7 +781,7 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
 
             Returns
             -------
-            int
+            int:
                 The added cost of the child node and its descendants.
             """
             if not child.get_children():
@@ -812,7 +816,7 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
 
         Returns
         -------
-        int
+        int:
             The added cost of all children of the current node.
         """
         if not node.get_children():
@@ -1018,6 +1022,7 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
 def compare_m(shortest_cost: int, root_node_cost: int):
     """
     Author: Maheen
+    
     Compare the shortest path cost with the cost of the root node's agent and prints the result.
 
     Parameters
@@ -1027,6 +1032,10 @@ def compare_m(shortest_cost: int, root_node_cost: int):
 
     root_node_cost : int
         The cost of the root node's agent.
+        
+    Returns
+    -------
+        None
     """
     print("\nRoot node cost", root_node_cost )
     print("\nShortest path cost", shortest_cost )
@@ -1101,7 +1110,10 @@ def extract_node_info_m(root_node, shortest_goals):
 def get_agent_resources_m(max_resources):
     '''
     Author: Maheen
-    description: Gives agents resources to all agents
+    
+    Description: 
+    ------------
+    Gives agents resources to all agents
 
     Parameters
     ----------
@@ -1124,20 +1136,23 @@ def perform_auction_m(root, goals, agents, cost):
     '''
     Author: Maheen
     
-    Description:
+    Description
+    -----------
         Implements a resource allocation algorithm. It assigns agents to goal nodes so that the agents can share a percentage of the participation in covering the total cost of the optimal goals.
     The algorithm aims to distribute the goals among the agents in a way that the cost is shared evenly.
     
     Parameters:
+    ----------
         root (GoalNode2): The root node representing the overall goal structure.
         goals (list of GoalNode2): The list of individual goal nodes to be achieved.
         agents (dict): A dictionary containing agents' names as keys and their available resources as values.
         cost (float): The total cost to be distributed among agents.
         
-    Return: None
+    Returns
+    ------
+        None
+    
     '''
-    
-    
     
         #add when root node alone condition 
     if root == goals:
@@ -1184,6 +1199,9 @@ def extract_goalnodes_dict(root , goal_nodes):
 
     """
     Author: Maheen
+    
+    Description
+    ---------- 
     Extracts GoalNode2 instances that have the same name as the nodes in the shortest_goals list,
     and stores them in a list.
 
@@ -1198,7 +1216,7 @@ def extract_goalnodes_dict(root , goal_nodes):
 
     Returns
     -------
-    List[GoalNode2]
+    List[GoalNode2]:
         List containing GoalNode2 instances with the same names as the nodes in the shortest path.
     """
 
@@ -1242,7 +1260,10 @@ def extract_goalnodes_dict(root , goal_nodes):
 def agent_goal_m(nodes, max_resources) -> None:
     """
     Author: Maheen
-    Description: This basically calls the required functions and prints the info. This function assigns agents to goals by calculating the shortest path using Dijkstra's and performing an auction-based allocation.
+    
+    Description
+    ---------- 
+    This basically calls the required functions and prints the info. This function assigns agents to goals by calculating the shortest path using Dijkstra's and performing an auction-based allocation.
 
     Parameters
     ----------
@@ -1251,6 +1272,11 @@ def agent_goal_m(nodes, max_resources) -> None:
     
     max_resources : list
         Gets list of maximum resources of each agent in int
+        
+    Returns
+    -------
+    cost: int
+        Total Cost of optimal goals
     """
     if not nodes:
         print("No node has been assigned.")
@@ -1304,6 +1330,10 @@ def agent_goal_m(nodes, max_resources) -> None:
 #varying costs
 def cost_node(node):
     """
+    Author: Maheen
+    
+    Description
+    ----------
     Assigns the minimum value from the agents' dictionary of the node as the node's cost.
 
     Parameters
@@ -1324,6 +1354,10 @@ def cost_node(node):
 
 def equal_node(node):
     """
+    Author: Maheen
+    
+    Description
+    ----------
     Finds the minimum cost from the node's agents dictionary and assigns it as node.cost.
     Also changes all dictionary values to the minimum cost, except for the assigned agent.
 
