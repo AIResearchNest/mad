@@ -43,17 +43,17 @@ class GoalNode2:
     __lt__(self, other) -> bool:
     ---------------------------
     
-        Description
+        Description:
         -----------
         Defines the less than (<) operator for comparing GoalNode2 objects.
         It compares the costs of the nodes for the priority queue.
 
-        Parameters
+        Parameters:
         ----------
         other : GoalNode2
             The other GoalNode2 object to compare with.
 
-        Returns
+        Returns:
         -------
         bool
             True if the current node's cost is less than the other node's cost, False otherwise.
@@ -62,11 +62,11 @@ class GoalNode2:
     add_child(self, child: 'GoalNode2') -> None:
     ---------------------------
         
-        Description
+        Description:
         -----------
         Add Child Goal into the Children list and set the parent of the child.
 
-        Parameters
+        Parameters:
         ----------
         child : GoalNode2
             The child node to be added.
@@ -74,11 +74,11 @@ class GoalNode2:
     set_parent(self, parent: 'GoalNode2'):
     ---------------------------
 
-        Description
+        Description:
         -----------
         Set the parent of the node.
 
-        Parameters
+        Parameters:
         ----------
         parent : GoalNode2
             The parent node of the current node.
@@ -86,16 +86,16 @@ class GoalNode2:
             
     get_sibling_cost(self, sibling_name):
     ---------------------------  
-        Description
+        Description:
         -----------
         Get the cost of the sibling node with the given name.
 
-        Parameters
+        Parameters:
         ----------
         sibling_name : str
             The name of the sibling node.
 
-        Returns
+        Returns:
         -------
         sibling.cost : int
             The cost of the sibling node.
@@ -107,12 +107,12 @@ class GoalNode2:
         ----------
         Get the cost of a child node with the given name.
 
-        Parameters
+        Parameters:
         ----------
         child_name : str
             The name of the child node.
 
-        Returns
+        Returns:
         -------
         int
             The cost of the child node.
@@ -121,16 +121,16 @@ class GoalNode2:
     get_parent_cost(self, node_name):
     ---------------------------
     
-        Description
+        Description:
         -----------
         Get the cost of the parent node.
 
-        Parameters
+        Parameters:
         ----------
         node_name : str
             The name of the current node.
 
-        Returns
+        Returns:
         -------
         int
             The cost of the parent node.
@@ -205,12 +205,12 @@ class GoalNode2:
 def level_order_transversal_two(root) -> None:
     """
     
-    Description
+    Description:
     ----------
     Traverses through the goal tree and prints out the goals (with the parent node and children node in the front if the node has a child)
     along with the assigned agent for each node and respective costs.
     
-    Parameters
+    Parameters:
     ----------
     root: GoalNode2
         The root of the goal tree
