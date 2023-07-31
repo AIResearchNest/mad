@@ -298,125 +298,125 @@ def get_goals_m(root) -> list[GoalNode2]:
 
     return goals
 
-def get_total_cost_m(root) -> int:
-    """
-    Gets the total cost of a solution and returns it
+# def get_total_cost_m(root) -> int:
+#     """
+#     Gets the total cost of a solution and returns it
 
-    Parameters
-    ----------
-    root : GoalNode2
-        Root node of a GoalNode2 Tree
+#     Parameters
+#     ----------
+#     root : GoalNode2
+#         Root node of a GoalNode2 Tree
 
-    Returns
-    -------
-    total_cost : int
-        Total cost of the solution
-    """
-    total_cost = 0
+#     Returns
+#     -------
+#     total_cost : int
+#         Total cost of the solution
+#     """
+#     total_cost = 0
     
-    q = []
-    q.append(root)
+#     q = []
+#     q.append(root)
 
-    while q:
-        current = q[0]
-        q.pop(0)
+#     while q:
+#         current = q[0]
+#         q.pop(0)
 
-        if current.assigned_agent != "":
-            total_cost += current.agents[current.assigned_agent]
+#         if current.assigned_agent != "":
+#             total_cost += current.agents[current.assigned_agent]
 
-        for child in current.get_children():
-            q.append(child)
+#         for child in current.get_children():
+#             q.append(child)
 
-    return total_cost
+#     return total_cost
 
-def get_agents_used_m(root) -> int:
-    """
-    Gets the number of agents used in a solution and returns it
+# def get_agents_used_m(root) -> int:
+#     """
+#     Gets the number of agents used in a solution and returns it
 
-    Parameters
-    ----------
-    root : GoalNode2
-        Root node of a GoalNode2 Tree
+#     Parameters
+#     ----------
+#     root : GoalNode2
+#         Root node of a GoalNode2 Tree
 
-    Returns
-    -------
-    num_agents : int
-        Number of agents used in the solution
-    """
-    agents_used = []
+#     Returns
+#     -------
+#     num_agents : int
+#         Number of agents used in the solution
+#     """
+#     agents_used = []
 
-    q = []
-    q.append(root)
+#     q = []
+#     q.append(root)
 
-    while q:
-        current = q[0]
-        q.pop(0)
+#     while q:
+#         current = q[0]
+#         q.pop(0)
 
-        if current.assigned_agent != "":
-            if current.assigned_agent not in agents_used:
-                agents_used.append(current.assigned_agent)
+#         if current.assigned_agent != "":
+#             if current.assigned_agent not in agents_used:
+#                 agents_used.append(current.assigned_agent)
 
-        for child in current.get_children():
-            q.append(child)
+#         for child in current.get_children():
+#             q.append(child)
     
-    return len(agents_used)
+#     return len(agents_used)
 
-def get_discrepancy_m(root) -> int:
-    """
-    Gets the max cost difference discrepancy between all agents and returns it
+# def get_discrepancy_m(root) -> int:
+#     """
+#     Gets the max cost difference discrepancy between all agents and returns it
 
-    Parameters
-    ----------
-    root : GoalNode2
-        Root node of a GoalNode2 Tree
+#     Parameters
+#     ----------
+#     root : GoalNode2
+#         Root node of a GoalNode2 Tree
 
-    Returns
-    -------
-    discrepancy : int
-        The difference in assigned costs between the most assigned agent and the least assigned agent
-    """
-    num_agents = len(root.agents)
-    agents_used = {}
+#     Returns
+#     -------
+#     discrepancy : int
+#         The difference in assigned costs between the most assigned agent and the least assigned agent
+#     """
+#     num_agents = len(root.agents)
+#     agents_used = {}
 
-    q = []
-    q.append(root)
+#     q = []
+#     q.append(root)
 
-    while q:
-        current = q[0]
-        q.pop(0)
+#     while q:
+#         current = q[0]
+#         q.pop(0)
 
-        if current.assigned_agent != "":
-            if current.assigned_agent not in agents_used.keys():
-                agents_used[current.assigned_agent] = current.agents[current.assigned_agent]
-            else:
-                agents_used[current.assigned_agent] += current.agents[current.assigned_agent]
-        for child in current.get_children():
-            q.append(child)
+#         if current.assigned_agent != "":
+#             if current.assigned_agent not in agents_used.keys():
+#                 agents_used[current.assigned_agent] = current.agents[current.assigned_agent]
+#             else:
+#                 agents_used[current.assigned_agent] += current.agents[current.assigned_agent]
+#         for child in current.get_children():
+#             q.append(child)
     
-    if len(agents_used.keys()) < num_agents:
-        return max(agents_used.values())
-    return abs(max(agents_used.values()) - min(agents_used.values()))
+#     if len(agents_used.keys()) < num_agents:
+#         return max(agents_used.values())
+#     return abs(max(agents_used.values()) - min(agents_used.values()))
 
-def get_skew_m(root, best_case) -> int:
-    """
-    Gets the difference of the current solution from the cheapest possible solution of the goal tree and returns it
+# def get_skew_m(root, best_case) -> int:
+#     """
+#     Gets the difference of the current solution from the cheapest possible solution of the goal tree and returns it
 
-    Parameters
-    ----------
-    root : GoalNode2
-        Root node of a GoalNode2 Tree
-    best_case : int
-        Total cost of the cheapest possible solution to the goal tree
+#     Parameters
+#     ----------
+#     root : GoalNode2
+#         Root node of a GoalNode2 Tree
+#     best_case : int
+#         Total cost of the cheapest possible solution to the goal tree
 
-    Returns
-    -------
-    skew : int
-        Skew: Difference in total cost of the current solution from the cheapest possible solution.
-    """
-    return get_total_cost_m(root) - best_case
+#     Returns
+#     -------
+#     skew : int
+#         Skew: Difference in total cost of the current solution from the cheapest possible solution.
+#     """
+#     return get_total_cost_m(root) - best_case
 
 # Scoring Maheen New
-def get_custom_total_cost_m(root) -> int:
+def get_total_cost_m(root) -> int:
     """
     Gets the total cost of a solution and returns it
 
@@ -447,7 +447,7 @@ def get_custom_total_cost_m(root) -> int:
 
     return total_cost
 
-def get_agents_used_m_new(root) -> int:
+def get_agents_used_m(root) -> int:
     """
     Gets the number of agents used in a solution and returns it
 
@@ -472,14 +472,15 @@ def get_agents_used_m_new(root) -> int:
 
         if current.assigned_agent != []:
             for assigned_agent in current.assigned_agent:
-                agents_used.append(assigned_agent)
+                if assigned_agent not in agents_used:
+                    agents_used.append(assigned_agent)
 
         for child in current.get_children():
             q.append(child)
     
     return len(agents_used)
 
-def discrepancy_m(root) -> int:
+def get_discrepancy_m(root) -> int:
     """
     Gets the max cost difference discrepancy between all agents and returns it
 
@@ -528,7 +529,7 @@ def discrepancy_m(root) -> int:
     
     return abs(max(agents_used_m .values()) - min(agents_used_m.values()))
 
-def get_skew_m_new(root, best_case) -> int:
+def get_skew_m(root, best_case) -> int:
     """
     Gets the difference of the current solution from the cheapest possible solution of the goal tree and returns it
 
@@ -544,7 +545,7 @@ def get_skew_m_new(root, best_case) -> int:
     skew : int
         Skew: Difference in total cost of the current solution from the cheapest possible solution.
     """
-    return get_custom_total_cost_m(root) - best_case
+    return abs(get_total_cost_m(root) - best_case)
 
 # Trees
 def binary_symmetric(num_agents, random=False) -> [GoalNode, GoalNode2]:
@@ -2069,7 +2070,7 @@ def Test1(total_tests, seed):
                     curr_m_discrepancy += get_discrepancy_m(m_root)
                     curr_m_skew += get_skew_m(m_root, best_case)
                     num_m_trees_passed += 1
-                except TypeError:
+                except:
                     curr_m_failures.append(test_num)
 
             # Add Jonathan Results
@@ -2122,7 +2123,6 @@ def Test1(total_tests, seed):
         final_m_avg_skew.append(m_avg_skew / 100)
         final_m_fails.append(m_fails)
 
-    print(f"Test Number: {test_num}")
     return final_dfs_avg_costs, final_dfs_avg_agents, final_dfs_avg_discrepancy, final_dfs_avg_skew, final_dfs_fails, final_opt_avg_costs, final_opt_avg_agents, final_opt_avg_discrepancy, final_opt_avg_skew, final_opt_fails, final_m_avg_costs, final_m_avg_agents, final_m_avg_discrepancy, final_m_avg_skew, final_m_fails
 
 # Scenario 2
@@ -2893,7 +2893,7 @@ def Test5(total_tests, seed):
                     curr_m_discrepancy += get_discrepancy_m(m_root)
                     curr_m_skew += get_skew_m(m_root, best_case)
                     num_m_trees_passed += 1
-                except TypeError:
+                except:
                     curr_m_failures.append(test_num)
 
             # Add Jonathan Results
@@ -3862,32 +3862,32 @@ def main():
     dfs_costs1, dfs_agents1, dfs_discrepancy1, dfs_skew1, dfs_fails1, opt_costs1, opt_agents1, opt_discrepancy1, opt_skew1, opt_fails1, m_avg_costs1, m_avg_agents1, m_avg_discrepancy1, m_avg_skew1, m_fails1 = Test1(10, 0)
     plot_results(1, "Scenario 1: 3 Agents, Equal Costs, Same Resources, 1000 Trees", dfs_costs1, dfs_agents1, dfs_discrepancy1, dfs_skew1, dfs_fails1, opt_costs1, opt_agents1, opt_discrepancy1, opt_skew1, opt_fails1, m_avg_costs1, m_avg_agents1, m_avg_discrepancy1, m_avg_skew1, m_fails1)
 
-    # dfs_costs2, dfs_agents2, dfs_discrepancy2, dfs_skew2, dfs_fails2, opt_costs2, opt_agents2, opt_discrepancy2, opt_skew2, opt_fails2, m_avg_costs2, m_avg_agents2, m_avg_discrepancy2, m_avg_skew2, m_fails2 = Test2(10, 1000)
-    # plot_results(2, "Scenario 2: 3 Agents, Equal Costs, Different Resources, 1000 Trees", dfs_costs2, dfs_agents2, dfs_discrepancy2, dfs_skew2, dfs_fails2, opt_costs2, opt_agents2, opt_discrepancy2, opt_skew2, opt_fails2, m_avg_costs2, m_avg_agents2, m_avg_discrepancy2, m_avg_skew2, m_fails2)
+    dfs_costs2, dfs_agents2, dfs_discrepancy2, dfs_skew2, dfs_fails2, opt_costs2, opt_agents2, opt_discrepancy2, opt_skew2, opt_fails2, m_avg_costs2, m_avg_agents2, m_avg_discrepancy2, m_avg_skew2, m_fails2 = Test2(10, 1000)
+    plot_results(2, "Scenario 2: 3 Agents, Equal Costs, Different Resources, 1000 Trees", dfs_costs2, dfs_agents2, dfs_discrepancy2, dfs_skew2, dfs_fails2, opt_costs2, opt_agents2, opt_discrepancy2, opt_skew2, opt_fails2, m_avg_costs2, m_avg_agents2, m_avg_discrepancy2, m_avg_skew2, m_fails2)
 
-    # dfs_costs3, dfs_agents3, dfs_discrepancy3, dfs_skew3, dfs_fails3, opt_costs3, opt_agents3, opt_discrepancy3, opt_skew3, opt_fails3, m_avg_costs3, m_avg_agents3, m_avg_discrepancy3, m_avg_skew3, m_fails3 = Test3(10, 2000)
-    # plot_results(3, "Scenario 3: 3 Agents, Varying Costs, Same Resources, 1000 Trees", dfs_costs3, dfs_agents3, dfs_discrepancy3, dfs_skew3, dfs_fails3, opt_costs3, opt_agents3, opt_discrepancy3, opt_skew3, opt_fails3, m_avg_costs3, m_avg_agents3, m_avg_discrepancy3, m_avg_skew3, m_fails3)
+    dfs_costs3, dfs_agents3, dfs_discrepancy3, dfs_skew3, dfs_fails3, opt_costs3, opt_agents3, opt_discrepancy3, opt_skew3, opt_fails3, m_avg_costs3, m_avg_agents3, m_avg_discrepancy3, m_avg_skew3, m_fails3 = Test3(10, 2000)
+    plot_results(3, "Scenario 3: 3 Agents, Varying Costs, Same Resources, 1000 Trees", dfs_costs3, dfs_agents3, dfs_discrepancy3, dfs_skew3, dfs_fails3, opt_costs3, opt_agents3, opt_discrepancy3, opt_skew3, opt_fails3, m_avg_costs3, m_avg_agents3, m_avg_discrepancy3, m_avg_skew3, m_fails3)
 
-    # dfs_costs4, dfs_agents4, dfs_discrepancy4, dfs_skew4, dfs_fails4, opt_costs4, opt_agents4, opt_discrepancy4, opt_skew4, opt_fails4, m_avg_costs4, m_avg_agents4, m_avg_discrepancy4, m_avg_skew4, m_fails4 = Test4(10, 3000)
-    # plot_results(4, "Scenario 4: 3 Agents, Varying Costs, Different Resources, 1000 Trees", dfs_costs4, dfs_agents4, dfs_discrepancy4, dfs_skew4, dfs_fails4, opt_costs4, opt_agents4, opt_discrepancy4, opt_skew4, opt_fails4, m_avg_costs4, m_avg_agents4, m_avg_discrepancy4, m_avg_skew4, m_fails4)
+    dfs_costs4, dfs_agents4, dfs_discrepancy4, dfs_skew4, dfs_fails4, opt_costs4, opt_agents4, opt_discrepancy4, opt_skew4, opt_fails4, m_avg_costs4, m_avg_agents4, m_avg_discrepancy4, m_avg_skew4, m_fails4 = Test4(10, 3000)
+    plot_results(4, "Scenario 4: 3 Agents, Varying Costs, Different Resources, 1000 Trees", dfs_costs4, dfs_agents4, dfs_discrepancy4, dfs_skew4, dfs_fails4, opt_costs4, opt_agents4, opt_discrepancy4, opt_skew4, opt_fails4, m_avg_costs4, m_avg_agents4, m_avg_discrepancy4, m_avg_skew4, m_fails4)
 
-    # dfs_costs5, dfs_agents5, dfs_discrepancy5, dfs_skew5, dfs_fails5, opt_costs5, opt_agents5, opt_discrepancy5, opt_skew5, opt_fails5, m_avg_costs5, m_avg_agents5, m_avg_discrepancy5, m_avg_skew5, m_fails5 = Test5(10, 4000)
-    # plot_results_vary_agents(5, "Scenario 5: Varying Agents, Equal Costs, Same Resources, 1000 Trees", dfs_costs5, dfs_agents5, dfs_discrepancy5, dfs_skew5, dfs_fails5, opt_costs5, opt_agents5, opt_discrepancy5, opt_skew5, opt_fails5, m_avg_costs5, m_avg_agents5, m_avg_discrepancy5, m_avg_skew5, m_fails5)
+    dfs_costs5, dfs_agents5, dfs_discrepancy5, dfs_skew5, dfs_fails5, opt_costs5, opt_agents5, opt_discrepancy5, opt_skew5, opt_fails5, m_avg_costs5, m_avg_agents5, m_avg_discrepancy5, m_avg_skew5, m_fails5 = Test5(10, 4000)
+    plot_results_vary_agents(5, "Scenario 5: Varying Agents, Equal Costs, Same Resources, 1000 Trees", dfs_costs5, dfs_agents5, dfs_discrepancy5, dfs_skew5, dfs_fails5, opt_costs5, opt_agents5, opt_discrepancy5, opt_skew5, opt_fails5, m_avg_costs5, m_avg_agents5, m_avg_discrepancy5, m_avg_skew5, m_fails5)
 
-    # dfs_costs6, dfs_agents6, dfs_discrepancy6, dfs_skew6, dfs_fails6, opt_costs6, opt_agents6, opt_discrepancy6, opt_skew6, opt_fails6, m_avg_costs6, m_avg_agents6, m_avg_discrepancy6, m_avg_skew6, m_fails6 = Test6(10, 5000)
-    # plot_results_vary_agents(6, "Scenario 6: Varying Agents, Equal Costs, Different Resources, 1000 Trees", dfs_costs6, dfs_agents6, dfs_discrepancy6, dfs_skew6, dfs_fails6, opt_costs6, opt_agents6, opt_discrepancy6, opt_skew6, opt_fails6, m_avg_costs6, m_avg_agents6, m_avg_discrepancy6, m_avg_skew6, m_fails6)
+    dfs_costs6, dfs_agents6, dfs_discrepancy6, dfs_skew6, dfs_fails6, opt_costs6, opt_agents6, opt_discrepancy6, opt_skew6, opt_fails6, m_avg_costs6, m_avg_agents6, m_avg_discrepancy6, m_avg_skew6, m_fails6 = Test6(10, 5000)
+    plot_results_vary_agents(6, "Scenario 6: Varying Agents, Equal Costs, Different Resources, 1000 Trees", dfs_costs6, dfs_agents6, dfs_discrepancy6, dfs_skew6, dfs_fails6, opt_costs6, opt_agents6, opt_discrepancy6, opt_skew6, opt_fails6, m_avg_costs6, m_avg_agents6, m_avg_discrepancy6, m_avg_skew6, m_fails6)
 
-    # dfs_costs7, dfs_agents7, dfs_discrepancy7, dfs_skew7, dfs_fails7, opt_costs7, opt_agents7, opt_discrepancy7, opt_skew7, opt_fails7, m_avg_costs7, m_avg_agents7, m_avg_discrepancy7, m_avg_skew7, m_fails7 = Test7(10, 6000)
-    # plot_results_vary_agents(7, "Scenario 7: Varying Agents, Varying Costs, Same Resources, 1000 Trees", dfs_costs7, dfs_agents7, dfs_discrepancy7, dfs_skew7, dfs_fails7, opt_costs7, opt_agents7, opt_discrepancy7, opt_skew7, opt_fails7, m_avg_costs7, m_avg_agents7, m_avg_discrepancy7, m_avg_skew7, m_fails7)
+    dfs_costs7, dfs_agents7, dfs_discrepancy7, dfs_skew7, dfs_fails7, opt_costs7, opt_agents7, opt_discrepancy7, opt_skew7, opt_fails7, m_avg_costs7, m_avg_agents7, m_avg_discrepancy7, m_avg_skew7, m_fails7 = Test7(10, 6000)
+    plot_results_vary_agents(7, "Scenario 7: Varying Agents, Varying Costs, Same Resources, 1000 Trees", dfs_costs7, dfs_agents7, dfs_discrepancy7, dfs_skew7, dfs_fails7, opt_costs7, opt_agents7, opt_discrepancy7, opt_skew7, opt_fails7, m_avg_costs7, m_avg_agents7, m_avg_discrepancy7, m_avg_skew7, m_fails7)
 
-    # dfs_costs8, dfs_agents8, dfs_discrepancy8, dfs_skew8, dfs_fails8, opt_costs8, opt_agents8, opt_discrepancy8, opt_skew8, opt_fails8, m_avg_costs8, m_avg_agents8, m_avg_discrepancy8, m_avg_skew8, m_fails8 = Test8(10, 7000)
-    # plot_results_vary_agents(8, "Scenario 8: Varying Agents, Varying Costs, Different Resources, 1000 Trees", dfs_costs8, dfs_agents8, dfs_discrepancy8, dfs_skew8, dfs_fails8, opt_costs8, opt_agents8, opt_discrepancy8, opt_skew8, opt_fails8, m_avg_costs8, m_avg_agents8, m_avg_discrepancy8, m_avg_skew8, m_fails8)
+    dfs_costs8, dfs_agents8, dfs_discrepancy8, dfs_skew8, dfs_fails8, opt_costs8, opt_agents8, opt_discrepancy8, opt_skew8, opt_fails8, m_avg_costs8, m_avg_agents8, m_avg_discrepancy8, m_avg_skew8, m_fails8 = Test8(10, 7000)
+    plot_results_vary_agents(8, "Scenario 8: Varying Agents, Varying Costs, Different Resources, 1000 Trees", dfs_costs8, dfs_agents8, dfs_discrepancy8, dfs_skew8, dfs_fails8, opt_costs8, opt_agents8, opt_discrepancy8, opt_skew8, opt_fails8, m_avg_costs8, m_avg_agents8, m_avg_discrepancy8, m_avg_skew8, m_fails8)
 
 if __name__ == '__main__':
     main()
 
 
-# root, rootm = root(3)
+# root, rootm = binary_symmetric(3, True)
 
 # print(f"Rootm Cost: {rootm.cost}")
 
@@ -3903,16 +3903,52 @@ if __name__ == '__main__':
 # print(f"Num Agents: {get_agents_used(results)}")
 # print(f"Discrepancy: {get_discrepancy(results)}")
 # print()
-# print(f"------Maheen Old------")
-# # print(f"Total Cost: {get_total_cost_m(rootm)}")
-# # print(f"Skew: {get_skew_m(rootm, best_case)}")
-# # print(f"Num Agents: {get_agents_used_m(results)}")
-# # print(f"Discrepancy: {get_discrepancy_m(results)}")
-# print()
 # print(f"------Maheen New------")
-# print(f"Total Cost: {get_custom_total_cost_m(rootm)}")
-# print(f"Skew: {get_skew_m_new(rootm, best_case)}")
-# print(f"Num Agents: {get_agents_used_m_new(rootm)}")
-# print(f"Discrepancy: {discrepancy_m(rootm)}")
+# print(f"Total Cost: {get_total_cost_m(rootm)}")
+# print(f"New Total Cost: {get_total_cost_m(rootm) + int(get_discrepancy_m(rootm) / 3)}")
+# print(f"Skew: {get_skew_m(rootm, best_case)}")
+# print(f"Num Agents: {get_agents_used_m(rootm)}")
+# print(f"Discrepancy: {get_discrepancy_m(rootm)}")
 
 # print(f"Rootm Cost: {rootm.cost}")
+
+# def what():
+#     for seed in range(10):
+#         r.seed(seed)
+#         TREES = [binary_symmetric(3),
+#                 binary_left(3), 
+#                 binary_right(3), 
+#                 root(3), 
+#                 tree_symmetric(3), 
+#                 tree_left_right(3), 
+#                 large_binary_tree(3),
+#                 large_tree(3), 
+#                 tree_1(3), 
+#                 tree_2(3)]
+
+#         # Run each individual test
+#         for tree_idx in range(len(TREES)):
+#             rootd = TREES[tree_idx][0]
+#             rootm = TREES[tree_idx][1]
+
+#             results = dfs_goal_allocation(rootd, {'grace': 50, 'remus': 50, 'franklin': 50}, 1)
+#             print("\n")
+#             agent_goal_m(get_goals_m(rootm), [50,50,50])
+#             skew, best_case = get_skew_dfs(results)
+#             # print(f"------Jonathan------")
+#             # print(f"Total Cost: {get_total_cost(results)}")
+#             # print(f"Skew: {skew}")
+#             # print(f"Num Agents: {get_agents_used(results)}")
+#             # print(f"Discrepancy: {get_discrepancy(results)}")
+#             # print()
+#             print(f"------Maheen New------")
+#             print(f"Total Cost: {get_total_cost_m(rootm)}")
+#             print(f"Skew: {get_skew_m(rootm, best_case)}")
+#             print(f"Num Agents: {get_agents_used_m(rootm)}")
+#             print(f"Discrepancy: {get_discrepancy_m(rootm)}")
+
+#             if get_agents_used_m(rootm) > 3:
+#                 return
+            
+
+# what()

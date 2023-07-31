@@ -144,8 +144,7 @@ def get_custom_total_cost(agents_and_goals):
     
     Returns
     -------
-    int
-        The total cost of all agents' assigned goals.
+    int The total cost of all agents' assigned goals.
     '''
     total_cost = 0
 
