@@ -102,7 +102,7 @@ class GoalNode2:
             
             
     get_child_cost(self, child_name):
-    ---------------------------
+    ---------------------------------
         Descripion:
         ------------
         Get the cost of a child node with the given name.
