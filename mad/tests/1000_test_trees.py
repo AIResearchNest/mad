@@ -95,6 +95,8 @@ def print_tree_and_agents_custom(node):
 
 def custom_equal_cost(m: int, n: int, agents: int) -> dict[str, int]:
     """
+    Description
+    -------------
     This function randomizes the cost of an agent when it conducts a goal based on an assigned range but
     gives one goal to all 
 
@@ -122,6 +124,8 @@ def custom_equal_cost(m: int, n: int, agents: int) -> dict[str, int]:
 # Scoring
 def get_custom_total_cost(agents_and_goals):
     '''
+    Description
+    ------------
     This function calculates the total cost of all  assigned goals.
     
     Parameters
@@ -143,6 +147,8 @@ def get_custom_total_cost(agents_and_goals):
 
 def get_agents_used(agents_and_goals):
     '''
+    Description
+    ------------
     This function calculates the number of agents who have been assigned goals.
     
     Parameters
@@ -164,7 +170,10 @@ def get_agents_used(agents_and_goals):
 
 def discrepancy(agents_and_goals):
     '''
-    Description:: This function calculates the discrepancy in the costs of agents' assigned goals.
+    Description
+    ------------
+    This function calculates the discrepancy in the costs of agents' assigned goals.
+    
     Parameters
     ----------
     agents_and_goals : (dict[str, List[GoalNode2]]) 
@@ -191,10 +200,16 @@ def discrepancy(agents_and_goals):
 def get_skew(agents_and_goals_dfs):
     
     '''
-    Description:: This function calculates the skew in the costs of agents' assigned goals and the best-case scenario cost.
-    Parameters::
+    Description
+    ------------
+    This function calculates the skew in the costs of agents' assigned goals and the best-case scenario cost.
+    
+    Parameters
+    ----------
     agents_and_goals_dfs (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
-    Returns::
+    
+    Returns
+    -------
     List[int]: A list containing two elements: the skew in the costs of agents' assigned goals and the best-case scenario cost.
     
     '''
@@ -216,11 +231,17 @@ def get_skew(agents_and_goals_dfs):
 def _skew_new(opt_agents_and_goals, best_case):
     
     '''
-    Description:: This is a helper function that calculates the skew in the costs of agents' assigned goals compared to the best-case scenario cost.
-    Parameters::
+    Description
+    -------------
+    This is a helper function that calculates the skew in the costs of agents' assigned goals compared to the best-case scenario cost.
+    
+    Parameters
+    -----------
     opt_agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
     best_case (int): The best-case scenario cost.
-    Returns::
+    
+    Returns
+    --------
     int: The skew in the costs of agents' assigned goals compared to the best-case scenario cost.
     
     '''
@@ -278,13 +299,34 @@ def get_custom_total_cost_m(root):
 #Agents used Maheen count
 def get_agents_used_m(root):
     '''
-  iterate over the optimized goal nodes to see how many agents have been used 
+   Description
+   -----------
+   Iterate over the optimized goal nodes to see how many agents have been used 
+   
+   Parameters
+   -----------
+   root: GoalNode2 tree 
     '''
     total_agents = 10 
     return total_agents
 
 #Discrepancy of Maheen 
 def discrepancy_m(root):
+    """
+    Description
+    ------------
+    Gets the max cost difference discrepancy between all agents and returns it
+
+    Parameters
+    ----------
+    root : GoalNode2
+        Root node of a GoalNode2 Tree
+
+    Returns
+    -------
+    discrepancy : int
+        The difference in assigned costs between the most assigned agent and the least assigned agent
+    """
 
     num_agents = len(root.agents)
     agents_used = {}
@@ -314,15 +356,28 @@ def discrepancy_m(root):
 
 
 
-    ###Issue 
-   # print (agents_used_m .values(), "NOOOOO")
-    if len(agents_used_m.keys()) < num_agents:
-        return max(agents_used_m .values())
-    
-    return abs(max(agents_used_m .values()) - min(agents_used_m.values()))
+ 
 
 #Skew Maheen
 def get_skew_m(root, best_case):
+    """
+    Description
+    ------------
+    Gets the difference of the current solution from the cheapest possible solution of the goal tree and returns it
+
+    Parameters
+    ----------
+    root : GoalNode2
+        Root node of a GoalNode2 Tree
+    best_case : int
+        Total cost of the cheapest possible solution to the goal tree
+
+    Returns
+    -------
+    skew : int
+        Skew: Difference in total cost of the current solution from the cheapest possible solution.
+    """
+    
     return get_custom_total_cost_m(root) - best_case
 
 # Trees
@@ -4245,7 +4300,7 @@ def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discr
 
 # Main
 def main():
-    '''dfs_costs1, dfs_agents1, dfs_discrepancy1, dfs_skew1, dfs_fails1, opt_costs1, opt_agents1, opt_discrepancy1, opt_skew1, opt_fails1, m_avg_costs1, m_avg_agents1, m_avg_discrepancy1, m_avg_skew1, m_fails1 = Test1(10, 0)
+    dfs_costs1, dfs_agents1, dfs_discrepancy1, dfs_skew1, dfs_fails1, opt_costs1, opt_agents1, opt_discrepancy1, opt_skew1, opt_fails1, m_avg_costs1, m_avg_agents1, m_avg_discrepancy1, m_avg_skew1, m_fails1 = Test1(10, 0)
     plot_results(1, "3 Agents, Equal Costs, Same Resources, 1000 Trees", dfs_costs1, dfs_agents1, dfs_discrepancy1, dfs_skew1, dfs_fails1, opt_costs1, opt_agents1, opt_discrepancy1, opt_skew1, opt_fails1, m_avg_costs1, m_avg_agents1, m_avg_discrepancy1, m_avg_skew1, m_fails1)
 
     dfs_costs2, dfs_agents2, dfs_discrepancy2, dfs_skew2, dfs_fails2, opt_costs2, opt_agents2, opt_discrepancy2, opt_skew2, opt_fails2, m_avg_costs2, m_avg_agents2, m_avg_discrepancy2, m_avg_skew2, m_fails2 = Test2(10, 1000)
@@ -4256,7 +4311,6 @@ def main():
 
     dfs_costs4, dfs_agents4, dfs_discrepancy4, dfs_skew4, dfs_fails4, opt_costs4, opt_agents4, opt_discrepancy4, opt_skew4, opt_fails4, m_avg_costs4, m_avg_agents4, m_avg_discrepancy4, m_avg_skew4, m_fails4 = Test4(10, 3000)
     plot_results(4, "3 Agents, Varying Costs, Different Resources, 1000 Trees", dfs_costs4, dfs_agents4, dfs_discrepancy4, dfs_skew4, dfs_fails4, opt_costs4, opt_agents4, opt_discrepancy4, opt_skew4, opt_fails4, m_avg_costs4, m_avg_agents4, m_avg_discrepancy4, m_avg_skew4, m_fails4)
-'''
     dfs_costs5, dfs_agents5, dfs_discrepancy5, dfs_skew5, dfs_fails5, opt_costs5, opt_agents5, opt_discrepancy5, opt_skew5, opt_fails5, m_avg_costs5, m_avg_agents5, m_avg_discrepancy5, m_avg_skew5, m_fails5 = Test5(10, 4000)
     plot_results_vary_agents(5, "Varying Agents, Equal Costs, Same Resources, 1000 Trees", dfs_costs5, dfs_agents5, dfs_discrepancy5, dfs_skew5, dfs_fails5, opt_costs5, opt_agents5, opt_discrepancy5, opt_skew5, opt_fails5, m_avg_costs5, m_avg_agents5, m_avg_discrepancy5, m_avg_skew5, m_fails5)
 

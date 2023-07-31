@@ -22,7 +22,11 @@ class GoalNode2:
     assigned_agent : List
         Name of the agent assigned to the goal node
     """
+    """
+    Methods
+    ----------
     
+    """
 
     def __init__(self, name: str, cost: int) -> None:
         self.name = name
