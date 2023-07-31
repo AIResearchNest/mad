@@ -63,23 +63,23 @@ class GoalNode2:
     ---------------------------
         
         Description:
-        -----------
+        -------------
         Add Child Goal into the Children list and set the parent of the child.
 
         Parameters:
-        ----------
+        ------------
         child : GoalNode2
             The child node to be added.
             
     set_parent(self, parent: 'GoalNode2'):
-    ---------------------------
+    ------------------------------------
 
         Description:
-        -----------
+        ---------------
         Set the parent of the node.
 
         Parameters:
-        ----------
+        ------------
         parent : GoalNode2
             The parent node of the current node.
             
@@ -87,33 +87,33 @@ class GoalNode2:
     get_sibling_cost(self, sibling_name):
     ---------------------------  
         Description:
-        -----------
+        ------------
         Get the cost of the sibling node with the given name.
 
         Parameters:
-        ----------
+        ------------
         sibling_name : str
             The name of the sibling node.
 
         Returns:
-        -------
+        ---------
         sibling.cost : int
             The cost of the sibling node.
             
             
     get_child_cost(self, child_name):
     ---------------------------
-        Descripion
-        ----------
+        Descripion:
+        ------------
         Get the cost of a child node with the given name.
 
         Parameters:
-        ----------
+        ------------
         child_name : str
             The name of the child node.
 
         Returns:
-        -------
+        ---------
         int
             The cost of the child node.
             
@@ -122,16 +122,16 @@ class GoalNode2:
     ---------------------------
     
         Description:
-        -----------
+        -------------
         Get the cost of the parent node.
 
         Parameters:
-        ----------
+        ------------
         node_name : str
             The name of the current node.
 
         Returns:
-        -------
+        ---------
         int
             The cost of the parent node.
             
