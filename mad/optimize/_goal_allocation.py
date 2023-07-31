@@ -282,7 +282,7 @@ def dfs_goal_allocation(goal_tree: GoalNode, max_resources: Dict, verbose: int =
     verbose : int = 0
         Enter number greater than 0 to be provided with output information
 
-    Returns:
+    Returns
     -------
     Returns : Dict
         Dictionary of agent names (keys) and list of GoalNodes assigned (values)
@@ -678,9 +678,6 @@ from mad.data_structures._multi_agent_goal_node_two import GoalNode2, level_orde
 def random_cost_m(start_range: int, end_range: int) -> int:
     """
     Author: Maheen
-    
-    Discription
-    -----------
     This function generates a random cost for a node based on a specified cost range.
 
     Parameters
@@ -691,7 +688,7 @@ def random_cost_m(start_range: int, end_range: int) -> int:
     end_range: int
         The upper bound of the cost range.
 
-    Returns:
+    Returns
     -------
     int
         Randomized cost value for the node.
@@ -715,16 +712,13 @@ def find_node_by_name(node, name):
 def count_total_goals(goals_list):
     '''
     Author: Maheen
+    Helper function for `perform_auction_m` to count the total number of goals in the `goals_list`.
     
-    Description:
-    -----------
-        Helper function for `perform_auction_m` to count the total number of goals in the `goals_list`.
-    
-    Parameters:
+    Parameters
     ----------
         goals_list (list of dict): A list of dictionaries representing goal nodes and their costs.
         
-    Returns:
+    Returns
     -------
         int: The total number of goals in the `goals_list`.
     '''
@@ -744,9 +738,6 @@ def count_total_goals(goals_list):
 def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, int]]:
     '''
     Author: Maheen
-    
-    Description:
-    ------------
     This function finds the most optimal goal(s) path based on the `GoalNode2.cost` values throughout the tree and returns the cost and the list of goal names to be accomplished by agents. 
     It is a hybrid approach to BFS and DFS because it recursively traverses the tree in a top-down manner, calculating the costs for all children and grandchildren of a node before moving on to the next node. Unlike BFS, the function does not explore the goal tree layer by layer from the root or like DFS it does not follow the traditional DFS approach where it fully explores one branch before backtracking. 
     Instead, it calculates the added cost for all children and grandchildren of a node recursively using some helper functions given below and then proceeds to the next node as given in the order. It starts from the children of root node so Level 1 nodes. 
@@ -755,38 +746,28 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
     Additionally, it can be seen as employing a branch and bound algorithm like strategy too as it recursively explores different branches of the goal tree while keeping track of the best cost found so far. 
     The function makes several cross-over pairs which involves making a dictionary to store node, its children names and their respective costs added in several combinations. For instance, a pair of added cost of all children of root node, a pair with all leaf nodes added cost, pairs of each root node's child added with its siblings grandchildren. Then it utilizes Heuristic Search technique guided by some rules to look over the cross-over pairs costs to identify a pair that consist of minimum cost. 
     The final result is the most optimal total cost and the list of goal names that makes the most optimal goal path in the Multi-Agent Goal Tree. This optimal cost is compared with root node's cost in agent_goal_m() and whichever has minimum cost that is passed to perform_auction_m() to assign agents for completion
-    
 
-    Parameters:
+    Parameters
     ----------
         goal_tree (GoalNode2): The hierarchical Multi-Agent Goal Tree.
-        
-    Helper Functions
-    ----------------
-        - calculate_cost
-        - calculate_child_cost
-        - _root_child_calculate_cost
-        - check_pure_grandchildren
 
-    Returns:
+    Returns
     -------
-        Tuple[int, List[str], Dict[str, int]]: A tuple containing:
-            - The most optimal total cost.
-            - List of goal names to be accomplished by agents.
-            - Dictionary containing root node children names and their respective children names and their added cost.
+    Tuple[int, List[str], Dict[str, int]]: 
+        A tuple containing: The most optimal total cost; List of goal names to be accomplished by agents; Dictionary containing root node children names and their respective children names and their added cost.
     '''
 
     def calculate_cost(node: GoalNode2) -> Dict[str, int]:
         """
         Author: Maheen 
-        Description: Recursively calculates the added cost for all children of the given node.
+        Recursively calculates the added cost for all children of the given node.
 
-        Parameters:
+        Parameters
         ----------
         node : GoalNode2
             The current node.
 
-        Returns:
+        Returns
         -------
         Dict[str, int]
             A dictionary containing the added cost of all children of the current node.
@@ -794,17 +775,16 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
         def calculate_child_cost(child: GoalNode2, parent_cost: int) -> int:
             """
             Author: Maheen 
-            
-            Description:Recursively calculates the cost of a child node while excluding the parent's cost.
+            Recursively calculates the cost of a child node while excluding the parent's cost.
 
-            Parameters:
+            Parameters
             ----------
             child : GoalNode2
                 The current child node.
             parent_cost : int
                 The cost of the parent node.
 
-            Returns:
+            Returns
             -------
             int:
                 The added cost of the child node and its descendants.
@@ -831,15 +811,14 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
     def _root_child_calculate_cost(node: GoalNode2) -> int:
         """
         Author: Maheen 
-        
-        Description: Recursively calculates the added cost for all children of the given node.
+        Recursively calculates the added cost for all children of the given node.
 
-        Parameters:
+        Parameters
         ----------
         node : GoalNode2
             The current node.
 
-        Returns:
+        Returns
         -------
         int:
             The added cost of all children of the current node.
@@ -920,10 +899,9 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
     def check_pure_grandchildren(node, grandchildren, root_node_grandchildren, all_grandchild):
         """
         Author: Maheen
-        
-        Description: Recursively checks if grandchildren are purely leaf nodes of the same root node child.
+        Recursively checks if grandchildren are purely leaf nodes of the same root node child.
 
-        Parameters:
+        Parameters
         ----------
         node : GoalNode2
             The current node in the goal tree.
@@ -934,7 +912,7 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
         all_grandchild : bool
             Flag to track if all grandchildren are leaf nodes.
 
-        Returns:
+        Returns
         -------
         bool
             True if grandchildren are purely leaf nodes of only one root node child, False otherwise.
@@ -1045,20 +1023,15 @@ def shortest_path_m(goal_tree: GoalNode2) -> Tuple[int, List[str],  Dict[str, in
 def compare_m(shortest_cost: int, root_node_cost: int):
     """
     Author: Maheen
-    
     Compare the shortest path cost with the cost of the root node's agent and prints the result.
 
-    Parameters:
+    Parameters
     ----------
     shortest_cost : int
         The shortest path cost.
 
     root_node_cost : int
         The cost of the root node's agent.
-        
-    Returns:
-    -------
-        None
     """
     print("\nRoot node cost", root_node_cost )
     print("\nShortest path cost", shortest_cost )
@@ -1074,13 +1047,10 @@ def compare_m(shortest_cost: int, root_node_cost: int):
 def extract_node_info_m(root_node, shortest_goals):
     """
     Author: Maheen
-    
-    Description:
-    -----------
     Extracts GoalNode2 instances that have the same name as the nodes in the shortest_goals list,
     and stores them in a list.
 
-    Parameters:
+    Parameters
     ----------
     root_node : GoalNode2
         The root node of the goal tree.
@@ -1089,7 +1059,7 @@ def extract_node_info_m(root_node, shortest_goals):
         The dictionary or list of dictionaries representing the shortest path,
         where each dictionary contains node names and costs.
 
-    Returns:
+    Returns
     -------
     List[GoalNode2]
         List containing GoalNode2 instances with the same names as the nodes in the shortest path.
@@ -1136,21 +1106,17 @@ def extract_node_info_m(root_node, shortest_goals):
 def get_agent_resources_m(max_resources):
     '''
     Author: Maheen
-    
-    Description: 
-    ------------
     Gives agents resources to all agents
 
-    Parameters:
+    Parameters
     ----------
-    max_resources: List[int]
+    max_resources : List[int]
         The list of max resources for each agent
 
-    Returns:
+    Returns
     -------
-    agent_resources: Dict
+    agent_resources : Dict
         storing the list.
-    
     '''
     agents = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "trent", "karen"] #edit
     agent_resources = {agent: resource for agent, resource in zip(agents, max_resources)}
@@ -1161,27 +1127,19 @@ def get_agent_resources_m(max_resources):
 def perform_auction_m(root, goals, agents, cost):
     '''
     Author: Maheen
+    Implements an approach to equal allocation algorithm. It assigns all agents to goal nodes in optimal path so that the each agent can share a percentage of the participation in covering the total cost of the optimal goal(s). Such that,
+    the algorithm aims to distribute the goals among the agents in a way that the cost is shared evenly. It also updates the resources of each agent according to its participation. 
     
-    Description:
-    -----------
-        Implements an approach to equal allocation algorithm. It assigns all agents to goal nodes in optimal path so that the each agent can share a percentage of the participation in covering the total cost of the optimal goal(s). Such that,
-        the algorithm aims to distribute the goals among the agents in a way that the cost is shared evenly. It also updates the resources of each agent according to its participation. 
-    
-    Parameters:
+    Parameters
     ----------
-    root (GoalNode2):
+    root : (GoalNode2)
         The root node representing the overall goal structure.
-    goals (list of GoalNode2):
+    goals : (list of GoalNode2)
         The list of individual goal nodes to be achieved.
-    agents (dict): 
+    agents : (dict)
         A dictionary containing agents' names as keys and their available resources as values.
-    cost (float): 
-        The total cost to be distributed among agents.
-        
-    Returns:
-    ------
-        None
-    
+    cost : (float)
+        The total cost to be distributed among agents.    
     '''
     
         #add when root node alone condition 
@@ -1229,13 +1187,10 @@ def extract_goalnodes_dict(root , goal_nodes):
 
     """
     Author: Maheen
-    
-    Description:
-    ---------- 
     Extracts GoalNode2 instances that have the same name as the nodes in the shortest_goals list,
     and stores them in a list.
 
-    Parameters:
+    Parameters
     ----------
     root_node : GoalNode2
         The root node of the goal tree.
@@ -1244,9 +1199,9 @@ def extract_goalnodes_dict(root , goal_nodes):
         The dictionary or list of dictionaries representing the shortest path,
         where each dictionary contains node names and costs.
 
-    Returns:
+    Returns
     -------
-    List[GoalNode2]:
+    List[GoalNode2]
         List containing GoalNode2 instances with the same names as the nodes in the shortest path.
     """
 
@@ -1290,10 +1245,9 @@ def extract_goalnodes_dict(root , goal_nodes):
 def agent_goal_m(nodes, max_resources) -> None:
     """
     Author: Maheen
-
     This basically calls the required functions for finding optimal path, assigning agents and prints the information
     
-    Parameters:
+    Parameters
     ----------
     nodes : list
         A list of nodes representing the goals to be assigned to agents.
@@ -1301,7 +1255,7 @@ def agent_goal_m(nodes, max_resources) -> None:
     max_resources : list
         Gets list of maximum resources of each agent in int
         
-    Returns:
+    Returns
     -------
     cost: int
         Total Cost of optimal goals
@@ -1359,19 +1313,12 @@ def agent_goal_m(nodes, max_resources) -> None:
 def cost_node(node):
     """
     Author: Maheen
-    
-    Description:
-    ----------
     Assigns the minimum value from the agents' dictionary of the node as the node's cost.
 
-    Parameters:
+    Parameters
     ----------
     node : GoalNode22
         The node for which the cost needs to be assigned.
-
-    Returns:
-    -------
-    None
     """
     if node.agents:
         node.cost = min(node.agents.values())
@@ -1383,20 +1330,13 @@ def cost_node(node):
 def equal_node(node):
     """
     Author: Maheen
-    
-    Description:
-    ----------
     Finds the minimum cost from the node's agents dictionary and assigns it as node.cost.
     Also changes all dictionary values to the minimum cost, except for the assigned agent.
 
-    Parameters:
+    Parameters
     ----------
     node: GoalNode22
         The node for which to find the minimum cost and update the dictionary values.
-
-    Returns:
-    -------
-    None
     """
     if node.agents:
         min_cost = min(node.agents.values())  # Find the minimum cost from the agents dictionary

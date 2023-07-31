@@ -11,19 +11,19 @@ import numpy as np
 def equal_node(node):
     """
     Author: Maheen
-    
-    Description:
+
+    Description
     -----------
     
     Finds the minimum cost from the node's agents dictionary and assigns it as node.cost.
     Also changes all dictionary values to the minimum cost, except for the assigned agent.
 
-    Parameters:
+    Parameters
     ----------
     node: GoalNode22
         The node for which to find the minimum cost and update the dictionary values.
 
-    Returns:
+    Returns
     -------
     None
     """
@@ -41,9 +41,6 @@ def equal_node(node):
 
         # Assign the minimum cost to node.cost
         node.cost = min_cost
-
-
-
 
 def _random_cost(m: int, n: int, agents: int) -> dict[str, int]:
     
@@ -75,15 +72,11 @@ def _random_cost(m: int, n: int, agents: int) -> dict[str, int]:
 
     return d
 
-
-
 def print_goal_tree_custom(node, indent=0):
     prefix = "_" * indent
     print(f"{prefix}- {node.name}: {node.assigned_agent}")
     for child in node.children:
         print_goal_tree_custom(child, indent + 1)
-
-
 
 def print_tree_and_agents_custom(node):
     p = []
@@ -100,21 +93,19 @@ def print_tree_and_agents_custom(node):
         for child in current.get_children():
             p.append(child)
 
-
-
 def custom_equal_cost(m: int, n: int, agents: int) -> dict[str, int]:
     """
     This function randomizes the cost of an agent when it conducts a goal based on an assigned range but
     gives one goal to all 
 
-    Parameters:
+    Parameters
     ----------
     m: int
         The starting point of the range
     n: int
         The ending point of the range
     
-    Returns:
+    Returns
     -------
     dict[str, int]
         A dictionary with the agents as keys and corresponding costs as values
@@ -131,11 +122,17 @@ def custom_equal_cost(m: int, n: int, agents: int) -> dict[str, int]:
 # Scoring
 def get_custom_total_cost(agents_and_goals):
     '''
-    Description:: This function calculates the total cost of all  assigned goals.
-        Parameters::
-        agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
-    Returns::
-    int: The total cost of all agents' assigned goals.
+    This function calculates the total cost of all  assigned goals.
+    
+    Parameters
+    ----------
+    agents_and_goals : (dict[str, List[GoalNode2]])
+        A dictionary containing agents' names as keys and a list of their assigned goals as values.
+    
+    Returns
+    -------
+    int
+        The total cost of all agents' assigned goals.
     '''
     total_cost = 0
 
@@ -147,11 +144,16 @@ def get_custom_total_cost(agents_and_goals):
 
 def get_agents_used(agents_and_goals):
     '''
-      Description:: This function calculates the number of agents who have been assigned goals.
-    Parameters::
-    agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
-    Returns::
-    int: The number of agents who have been assigned goals.
+    This function calculates the number of agents who have been assigned goals.
+    
+    Parameters
+    ----------
+        agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
+    
+    Returns
+    -------
+    int 
+        The number of agents who have been assigned goals.
     '''
     agents_used_now = 0
 
@@ -163,11 +165,17 @@ def get_agents_used(agents_and_goals):
 
 def discrepancy(agents_and_goals):
     '''
-        Description:: This function calculates the discrepancy in the costs of agents' assigned goals.
-    Parameters::
-    agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
-    Returns::
-    int: The discrepancy in the costs of agents' assigned goals, i.e., the absolute difference between the maximum and minimum cost.
+    This function calculates the discrepancy in the costs of agents' assigned goals.
+    
+    Parameters
+    ----------
+    agents_and_goals : (dict[str, List[GoalNode2]]) 
+        A dictionary containing agents' names as keys and a list of their assigned goals as values.
+    
+    Returns
+    -------
+    int
+        The discrepancy in the costs of agents' assigned goals, i.e., the absolute difference between the maximum and minimum cost.
     '''
     
     agents_costs_dis = []
@@ -181,7 +189,6 @@ def discrepancy(agents_and_goals):
         agents_costs_dis.append(curr_agent_cost)
 
     return abs(max( agents_costs_dis) - min(agents_costs_dis))
-
 
 def get_skew(agents_and_goals_dfs):
     
@@ -208,7 +215,7 @@ def get_skew(agents_and_goals_dfs):
 
     return [abs(best_case - total_cost), best_case]
 
-def  _skew_new(opt_agents_and_goals, best_case):
+def _skew_new(opt_agents_and_goals, best_case):
     
     '''
     Description:: This is a helper function that calculates the skew in the costs of agents' assigned goals compared to the best-case scenario cost.
@@ -278,7 +285,6 @@ def get_agents_used_m(root):
     total_agents = 10 
     return total_agents
 
-
 #Discrepancy of Maheen 
 def discrepancy_m(root):
 
@@ -318,10 +324,8 @@ def discrepancy_m(root):
     return abs(max(agents_used_m .values()) - min(agents_used_m.values()))
 
 #Skew Maheen
-
 def get_skew_m(root, best_case):
     return get_custom_total_cost_m(root) - best_case
-
 
 # Trees
 def binary_symmetric(num_agents, random=False):
@@ -445,7 +449,6 @@ def binary_symmetric(num_agents, random=False):
 
     return [root, rootm]
 
-
 def binary_left(num_agents, random=False):
     """
     Author: Maheen
@@ -549,7 +552,6 @@ def binary_left(num_agents, random=False):
     subgoal1.add_child(subgoal4)
 
     return [root, rootm]
-
 
 def binary_right(num_agents, random=False):
     """
@@ -1477,7 +1479,6 @@ def large_binary_tree(num_agents, random=False):
 
     return [root, rootm]
 
-
 def large_tree(num_agents, random=False):
     """
     Author: Maheen
@@ -2204,7 +2205,6 @@ def tree_1(num_agents, random=False):
     
 
     return [root, rootm]
-
 
 def tree_2(num_agents, random=False):
     """

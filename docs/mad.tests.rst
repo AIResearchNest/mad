@@ -5,9 +5,9 @@ Submodules
 ----------
 
 mad.tests.1000\_test\_trees module
------------------------------
+----------------------------------
 
-.. automodule:: mad.tests.ALL_TESTING
+.. automodule:: mad.tests.1000_test_trees
    :members:
    :undoc-members:
    :show-inheritance:
@@ -16,6 +16,14 @@ mad.tests.efficiency\_test module
 ---------------------------------
 
 .. automodule:: mad.tests.efficiency_test
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+mad.tests.final\_test\_backup module
+------------------------------------
+
+.. automodule:: mad.tests.final_test_backup
    :members:
    :undoc-members:
    :show-inheritance:
