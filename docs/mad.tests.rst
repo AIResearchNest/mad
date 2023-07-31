@@ -4,7 +4,7 @@ mad.tests package
 Submodules
 ----------
 
-mad.tests.ALL\_TESTING module
+mad.tests.1000\_test\_trees module
 -----------------------------
 
 .. automodule:: mad.tests.ALL_TESTING
