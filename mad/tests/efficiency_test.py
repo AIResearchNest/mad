@@ -1663,23 +1663,29 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
 
     Parameters
     ----------
-
-        fay_averages (List[float]): List of average resources used by Fay's Algorithm.
-        jonathan_averages (List[float]): List of average resources used by Jonathan's Algorithm.
-        maheen_averages (List[float]): List of average resources used by Maheen's Algorithm.
-        agent_fay_averages (List[float]): List of average agents used by Fay's Algorithm.
-        agent_jonathan_averages (List[float]): List of average agents used by Jonathan's Algorithm.
-        agent_maheen_averages (List[float]): List of average agents used by Maheen's Algorithm.
-        iteration (int): The iteration of the experiment.
-        scenario (str): The scenario of the experiment.
-        num_agents_avail (List[int], optional): A list of the number of available agents for each test case.
-            Default is [3] * 10.
+    fay_averages : (List[float])
+        List of average resources used by Fay's Algorithm.
+    jonathan_averages : (List[float])
+        List of average resources used by Jonathan's Algorithm.
+    maheen_averages : (List[float])
+        List of average resources used by Maheen's Algorithm.
+    agent_fay_averages : (List[float])
+        List of average agents used by Fay's Algorithm.
+    agent_jonathan_averages : (List[float])
+        List of average agents used by Jonathan's Algorithm.
+    agent_maheen_averages : (List[float])
+        List of average agents used by Maheen's Algorithm.
+    iteration : (int)
+        The iteration of the experiment.
+    scenario : (str)
+        The scenario of the experiment.
+    num_agents_avail : (List[int], optional)
+        A list of the number of available agents for each test case. Default is [3] * 10.
 
     Returns
     -------
-    
-        None: This function generates the side-by-side bar chart and displays it using plt.show()
-
+    None
+        This function generates the side-by-side bar chart and displays it using plt.show()
     """
     
     # Color of each algorithm
