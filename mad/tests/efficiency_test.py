@@ -13,24 +13,24 @@ def _random_cost(m: int, n: int, agents: int) -> Dict[str, int]:
     """
     This function randomizes the cost of an agent when it conducts a goal based on an assigned range
 
-    Parameters::
+    Parameters:
     ------------
-    m: int
-        The starting point of the range
-    n: int
-        The ending point of the range
-    agents: int
-        Number of available agents
+        m: int
+            The starting point of the range
+        n: int
+            The ending point of the range
+        agents: int
+            Number of available agents
     
-    Return::
+    Return:
     --------
     
-    Dict[str,int]
-        A dictionary with the agents as keys and corresponding costs as values
+        Dict[str,int]
+            A dictionary with the agents as keys and corresponding costs as values
     
     """
     
-    AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "julia", "rose"]
+    AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "trent", "karen"]
     d = {}
     for i in range(agents):
         d[AGENTS[i]] = random.randint(m,n)
@@ -44,10 +44,10 @@ def _equal_cost(m: int, n: int, agents: int) -> Dict[str, int]:
 
     Parameters:
     -----------
-    m: int
-        The starting point of the range
-    n: int
-        The ending point of the range
+        m: int
+            The starting point of the range
+        n: int
+            The ending point of the range
     
     Return:
     -------
@@ -57,7 +57,7 @@ def _equal_cost(m: int, n: int, agents: int) -> Dict[str, int]:
     
     """
     
-    AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "julia", "Rose"]
+    AGENTS = ["grace", "remus", "franklin", "john", "alice", "jake", "anna", "tommy", "trent", "karen"]
     d = {}
     cost = random.randint(m,n)
     for i in range(agents):
@@ -71,8 +71,9 @@ def equal_node(node: GoalNode2) -> None:
 
     Parameters:
     -----------
-    node: GoalNode2
-        The node for which to find the minimum cost and update the dictionary values.
+
+        node: GoalNode2
+            The node for which to find the minimum cost and update the dictionary values.
 
     """
     if node.agents:
@@ -97,12 +98,16 @@ def binary_symmetric(random=False, num_agents = 3):
 
     Parameters:
     -----------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+        random: bool (ooptional) 
+            If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
+        
+        num_agents: int (optional)
+            The number of agents associated with each goal node. Default is 3.
 
     Return:
     -------
-        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
+        tuple[GoalNode, GoalNode2]
+            A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -180,12 +185,16 @@ def binary_left(random = False, num_agents = 3):
 
     Parameters:
     -----------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+        random: bool (ooptional) 
+            If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
+        
+        num_agents: int (optional)
+            The number of agents associated with each goal node. Default is 3.
 
     Return:
     -------
-        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
+        tuple[GoalNode, GoalNode2]
+            A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -247,12 +256,16 @@ def binary_right(random = False, num_agents = 3):
 
     Parameters:
     -----------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+        random: bool (ooptional) 
+            If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
+        
+        num_agents: int (optional)
+            The number of agents associated with each goal node. Default is 3.
 
     Return:
     -------
-        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
+        tuple[GoalNode, GoalNode2]
+            A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -314,12 +327,16 @@ def root(random = False, num_agents = 3):
 
     Parameters:
     -----------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+        random: bool (ooptional) 
+            If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
+        
+        num_agents: int (optional)
+            The number of agents associated with each goal node. Default is 3.
 
     Return:
     -------
-        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
+        tuple[GoalNode, GoalNode2]
+            A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -346,12 +363,18 @@ def tree_symmetric (random=False, num_agents = 3):
 
     Parameters:
     -----------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+        random: bool (optional)
+            If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
+        
+        num_agents: int (optional)
+            The number of agents associated with each goal node. Default is 3.
 
     Return:
     -------
-        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
+
+        tuple[GoalNode, GoalNode2]
+            A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -477,12 +500,16 @@ def tree_left_right(random = False, num_agents = 3):
 
     Parameters:
     -----------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+        random: bool (ooptional) 
+            If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
+        
+        num_agents: int (optional)
+            The number of agents associated with each goal node. Default is 3.
 
     Return:
     -------
-        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
+        tuple[GoalNode, GoalNode2]
+            A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -586,12 +613,16 @@ def large_binary_tree(random = False, num_agents = 3):
 
     Parameters:
     -----------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+        random: bool (ooptional) 
+            If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
+        
+        num_agents: int (optional)
+            The number of agents associated with each goal node. Default is 3.
 
     Return:
     -------
-        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
+        tuple[GoalNode, GoalNode2]
+            A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -861,12 +892,18 @@ def large_tree(random = False, num_agents = 3):
 
     Parameters:
     -----------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+        random: bool (ooptional) 
+            If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
+        
+        num_agents: int (optional)
+            The number of agents associated with each goal node. Default is 3.
 
     Return:
     -------
-        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
+
+        tuple[GoalNode, GoalNode2]
+            A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -1209,13 +1246,18 @@ def tree_1(random = False, num_agents = 3):
 
     Parameters:
     -----------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+        random: bool (ooptional) 
+            If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
+        
+        num_agents: int (optional)
+            The number of agents associated with each goal node. Default is 3.
 
     Return:
     -------
-        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
 
+        tuple[GoalNode, GoalNode2]
+            A tuple containing two root nodes of two goal hierarchical trees
     """
     if random:
         root_agents = _random_cost(30, 45, num_agents)
@@ -1340,13 +1382,18 @@ def tree_2(random = False, num_agents = 3):
 
     Parameters:
     -----------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+        random: bool (ooptional) 
+            If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
+        
+        num_agents: int (optional)
+            The number of agents associated with each goal node. Default is 3.
 
     Return:
     -------
-        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
 
+        tuple[GoalNode, GoalNode2]
+            A tuple containing two root nodes of two goal hierarchical trees
     """
     if random:
         root_agents = _random_cost(30, 45, num_agents)
@@ -1627,26 +1674,26 @@ def efficiency_test_m(root: GoalNode2, max_resources: List[int]) -> Tuple[int,in
     Parameters:
     -----------
 
-    root : GoalNode2
-        The root node of the goal tree.
+        root: GoalNode2
+            The root node of the goal tree.
 
-    max_resources : List[int]
-        List of the maximum resources of all agents.
+        max_resources: List[int]
+            List of the maximum resources of all agents.
 
     Return:
     -------
 
-    Tuple[int, int]:
-        
-        resources_usage: int 
-            The total cost of all assigned Goalnodes
-        
-        len(agent_used): int
-            The number of unique agents used to achieve the goals
+        tuple:
+            
+            resources_usage: int 
+                The total cost of all assigned Goalnodes
+            
+            len(agent_used): int
+                The number of unique agents used to achieve the goals
 
     """
-    if len(max_resources) == 1:
-        return (root.cost, 1)
+    #if len(max_resources) == 1:
+    #   return (root.cost, 1)
     nodes = []
     stacks = [root]
 
@@ -1708,7 +1755,8 @@ def discrepancy_m(root: GoalNode2) -> int:
 
         if current.assigned_agent:
             for agent_name in current.assigned_agent:
-                agent_key = tuple(agent_name)  # Convert to tuple to use as a dictionary key
+                # Convert to tuple to use as a dictionary key
+                agent_key = tuple(agent_name)  
                 if agent_key not in agents_used:
                     agents_used[agent_key] = current.agents[agent_name]
                 else:
@@ -1998,29 +2046,31 @@ def plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_average
     plt.tight_layout()
     plt.show()
 
-def main() -> None:
-    """
-    Runs test cases for every scenario.    
+"""
 
-    """
-    test_cases = [(binary_symmetric,"BINARY SYMMETRIC TREE"),
-        (binary_left, "BINARY LEFT TREE"),
-        (binary_right, "BINARY RIGHT TREE"),
-        (root,  "ROOT-ONLY TREE"),
-        (tree_symmetric, "SYMMETRIC TREE"),
-        (tree_left_right, "LEFT RIGHT TREE"),
-        (large_binary_tree,  "LARGE BINARY TREE"),
-        (large_tree, "LARGE TREE"),
-        (tree_1,  "TREE 1"),
-        (tree_2, "TREE 2"),]
-   
-    """
-        SCENARIO 1: 
-            - Same agent cost
-            - Ten trees
-            - 3 Agents
+Runs test cases for every scenario.    
 
-    """
+"""
+test_cases = [(binary_symmetric,"BINARY SYMMETRIC TREE"),
+    (binary_left, "BINARY LEFT TREE"),
+    (binary_right, "BINARY RIGHT TREE"),
+    (root,  "ROOT-ONLY TREE"),
+    (tree_symmetric, "SYMMETRIC TREE"),
+    (tree_left_right, "LEFT RIGHT TREE"),
+    (large_binary_tree,  "LARGE BINARY TREE"),
+    (large_tree, "LARGE TREE"),
+    (tree_1,  "TREE 1"),
+    (tree_2, "TREE 2"),]
+
+"""
+    SCENARIO 1: 
+    - Same agent cost
+    - Ten trees
+    - 3 Agents
+"""
+
+def test_1_A():
+    
 
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
@@ -2134,6 +2184,8 @@ def main() -> None:
 
     plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_1_a)
 
+def test_1_B() -> None:
+
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
     scenario_1_b = "SCENARIO 1B: Same Agent Cost - 3 Agents - Different Max Resources"
@@ -2245,12 +2297,14 @@ def main() -> None:
     plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_1_b)
 
 
+
     """
         SCENARIO 2: 
         - Various agent cost
         - Ten trees
         - 3 Agents
     """
+def test_2_A() -> None:
 
     # SUB CASE: SAME MAX RESOURCES
     scenario_2_a = "SCENARIO 2A: Random Agent Cost - 3 Agents - Same Max Resources"
@@ -2360,9 +2414,9 @@ def main() -> None:
     plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_2_a)
 
 
-            
+def test_2_B() -> None: 
+
     # SUB CASE: DIFFERENT MAX RESOURCES
-    
     scenario_2_b = "SCENARIO 2B: Random Agent Cost - 3 Agents - Different Max Resources"
     # Store the average results for each algorithm
     fay_averages = []
@@ -2478,6 +2532,7 @@ def main() -> None:
 
     """
 
+def test_3_A() ->None:
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
     scenario_3_a = "SCENARIO 3A: Same Agent Cost - Varying Agents - Same Max Resources"
@@ -2590,6 +2645,7 @@ def main() -> None:
 
     plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_3_a, no_agents_avail)
 
+def test_3_B() -> None:
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
     scenario_3_b = "SCENARIO 3B: Same Agent Cost - Varying Agents - Different Max Resources"
@@ -2711,6 +2767,8 @@ def main() -> None:
         - Vary agent cost
 
     """
+
+def test_4_A() -> None:
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
     scenario_4_a = "SCENARIO 4A: Different Agent Cost - Varying Agents - Same Max Resources"
@@ -2730,7 +2788,7 @@ def main() -> None:
 
     skew_fay = []
     skew_jonathan = []
-    skew_maheen = [0] * 10
+    skew_maheen = []
 
     no_agents_avail = []
 
@@ -2765,7 +2823,7 @@ def main() -> None:
                 continue
             (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
             #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
-            m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+            m_total, agents_used_m = efficiency_test_m(tree_m, [40] * no_agents)
             algo_results_fay += f_total
             algo_results_jonathan += j_total
             algo_results_maheen += m_total
@@ -2823,6 +2881,7 @@ def main() -> None:
         
     plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_4_a, no_agents_avail)
 
+def test_4_B() -> None:
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
     scenario_4_b = "SCENARIO 4B: Different Agent Cost - 3 Agents - Different Max Resources"
@@ -2842,7 +2901,7 @@ def main() -> None:
 
     skew_fay = []
     skew_jonathan = []
-    skew_maheen = [0] * 10
+    skew_maheen = []
 
     no_agents_avail = []
 
@@ -2942,7 +3001,7 @@ def main() -> None:
             - 3 Agents
             - 1000 trees
     """
-
+def test_5_A() -> None:
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
     scenario_5_a = "SCENARIO 5A\n 1000 Trees - Same Agent Cost - 3 Agents - Same Max Resources"
@@ -2962,7 +3021,7 @@ def main() -> None:
 
     skew_fay = []
     skew_jonathan = []
-    skew_maheen = [0] * 10
+    skew_maheen = []
 
     for j in range(10):  
         algo_results_fay = 0
@@ -2994,7 +3053,7 @@ def main() -> None:
                 if result == None:
                     continue
                 (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
-                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                m_total, agents_used_m = efficiency_test_m(tree_m, [40,40,40])
                 algo_results_fay += f_total
                 algo_results_jonathan += j_total
                 algo_results_maheen += m_total
@@ -3052,6 +3111,7 @@ def main() -> None:
     # Plotting for each test case
     plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_5_a) 
 
+def test_5_B() -> None:
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
     scenario_5_b = "SCENARIO 5B\n 1000 Trees - Same Agent Cost - 3 Agents - Different Max Resources"
@@ -3071,7 +3131,7 @@ def main() -> None:
 
     skew_fay = []
     skew_jonathan = []
-    skew_maheen = [0] * 10
+    skew_maheen = []
 
     for j in range(10):
         algo_results_fay = 0
@@ -3170,6 +3230,7 @@ def main() -> None:
             - 3 Agents
             - 1000 trees
     """
+def test_6_A() -> None:
 
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
@@ -3190,7 +3251,7 @@ def main() -> None:
 
     skew_fay = []
     skew_jonathan = []
-    skew_maheen = [0] * 10
+    skew_maheen = []
 
     for j in range(10):  # 10 trees per test case
         algo_results_fay = 0
@@ -3224,7 +3285,6 @@ def main() -> None:
                 (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
                 m_total, agents_used_m = efficiency_test_m(tree_m, [40,40,40])
 
-                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
                 algo_results_fay += f_total
                 algo_results_jonathan += j_total
                 algo_results_maheen += m_total
@@ -3280,8 +3340,9 @@ def main() -> None:
         skew_maheen.append(skew_m)
 
     # Plotting for each test case
-    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_6_a) 
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_6_a) 
 
+def test_6_B() -> None:
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
     scenario_6_b = "SCENARIO 6B\n 1000 Trees - Random Agent Cost - 3 Agents - Different Max Resources"
@@ -3301,7 +3362,7 @@ def main() -> None:
 
     skew_fay = []
     skew_jonathan = []
-    skew_maheen = [0] * 10
+    skew_maheen = []
 
     for j in range(10):
         algo_results_fay = 0
@@ -3398,7 +3459,7 @@ def main() -> None:
             - Varying Agents
             - 1000 trees
     """
-
+def test_7_A() -> None:
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
     scenario_7_a = "SCENARIO 7A\n 1000 Trees - Same Agent Cost - Varying Agents - Same Max Resources"
@@ -3418,7 +3479,7 @@ def main() -> None:
 
     skew_fay = []
     skew_jonathan = []
-    skew_maheen = [0] * 10
+    skew_maheen = []
 
     no_agents_avail = []
 
@@ -3456,7 +3517,7 @@ def main() -> None:
                     continue
                 (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
                 m_total, agents_used_m = efficiency_test_m(tree_m, [40] * no_agents)
-                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                m_total, agents_used_m = efficiency_test_m(tree_m, [40] * no_agents)
                 algo_results_fay += f_total
                 algo_results_jonathan += j_total
                 algo_results_maheen += m_total
@@ -3514,6 +3575,8 @@ def main() -> None:
 
     # Plotting for each test case
     plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_7_a, no_agents_avail) 
+
+def test_7_B() -> None:
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
@@ -3635,12 +3698,15 @@ def main() -> None:
     # Plotting for each test case
     plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_7_b, no_agents_avail) 
 
+
     """
         SCENARIO 8: 
             - Random agent cost
             - 3 Agents
             - 1000 trees
     """
+
+def test_8_A() -> None:
 
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
@@ -3700,7 +3766,7 @@ def main() -> None:
                 (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
                 m_total, agents_used_m = efficiency_test_m(tree_m, [40] * no_agents)
                 
-                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                m_total, agents_used_m = efficiency_test_m(tree_m, [40] * no_agents)
                 algo_results_fay += f_total
                 algo_results_jonathan += j_total
                 algo_results_maheen += m_total
@@ -3759,6 +3825,7 @@ def main() -> None:
     # Plotting for each test case
     plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_8_a, no_agents_avail) 
 
+def test_8_B() -> None:
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
     scenario_8_b = "SCENARIO 8B\n 1000 Trees - Random Agent Cost - Varying Agents - Different Max Resources"
@@ -3879,6 +3946,15 @@ def main() -> None:
 
     # Plotting for each test case
     plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_8_b, no_agents_avail) 
+
+def main() -> None:
+    test_6_A()
+    test_6_B()
+    test_7_A()
+    test_7_B()
+    test_8_A()
+    test_8_B()
+
 
 if __name__ == "__main__":
     main()
