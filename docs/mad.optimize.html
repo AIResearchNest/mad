@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mad.optimize package &mdash; Multi Agent Development API  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="mad.optimize.tests package" href="mad.optimize.tests.html" />
+    <link rel="prev" title="mad.data_structures.tests package" href="mad.data_structures.tests.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Multi Agent Development API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">mad</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="mad.html">mad package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="mad.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="mad.data_structures.html">mad.data_structures package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">mad.optimize package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mad.tests.html">mad.tests package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mad.html#module-mad">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Multi Agent Development API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">mad</a></li>
+          <li class="breadcrumb-item"><a href="mad.html">mad package</a></li>
+      <li class="breadcrumb-item active">mad.optimize package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/mad.optimize.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mad-optimize-package">
+<h1>mad.optimize package<a class="headerlink" href="#mad-optimize-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mad.optimize.tests.html">mad.optimize.tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mad.optimize.tests.html#module-mad.optimize.tests">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="module-mad.optimize">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mad.optimize" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.optimize.agent_goal_m">
+<span class="sig-prename descclassname"><span class="pre">mad.optimize.</span></span><span class="sig-name descname"><span class="pre">agent_goal_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_resources</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mad.optimize.agent_goal_m" title="Permalink to this definition"></a></dt>
+<dd><p>Author: Maheen</p>
+<p>This basically calls the required functions for finding optimal path, assigning agents and prints the information</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>nodes<span class="classifier">list</span></dt><dd><p>A list of nodes representing the goals to be assigned to agents.</p>
+</dd>
+<dt>max_resources<span class="classifier">list</span></dt><dd><p>Gets list of maximum resources of each agent in int</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>cost: int</dt><dd><p>Total Cost of optimal goals</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.optimize.compare_m">
+<span class="sig-prename descclassname"><span class="pre">mad.optimize.</span></span><span class="sig-name descname"><span class="pre">compare_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shortest_cost</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_node_cost</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.optimize.compare_m" title="Permalink to this definition"></a></dt>
+<dd><p>Author: Maheen</p>
+<p>Compare the shortest path cost with the cost of the root node’s agent and prints the result.</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>shortest_cost<span class="classifier">int</span></dt><dd><p>The shortest path cost.</p>
+</dd>
+<dt>root_node_cost<span class="classifier">int</span></dt><dd><p>The cost of the root node’s agent.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.optimize.cost_node">
+<span class="sig-prename descclassname"><span class="pre">mad.optimize.</span></span><span class="sig-name descname"><span class="pre">cost_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.optimize.cost_node" title="Permalink to this definition"></a></dt>
+<dd><p>Author: Maheen</p>
+<p>Assigns the minimum value from the agents’ dictionary of the node as the node’s cost.</p>
+<section id="id2">
+<h3>Parameters<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>node<span class="classifier">GoalNode22</span></dt><dd><p>The node for which the cost needs to be assigned.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.optimize.count_total_goals">
+<span class="sig-prename descclassname"><span class="pre">mad.optimize.</span></span><span class="sig-name descname"><span class="pre">count_total_goals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goals_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.optimize.count_total_goals" title="Permalink to this definition"></a></dt>
+<dd><p>Author: Maheen</p>
+<p>Helper function for <cite>perform_auction_m</cite> to count the total number of goals in the <cite>goals_list</cite>.</p>
+<section id="id3">
+<h3>Parameters<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><p>goals_list (list of dict): A list of dictionaries representing goal nodes and their costs.</p>
+</div></blockquote>
+</section>
+<section id="id4">
+<h3>Returns<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><p>int: The total number of goals in the <cite>goals_list</cite>.</p>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.optimize.dfs_goal_allocation">
+<span class="sig-prename descclassname"><span class="pre">mad.optimize.</span></span><span class="sig-name descname"><span class="pre">dfs_goal_allocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goal_tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="mad.data_structures.html#mad.data_structures.GoalNode" title="mad.data_structures._multi_agent_goal_nodes.GoalNode"><span class="pre">GoalNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_resources</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="headerlink" href="#mad.optimize.dfs_goal_allocation" title="Permalink to this definition"></a></dt>
+<dd><p>The DFS Goal Allocation algorithm takes in the root of a GoalNode hierarchical goal tree and a Dict of agent names as keys and the amount of resources they each individually have as values {str: int}.</p>
+<p>DFS Goal Allocation starts by finding the cheapest possible solution to the given GoalNode tree by using DFS to compare the sum of the leaf GoalNodes cost to the parent GoalNode’s cost and passing the cheaper set of goals upward. This process of comparing the sum of the children GoalNodes costs against the cost of the parent GoalNode continues all the up the levels until finally the root GoalNode is compared to the cheapest solution from subgoals. The cheapest solution set of GoalNodes is returned and given to the distribution algorithm.</p>
+<p>The distribution algorithm then tries to evenly distribute the selected GoalNodes to the available agents so that each agent gets an even percentage of the cost of the solution.</p>
+<p>Finally, a Dict with the agent names as string and the assigned GoalNodes in a list as values is returned {str: list}.</p>
+<section id="id5">
+<h3>Parameters<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>goal_tree<span class="classifier">mad.data_structures.GoalNode</span></dt><dd><p>The root GoalNode of a Hierarchical Multi Agent Goal Tree</p>
+</dd>
+<dt>max_resources<span class="classifier">Dict</span></dt><dd><p>Agent names as keys and the amount of resources they have (int) as values</p>
+</dd>
+<dt>verbose<span class="classifier">int = 0</span></dt><dd><p>Enter number greater than 0 to be provided with output information</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h3>Returns<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>Returns<span class="classifier">Dict</span></dt><dd><p>Dictionary of agent names (keys) and list of GoalNodes assigned (values)</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.optimize.extract_goalnodes_dict">
+<span class="sig-prename descclassname"><span class="pre">mad.optimize.</span></span><span class="sig-name descname"><span class="pre">extract_goalnodes_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goal_nodes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.optimize.extract_goalnodes_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Author: Maheen</p>
+<p>Extracts GoalNode2 instances that have the same name as the nodes in the shortest_goals list,
+and stores them in a list.</p>
+<section id="id7">
+<h3>Parameters<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>root_node<span class="classifier">GoalNode2</span></dt><dd><p>The root node of the goal tree.</p>
+</dd>
+<dt>shortest_goals<span class="classifier">Dict[str, int] or List[Dict[str, int]]</span></dt><dd><p>The dictionary or list of dictionaries representing the shortest path,
+where each dictionary contains node names and costs.</p>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h3>Returns<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>List[GoalNode2]</dt><dd><p>List containing GoalNode2 instances with the same names as the nodes in the shortest path.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.optimize.extract_node_info_m">
+<span class="sig-prename descclassname"><span class="pre">mad.optimize.</span></span><span class="sig-name descname"><span class="pre">extract_node_info_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shortest_goals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.optimize.extract_node_info_m" title="Permalink to this definition"></a></dt>
+<dd><p>Author: Maheen</p>
+<p>Extracts GoalNode2 instances that have the same name as the nodes in the shortest_goals list,
+and stores them in a list.</p>
+<section id="id9">
+<h3>Parameters<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>root_node<span class="classifier">GoalNode2</span></dt><dd><p>The root node of the goal tree.</p>
+</dd>
+<dt>shortest_goals<span class="classifier">Dict[str, int] or List[Dict[str, int]]</span></dt><dd><p>The dictionary or list of dictionaries representing the shortest path,
+where each dictionary contains node names and costs.</p>
+</dd>
+</dl>
+</section>
+<section id="id10">
+<h3>Returns<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>List[GoalNode2]</dt><dd><p>List containing GoalNode2 instances with the same names as the nodes in the shortest path.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.optimize.get_agent_resources_m">
+<span class="sig-prename descclassname"><span class="pre">mad.optimize.</span></span><span class="sig-name descname"><span class="pre">get_agent_resources_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_resources</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.optimize.get_agent_resources_m" title="Permalink to this definition"></a></dt>
+<dd><p>Author: Maheen</p>
+<p>Gives agents resources to all agents</p>
+<section id="id11">
+<h3>Parameters<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>max_resources<span class="classifier">List[int]</span></dt><dd><p>The list of max resources for each agent</p>
+</dd>
+</dl>
+</section>
+<section id="id12">
+<h3>Returns<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>agent_resources<span class="classifier">Dict</span></dt><dd><p>storing the list.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.optimize.optimized_goal_allocation">
+<span class="sig-prename descclassname"><span class="pre">mad.optimize.</span></span><span class="sig-name descname"><span class="pre">optimized_goal_allocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goal_tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="mad.data_structures.html#mad.data_structures.GoalNode" title="mad.data_structures._multi_agent_goal_nodes.GoalNode"><span class="pre">GoalNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_resources</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="mad.data_structures.html#mad.data_structures.GoalNode" title="mad.data_structures._multi_agent_goal_nodes.GoalNode"><span class="pre">GoalNode</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mad.optimize.optimized_goal_allocation" title="Permalink to this definition"></a></dt>
+<dd><p>Equally distributes goals among agents while optimizing goal allocation and minimizing total resource cost.</p>
+<section id="id13">
+<h3>Parameters:<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>goal_tree<span class="classifier">GoalNode</span></dt><dd><p>The root node of the hierarchical Multi Agent Goal Tree.</p>
+</dd>
+<dt>max_resources<span class="classifier">List[int]</span></dt><dd><p>A list of maximum available resources for each agent.</p>
+</dd>
+<dt>verbose<span class="classifier">int (optional)</span></dt><dd><p>Verbosity level (0 - no print statements, 1 - print goal allocation), by default 0</p>
+</dd>
+</dl>
+</section>
+<section id="id14">
+<h3>Returns:<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
+<p>Tuple:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Dict[str, List[GoalNode]]</dt><dd><p>A dictionary that maps agents (keys) to the list of goals allocated to them (values)</p>
+</dd>
+<dt>Dict[str, List[str]]]</dt><dd><p>A dictionary that maps agents (keys) to the remaining resources after goal allocation (values)</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.optimize.perform_auction_m">
+<span class="sig-prename descclassname"><span class="pre">mad.optimize.</span></span><span class="sig-name descname"><span class="pre">perform_auction_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.optimize.perform_auction_m" title="Permalink to this definition"></a></dt>
+<dd><p>Author: Maheen</p>
+<p>Implements an approach to equal allocation algorithm. It assigns all agents to goal nodes in optimal path so that the each agent can share a percentage of the participation in covering the total cost of the optimal goal(s). Such that,
+the algorithm aims to distribute the goals among the agents in a way that the cost is shared evenly. It also updates the resources of each agent according to its participation.</p>
+<section id="id15">
+<h3>Parameters<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>root<span class="classifier">(GoalNode2)</span></dt><dd><p>The root node representing the overall goal structure.</p>
+</dd>
+<dt>goals<span class="classifier">(list of GoalNode2)</span></dt><dd><p>The list of individual goal nodes to be achieved.</p>
+</dd>
+<dt>agents<span class="classifier">(dict)</span></dt><dd><p>A dictionary containing agents’ names as keys and their available resources as values.</p>
+</dd>
+<dt>cost<span class="classifier">(float)</span></dt><dd><p>The total cost to be distributed among agents.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.optimize.random_cost_m">
+<span class="sig-prename descclassname"><span class="pre">mad.optimize.</span></span><span class="sig-name descname"><span class="pre">random_cost_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#mad.optimize.random_cost_m" title="Permalink to this definition"></a></dt>
+<dd><p>Author: Maheen</p>
+<p>This function generates a random cost for a node based on a specified cost range.</p>
+<section id="id16">
+<h3>Parameters<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>start_range: int</dt><dd><p>The lower bound of the cost range.</p>
+</dd>
+<dt>end_range: int</dt><dd><p>The upper bound of the cost range.</p>
+</dd>
+</dl>
+</section>
+<section id="id17">
+<h3>Returns<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>int</dt><dd><p>Randomized cost value for the node.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.optimize.shortest_path_m">
+<span class="sig-prename descclassname"><span class="pre">mad.optimize.</span></span><span class="sig-name descname"><span class="pre">shortest_path_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goal_tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="mad.data_structures.html#mad.data_structures.GoalNode2" title="mad.data_structures._multi_agent_goal_node_two.GoalNode2"><span class="pre">GoalNode2</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mad.optimize.shortest_path_m" title="Permalink to this definition"></a></dt>
+<dd><p>Author: Maheen</p>
+<p>This function finds the most optimal goal(s) path based on the <cite>GoalNode2.cost</cite> values throughout the tree and returns the cost and the list of goal names to be accomplished by agents. 
+It is a hybrid approach to BFS and DFS because it recursively traverses the tree in a top-down manner, calculating the costs for all children and grandchildren of a node before moving on to the next node. Unlike BFS, the function does not explore the goal tree layer by layer from the root or like DFS it does not follow the traditional DFS approach where it fully explores one branch before backtracking. 
+Instead, it calculates the added cost for all children and grandchildren of a node recursively using some helper functions given below and then proceeds to the next node as given in the order. It starts from the children of root node so Level 1 nodes. 
+Therefore, it has characteristics of both but is a customized approach tailored to the specific problem of finding the most optimal goals. The recursive nature of calculating costs for children and grandchildren nodes is akin to dynamic programming’s approach of breaking down a complex problem into smaller overlapping subproblems.</p>
+<p>Additionally, it can be seen as employing a branch and bound algorithm like strategy too as it recursively explores different branches of the goal tree while keeping track of the best cost found so far. 
+The function makes several cross-over pairs which involves making a dictionary to store node, its children names and their respective costs added in several combinations. For instance, a pair of added cost of all children of root node, a pair with all leaf nodes added cost, pairs of each root node’s child added with its siblings grandchildren. Then it utilizes Heuristic Search technique guided by some rules to look over the cross-over pairs costs to identify a pair that consist of minimum cost. 
+The final result is the most optimal total cost and the list of goal names that makes the most optimal goal path in the Multi-Agent Goal Tree. This optimal cost is compared with root node’s cost in agent_goal_m() and whichever has minimum cost that is passed to perform_auction_m() to assign agents for completion</p>
+<section id="id18">
+<h3>Parameters<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><p>goal_tree (GoalNode2): The hierarchical Multi-Agent Goal Tree.</p>
+</div></blockquote>
+</section>
+<section id="id19">
+<h3>Returns<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>Tuple[int, List[str], Dict[str, int]]: </dt><dd><p>A tuple containing: The most optimal total cost; List of goal names to be accomplished by agents; Dictionary containing root node children names and their respective children names and their added cost.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mad.data_structures.tests.html" class="btn btn-neutral float-left" title="mad.data_structures.tests package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mad.optimize.tests.html" class="btn btn-neutral float-right" title="mad.optimize.tests package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Sravya Kondrakunta, Maheen Asim, Khanh Tra Nguyen Tran, Jonathan Young.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
