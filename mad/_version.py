@@ -78,4 +78,5 @@ __version__ = '0.0.75'
 # 0.0.73: Added better comments for GoalNode and DFS Goal Allocation
 # 0.0.74: Made some changes to Maheen algorithm to reduce skewness and added better comments for GoalNode2 and Goal Allocation
 # 0.0.75: Added documentation and formated docstrings
-# 0.0.76: Edited documentation. 
+# 0.0.76: Edited documentation.
+# 0.0.77: Modified 1000_testcases file to implement skew and discrepancy properly now, I was intially missing some elements.
