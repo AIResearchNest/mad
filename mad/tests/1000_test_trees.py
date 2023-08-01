@@ -12,18 +12,18 @@ def equal_node(node):
     """
     Author: Maheen
     
-    Description:
+    Description
     -----------
     
     Finds the minimum cost from the node's agents dictionary and assigns it as node.cost.
     Also changes all dictionary values to the minimum cost, except for the assigned agent.
 
-    Parameters:
+    Parameters
     ----------
     node: GoalNode22
         The node for which to find the minimum cost and update the dictionary values.
 
-    Returns:
+    Returns
     -------
     None
     """
@@ -50,18 +50,18 @@ def _random_cost(m: int, n: int, agents: int) -> dict[str, int]:
     """
     Author: Maheen
     
-    Description:
+    Description
     -----------
     This function randomizes the cost of an agent when it conducts a goal based on an assigned range
 
-    Parameters:
+    Parameters
     ----------
     m: int
         The starting point of the range
     n: int
         The ending point of the range
     
-    Returns:
+    Returns
     -------
     
     dict[str,int]
@@ -134,7 +134,7 @@ def custom_equal_cost(m: int, n: int, agents: int) -> dict[str, int]:
 def get_custom_total_cost(agents_and_goals):
     '''
     Description
-    ------------
+    -----------
     This function calculates the total cost of all  assigned goals.
     
     Parameters
@@ -156,8 +156,8 @@ def get_custom_total_cost(agents_and_goals):
 
 def get_agents_used(agents_and_goals):
     '''
-      Description
-    ------------
+    Description
+    -----------
     This function calculates the number of agents who have been assigned goals.
     
     Parameters
@@ -179,7 +179,7 @@ def get_agents_used(agents_and_goals):
 
 def discrepancy(agents_and_goals):
     '''
-      Description
+    Description
     ------------
     This function calculates the discrepancy in the costs of agents' assigned goals for Jonathan algorithm
     
@@ -249,7 +249,7 @@ def get_skew(agents_and_goals_dfs):
     
     '''
     Description
-    ------------
+    -----------
     This function calculates the skew in the costs of agents' assigned goals and the best-case scenario cost.
     
     Parameters
@@ -281,16 +281,16 @@ def  _skew_new(opt_agents_and_goals, best_case):
     
     '''
     Description
-    -------------
+    -----------
     This is a helper function that calculates the skew in the costs of agents' assigned goals compared to the best-case scenario cost.
     
     Parameters
-    -----------
+    ----------
     opt_agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
     best_case (int): The best-case scenario cost.
     
     Returns
-    --------
+    -------
     int: The skew in the costs of agents' assigned goals compared to the best-case scenario cost.
     
     '''
@@ -351,13 +351,13 @@ def get_custom_total_cost_m(root):
 #Agents used Maheen count
 def get_agents_used_m(root):
     '''
-  Description
-   -----------
-   Iterate over the optimized goal nodes to see how many agents have been used 
-   
-   Parameters
-   -----------
-   root: GoalNode2 tree 
+    Description
+    -----------
+    Iterate over the optimized goal nodes to see how many agents have been used 
+
+    Parameters
+    ----------
+    root: GoalNode2 tree 
     '''
     total_agents = 10 
     return total_agents
@@ -368,7 +368,7 @@ def get_agents_used_m(root):
 def discrepancy_m(root, agents):
     """
     Description
-    ------------
+    -----------
     Calculates the discrepancy of agent usage in the goal tree.
 
     Parameters
@@ -456,7 +456,7 @@ def get_discrepancy_opt(opt_agents_and_goals, root) -> int:
 def get_skew_m(root, best_case):
     """
     Description
-    ------------
+    -----------
     Gets the difference of the current solution from the cheapest possible solution of the goal tree and returns it
 
     Parameters
@@ -490,21 +490,22 @@ def binary_symmetric(num_agents, random=False):
     """
     Author: Maheen
     
-    Description:
-    ------------
+    Description
+    -----------
     Generate two binary symmetric goal hierarchical trees with associated agent costs
 
-    Parameters:
-    ------------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+    Parameters
+    ----------
+    random : (bool, optional)
+        If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+    num_agents : (int, optional)
+        The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-    --------
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
-
+    Returns
+    -------
+    tuple 
+        A tuple containing two root nodes of two goal hierarchical trees
     """
     if random:
         root_agents = _random_cost(25, 45, num_agents)
@@ -612,21 +613,22 @@ def binary_left(num_agents, random=False):
     """
     Author: Maheen
     
-    Description:
-    ------------
+    Description
+    -----------
     Generate two binary left goal hierarchical trees with associated agent costs
 
-    Parameters:
-    ------------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+    Parameters
+    ----------
+    random : (bool, optional)
+        If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+    num_agents : (int, optional)
+        The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-    -----------
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
-
+    Returns
+    -------
+    tuple 
+        A tuple containing two root nodes of two goal hierarchical trees
     """
     
     if random:
@@ -717,21 +719,22 @@ def binary_right(num_agents, random=False):
     """
     Author: Maheen
     
-    Description:
-    ------------
+    Description
+    -----------
     Generate two binary right goal hierarchical trees with associated agent costs
 
-    Parameters:
-    ------------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+    Parameters
+    ----------
+    random : (bool, optional)
+        If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+    num_agents : (int, optional)
+        The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-    -----------
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
-
+    Returns
+    -------
+    tuple
+        A tuple containing two root nodes of two goal hierarchical trees
     """
     
     
@@ -818,21 +821,22 @@ def root(num_agents, random=False):
     """
     Author: Maheen
     
-    Description:
-    ------------
+    Description
+    -----------
     Generate two root-only goal hierarchical trees with associated agent costs
 
-    Parameters:
-    ------------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+    Parameters
+    ----------
+    random : (bool, optional)
+        If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+    num_agents : (int, optional)
+        The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-    -----------
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
-
+    Returns
+    -------
+    tuple
+        A tuple containing two root nodes of two goal hierarchical trees
     """
     
     if random:
@@ -862,21 +866,22 @@ def tree_symmetric(num_agents, random=False):
     """
     Author: Maheen
     
-    Description:
-    ------------
+    Description
+    -----------
     Generate two symmetric goal hierarchical trees with associated agent costs
 
-    Parameters:
-    ------------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+    Parameters
+    ----------
+    random : (bool, optional)
+        If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+    num_agents : (int, optional)
+        The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-    -----------
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
-
+    Returns
+    -------
+    tuple
+        A tuple containing two root nodes of two goal hierarchical trees
     """
     
     
@@ -1064,21 +1069,22 @@ def tree_left_right(num_agents, random=False):
     """
     Author: Maheen
     
-    Description:
-    ------------
+    Description
+    -----------
     Generate two left-right goal hierarchical trees with associated agent costs
 
-    Parameters:
-    ------------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+    Parameters
+    ----------
+    random : (bool, optional)
+        If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+    num_agents : (int, optional)
+        The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-    -----------
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
-
+    Returns
+    -------
+    tuple
+        A tuple containing two root nodes of two goal hierarchical trees
     """
     
     if random:
@@ -1226,21 +1232,22 @@ def large_binary_tree(num_agents, random=False):
     """
     Author: Maheen
     
-    Description:
-    ------------
+    Description
+    -----------
     Generate two large binary hierarchical trees with associated agent costs
 
-    Parameters:
-    ------------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+    Parameters
+    ----------
+    random : (bool, optional)
+        If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+    num_agents : (int, optional)
+        The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-    -----------
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
-
+    Returns
+    -------
+    tuple
+        A tuple containing two root nodes of two goal hierarchical trees
     """
     
     
@@ -1644,21 +1651,22 @@ def large_tree(num_agents, random=False):
     """
     Author: Maheen
     
-    Description:
-    ------------
+    Description
+    -----------
     Generate two large goal hierarchical trees with associated agent costs
 
-    Parameters:
-    ------------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+    Parameters
+    ----------
+    random : (bool, optional)
+        If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+    num_agents : (int, optional)
+        The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-    -----------
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
-
+    Returns
+    -------
+    tuple
+        A tuple containing two root nodes of two goal hierarchical trees
     """
 
     
@@ -2172,21 +2180,22 @@ def tree_1(num_agents, random=False):
     """
     Author: Maheen
     
-    Description:
-    ------------
+    Description
+    -----------
     Generate two random goal hierarchical trees with associated agent costs
 
-    Parameters:
-    ------------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+    Parameters
+    ----------
+    random : (bool, optional)
+        If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+    num_agents : (int, optional)
+        The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-    -----------
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
-
+    Returns
+    -------
+    tuple
+        A tuple containing two root nodes of two goal hierarchical trees
     """
     
     
@@ -2372,21 +2381,22 @@ def tree_2(num_agents, random=False):
     """
     Author: Maheen
     
-    Description:
-    ------------
+    Description
+    -----------
     Generate two random  goal hierarchical trees with associated agent costs
 
-    Parameters:
-    ------------
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
+    Parameters
+    ----------
+    random : (bool, optional)
+        If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
 
-        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+    num_agents : (int, optional)
+        The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-    -----------
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
-
+    Returns
+    -------
+    tuple
+        A tuple containing two root nodes of two goal hierarchical trees
     """
     
     

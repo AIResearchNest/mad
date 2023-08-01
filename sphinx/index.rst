@@ -10,8 +10,8 @@ Welcome to Multi Agent Development API's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   modules   
-
+   modules
+   
 Indices and tables
 ==================
 

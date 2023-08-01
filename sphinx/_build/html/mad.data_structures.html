@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mad.data_structures package &mdash; Multi Agent Development API  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="mad.data_structures.tests package" href="mad.data_structures.tests.html" />
+    <link rel="prev" title="mad package" href="mad.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Multi Agent Development API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">mad</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="mad.html">mad package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="mad.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">mad.data_structures package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mad.optimize.html">mad.optimize package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mad.tests.html">mad.tests package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mad.html#module-mad">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Multi Agent Development API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">mad</a></li>
+          <li class="breadcrumb-item"><a href="mad.html">mad package</a></li>
+      <li class="breadcrumb-item active">mad.data_structures package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/mad.data_structures.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mad-data-structures-package">
+<h1>mad.data_structures package<a class="headerlink" href="#mad-data-structures-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mad.data_structures.tests.html">mad.data_structures.tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mad.data_structures.tests.html#module-mad.data_structures.tests">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="module-mad.data_structures">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mad.data_structures" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mad.data_structures.</span></span><span class="sig-name descname"><span class="pre">GoalNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.data_structures.GoalNode" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class creates Multi Agent Goal Nodes</p>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>name<span class="classifier">str</span></dt><dd><p>Goal Name</p>
+</dd>
+<dt>data<span class="classifier">dict{str: int}</span></dt><dd><p>Dictonary containing agent name as key and a planning cost as a value</p>
+</dd>
+<dt>children: List[GoalNodes]</dt><dd><p>List of children GoalNodes, initializes with an empty list</p>
+</dd>
+<dt>agent: str</dt><dd><p>Name of the agent assigned to the GoalNode</p>
+</dd>
+<dt>cost: int</dt><dd><p>Cost of the agent assigned to the GoalNode</p>
+</dd>
+<dt>descrepancy: int</dt><dd><p>Finds cost difference between best fit agent and worst fit agent</p>
+</dd>
+</dl>
+</section>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>set_agent(self, name) -&gt; None:</dt><dd><p>Assigns a specific agent to the goal node</p>
+</dd>
+<dt>initial_agent_assign(self) -&gt; None:</dt><dd><p>Assign the agent with the lowest agent cost at the very first step</p>
+</dd>
+<dt>switch_agent(self) -&gt; bool:</dt><dd><p>If the current assigned agent could not achieve the goal, switch to another suitable agent and return True
+If no agent can achieve this goal, return False</p>
+</dd>
+<dt>add_child(self, GoalNode) -&gt; None:</dt><dd><p>Add child GoalNode into the children list</p>
+</dd>
+<dt>get_children(self) -&gt; List[GoalNode]:</dt><dd><p>Return the list of the Child Goals</p>
+</dd>
+<dt>find_descrepancy(self) -&gt; None:</dt><dd><p>Finds the descrepancy between best fit agent and worst fit agent and assigns it to self.descrepancy</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode.add_child">
+<span class="sig-name descname"><span class="pre">add_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mad.data_structures.GoalNode.add_child" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode.find_descrepancy">
+<span class="sig-name descname"><span class="pre">find_descrepancy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mad.data_structures.GoalNode.find_descrepancy" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode.get_children">
+<span class="sig-name descname"><span class="pre">get_children</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="headerlink" href="#mad.data_structures.GoalNode.get_children" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode.initial_agent_assign">
+<span class="sig-name descname"><span class="pre">initial_agent_assign</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mad.data_structures.GoalNode.initial_agent_assign" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode.set_agent">
+<span class="sig-name descname"><span class="pre">set_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mad.data_structures.GoalNode.set_agent" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode.switch_agent">
+<span class="sig-name descname"><span class="pre">switch_agent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mad.data_structures.GoalNode.switch_agent" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode2">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mad.data_structures.</span></span><span class="sig-name descname"><span class="pre">GoalNode2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.data_structures.GoalNode2" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class creates Multi Agent Goal Nodes.</p>
+<section id="id1">
+<h3>Attributes<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>name<span class="classifier">str</span></dt><dd><p>Goal Name</p>
+</dd>
+<dt>cost<span class="classifier">int</span></dt><dd><p>Cost associated with the node</p>
+</dd>
+<dt>agents<span class="classifier">Dict[str, int]</span></dt><dd><p>Dictionary of agents and their cost values</p>
+</dd>
+<dt>children<span class="classifier">List</span></dt><dd><p>List of child GoalNode2s, initialized with an empty list</p>
+</dd>
+<dt>assigned_agent<span class="classifier">List</span></dt><dd><p>Name of the agent assigned to the goal node</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode2.add_child">
+<span class="sig-name descname"><span class="pre">add_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mad.data_structures.GoalNode2" title="mad.data_structures._multi_agent_goal_node_two.GoalNode2"><span class="pre">GoalNode2</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mad.data_structures.GoalNode2.add_child" title="Permalink to this definition"></a></dt>
+<dd><p>Add Child Goal into the Children list and set the parent of the child.</p>
+<section id="parameters">
+<h4>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>child<span class="classifier">GoalNode2</span></dt><dd><p>The child node to be added.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode2.get_child_cost">
+<span class="sig-name descname"><span class="pre">get_child_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.data_structures.GoalNode2.get_child_cost" title="Permalink to this definition"></a></dt>
+<dd><p>Get the cost of a child node with the given name.</p>
+<section id="id2">
+<h4>Parameters<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>child_name<span class="classifier">str</span></dt><dd><p>The name of the child node.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h4>Returns<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>int</dt><dd><p>The cost of the child node.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode2.get_children">
+<span class="sig-name descname"><span class="pre">get_children</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#mad.data_structures.GoalNode2" title="mad.data_structures._multi_agent_goal_node_two.GoalNode2"><span class="pre">GoalNode2</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mad.data_structures.GoalNode2.get_children" title="Permalink to this definition"></a></dt>
+<dd><p>Return the list of child Goals</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode2.get_parent">
+<span class="sig-name descname"><span class="pre">get_parent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="headerlink" href="#mad.data_structures.GoalNode2.get_parent" title="Permalink to this definition"></a></dt>
+<dd><p>Gives the lists with parents of the node</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode2.get_parent_cost">
+<span class="sig-name descname"><span class="pre">get_parent_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.data_structures.GoalNode2.get_parent_cost" title="Permalink to this definition"></a></dt>
+<dd><p>Get the cost of the parent node.</p>
+<section id="id3">
+<h4>Parameters<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>node_name<span class="classifier">str</span></dt><dd><p>The name of the current node.</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h4>Returns<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>int</dt><dd><p>The cost of the parent node.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode2.get_sibling_cost">
+<span class="sig-name descname"><span class="pre">get_sibling_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sibling_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.data_structures.GoalNode2.get_sibling_cost" title="Permalink to this definition"></a></dt>
+<dd><p>Get the cost of the sibling node with the given name.</p>
+<section id="id5">
+<h4>Parameters<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>sibling_name<span class="classifier">str</span></dt><dd><p>The name of the sibling node.</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h4>Returns<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>sibling.cost<span class="classifier">int</span></dt><dd><p>The cost of the sibling node.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode2.set_agents">
+<span class="sig-name descname"><span class="pre">set_agents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.data_structures.GoalNode2.set_agents" title="Permalink to this definition"></a></dt>
+<dd><p>Set the agents dictionary for the node</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mad.data_structures.GoalNode2.set_parent">
+<span class="sig-name descname"><span class="pre">set_parent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mad.data_structures.GoalNode2" title="mad.data_structures._multi_agent_goal_node_two.GoalNode2"><span class="pre">GoalNode2</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mad.data_structures.GoalNode2.set_parent" title="Permalink to this definition"></a></dt>
+<dd><p>Set the parent of the node.</p>
+<section id="id7">
+<h4>Parameters<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>parent<span class="classifier">GoalNode2</span></dt><dd><p>The parent node of the current node.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.data_structures.level_order_transversal">
+<span class="sig-prename descclassname"><span class="pre">mad.data_structures.</span></span><span class="sig-name descname"><span class="pre">level_order_transversal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mad.data_structures.level_order_transversal" title="Permalink to this definition"></a></dt>
+<dd><p>Transverses through the goal tree and prints out the goals (with the parent node in the front if the node has a parent)</p>
+<section id="id8">
+<h3>Parameters<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>root<span class="classifier">GoalNode</span></dt><dd><p>The root of the goal tree</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.data_structures.level_order_transversal_two">
+<span class="sig-prename descclassname"><span class="pre">mad.data_structures.</span></span><span class="sig-name descname"><span class="pre">level_order_transversal_two</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mad.data_structures.level_order_transversal_two" title="Permalink to this definition"></a></dt>
+<dd><p>Traverses through the goal tree and prints out the goals (with the parent node and children node in the front if the node has a child)
+along with the assigned agent for each node and respective costs.</p>
+<section id="id9">
+<h3>Parameters<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>root: GoalNode2</dt><dd><p>The root of the goal tree</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.data_structures.print_goal_tree">
+<span class="sig-prename descclassname"><span class="pre">mad.data_structures.</span></span><span class="sig-name descname"><span class="pre">print_goal_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mad.data_structures.print_goal_tree" title="Permalink to this definition"></a></dt>
+<dd><p>Prints all the GoalNodes in a tree in a formated way</p>
+<section id="id10">
+<h3>Parameters<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>node<span class="classifier">GoalNode</span></dt><dd><p>Root node for a goal tree</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mad.data_structures.print_tree_and_agents">
+<span class="sig-prename descclassname"><span class="pre">mad.data_structures.</span></span><span class="sig-name descname"><span class="pre">print_tree_and_agents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mad.data_structures.print_tree_and_agents" title="Permalink to this definition"></a></dt>
+<dd><p>Prints all the GoalNodes in a tree and their child GoalNodes using BFS</p>
+<section id="id11">
+<h3>Parameters<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>node<span class="classifier">GoalNode</span></dt><dd><p>Root node for a goal tree</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mad.html" class="btn btn-neutral float-left" title="mad package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mad.data_structures.tests.html" class="btn btn-neutral float-right" title="mad.data_structures.tests package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Sravya Kondrakunta, Maheen Asim, Khanh Tra Nguyen Tran, Jonathan Young.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
