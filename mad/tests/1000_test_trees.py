@@ -10,15 +10,20 @@ import numpy as np
 
 def equal_node(node):
     """
+    Author: Maheen
+    
+    Description:
+    -----------
+    
     Finds the minimum cost from the node's agents dictionary and assigns it as node.cost.
     Also changes all dictionary values to the minimum cost, except for the assigned agent.
 
-    Parameters
+    Parameters:
     ----------
     node: GoalNode22
         The node for which to find the minimum cost and update the dictionary values.
 
-    Returns
+    Returns:
     -------
     None
     """
@@ -38,21 +43,25 @@ def equal_node(node):
         node.cost = min_cost
 
 
-#for all
+
 
 def _random_cost(m: int, n: int, agents: int) -> dict[str, int]:
     
     """
+    Author: Maheen
+    
+    Description:
+    -----------
     This function randomizes the cost of an agent when it conducts a goal based on an assigned range
 
-    Parameters
+    Parameters:
     ----------
     m: int
         The starting point of the range
     n: int
         The ending point of the range
     
-    Returns
+    Returns:
     -------
     
     dict[str,int]
@@ -95,6 +104,8 @@ def print_tree_and_agents_custom(node):
 
 def custom_equal_cost(m: int, n: int, agents: int) -> dict[str, int]:
     """
+    Description
+    -------------
     This function randomizes the cost of an agent when it conducts a goal based on an assigned range but
     gives one goal to all 
 
@@ -122,11 +133,18 @@ def custom_equal_cost(m: int, n: int, agents: int) -> dict[str, int]:
 # Scoring
 def get_custom_total_cost(agents_and_goals):
     '''
-    Description: This function calculates the total cost of all  assigned goals.
-        Parameters:
-        agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
-    Returns:
-    int: The total cost of all agents' assigned goals.
+    Description
+    ------------
+    This function calculates the total cost of all  assigned goals.
+    
+    Parameters
+    ----------
+    agents_and_goals : (dict[str, List[GoalNode2]])
+        A dictionary containing agents' names as keys and a list of their assigned goals as values.
+    
+    Returns
+    -------
+    int The total cost of all agents' assigned goals.
     '''
     total_cost = 0
 
@@ -138,11 +156,18 @@ def get_custom_total_cost(agents_and_goals):
 
 def get_agents_used(agents_and_goals):
     '''
-      Description: This function calculates the number of agents who have been assigned goals.
-    Parameters:
-    agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
-    Returns:
-    int: The number of agents who have been assigned goals.
+      Description
+    ------------
+    This function calculates the number of agents who have been assigned goals.
+    
+    Parameters
+    ----------
+        agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
+    
+    Returns
+    -------
+    int 
+        The number of agents who have been assigned goals.
     '''
     agents_used_now = 0
 
@@ -154,11 +179,19 @@ def get_agents_used(agents_and_goals):
 
 def discrepancy(agents_and_goals):
     '''
-        Description: This function calculates the discrepancy in the costs of agents' assigned goals.
-    Parameters:
-    agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
-    Returns:
-    int: The discrepancy in the costs of agents' assigned goals, i.e., the absolute difference between the maximum and minimum cost.
+      Description
+    ------------
+    This function calculates the discrepancy in the costs of agents' assigned goals for Jonathan algorithm
+    
+    Parameters
+    ----------
+    agents_and_goals : (dict[str, List[GoalNode2]]) 
+        A dictionary containing agents' names as keys and a list of their assigned goals as values.
+    
+    Returns
+    -------
+    int
+        The discrepancy in the costs of agents' assigned goals, i.e., the absolute difference between the maximum and minimum cost.
     '''
     
     agents_costs_dis = []
@@ -177,10 +210,16 @@ def discrepancy(agents_and_goals):
 def get_skew(agents_and_goals_dfs):
     
     '''
-    Description: This function calculates the skew in the costs of agents' assigned goals and the best-case scenario cost.
-    Parameters:
+    Description
+    ------------
+    This function calculates the skew in the costs of agents' assigned goals and the best-case scenario cost.
+    
+    Parameters
+    ----------
     agents_and_goals_dfs (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
-    Returns:
+    
+    Returns
+    -------
     List[int]: A list containing two elements: the skew in the costs of agents' assigned goals and the best-case scenario cost.
     
     '''
@@ -202,11 +241,17 @@ def get_skew(agents_and_goals_dfs):
 def  _skew_new(opt_agents_and_goals, best_case):
     
     '''
-    Description: This is a helper function that calculates the skew in the costs of agents' assigned goals compared to the best-case scenario cost.
-    Parameters:
+    Description
+    -------------
+    This is a helper function that calculates the skew in the costs of agents' assigned goals compared to the best-case scenario cost.
+    
+    Parameters
+    -----------
     opt_agents_and_goals (dict[str, List[GoalNode2]]): A dictionary containing agents' names as keys and a list of their assigned goals as values.
     best_case (int): The best-case scenario cost.
-    Returns:
+    
+    Returns
+    --------
     int: The skew in the costs of agents' assigned goals compared to the best-case scenario cost.
     
     '''
@@ -221,6 +266,9 @@ def  _skew_new(opt_agents_and_goals, best_case):
         total_cost += curr_agent_cost
     
     return abs(best_case - total_cost)
+
+
+
 
 # nodes 
 def get_goals_m(root):
@@ -264,7 +312,13 @@ def get_custom_total_cost_m(root):
 #Agents used Maheen count
 def get_agents_used_m(root):
     '''
-  iterate over the optimized goal nodes to see how many agents have been used 
+  Description
+   -----------
+   Iterate over the optimized goal nodes to see how many agents have been used 
+   
+   Parameters
+   -----------
+   root: GoalNode2 tree 
     '''
     total_agents = 10 
     return total_agents
@@ -272,6 +326,21 @@ def get_agents_used_m(root):
 
 #Discrepancy of Maheen 
 def discrepancy_m(root):
+    """
+    Description
+    ------------
+    Gets the max cost difference discrepancy between all agents for Maheen algorithm and returns it
+
+    Parameters
+    ----------
+    root : GoalNode2
+        Root node of a GoalNode2 Tree
+
+    Returns
+    -------
+    discrepancy : int
+        The difference in assigned costs between the most assigned agent and the least assigned agent
+    """
 
     num_agents = len(root.agents)
     agents_used = {}
@@ -299,23 +368,50 @@ def discrepancy_m(root):
     return abs(max(agents_used.values()) - min(agents_used.values()))
 
 
-
-
-    ###Issue 
-   # print (agents_used_m .values(), "NOOOOO")
-    if len(agents_used_m.keys()) < num_agents:
-        return max(agents_used_m .values())
-    
-    return abs(max(agents_used_m .values()) - min(agents_used_m.values()))
-
 #Skew Maheen
 
 def get_skew_m(root, best_case):
+    """
+    Description
+    ------------
+    Gets the difference of the current solution from the cheapest possible solution of the goal tree and returns it
+
+    Parameters
+    ----------
+    root : GoalNode2
+        Root node of a GoalNode2 Tree
+    best_case : int
+        Total cost of the cheapest possible solution to the goal tree
+
+    Returns
+    -------
+    skew : int
+        Skew: Difference in total cost of the current solution from the cheapest possible solution.
+    """
     return get_custom_total_cost_m(root) - best_case
 
 
 # Trees
 def binary_symmetric(num_agents, random=False):
+    """
+    Author: Maheen
+    
+    Description:
+    ------------
+    Generate two binary symmetric goal hierarchical trees with associated agent costs
+
+    Parameters:
+    ------------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+    --------
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
     if random:
         root_agents = _random_cost(25, 45, num_agents)
         subgoal1_agents = _random_cost(15, 20, num_agents)
@@ -419,6 +515,26 @@ def binary_symmetric(num_agents, random=False):
 
 
 def binary_left(num_agents, random=False):
+    """
+    Author: Maheen
+    
+    Description:
+    ------------
+    Generate two binary left goal hierarchical trees with associated agent costs
+
+    Parameters:
+    ------------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+    -----------
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
+    
     if random:
         root_agents = _random_cost(25, 45, num_agents)
         subgoal1_agents = _random_cost(15, 20, num_agents)
@@ -504,6 +620,27 @@ def binary_left(num_agents, random=False):
 
 
 def binary_right(num_agents, random=False):
+    """
+    Author: Maheen
+    
+    Description:
+    ------------
+    Generate two binary right goal hierarchical trees with associated agent costs
+
+    Parameters:
+    ------------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+    -----------
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
+    
+    
     if random:
         root_agents = _random_cost(25, 45, num_agents)
         subgoal1_agents = _random_cost(15, 20, num_agents)
@@ -583,6 +720,27 @@ def binary_right(num_agents, random=False):
     return [root, rootm]
 
 def root(num_agents, random=False):
+    
+    """
+    Author: Maheen
+    
+    Description:
+    ------------
+    Generate two root-only goal hierarchical trees with associated agent costs
+
+    Parameters:
+    ------------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+    -----------
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
+    
     if random:
         root_agents = _random_cost(25, 45, num_agents)
         # GoalNode2
@@ -607,6 +765,28 @@ def root(num_agents, random=False):
 ##edit
 
 def tree_symmetric(num_agents, random=False):
+    """
+    Author: Maheen
+    
+    Description:
+    ------------
+    Generate two symmetric goal hierarchical trees with associated agent costs
+
+    Parameters:
+    ------------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+    -----------
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
+    
+    
+    
     if random:
         root_agents = _random_cost(30, 45, num_agents)
         subgoal1_agents = _random_cost(15, 25, num_agents)
@@ -787,6 +967,26 @@ def tree_symmetric(num_agents, random=False):
     return [root, rootm]
 
 def tree_left_right(num_agents, random=False):
+    """
+    Author: Maheen
+    
+    Description:
+    ------------
+    Generate two left-right goal hierarchical trees with associated agent costs
+
+    Parameters:
+    ------------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+    -----------
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
+    
     if random:
         root_agents = _random_cost(30, 45, num_agents)
         subgoal1_agents = _random_cost(15, 25, num_agents)
@@ -929,6 +1129,26 @@ def tree_left_right(num_agents, random=False):
     return [root, rootm]
 
 def large_binary_tree(num_agents, random=False):
+    """
+    Author: Maheen
+    
+    Description:
+    ------------
+    Generate two large binary hierarchical trees with associated agent costs
+
+    Parameters:
+    ------------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+    -----------
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
+    
     
     if random:
         root_agents = _random_cost(40, 60, num_agents)
@@ -1327,6 +1547,26 @@ def large_binary_tree(num_agents, random=False):
 
 
 def large_tree(num_agents, random=False):
+    """
+    Author: Maheen
+    
+    Description:
+    ------------
+    Generate two large goal hierarchical trees with associated agent costs
+
+    Parameters:
+    ------------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+    -----------
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
+
     
     if random:
         root_agents = _random_cost(40, 60, num_agents)
@@ -1835,6 +2075,27 @@ def large_tree(num_agents, random=False):
     return [root, rootm]
 
 def tree_1(num_agents, random=False):
+    """
+    Author: Maheen
+    
+    Description:
+    ------------
+    Generate two random goal hierarchical trees with associated agent costs
+
+    Parameters:
+    ------------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+    -----------
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
+    
+    
     if random:
         root_agents = _random_cost(30, 45, num_agents)
         subgoal1_agents = _random_cost(15, 25, num_agents)
@@ -2014,6 +2275,27 @@ def tree_1(num_agents, random=False):
 
 
 def tree_2(num_agents, random=False):
+    """
+    Author: Maheen
+    
+    Description:
+    ------------
+    Generate two random  goal hierarchical trees with associated agent costs
+
+    Parameters:
+    ------------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
+                                 Default is False.
+
+        num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
+
+    Returns:
+    -----------
+        tuple: A tuple containing two root nodes of two goal hierarchical trees
+
+    """
+    
+    
     if random:
         root_agents = _random_cost(30, 45, num_agents)
         subgoal1_agents = _random_cost(6, 12, num_agents)

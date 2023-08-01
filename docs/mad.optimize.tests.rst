@@ -1,9 +1,6 @@
 mad.optimize.tests package
 ==========================
 
-Submodules
-----------
-
 Module contents
 ---------------
 

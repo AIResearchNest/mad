@@ -1,9 +1,6 @@
 mad.data\_structures.tests package
 ==================================
 
-Submodules
-----------
-
 Module contents
 ---------------
 

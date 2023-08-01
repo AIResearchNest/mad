@@ -1,4 +1,4 @@
-__version__ = '0.0.73'
+__version__ = '0.0.75'
 
 #change log:
 # 0.0.0: first version
@@ -76,4 +76,6 @@ __version__ = '0.0.73'
 # 0.0.71: Added sphinx documentation
 # 0.0.72: Added labels for plots
 # 0.0.73: Added better comments for GoalNode and DFS Goal Allocation
-# 0.0.74: Made some changes to Maheen algorithm to reduce skewness and added  better comments for GoalNode2 and Goal Allocation
+# 0.0.74: Made some changes to Maheen algorithm to reduce skewness and added better comments for GoalNode2 and Goal Allocation
+# 0.0.75: Added documentation and formated docstrings
+# 0.0.76: Edited documentation. 
