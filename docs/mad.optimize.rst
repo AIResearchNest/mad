@@ -7,7 +7,6 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   mad.optimize.tests
 
 Module contents
 ---------------

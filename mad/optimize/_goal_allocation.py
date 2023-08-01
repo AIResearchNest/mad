@@ -337,7 +337,7 @@ def dfs_goal_allocation(goal_tree: GoalNode, max_resources: Dict, verbose: int =
 """
 
 """
-Resource-Conscious Goal Assignment Algorithm
+Resource-Conscious Allocation Algorithm
 ############################################ 
 """
 from typing import Dict, List, Tuple
@@ -371,10 +371,10 @@ def _check_resources(goal: GoalNode, max_res: Dict[str, int]) -> bool:
 def handle_unachievable_goal(goal: GoalNode, list_goal: List[GoalNode], i, max_res: Dict[str,int]):
     
     """
-    Checks if an agent has enough resources to conduct a goal.
+    Handles the situation when the goal is unachievable due to insufficient resources
 
-    Parameters
-    ----------
+    Parameters:
+    -----------
     goal: GoalNode
         The current goal node
 
@@ -384,11 +384,17 @@ def handle_unachievable_goal(goal: GoalNode, list_goal: List[GoalNode], i, max_r
     max_res: Dict[str,int]  
         A dictionary with the agents as the keys and their corresponding resources as values
 
-    Returns
-    -------
-    int, List[GoalNode], Dict[str, int]
-        Returns the index of the next goal to be processed, the updated list_goal with children added,
-        and the updated max_res if any resources are consumed during goal processing
+    Returns:
+    --------
+    
+    int 
+        The index of the next goal to be processed in the list_goal
+
+    List[GoalNode]
+        The updated list_goal
+
+    Dict[str, int]
+        The updated max_res if any resources are consumed during goal processing
     
     """
 
@@ -418,8 +424,8 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
     """
     Implements a decision algorithm to assign agents to goals and manage resources
 
-    Parameters
-    ----------
+    Parameters:
+    -----------
     list_goal: List[GoalNode]
         The list of goal nodes to be achieved
 
@@ -429,13 +435,17 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
     max_res: Dict[str, int]
         A dictionary with the agents as the keys and their corresponding maximum available resources as values.
 
-    Returns
-    -------
-    Tuple[int, List[GoalNode], Dict[str, int]]
-        Returns a tuple containing:
-        - The index of the next goal to be processed
-        - The updated list_goal with any necessary adjustments
-        - The updated max_res dictionary based on the agent-goal assignments and resource consumption
+    Returns:
+    --------
+    Tuple:
+        int
+            The index of the next goal to be processed
+
+        List[GoalNode]
+            The updated list_goal with any necessary adjustments
+
+        Dict[str, int]]
+            The updated max_res dictionary based on the agent-goal assignments and resource consumption
 
     """
     goal = list_goal[i]
@@ -507,8 +517,10 @@ def allocate_goals_greedy(list_goal, max_res):
 
     Returns
     -------
+    
     Dict[str, List[GoalNode]]
-        Returns a dictionary that maps agents to the list of goals allocated to them.
+        A dictionary that maps agents to the list of goals allocated to them.
+
     """
 
     # Initialize the goal allocation dictionary
@@ -566,26 +578,32 @@ def allocate_goals_greedy(list_goal, max_res):
 
 #Author: Fay
 def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], verbose: int = 0) -> Tuple[Dict[str, List[GoalNode]], Dict[str, List[str]]]:
+    
     """
     Equally distributes goals among agents while optimizing goal allocation and minimizing total resource cost.
 
-    Parameters
-    ----------
+    Parameters:
+    -----------
     goal_tree : GoalNode
         The root node of the hierarchical Multi Agent Goal Tree.
 
     max_resources : List[int]
         A list of maximum available resources for each agent.
 
-    verbose : int, optional
+    verbose : int (optional)
         Verbosity level (0 - no print statements, 1 - print goal allocation), by default 0
 
-    Returns
-    -------
-    Tuple[Dict[str, List[GoalNode]], Dict[str, List[str]]]
-        A tuple containing two dictionaries:
-        1. goal_allocation: A dictionary that maps agents (keys) to the list of goals allocated to them (values)
-        2. max_res: A dictionary that maps agents (keys) to the remaining resources after goal allocation (values)
+    Returns:
+    --------
+
+    Tuple:
+
+        Dict[str, List[GoalNode]]
+            A dictionary that maps agents (keys) to the list of goals allocated to them (values)
+
+        Dict[str, List[str]]]
+            A dictionary that maps agents (keys) to the remaining resources after goal allocation (values)
+
     """
 
     if goal_tree is None:
@@ -649,9 +667,6 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
             print("The remaining resource of " + agent + ": " + str(max_res[agent]) + "\n" * 2)
 
     return goal_allocation, max_res
-
-
-
 
 
 """

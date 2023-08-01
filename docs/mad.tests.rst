@@ -4,13 +4,6 @@ mad.tests package
 Submodules
 ----------
 
-mad.tests.ALL\_TESTING module
------------------------------
-
-.. automodule:: mad.tests.ALL_TESTING
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 mad.tests.efficiency\_test module
 ---------------------------------

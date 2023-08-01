@@ -7,7 +7,6 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   mad.data_structures.tests
 
 Module contents
 ---------------

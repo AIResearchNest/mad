@@ -13,8 +13,8 @@ def _random_cost(m: int, n: int, agents: int) -> Dict[str, int]:
     """
     This function randomizes the cost of an agent when it conducts a goal based on an assigned range
 
-    Parameters
-    ----------
+    Parameters::
+    ------------
     m: int
         The starting point of the range
     n: int
@@ -22,8 +22,8 @@ def _random_cost(m: int, n: int, agents: int) -> Dict[str, int]:
     agents: int
         Number of available agents
     
-    Returns
-    -------
+    Return::
+    --------
     
     Dict[str,int]
         A dictionary with the agents as keys and corresponding costs as values
@@ -42,14 +42,14 @@ def _equal_cost(m: int, n: int, agents: int) -> Dict[str, int]:
     """
     This function randomizes the cost of an agent when it conducts a goal based on an assigned range
 
-    Parameters
-    ----------
+    Parameters:
+    -----------
     m: int
         The starting point of the range
     n: int
         The ending point of the range
     
-    Returns
+    Return:
     -------
     
     Dict[str,int]
@@ -65,19 +65,44 @@ def _equal_cost(m: int, n: int, agents: int) -> Dict[str, int]:
 
     return d
 
+def equal_node(node: GoalNode2) -> None:
+    """
+    Finds the minimum cost from the node's agents dictionary and assigns it as node.cost. Also changes all dictionary values to the minimum cost, except for the assigned agent.
+
+    Parameters:
+    -----------
+    node: GoalNode2
+        The node for which to find the minimum cost and update the dictionary values.
+
+    """
+    if node.agents:
+        min_cost = min(node.agents.values())  # Find the minimum cost from the agents dictionary
+
+        # Update all dictionary values to the minimum cost, except for the assigned agent
+        for agent in node.agents:
+            if agent != node.assigned_agent:
+                node.agents[agent] = min_cost
+
+        # If the node has an assigned agent, set its value to 0
+        if node.assigned_agent:
+            node.agents[node.assigned_agent] = 0
+
+        # Assign the minimum cost to node.cost
+        node.cost = min_cost
+
 # Trees
 def binary_symmetric(random=False, num_agents = 3):
     """
     Generate two binary symmetric goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
-
+    -----------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
+    Return:
+    -------
+        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -88,6 +113,7 @@ def binary_symmetric(random=False, num_agents = 3):
         subgoal4_agents = _random_cost(5, 15, num_agents)
         subgoal5_agents = _random_cost(5, 15, num_agents)
         subgoal6_agents = _random_cost(5, 15, num_agents)
+        m_func = cost_node
     else:
         root_agents = _equal_cost(25, 45, num_agents)
         subgoal1_agents = _equal_cost(15, 20, num_agents)
@@ -96,6 +122,7 @@ def binary_symmetric(random=False, num_agents = 3):
         subgoal4_agents = _equal_cost(5, 15, num_agents)
         subgoal5_agents = _equal_cost(5, 15, num_agents)
         subgoal6_agents = _equal_cost(5, 15, num_agents)
+        m_func = equal_node
 
     # GoalNode
     root = GoalNode("Main Goal", root_agents)
@@ -137,13 +164,13 @@ def binary_symmetric(random=False, num_agents = 3):
     subgoal5m.agents = subgoal5_agents
     subgoal6m.agents = subgoal6_agents
 
-    cost_node(rootm)
-    cost_node(subgoal1m)
-    cost_node(subgoal2m)
-    cost_node(subgoal3m)
-    cost_node(subgoal4m)
-    cost_node(subgoal5m)
-    cost_node(subgoal6m)
+    m_func(rootm)
+    m_func(subgoal1m)
+    m_func(subgoal2m)
+    m_func(subgoal3m)
+    m_func(subgoal4m)
+    m_func(subgoal5m)
+    m_func(subgoal6m)
 
     return (root,rootm)
 
@@ -152,13 +179,13 @@ def binary_left(random = False, num_agents = 3):
     Generate two binary left goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
-
+    -----------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
+    Return:
+    -------
+        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -167,12 +194,14 @@ def binary_left(random = False, num_agents = 3):
         subgoal2_agents = _random_cost(15, 20, num_agents)
         subgoal3_agents = _random_cost(5, 15, num_agents)
         subgoal4_agents = _random_cost(5, 15, num_agents)
+        m_func = cost_node
     else:
         root_agents = _equal_cost(25, 45, num_agents)
         subgoal1_agents = _equal_cost(15, 20, num_agents)
         subgoal2_agents = _equal_cost(15, 20, num_agents)
         subgoal3_agents = _equal_cost(5, 15, num_agents)
         subgoal4_agents = _equal_cost(5, 15, num_agents)
+        m_func = equal_node
 
     # GoalNode
     root = GoalNode("Main Goal", root_agents)
@@ -204,11 +233,11 @@ def binary_left(random = False, num_agents = 3):
     subgoal3m.agents = subgoal3_agents
     subgoal4m.agents = subgoal4_agents
 
-    cost_node(rootm)
-    cost_node(subgoal1m)
-    cost_node(subgoal2m)
-    cost_node(subgoal3m)
-    cost_node(subgoal4m)
+    m_func(rootm)
+    m_func(subgoal1m)
+    m_func(subgoal2m)
+    m_func(subgoal3m)
+    m_func(subgoal4m)
 
     return (root,rootm)
 
@@ -217,13 +246,13 @@ def binary_right(random = False, num_agents = 3):
     Generate two binary right goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
-
+    -----------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
+    Return:
+    -------
+        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -232,12 +261,14 @@ def binary_right(random = False, num_agents = 3):
         subgoal2_agents = _random_cost(15, 20, num_agents)
         subgoal3_agents = _random_cost(5, 15, num_agents)
         subgoal4_agents = _random_cost(5, 15, num_agents)
+        m_func = cost_node
     else:
         root_agents = _equal_cost(25, 45, num_agents)
         subgoal1_agents = _equal_cost(15, 20, num_agents)
         subgoal2_agents = _equal_cost(15, 20, num_agents)
         subgoal3_agents = _equal_cost(5, 15, num_agents)
         subgoal4_agents = _equal_cost(5, 15, num_agents)
+        m_func = equal_node
 
     # GoalNode
     root = GoalNode("Main Goal", root_agents)
@@ -269,11 +300,11 @@ def binary_right(random = False, num_agents = 3):
     subgoal3m.agents = subgoal3_agents
     subgoal4m.agents = subgoal4_agents
 
-    cost_node(rootm)
-    cost_node(subgoal1m)
-    cost_node(subgoal2m)
-    cost_node(subgoal3m)
-    cost_node(subgoal4m)
+    m_func(rootm)
+    m_func(subgoal1m)
+    m_func(subgoal2m)
+    m_func(subgoal3m)
+    m_func(subgoal4m)
 
     return (root,rootm)
 
@@ -282,20 +313,21 @@ def root(random = False, num_agents = 3):
     Generate two root-only goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
-
+    -----------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
+    Return:
+    -------
+        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
         root_agents = _random_cost(25, 45, num_agents)
+        m_func = cost_node
     else:
         root_agents = _equal_cost(25, 45, num_agents)
-
+        m_func = equal_node
     # GoalNode
     root = GoalNode("Main Goal", root_agents)
 
@@ -304,7 +336,7 @@ def root(random = False, num_agents = 3):
 
     rootm.agents = root_agents
 
-    cost_node(rootm)
+    m_func(rootm)
 
     return (root,rootm)
 
@@ -313,13 +345,13 @@ def tree_symmetric (random=False, num_agents = 3):
     Generate two symmetric goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
-
+    -----------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
+    Return:
+    -------
+        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -336,6 +368,7 @@ def tree_symmetric (random=False, num_agents = 3):
         subgoal10_agents = _random_cost(5, 10, num_agents)
         subgoal11_agents = _random_cost(5, 10, num_agents)
         subgoal12_agents = _random_cost(5, 10, num_agents)
+        m_func = cost_node
     else:
         root_agents = _equal_cost(30, 45, num_agents)
         subgoal1_agents = _equal_cost(15, 25, num_agents)
@@ -350,7 +383,7 @@ def tree_symmetric (random=False, num_agents = 3):
         subgoal10_agents = _equal_cost(5, 10, num_agents)
         subgoal11_agents = _equal_cost(5, 10, num_agents)
         subgoal12_agents = _equal_cost(5, 10, num_agents)
-
+        m_func = equal_node
     # GoalNode
     root = GoalNode("Main Goal", root_agents)
     subgoal1 = GoalNode("Sub Goal 1", subgoal1_agents)
@@ -422,19 +455,19 @@ def tree_symmetric (random=False, num_agents = 3):
     subgoal12m.agents = subgoal12_agents
 
 
-    cost_node(rootm)
-    cost_node(subgoal1m)
-    cost_node(subgoal2m)
-    cost_node(subgoal3m)
-    cost_node(subgoal4m)
-    cost_node(subgoal5m)
-    cost_node(subgoal6m)
-    cost_node(subgoal7m)
-    cost_node(subgoal8m)
-    cost_node(subgoal9m)
-    cost_node(subgoal10m)
-    cost_node(subgoal11m)
-    cost_node(subgoal12m)
+    m_func(rootm)
+    m_func(subgoal1m)
+    m_func(subgoal2m)
+    m_func(subgoal3m)
+    m_func(subgoal4m)
+    m_func(subgoal5m)
+    m_func(subgoal6m)
+    m_func(subgoal7m)
+    m_func(subgoal8m)
+    m_func(subgoal9m)
+    m_func(subgoal10m)
+    m_func(subgoal11m)
+    m_func(subgoal12m)
 
     return (root,rootm)
 
@@ -443,13 +476,13 @@ def tree_left_right(random = False, num_agents = 3):
     Generate two left right goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
-
+    -----------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
+    Return:
+    -------
+        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -463,6 +496,8 @@ def tree_left_right(random = False, num_agents = 3):
         subgoal7_agents = _random_cost(5, 10, num_agents)
         subgoal8_agents = _random_cost(5, 10, num_agents)
         subgoal9_agents = _random_cost(5, 10, num_agents)
+
+        m_func = cost_node
     else:
         root_agents = _equal_cost(30, 45, num_agents)
         subgoal1_agents = _equal_cost(15, 25, num_agents)
@@ -474,6 +509,8 @@ def tree_left_right(random = False, num_agents = 3):
         subgoal7_agents = _equal_cost(5, 10, num_agents)
         subgoal8_agents = _equal_cost(5, 10, num_agents)
         subgoal9_agents = _equal_cost(5, 10, num_agents)
+
+        m_func = equal_node
 
     # GoalNode
     root = GoalNode("Main Goal", root_agents)
@@ -530,16 +567,16 @@ def tree_left_right(random = False, num_agents = 3):
     subgoal8m.agents = subgoal8_agents
     subgoal9m.agents = subgoal9_agents
 
-    cost_node(rootm)
-    cost_node(subgoal1m)
-    cost_node(subgoal2m)
-    cost_node(subgoal3m)
-    cost_node(subgoal4m)
-    cost_node(subgoal5m)
-    cost_node(subgoal6m)
-    cost_node(subgoal7m)
-    cost_node(subgoal8m)
-    cost_node(subgoal9m)
+    m_func(rootm)
+    m_func(subgoal1m)
+    m_func(subgoal2m)
+    m_func(subgoal3m)
+    m_func(subgoal4m)
+    m_func(subgoal5m)
+    m_func(subgoal6m)
+    m_func(subgoal7m)
+    m_func(subgoal8m)
+    m_func(subgoal9m)
 
     return (root,rootm)
 
@@ -548,13 +585,13 @@ def large_binary_tree(random = False, num_agents = 3):
     Generate two large binary goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
-
+    -----------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
+    Return:
+    -------
+        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -589,6 +626,8 @@ def large_binary_tree(random = False, num_agents = 3):
         subgoal28_agents = _random_cost(3, 6, num_agents)
         subgoal29_agents = _random_cost(3, 6, num_agents)
         subgoal30_agents = _random_cost(3, 6, num_agents)
+        m_func = cost_node
+
     else:
         root_agents = _equal_cost(40, 60, num_agents)
         subgoal1_agents = _equal_cost(23, 30, num_agents)
@@ -621,7 +660,7 @@ def large_binary_tree(random = False, num_agents = 3):
         subgoal28_agents = _equal_cost(3, 6, num_agents)
         subgoal29_agents = _equal_cost(3, 6, num_agents)
         subgoal30_agents = _equal_cost(3, 6, num_agents)
-
+        m_func = equal_node
     # GoalNode
     root = GoalNode("Main Goal", root_agents)
     subgoal1 = GoalNode("Sub Goal 1", subgoal1_agents)
@@ -782,37 +821,37 @@ def large_binary_tree(random = False, num_agents = 3):
     subgoal29m.agents = subgoal29_agents
     subgoal30m.agents = subgoal30_agents
 
-    cost_node(rootm)
-    cost_node(subgoal1m)
-    cost_node(subgoal2m)
-    cost_node(subgoal3m)
-    cost_node(subgoal4m)
-    cost_node(subgoal5m)
-    cost_node(subgoal6m)
-    cost_node(subgoal7m)
-    cost_node(subgoal8m)
-    cost_node(subgoal9m)
-    cost_node(subgoal10m)
-    cost_node(subgoal11m)
-    cost_node(subgoal12m)
-    cost_node(subgoal13m)
-    cost_node(subgoal14m)
-    cost_node(subgoal15m)
-    cost_node(subgoal16m)
-    cost_node(subgoal17m)
-    cost_node(subgoal18m)
-    cost_node(subgoal19m)
-    cost_node(subgoal20m)
-    cost_node(subgoal21m)
-    cost_node(subgoal22m)
-    cost_node(subgoal23m)
-    cost_node(subgoal24m)
-    cost_node(subgoal25m)
-    cost_node(subgoal26m)
-    cost_node(subgoal27m)
-    cost_node(subgoal28m)
-    cost_node(subgoal29m)
-    cost_node(subgoal30m)
+    m_func(rootm)
+    m_func(subgoal1m)
+    m_func(subgoal2m)
+    m_func(subgoal3m)
+    m_func(subgoal4m)
+    m_func(subgoal5m)
+    m_func(subgoal6m)
+    m_func(subgoal7m)
+    m_func(subgoal8m)
+    m_func(subgoal9m)
+    m_func(subgoal10m)
+    m_func(subgoal11m)
+    m_func(subgoal12m)
+    m_func(subgoal13m)
+    m_func(subgoal14m)
+    m_func(subgoal15m)
+    m_func(subgoal16m)
+    m_func(subgoal17m)
+    m_func(subgoal18m)
+    m_func(subgoal19m)
+    m_func(subgoal20m)
+    m_func(subgoal21m)
+    m_func(subgoal22m)
+    m_func(subgoal23m)
+    m_func(subgoal24m)
+    m_func(subgoal25m)
+    m_func(subgoal26m)
+    m_func(subgoal27m)
+    m_func(subgoal28m)
+    m_func(subgoal29m)
+    m_func(subgoal30m)
 
     return (root,rootm)
 
@@ -821,13 +860,13 @@ def large_tree(random = False, num_agents = 3):
     Generate two large goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
-
+    -----------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
+    Return:
+    -------
+        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -871,6 +910,8 @@ def large_tree(random = False, num_agents = 3):
         subgoal37_agents = _random_cost(1, 3, num_agents)
         subgoal38_agents = _random_cost(1, 3, num_agents)
         subgoal39_agents = _random_cost(1, 3, num_agents)
+        m_func = cost_node
+
     else:
         root_agents = _equal_cost(40, 60, num_agents)
         subgoal1_agents = _equal_cost(13, 20, num_agents)
@@ -912,6 +953,7 @@ def large_tree(random = False, num_agents = 3):
         subgoal37_agents = _equal_cost(1, 3, num_agents)
         subgoal38_agents = _equal_cost(1, 3, num_agents)
         subgoal39_agents = _equal_cost(1, 3, num_agents)
+        m_func = equal_node
 
     # GoalNode
     root = GoalNode("Main Goal", root_agents)
@@ -1118,46 +1160,46 @@ def large_tree(random = False, num_agents = 3):
     subgoal38m.agents = subgoal38_agents
     subgoal39m.agents = subgoal39_agents
 
-    cost_node(rootm)
-    cost_node(subgoal1m)
-    cost_node(subgoal2m)
-    cost_node(subgoal3m)
-    cost_node(subgoal4m)
-    cost_node(subgoal5m)
-    cost_node(subgoal6m)
-    cost_node(subgoal7m)
-    cost_node(subgoal8m)
-    cost_node(subgoal9m)
-    cost_node(subgoal10m)
-    cost_node(subgoal11m)
-    cost_node(subgoal12m)
-    cost_node(subgoal13m)
-    cost_node(subgoal14m)
-    cost_node(subgoal15m)
-    cost_node(subgoal16m)
-    cost_node(subgoal17m)
-    cost_node(subgoal18m)
-    cost_node(subgoal19m)
-    cost_node(subgoal20m)
-    cost_node(subgoal21m)
-    cost_node(subgoal22m)
-    cost_node(subgoal23m)
-    cost_node(subgoal24m)
-    cost_node(subgoal25m)
-    cost_node(subgoal26m)
-    cost_node(subgoal27m)
-    cost_node(subgoal28m)
-    cost_node(subgoal29m)
-    cost_node(subgoal30m)
-    cost_node(subgoal31m)
-    cost_node(subgoal32m)
-    cost_node(subgoal33m)
-    cost_node(subgoal34m)
-    cost_node(subgoal35m)
-    cost_node(subgoal36m)
-    cost_node(subgoal37m)
-    cost_node(subgoal38m)
-    cost_node(subgoal39m)
+    m_func(rootm)
+    m_func(subgoal1m)
+    m_func(subgoal2m)
+    m_func(subgoal3m)
+    m_func(subgoal4m)
+    m_func(subgoal5m)
+    m_func(subgoal6m)
+    m_func(subgoal7m)
+    m_func(subgoal8m)
+    m_func(subgoal9m)
+    m_func(subgoal10m)
+    m_func(subgoal11m)
+    m_func(subgoal12m)
+    m_func(subgoal13m)
+    m_func(subgoal14m)
+    m_func(subgoal15m)
+    m_func(subgoal16m)
+    m_func(subgoal17m)
+    m_func(subgoal18m)
+    m_func(subgoal19m)
+    m_func(subgoal20m)
+    m_func(subgoal21m)
+    m_func(subgoal22m)
+    m_func(subgoal23m)
+    m_func(subgoal24m)
+    m_func(subgoal25m)
+    m_func(subgoal26m)
+    m_func(subgoal27m)
+    m_func(subgoal28m)
+    m_func(subgoal29m)
+    m_func(subgoal30m)
+    m_func(subgoal31m)
+    m_func(subgoal32m)
+    m_func(subgoal33m)
+    m_func(subgoal34m)
+    m_func(subgoal35m)
+    m_func(subgoal36m)
+    m_func(subgoal37m)
+    m_func(subgoal38m)
+    m_func(subgoal39m)
 
     return (root,rootm)
 
@@ -1166,13 +1208,13 @@ def tree_1(random = False, num_agents = 3):
     Generate two random goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
-
+    -----------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
+    Return:
+    -------
+        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -1189,6 +1231,7 @@ def tree_1(random = False, num_agents = 3):
         subgoal10_agents = _random_cost(1, 6, num_agents)
         subgoal11_agents = _random_cost(1, 6, num_agents)
         subgoal12_agents = _random_cost(1, 6, num_agents)
+        m_func = cost_node
     else:
         root_agents = _equal_cost(30, 45, num_agents)
         subgoal1_agents = _equal_cost(15, 25, num_agents)
@@ -1203,6 +1246,7 @@ def tree_1(random = False, num_agents = 3):
         subgoal10_agents = _equal_cost(1, 6, num_agents)
         subgoal11_agents = _equal_cost(1, 6, num_agents)
         subgoal12_agents = _equal_cost(1, 6, num_agents)
+        m_func = equal_node
 
     # GoalNode
     root = GoalNode("Main Goal", root_agents)
@@ -1274,19 +1318,19 @@ def tree_1(random = False, num_agents = 3):
     subgoal11m.agents = subgoal11_agents
     subgoal12m.agents = subgoal12_agents
 
-    cost_node(rootm)
-    cost_node(subgoal1m)
-    cost_node(subgoal2m)
-    cost_node(subgoal3m)
-    cost_node(subgoal4m)
-    cost_node(subgoal5m)
-    cost_node(subgoal6m)
-    cost_node(subgoal7m)
-    cost_node(subgoal8m)
-    cost_node(subgoal9m)
-    cost_node(subgoal10m)
-    cost_node(subgoal11m)
-    cost_node(subgoal12m)
+    m_func(rootm)
+    m_func(subgoal1m)
+    m_func(subgoal2m)
+    m_func(subgoal3m)
+    m_func(subgoal4m)
+    m_func(subgoal5m)
+    m_func(subgoal6m)
+    m_func(subgoal7m)
+    m_func(subgoal8m)
+    m_func(subgoal9m)
+    m_func(subgoal10m)
+    m_func(subgoal11m)
+    m_func(subgoal12m)
 
     return (root,rootm)
 
@@ -1295,13 +1339,13 @@ def tree_2(random = False, num_agents = 3):
     Generate two random goal hierarchical trees with associated agent costs
 
     Parameters:
-        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values.
-                                 Default is False.
-
+    -----------
+        random (bool, optional): If True, generates random cost values for agents. If False, generates equal cost values. Default is False.
         num_agents (int, optional): The number of agents associated with each goal node. Default is 3.
 
-    Returns:
-        tuple: A tuple containing two root nodes of two goal hierarchical trees
+    Return:
+    -------
+        tuple[GoalNode, GoalNode2]: A tuple containing two root nodes of two goal hierarchical trees
 
     """
     if random:
@@ -1318,6 +1362,7 @@ def tree_2(random = False, num_agents = 3):
         subgoal10_agents = _random_cost(3, 6, num_agents)
         subgoal11_agents = _random_cost(3, 6, num_agents)
         subgoal12_agents = _random_cost(3, 6, num_agents)
+        m_func = cost_node
     else:
         root_agents = _equal_cost(30, 45, num_agents)
         subgoal1_agents = _equal_cost(6, 12, num_agents)
@@ -1332,6 +1377,7 @@ def tree_2(random = False, num_agents = 3):
         subgoal10_agents = _equal_cost(3, 6, num_agents)
         subgoal11_agents = _equal_cost(3, 6, num_agents)
         subgoal12_agents = _equal_cost(3, 6, num_agents)
+        m_func = equal_node
 
     # GoalNode
     root = GoalNode("Main Goal", root_agents)
@@ -1403,46 +1449,89 @@ def tree_2(random = False, num_agents = 3):
     subgoal11m.agents = subgoal11_agents
     subgoal12m.agents = subgoal12_agents
 
-    cost_node(rootm)
-    cost_node(subgoal1m)
-    cost_node(subgoal2m)
-    cost_node(subgoal3m)
-    cost_node(subgoal4m)
-    cost_node(subgoal5m)
-    cost_node(subgoal6m)
-    cost_node(subgoal7m)
-    cost_node(subgoal8m)
-    cost_node(subgoal9m)
-    cost_node(subgoal10m)
-    cost_node(subgoal11m)
-    cost_node(subgoal12m)
+    m_func(rootm)
+    m_func(subgoal1m)
+    m_func(subgoal2m)
+    m_func(subgoal3m)
+    m_func(subgoal4m)
+    m_func(subgoal5m)
+    m_func(subgoal6m)
+    m_func(subgoal7m)
+    m_func(subgoal8m)
+    m_func(subgoal9m)
+    m_func(subgoal10m)
+    m_func(subgoal11m)
+    m_func(subgoal12m)
 
     return (root, rootm)
+
+def best_case(goal_allocation: Dict[str, List[GoalNode]]) -> int:
+    
+    """
+
+        Calculate the best-case scenario value for a goal allocation among agents.
+
+        Parameters:
+        -----------
+            goal_allocation: Dict[str, List[GoalNode]]
+                A dictionary where keys are agent names (strings) and values are lists of GoalNode objects representing the goals allocated to each agent. Each GoalNode has a 'data' attribute, which is expected to be a dictionary containing numeric values for the goal.
+
+        Returns:
+        --------
+
+            int
+                The best-case scenario value obtained by summing up the minimum value of cost of each goal across all agents
+    
+    """
+    best = 0
+    for agent, goals in goal_allocation.items():
+        for goal in goals:
+            best += min(goal.data.values())
+    return best
 
 #FAY AND JONATHAN'S EFFICIENCY TEST
 def efficiency_test(goal_tree, max_res: List):
     """
     Compare and evaluate the efficiency of Jonathan's and Fay's algorithms for goal allocation.
 
-    Parameters
-    ----------
+    Parameters:
+    -----------
     
-        goal_tree (GoalNode): The root node of the goal hierarchy represented by `GoalNode` objects.
-        max_res (List[int]): A list of maximum resources available for each agent in the hierarchy.
+        goal_tree: GoalNode
+            The root node of the goal hierarchy represented by `GoalNode` objects
+        
+        max_res: List[int]
+            A list of maximum resources available for each agent in the hierarchy
 
-    Return
-    ----------
-        tuple: A tuple containing the following elements:
-               - f_agent_cost (List[int]): A list representing the total cost of goals allocated to each agent using Fay's algorithm.
-               - f_agent_goals (List[int]): A list representing the number of goals allocated to each agent using Fay's algorithm.
-               - j_agent_cost (List[int]): A list representing the total cost of goals allocated to each agent using Jonathan's algorithm.
-               - j_agent_goals (List[int]): A list representing the number of goals allocated to each agent using Jonathan's algorithm.
-               - f_total_resources (int): The total resources consumed using Fay's algorithm.
-               - j_total_resources (int): The total resources consumed using Jonathan's algorithm.
-               - AGENT (List[str]): A list of agent names in the goal hierarchy.
+    Return:
+    -------
+        tuple:
+            f_agent_goals: List[int]
+                A list representing the number of goals allocated to each agent using Fay's algorithm.
+
+            j_agent_goals: List[int]
+                A list representing the number of goals allocated to each agent using Jonathan's algorithm.
+
+            f_total_resources: int
+                The total resources consumed using Fay's algorithm.
+
+            j_total_resources: int
+                The total resources consumed using Jonathan's algorithm.
+
+            f_discrepancy: int
+                The difference cost the most assigned agent spent compared to the least assigned agent spent in Fay's algorithm
+
+            f_agent_goals: int
+                The difference cost the most assigned agent spent compared to the least assigned agent spent in Jonathan's algorithm
+
+            f_skew: int
+                The difference between the total resources used compared with the best case in Fay's algorithm
+
+            j_skew: int
+                The difference between the total resources used compared with the best case in Jonathan's algorithm
+
     """
     AGENT = list(goal_tree.data.keys())
-    
     max_resources_j = {}
     max_resources_f = max_res
     for i in range(len(AGENT)):
@@ -1462,7 +1551,7 @@ def efficiency_test(goal_tree, max_res: List):
     j_agent_goals = []
 
     j_total_resources = 0
-
+    
     for _ in range(len(AGENT)):
         j_agent_cost.append(0)
         j_agent_goals.append(0)
@@ -1475,7 +1564,10 @@ def efficiency_test(goal_tree, max_res: List):
             i = AGENT.index(agent)
             j_agent_cost[i] += goal.cost
             j_agent_goals[i] += 1
-            
+
+    j_discrepancy = max(j_agent_cost) - min(j_agent_cost)
+    j_skew = j_total_resources - best_case(jresult)
+
     #__FAY'S ALGORITHM__
     print("\nFay's Algorithm:\n")
 
@@ -1498,12 +1590,12 @@ def efficiency_test(goal_tree, max_res: List):
     except ValueError as e:
         print(f"Error encountered in inner function of optimized_goal_allocation(): {str(e)}")
         return
-    
+
     if result:
         fresult, fresources = result
     else:
         return
-    
+
     f_agent_cost = []
     f_agent_goals = []
     
@@ -1521,28 +1613,36 @@ def efficiency_test(goal_tree, max_res: List):
             f_agent_cost[i] += goal.cost
             f_agent_goals[i] += 1
 
+    f_discrepancy = max(f_agent_cost) - min(f_agent_cost)
+    f_skew = f_total_resources - best_case(fresult)
     
-    return f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total_resources, j_total_resources, AGENT
+    return f_agent_goals, j_agent_goals, f_total_resources, j_total_resources, f_discrepancy, j_discrepancy, f_skew, j_skew
 
 #MAHEEN EFFICIENCY TEST
 def efficiency_test_m(root: GoalNode2, max_resources: List[int]) -> Tuple[int,int]:
+
     """
     Calculates the average cost and total resources used by Maheen's algorithm in a goal tree.
     
-    Parameters
-    ----------
+    Parameters:
+    -----------
+
     root : GoalNode2
         The root node of the goal tree.
 
     max_resources : List[int]
         List of the maximum resources of all agents.
 
-    Returns
+    Return:
     -------
+
     Tuple[int, int]:
-        A tuple containing the following elements:
-        - The total cost of all assigned Goalnodes (int)
-        - The number of unique agents used to achieve the goals (int)
+        
+        resources_usage: int 
+            The total cost of all assigned Goalnodes
+        
+        len(agent_used): int
+            The number of unique agents used to achieve the goals
 
     """
     if len(max_resources) == 1:
@@ -1557,16 +1657,18 @@ def efficiency_test_m(root: GoalNode2, max_resources: List[int]) -> Tuple[int,in
         stacks.extend(children)
     
     agent_goal_m(nodes,max_resources)
+    
     resources_usage = 0
     agent_used = []
 
     def traverse(node):
         nonlocal resources_usage
         nonlocal agent_used
-        if node.assigned_agent != "":
+        if node.assigned_agent != []:
             resources_usage += node.cost
-            if node.assigned_agent not in agent_used:
-                agent_used.append(node.assigned_agent)
+            for agent in node.assigned_agent:
+                if agent not in agent_used:
+                    agent_used.append(agent)
         for child in node.get_children():
             traverse(child)
 
@@ -1576,7 +1678,84 @@ def efficiency_test_m(root: GoalNode2, max_resources: List[int]) -> Tuple[int,in
         return (resources_usage, len(agent_used))
     else:
         return (0, 0)
-        
+
+
+def discrepancy_m(root: GoalNode2) -> int:
+    """
+    Calculates the discrepancy measure for Maheen's algorithm
+
+    Parameters:
+    -----------
+
+        root: GoalNode2 
+            The root node of the tree representing the multi-agent system.
+
+    Returns:
+    --------
+        int
+            The discrepancy between the costs of the most assigned and least assigned agents
+            
+    """
+    num_agents = len(root.agents)
+    agents_used = {}
+
+    q = []
+    q.append(root)
+
+    while q:
+        current = q[0]
+        q.pop(0)
+
+        if current.assigned_agent:
+            for agent_name in current.assigned_agent:
+                agent_key = tuple(agent_name)  # Convert to tuple to use as a dictionary key
+                if agent_key not in agents_used:
+                    agents_used[agent_key] = current.agents[agent_name]
+                else:
+                    agents_used[agent_key] += current.agents[agent_name]
+
+        for child in current.get_children():
+            q.append(child)
+
+    if len(agents_used) < num_agents:
+        return max(agents_used.values())
+    return abs(max(agents_used.values()) - min(agents_used.values()))
+
+def get_skew_m(root, resource_usage):
+    """
+    Calculates the skew measure when we use Maheen's algorithm
+
+    Parameters:
+    -----------
+        root: GoalNode2
+            The root node of the tree
+
+        resource_usage: int 
+            The total resource usage 
+
+    Returns:
+    --------
+
+        int
+            The skew measure indicating the difference between 'resource_usage' and the best-case agent utilization used Maheen's algorithm
+
+    """
+    
+    best_case = 0
+    q = []
+    q.append(root)
+
+    while q:
+        node = q[0]
+        q.pop(0)
+
+        if node.assigned_agent:
+            best_case += min(node.agents.values())
+
+        for child in node.get_children():
+            q.append(child)
+    return resource_usage - best_case
+       
 def _bar_chart_plotting(Results: Tuple, title):
     # Define the algorithm names and total resource utilization values
     algorithm_names = ['Fay\'s Algorithm', 'Jonathan\'s Algorithm']
@@ -1656,35 +1835,64 @@ def _bar_chart_plotting(Results: Tuple, title):
     # Adjust the spacing between subplots
     plt.subplots_adjust(hspace=1)  # Increase the hspace value to increase spacing between subplots
     plt.show()
-    
-def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, iteration, scenario, num_agents_avail: List = [3] * 10) -> None:
+
+def plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, iteration, scenario, num_agents_avail: List = [3] * 10) -> None: 
     """
     Generate a side-by-side bar chart to compare average resources and average agents used by three algorithms.
 
-    Parameters
-    ----------
+    Parameters:
+    -----------
 
-        fay_averages (List[float]): List of average resources used by Fay's Algorithm.
-        jonathan_averages (List[float]): List of average resources used by Jonathan's Algorithm.
-        maheen_averages (List[float]): List of average resources used by Maheen's Algorithm.
-        agent_fay_averages (List[float]): List of average agents used by Fay's Algorithm.
-        agent_jonathan_averages (List[float]): List of average agents used by Jonathan's Algorithm.
-        agent_maheen_averages (List[float]): List of average agents used by Maheen's Algorithm.
-        iteration (int): The iteration of the experiment.
-        scenario (str): The scenario of the experiment.
-        num_agents_avail (List[int], optional): A list of the number of available agents for each test case.
-            Default is [3] * 10.
+        fay_averages: List[float]
+            List of average resources used by Fay's Algorithm  
 
-    Returns
-    -------
-    
-        None: This function generates the side-by-side bar chart and displays it using plt.show()
+        jonathan_averages: List[float]
+            List of average resources used by Jonathan's Algorithm
+
+        maheen_averages: List[float]
+            List of average resources used by Maheen's Algorithm
+
+        agent_fay_averages: List[float]
+            List of average agents used by Fay's Algorithm
+
+        agent_jonathan_averages: List[float]
+            List of average agents used by Jonathan's Algorithm
+        
+        agent_maheen_averages: List[float]
+            List of average agents used by Maheen's Algorithm
+
+        dis_fay: List[float]
+            List of discrepancy used by Fay's Algorithm  
+
+        jonathan_averages: List[float]
+            List of discrepancy used by Jonathan's Algorithm
+
+        maheen_averages: List[float]
+            List of discrepancy used by Maheen's Algorithm
+
+        skew_fay: List[float]
+            List of skew value used by Fay's Algorithm
+
+        skew_jonathan: List[float]
+            List of skew value used by Jonathan's Algorithm
+        
+        skew_maheen: List[float]
+            List of skew value used by Maheen's Algorithm
+
+        iteration: int
+            The iteration of the experiment
+        
+        scenario: str
+            The scenario of the experiment
+        
+        num_agents_avail: List[int] (optional)
+            A list of the number of available agents for each test case. Default is [3] * 10.
 
     """
     
     # Color of each algorithm
     colors = ['peachpuff', 'lightblue', 'khaki']
-    algorithms = ["Fay's Algorithm", "Jonathan's Algorithm", "Maheen's Algorithm"]
+    algorithms = ["Resource-Conscious Algo", "Bottom-Up Algo", "FairShare Algo"]
 
     # Create figure and axes
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 10))
@@ -1699,9 +1907,9 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
 
     # Plot the side by side bar chart for average resources on ax1
     x = np.arange(max_length)
-    ax1.bar(x - bar_width, fay_padded, width=bar_width, color=colors[0], label="Fay's Algorithm")
-    ax1.bar(x, jonathan_padded, width=bar_width, color=colors[1], label="Jonathan's Algorithm")
-    ax1.bar(x + bar_width, maheen_padded, width=bar_width, color=colors[2], label="Maheen's Algorithm")
+    ax1.bar(x - bar_width, fay_padded, width=bar_width, color=colors[0], label=algorithms[0])
+    ax1.bar(x, jonathan_padded, width=bar_width, color=colors[1], label=algorithms[1])
+    ax1.bar(x + bar_width, maheen_padded, width=bar_width, color=colors[2], label=algorithms[2])
 
     
     ax1.set_ylim(0, max(max(fay_padded), max(jonathan_padded), max(maheen_padded)) + 20)    
@@ -1716,9 +1924,9 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
     ax1.legend(loc='upper left')
     
             
-    ax2.bar(x - bar_width, agent_fay_averages, width=bar_width, color=colors[0], label="Fay's Algorithm")
-    ax2.bar(x, agent_jonathan_averages, width=bar_width, color=colors[1], label="Jonathan's Algorithm")
-    ax2.bar(x + bar_width, agent_maheen_averages, width=bar_width, color=colors[2], label="Maheen's Algorithm")
+    ax2.bar(x - bar_width, agent_fay_averages, width=bar_width, color=colors[0], label=algorithms[0])
+    ax2.bar(x, agent_jonathan_averages, width=bar_width, color=colors[1], label=algorithms[1])
+    ax2.bar(x + bar_width, agent_maheen_averages, width=bar_width, color=colors[2], label=algorithms[2])
 
     ax2.set_ylim(0, max(max(agent_fay_averages), max(agent_jonathan_averages), max(agent_maheen_averages)) + 1)
 
@@ -1731,6 +1939,58 @@ def plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_average
     ax2.set_xticklabels(x + 1)
 
     ax2.legend(loc='upper left')
+
+    # Adjust spacing between subplots
+    plt.subplots_adjust(hspace=1)
+
+    plt.tight_layout()
+    plt.show()
+
+    #PLOT FOR SKEW AND DISCREPANCY
+    # Create figure and axes
+    fig, (ax3, ax4) = plt.subplots(2, 1, figsize=(8, 10))
+    bar_width = 0.2
+
+    max_length = max(len(dis_fay), len(dis_jonathan), len(dis_maheen))
+
+    fay_padded = np.pad(dis_fay, (0, max_length - len(dis_fay)))
+    jonathan_padded = np.pad(dis_jonathan, (0, max_length - len(dis_jonathan)))
+    maheen_padded = np.pad(dis_maheen, (0, max_length - len(dis_maheen)))
+
+    # Plot the side by side bar chart for average resources on ax1
+    x = np.arange(max_length)
+    ax3.bar(x - bar_width, fay_padded, width=bar_width, color=colors[0], label=algorithms[0])
+    ax3.bar(x, jonathan_padded, width=bar_width, color=colors[1], label=algorithms[1])
+    ax3.bar(x + bar_width, maheen_padded, width=bar_width, color=colors[2], label=algorithms[2])
+
+    
+    ax3.set_ylim(0, max(max(fay_padded), max(jonathan_padded), max(maheen_padded)) + 10)  
+
+    if num_agents_avail != [3] * 10:
+        ax3.set_xlabel('Number of Available Agents')
+    else:
+        ax3.set_xlabel('Test Group')
+    ax3.set_ylabel('Discrepancy (Most Assigned - Least Assigned)')
+    ax3.set_title(scenario)
+    ax3.set_xticks(x)
+    ax3.set_xticklabels(x + 1)
+    ax3.legend(loc='upper left')
+        
+    ax4.bar(x - bar_width, skew_fay, width=bar_width, color=colors[0], label=algorithms[0])
+    ax4.bar(x, skew_jonathan, width=bar_width, color=colors[1], label=algorithms[1])
+    ax4.bar(x + bar_width, skew_maheen, width=bar_width, color=colors[2], label=algorithms[2])
+
+    ax4.set_ylim(0, max(max(skew_fay), max(skew_jonathan), max(skew_maheen)) + 1)
+
+    if num_agents_avail != [3] * 10:
+        ax4.set_xlabel('Number of Available Agents')
+    else:
+        ax4.set_xlabel('Test Group')
+    ax4.set_ylabel('Difference from the best-case result')
+    ax4.set_xticks(x)
+    ax4.set_xticklabels(x + 1)
+
+    ax4.legend(loc='upper left')
 
     # Adjust spacing between subplots
     plt.subplots_adjust(hspace=1)
@@ -1770,17 +2030,36 @@ def main() -> None:
     fay_averages = []
     jonathan_averages = []
     maheen_averages = []
+
     agent_fay_averages = []
     agent_jonathan_averages = []
     agent_maheen_averages = []
+
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
+
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = []
 
     for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
         algo_results_maheen = 0
+
         agent_used_fay = 0
         agent_used_jonathan = 0
         agent_used_maheen = 0
+
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
+
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
+
         no_trees = 0
 
         for (generate_tree, title) in test_cases:
@@ -1790,12 +2069,17 @@ def main() -> None:
             result = efficiency_test(tree, [40,40,40])
             if result == None:
                 continue
-            (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+            (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
             #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
+            
             m_total, agents_used_m = efficiency_test_m(tree_m, [40,40,40])
+            dis_m += discrepancy_m(tree_m)
+            skew_m += get_skew_m(tree_m, m_total)
+
             algo_results_fay += f_total
             algo_results_jonathan += j_total
             algo_results_maheen += m_total
+            
             for a in f_agent_goals:
                 if a:
                     agent_used_fay += 1
@@ -1803,16 +2087,34 @@ def main() -> None:
                 if a:
                     agent_used_jonathan += 1  
             agent_used_maheen += agents_used_m 
+
+            dis_f += f_discrepancy
+            dis_j += j_discrepancy
+            dis_m += discrepancy_m(tree_m)
+
+            skew_f += f_skew
+            skew_j += j_skew
+            skew_m += get_skew_m(tree_m, m_total)
+
             no_trees += 1
 
         algo_results_fay /= no_trees
         algo_results_jonathan /= no_trees
         algo_results_maheen /= no_trees
+        
 
         agent_used_fay /= no_trees
         agent_used_jonathan /= no_trees
         agent_used_maheen /= no_trees
-        
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
+
         # Append the averages to the lists
         fay_averages.append(algo_results_fay)
         jonathan_averages.append(algo_results_jonathan)
@@ -1822,7 +2124,15 @@ def main() -> None:
         agent_jonathan_averages.append(agent_used_jonathan)
         agent_maheen_averages.append(agent_used_maheen)
 
-    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, j, scenario_1_a)
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
+
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
+
+    plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_1_a)
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
@@ -1832,17 +2142,36 @@ def main() -> None:
     fay_averages = []
     jonathan_averages = []
     maheen_averages = []
+
     agent_fay_averages = []
     agent_jonathan_averages = []
     agent_maheen_averages = []
+
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
+
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = []
 
     for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
         algo_results_maheen = 0
+
         agent_used_fay = 0
         agent_used_jonathan = 0
         agent_used_maheen = 0
+
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
+
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
+
         no_trees = 0
         resources = [random.randint(35,45),random.randint(35,45),random.randint(35,45)]
 
@@ -1853,12 +2182,15 @@ def main() -> None:
             result = efficiency_test(tree, resources)
             if result == None:
                 continue
-            (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+            (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
             #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+            dis_m += discrepancy_m(tree_m)
+
             algo_results_fay += f_total
             algo_results_jonathan += j_total
             algo_results_maheen += m_total
+
             for a in f_agent_goals:
                 if a:
                     agent_used_fay += 1
@@ -1866,25 +2198,51 @@ def main() -> None:
                 if a:
                     agent_used_jonathan += 1  
             agent_used_maheen += agents_used_m 
+
+            dis_f += f_discrepancy
+            dis_j += j_discrepancy
+
+            skew_f += f_skew
+            skew_j += j_skew
+            skew_m += get_skew_m(tree_m, m_total)
+
             no_trees += 1
 
         algo_results_fay /= no_trees
         algo_results_jonathan /= no_trees
         algo_results_maheen /= no_trees
+        
+
         agent_used_fay /= no_trees
         agent_used_jonathan /= no_trees
         agent_used_maheen /= no_trees
-        
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
+
         # Append the averages to the lists
         fay_averages.append(algo_results_fay)
         jonathan_averages.append(algo_results_jonathan)
         maheen_averages.append(algo_results_maheen)
+
         agent_fay_averages.append(agent_used_fay)
         agent_jonathan_averages.append(agent_used_jonathan)
         agent_maheen_averages.append(agent_used_maheen)
 
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
+
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
         
-    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, j, scenario_1_b)
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_1_b)
 
 
     """
@@ -1906,6 +2264,14 @@ def main() -> None:
     agent_jonathan_averages = []
     agent_maheen_averages = []
 
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
+
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = []
+
     for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
@@ -1915,6 +2281,14 @@ def main() -> None:
         agent_used_jonathan = 0
         agent_used_maheen = 0
 
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
+
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
+
         no_trees = 0
 
         for (generate_tree, title) in test_cases:
@@ -1923,9 +2297,11 @@ def main() -> None:
             result = efficiency_test(tree, [40,40,40])
             if not result:
                 continue
-            (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+            (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
             #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             m_total, agents_used_m = efficiency_test_m(tree_m, [40,40,40])
+            dis_m += discrepancy_m(tree_m)
+            
             algo_results_fay += f_total
             algo_results_jonathan += j_total
             algo_results_maheen += m_total
@@ -1936,25 +2312,52 @@ def main() -> None:
                 if a:
                     agent_used_jonathan += 1  
             agent_used_maheen += agents_used_m 
+
+            dis_f += f_discrepancy
+            dis_j += j_discrepancy
+            dis_m = discrepancy_m(tree_m)
+
+            skew_f += f_skew
+            skew_j += j_skew
+            skew_m += get_skew_m(tree_m, m_total)
+
             no_trees += 1
 
         algo_results_fay /= no_trees
         algo_results_jonathan /= no_trees
         algo_results_maheen /= no_trees
+        
 
         agent_used_fay /= no_trees
         agent_used_jonathan /= no_trees
         agent_used_maheen /= no_trees
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
         
         # Append the averages to the lists
         fay_averages.append(algo_results_fay)
         jonathan_averages.append(algo_results_jonathan)
         maheen_averages.append(algo_results_maheen)
+
         agent_fay_averages.append(agent_used_fay)
         agent_jonathan_averages.append(agent_used_jonathan)
         agent_maheen_averages.append(agent_used_maheen)
 
-    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, j, scenario_2_a)
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
+
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
+
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_2_a)
 
 
             
@@ -1970,6 +2373,14 @@ def main() -> None:
     agent_jonathan_averages = []
     agent_maheen_averages = []
 
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
+
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = [] 
+
     for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
@@ -1978,6 +2389,14 @@ def main() -> None:
         agent_used_fay = 0
         agent_used_jonathan = 0
         agent_used_maheen = 0
+
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
+
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
 
         no_trees = 0
         resources = [random.randint(35,45),random.randint(35,45),random.randint(35,45)]
@@ -1990,9 +2409,10 @@ def main() -> None:
             result = efficiency_test(tree, resources)            
             if result == None:
                 continue
-            (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+            (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
             #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+            
             algo_results_fay += f_total
             algo_results_jonathan += j_total
             algo_results_maheen += m_total
@@ -2003,25 +2423,51 @@ def main() -> None:
                 if a:
                     agent_used_jonathan += 1  
             agent_used_maheen += agents_used_m 
+
+            dis_f += f_discrepancy
+            dis_j += j_discrepancy
+            dis_m += discrepancy_m(tree_m)
+
+            skew_f += f_skew
+            skew_j += j_skew
+            skew_m += get_skew_m(tree_m, m_total)
+
             no_trees += 1
 
         algo_results_fay /= no_trees
         algo_results_jonathan /= no_trees
         algo_results_maheen /= no_trees
+        
+
         agent_used_fay /= no_trees
         agent_used_jonathan /= no_trees
         agent_used_maheen /= no_trees
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
         
         # Append the averages to the lists
         fay_averages.append(algo_results_fay)
         jonathan_averages.append(algo_results_jonathan)
         maheen_averages.append(algo_results_maheen)
+
         agent_fay_averages.append(agent_used_fay)
         agent_jonathan_averages.append(agent_used_jonathan)
         agent_maheen_averages.append(agent_used_maheen)
 
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
 
-    plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_2_b)
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_2_b)
 
 
     """
@@ -2040,18 +2486,38 @@ def main() -> None:
     fay_averages = []
     jonathan_averages = []
     maheen_averages = []
+
     agent_fay_averages = []
     agent_jonathan_averages = []
     agent_maheen_averages = []
+
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
+
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = []
+
     no_agents_avail = []
 
     for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
         algo_results_maheen = 0
+
         agent_used_fay = 0
         agent_used_jonathan = 0
         agent_used_maheen = 0
+
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
+
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
+
         no_trees = 0
 
         no_agents = j + 1
@@ -2063,9 +2529,10 @@ def main() -> None:
             result = efficiency_test(tree, [40] * no_agents)
             if result == None:
                 continue
-            (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+            (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
             #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             m_total, agents_used_m = efficiency_test_m(tree_m, [40] * no_agents)
+
             algo_results_fay += f_total
             algo_results_jonathan += j_total
             algo_results_maheen += m_total
@@ -2076,24 +2543,52 @@ def main() -> None:
                 if a:
                     agent_used_jonathan += 1  
             agent_used_maheen += agents_used_m 
+
+            dis_f += f_discrepancy
+            dis_j += j_discrepancy
+            dis_m += discrepancy_m(tree_m)
+
+            skew_f += f_skew
+            skew_j += j_skew
+            skew_m += get_skew_m(tree_m, m_total)
+
             no_trees += 1
 
         algo_results_fay /= no_trees
         algo_results_jonathan /= no_trees
         algo_results_maheen /= no_trees
+        
+
         agent_used_fay /= no_trees
         agent_used_jonathan /= no_trees
         agent_used_maheen /= no_trees
-        
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
+
         # Append the averages to the lists
         fay_averages.append(algo_results_fay)
         jonathan_averages.append(algo_results_jonathan)
         maheen_averages.append(algo_results_maheen)
+
         agent_fay_averages.append(agent_used_fay)
         agent_jonathan_averages.append(agent_used_jonathan)
         agent_maheen_averages.append(agent_used_maheen)
-        
-    plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_3_a, no_agents_avail)
+
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
+
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
+
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_3_a, no_agents_avail)
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
@@ -2103,18 +2598,38 @@ def main() -> None:
     fay_averages = []
     jonathan_averages = []
     maheen_averages = []
+
     agent_fay_averages = []
     agent_jonathan_averages = []
     agent_maheen_averages = []
+
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
+
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = []
+
     no_agents_avail = []
 
     for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
         algo_results_maheen = 0
+
         agent_used_fay = 0
         agent_used_jonathan = 0
         agent_used_maheen = 0
+
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
+
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
+
         no_trees = 0
         
         no_agents = j + 1
@@ -2123,12 +2638,13 @@ def main() -> None:
 
         for i in range(no_agents):
             resources.append(random.randint(35,45))
+
         for (generate_tree, title) in test_cases:
             tree, tree_m= generate_tree(False, no_agents) 
             result = efficiency_test(tree, resources)
             if result == None:
                 continue
-            (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+            (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
             #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             m_total, agents_used_m = efficiency_test_m(tree_m, resources)
             algo_results_fay += f_total
@@ -2141,25 +2657,51 @@ def main() -> None:
                 if a:
                     agent_used_jonathan += 1  
             agent_used_maheen += agents_used_m 
+            dis_f += f_discrepancy
+            dis_j += j_discrepancy
+            dis_m += discrepancy_m(tree_m)
+
+            skew_f += f_skew
+            skew_j += j_skew
+            skew_m += get_skew_m(tree_m, m_total)
+
             no_trees += 1
 
         algo_results_fay /= no_trees
         algo_results_jonathan /= no_trees
         algo_results_maheen /= no_trees
+        
+
         agent_used_fay /= no_trees
         agent_used_jonathan /= no_trees
         agent_used_maheen /= no_trees
-        
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
+
         # Append the averages to the lists
         fay_averages.append(algo_results_fay)
         jonathan_averages.append(algo_results_jonathan)
         maheen_averages.append(algo_results_maheen)
+
         agent_fay_averages.append(agent_used_fay)
         agent_jonathan_averages.append(agent_used_jonathan)
         agent_maheen_averages.append(agent_used_maheen)
 
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
+
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
         
-    plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_3_b, no_agents_avail)
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_3_b, no_agents_avail)
 
 
     """
@@ -2177,18 +2719,38 @@ def main() -> None:
     fay_averages = []
     jonathan_averages = []
     maheen_averages = []
+
     agent_fay_averages = []
     agent_jonathan_averages = []
     agent_maheen_averages = []
+
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
+
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = [0] * 10
+
     no_agents_avail = []
 
     for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
         algo_results_maheen = 0
+
         agent_used_fay = 0
         agent_used_jonathan = 0
         agent_used_maheen = 0
+
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
+
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
+
         no_trees = 0
 
         no_agents = j + 1
@@ -2201,9 +2763,9 @@ def main() -> None:
             result = efficiency_test(tree, [40] * no_agents)
             if result == None:
                 continue
-            (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+            (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
             #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
-            m_total, agents_used_m = efficiency_test_m(tree_m, [40] * no_agents)
+            m_total, agents_used_m = efficiency_test_m(tree_m, resources)
             algo_results_fay += f_total
             algo_results_jonathan += j_total
             algo_results_maheen += m_total
@@ -2214,25 +2776,52 @@ def main() -> None:
                 if a:
                     agent_used_jonathan += 1  
             agent_used_maheen += agents_used_m 
+            dis_f += f_discrepancy
+            dis_j += j_discrepancy
+            dis_m += discrepancy_m(tree_m)
+
+            skew_f += f_skew
+            skew_j += j_skew
+            skew_m += get_skew_m(tree_m, m_total)
+
             no_trees += 1
 
         algo_results_fay /= no_trees
         algo_results_jonathan /= no_trees
         algo_results_maheen /= no_trees
+        
+
         agent_used_fay /= no_trees
         agent_used_jonathan /= no_trees
         agent_used_maheen /= no_trees
-        
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
+
         # Append the averages to the lists
         fay_averages.append(algo_results_fay)
         jonathan_averages.append(algo_results_jonathan)
         maheen_averages.append(algo_results_maheen)
+
         agent_fay_averages.append(agent_used_fay)
         agent_jonathan_averages.append(agent_used_jonathan)
         agent_maheen_averages.append(agent_used_maheen)
 
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
+
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
+
         
-    plotting(fay_averages, jonathan_averages, maheen_averages, agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_4_a, no_agents_avail)
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_4_a, no_agents_avail)
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
@@ -2242,18 +2831,38 @@ def main() -> None:
     fay_averages = []
     jonathan_averages = []
     maheen_averages = []
+
     agent_fay_averages = []
     agent_jonathan_averages = []
     agent_maheen_averages = []
+
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
+
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = [0] * 10
+
     no_agents_avail = []
 
     for j in range(10):
         algo_results_fay = 0
         algo_results_jonathan = 0
         algo_results_maheen = 0
+
         agent_used_fay = 0
         agent_used_jonathan = 0
         agent_used_maheen = 0
+
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
+
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
+
         no_trees = 0
         no_agents = j + 1
         no_agents_avail.append(no_agents)
@@ -2268,7 +2877,7 @@ def main() -> None:
             result = efficiency_test(tree, resources)
             if result == None:
                 continue
-            (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
+            (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
             #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             m_total, agents_used_m = efficiency_test_m(tree_m, resources)
             algo_results_fay += f_total
@@ -2281,15 +2890,33 @@ def main() -> None:
                 if a:
                     agent_used_jonathan += 1  
             agent_used_maheen += agents_used_m 
+            dis_f += f_discrepancy
+            dis_j += j_discrepancy
+            dis_m += discrepancy_m(tree_m)
+
+            skew_f += f_skew
+            skew_j += j_skew
+            skew_m += get_skew_m(tree_m, m_total)
+
             no_trees += 1
 
         algo_results_fay /= no_trees
         algo_results_jonathan /= no_trees
         algo_results_maheen /= no_trees
+        
+
         agent_used_fay /= no_trees
         agent_used_jonathan /= no_trees
         agent_used_maheen /= no_trees
-        
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
+
         # Append the averages to the lists
         fay_averages.append(algo_results_fay)
         jonathan_averages.append(algo_results_jonathan)
@@ -2298,8 +2925,16 @@ def main() -> None:
         agent_fay_averages.append(agent_used_fay)
         agent_jonathan_averages.append(agent_used_jonathan)
         agent_maheen_averages.append(agent_used_maheen)
+
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
+
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
         
-    plotting(fay_averages, jonathan_averages,maheen_averages, agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_4_b,no_agents_avail)
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_4_b,no_agents_avail)
     
     """
         SCENARIO 5: 
@@ -2321,57 +2956,101 @@ def main() -> None:
     agent_jonathan_averages = []
     agent_maheen_averages = []
 
-    for j in range(10):  
-            algo_results_fay = 0
-            algo_results_jonathan = 0
-            algo_results_maheen = 0
-            agent_used_fay = 0
-            agent_used_jonathan = 0
-            agent_used_maheen = 0
-            no_trees = 0
-            
-            for (generate_tree, title) in test_cases:
-                test_case = generate_tree
-                # each tree run 100 times
-                for _ in range(100):  
-                    tree, tree_m= test_case()
-                
-                    # Run each goal tree
-                    result = efficiency_test(tree, [40,40,40])
-                    if result == None:
-                        continue
-                    (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-                    m_total, agents_used_m = efficiency_test_m(tree_m, [40,40,40])
-                    algo_results_fay += f_total
-                    algo_results_jonathan += j_total
-                    algo_results_maheen += m_total
-                    for a in f_agent_goals:
-                        if a:
-                            agent_used_fay += 1
-                    for a in j_agent_goals:
-                        if a:
-                            agent_used_jonathan += 1  
-                    agent_used_maheen += agents_used_m 
-                    no_trees += 1
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
 
-            # Calculate averages for this tree
-            algo_results_fay /= no_trees
-            algo_results_jonathan /= no_trees
-            algo_results_maheen /= no_trees
-            agent_used_fay /= no_trees
-            agent_used_jonathan /= no_trees
-            agent_used_maheen /= no_trees
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = [0] * 10
+
+    for j in range(10):  
+        algo_results_fay = 0
+        algo_results_jonathan = 0
+        algo_results_maheen = 0
+
+        agent_used_fay = 0
+        agent_used_jonathan = 0
+        agent_used_maheen = 0
+
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
+
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
+
+        no_trees = 0
+        
+        for (generate_tree, title) in test_cases:
+            test_case = generate_tree
+            # each tree run 100 times
+            for _ in range(100):  
+                tree, tree_m= test_case()
             
-            # Append the averages to the lists
-            fay_averages.append(algo_results_fay)
-            jonathan_averages.append(algo_results_jonathan)
-            maheen_averages.append(algo_results_maheen)
-            agent_fay_averages.append(agent_used_fay)
-            agent_jonathan_averages.append(agent_used_jonathan)
-            agent_maheen_averages.append(agent_used_maheen)
+                # Run each goal tree
+                result = efficiency_test(tree, [40,40,40])
+                if result == None:
+                    continue
+                (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
+                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                algo_results_fay += f_total
+                algo_results_jonathan += j_total
+                algo_results_maheen += m_total
+                for a in f_agent_goals:
+                    if a:
+                        agent_used_fay += 1
+                for a in j_agent_goals:
+                    if a:
+                        agent_used_jonathan += 1  
+                agent_used_maheen += agents_used_m 
+                dis_f += f_discrepancy
+                dis_j += j_discrepancy
+                dis_m += discrepancy_m(tree_m)
+
+                skew_f += f_skew
+                skew_j += j_skew
+                skew_m += get_skew_m(tree_m, m_total)
+
+                no_trees += 1
+
+        algo_results_fay /= no_trees
+        algo_results_jonathan /= no_trees
+        algo_results_maheen /= no_trees
+        
+
+        agent_used_fay /= no_trees
+        agent_used_jonathan /= no_trees
+        agent_used_maheen /= no_trees
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
+
+        # Append the averages to the lists
+        fay_averages.append(algo_results_fay)
+        jonathan_averages.append(algo_results_jonathan)
+        maheen_averages.append(algo_results_maheen)
+
+        agent_fay_averages.append(agent_used_fay)
+        agent_jonathan_averages.append(agent_used_jonathan)
+        agent_maheen_averages.append(agent_used_maheen)
+
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
+
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
 
     # Plotting for each test case
-    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_5_a) 
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_5_a) 
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
@@ -2386,58 +3065,104 @@ def main() -> None:
     agent_jonathan_averages = []
     agent_maheen_averages = []
 
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
+
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = [0] * 10
+
     for j in range(10):
-            algo_results_fay = 0
-            algo_results_jonathan = 0
-            algo_results_maheen = 0
-            agent_used_fay = 0
-            agent_used_jonathan = 0
-            agent_used_maheen = 0
-            no_trees = 0
-            resources = [random.randint(35,45),random.randint(35,45),random.randint(35,45)]
+        algo_results_fay = 0
+        algo_results_jonathan = 0
+        algo_results_maheen = 0
 
-            for (generate_tree, title) in test_cases:
-                test_case = generate_tree
-                # each tree run 100 times
-                for _ in range(100):  
-                    tree, tree_m= test_case()
-                
-                    # Run each goal tree
-                    result = efficiency_test(tree, resources)
-                    if result == None:
-                        continue
-                    (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-                    m_total, agents_used_m = efficiency_test_m(tree_m, resources)
-                    algo_results_fay += f_total
-                    algo_results_jonathan += j_total
-                    algo_results_maheen += m_total
-                    for a in f_agent_goals:
-                        if a:
-                            agent_used_fay += 1
-                    for a in j_agent_goals:
-                        if a:
-                            agent_used_jonathan += 1  
-                    agent_used_maheen += agents_used_m 
-                    no_trees += 1
+        agent_used_fay = 0
+        agent_used_jonathan = 0
+        agent_used_maheen = 0
 
-            # Calculate averages for this tree
-            algo_results_fay /= no_trees
-            algo_results_jonathan /= no_trees
-            algo_results_maheen /= no_trees
-            agent_used_fay /= no_trees
-            agent_used_jonathan /= no_trees
-            agent_used_maheen /= no_trees
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
+
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
+
+        no_trees = 0
+        resources = [random.randint(35,45),random.randint(35,45),random.randint(35,45)]
+
+        for (generate_tree, title) in test_cases:
+            test_case = generate_tree
+            # each tree run 100 times
+            for _ in range(100):  
+                tree, tree_m= test_case()
             
-            # Append the averages to the lists
-            fay_averages.append(algo_results_fay)
-            jonathan_averages.append(algo_results_jonathan)
-            maheen_averages.append(algo_results_maheen)
-            agent_fay_averages.append(agent_used_fay)
-            agent_jonathan_averages.append(agent_used_jonathan)
-            agent_maheen_averages.append(agent_used_maheen)
+                # Run each goal tree
+                result = efficiency_test(tree, resources)
+                if result == None:
+                    continue
+                (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
+                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                
+                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                algo_results_fay += f_total
+                algo_results_jonathan += j_total
+                algo_results_maheen += m_total
+                for a in f_agent_goals:
+                    if a:
+                        agent_used_fay += 1
+                for a in j_agent_goals:
+                    if a:
+                        agent_used_jonathan += 1  
+                agent_used_maheen += agents_used_m 
+                dis_f += f_discrepancy
+                dis_j += j_discrepancy
+                dis_m += discrepancy_m(tree_m)
+
+                skew_f += f_skew
+                skew_j += j_skew
+                skew_m += get_skew_m(tree_m, m_total)
+
+                no_trees += 1
+
+        algo_results_fay /= no_trees
+        algo_results_jonathan /= no_trees
+        algo_results_maheen /= no_trees
+        
+
+        agent_used_fay /= no_trees
+        agent_used_jonathan /= no_trees
+        agent_used_maheen /= no_trees
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
+
+        # Append the averages to the lists
+        fay_averages.append(algo_results_fay)
+        jonathan_averages.append(algo_results_jonathan)
+        maheen_averages.append(algo_results_maheen)
+
+        agent_fay_averages.append(agent_used_fay)
+        agent_jonathan_averages.append(agent_used_jonathan)
+        agent_maheen_averages.append(agent_used_maheen)
+
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
+
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
 
     # Plotting for each test case
-    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_5_b) 
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_5_b) 
 
     """
         SCENARIO 6: 
@@ -2459,54 +3184,100 @@ def main() -> None:
     agent_jonathan_averages = []
     agent_maheen_averages = []
 
-    for j in range(10):  # 10 trees per test case
-            algo_results_fay = 0
-            algo_results_jonathan = 0
-            algo_results_maheen = 0
-            agent_used_fay = 0
-            agent_used_jonathan = 0
-            agent_used_maheen = 0
-            no_trees = 0
-            
-            for (generate_tree, title) in test_cases:
-                test_case = generate_tree
-                # each tree run 100 times
-                for _ in range(100):  
-                    tree, tree_m= test_case(True, 3)
-                
-                    # Run each goal tree
-                    result = efficiency_test(tree, [40,40,40])
-                    if result == None:
-                        continue
-                    (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-                    m_total, agents_used_m = efficiency_test_m(tree_m, [40,40,40])
-                    algo_results_fay += f_total
-                    algo_results_jonathan += j_total
-                    algo_results_maheen += m_total
-                    for a in f_agent_goals:
-                        if a:
-                            agent_used_fay += 1
-                    for a in j_agent_goals:
-                        if a:
-                            agent_used_jonathan += 1  
-                    agent_used_maheen += agents_used_m 
-                    no_trees += 1
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
 
-            # Calculate averages for this tree
-            algo_results_fay /= no_trees
-            algo_results_jonathan /= no_trees
-            algo_results_maheen /= no_trees
-            agent_used_fay /= no_trees
-            agent_used_jonathan /= no_trees
-            agent_used_maheen /= no_trees
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = [0] * 10
+
+    for j in range(10):  # 10 trees per test case
+        algo_results_fay = 0
+        algo_results_jonathan = 0
+        algo_results_maheen = 0
+
+        agent_used_fay = 0
+        agent_used_jonathan = 0
+        agent_used_maheen = 0
+
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
+
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
+
+        no_trees = 0
+        
+        for (generate_tree, title) in test_cases:
+            test_case = generate_tree
+            # each tree run 100 times
+            for _ in range(100):  
+                tree, tree_m= test_case(True, 3)
             
-            # Append the averages to the lists
-            fay_averages.append(algo_results_fay)
-            jonathan_averages.append(algo_results_jonathan)
-            maheen_averages.append(algo_results_maheen)
-            agent_fay_averages.append(agent_used_fay)
-            agent_jonathan_averages.append(agent_used_jonathan)
-            agent_maheen_averages.append(agent_used_maheen)
+                # Run each goal tree
+                result = efficiency_test(tree, [40,40,40])
+                if result == None:
+                    continue
+                (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
+                m_total, agents_used_m = efficiency_test_m(tree_m, [40,40,40])
+
+                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                algo_results_fay += f_total
+                algo_results_jonathan += j_total
+                algo_results_maheen += m_total
+                for a in f_agent_goals:
+                    if a:
+                        agent_used_fay += 1
+                for a in j_agent_goals:
+                    if a:
+                        agent_used_jonathan += 1  
+                agent_used_maheen += agents_used_m 
+                dis_f += f_discrepancy
+                dis_j += j_discrepancy
+                dis_m += discrepancy_m(tree_m)
+
+                skew_f += f_skew
+                skew_j += j_skew
+                skew_m += get_skew_m(tree_m, m_total)
+
+                no_trees += 1
+
+        algo_results_fay /= no_trees
+        algo_results_jonathan /= no_trees
+        algo_results_maheen /= no_trees
+        
+
+        agent_used_fay /= no_trees
+        agent_used_jonathan /= no_trees
+        agent_used_maheen /= no_trees
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
+
+        # Append the averages to the lists
+        fay_averages.append(algo_results_fay)
+        jonathan_averages.append(algo_results_jonathan)
+        maheen_averages.append(algo_results_maheen)
+
+        agent_fay_averages.append(agent_used_fay)
+        agent_jonathan_averages.append(agent_used_jonathan)
+        agent_maheen_averages.append(agent_used_maheen)
+
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
+
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
 
     # Plotting for each test case
     plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_6_a) 
@@ -2524,57 +3295,102 @@ def main() -> None:
     agent_jonathan_averages = []
     agent_maheen_averages = []
 
-    for j in range(10):
-            algo_results_fay = 0
-            algo_results_jonathan = 0
-            algo_results_maheen = 0
-            agent_used_fay = 0
-            agent_used_jonathan = 0
-            agent_used_maheen = 0
-            no_trees = 0
-            resources = [random.randint(35,45),random.randint(35,45),random.randint(35,45)]
-            for (generate_tree, title) in test_cases:
-                test_case = generate_tree
-                # each tree run 100 times
-                for _ in range(100):  
-                    tree, tree_m= test_case(True, 3)
-                
-                    # Run each goal tree
-                    result = efficiency_test(tree, resources)
-                    if result == None:
-                        continue
-                    (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-                    m_total, agents_used_m = efficiency_test_m(tree_m, resources)
-                    algo_results_fay += f_total
-                    algo_results_jonathan += j_total
-                    algo_results_maheen += m_total
-                    for a in f_agent_goals:
-                        if a:
-                            agent_used_fay += 1
-                    for a in j_agent_goals:
-                        if a:
-                            agent_used_jonathan += 1  
-                    agent_used_maheen += agents_used_m 
-                    no_trees += 1
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
 
-            # Calculate averages for this tree
-            algo_results_fay /= no_trees
-            algo_results_jonathan /= no_trees
-            algo_results_maheen /= no_trees
-            agent_used_fay /= no_trees
-            agent_used_jonathan /= no_trees
-            agent_used_maheen /= no_trees
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = [0] * 10
+
+    for j in range(10):
+        algo_results_fay = 0
+        algo_results_jonathan = 0
+        algo_results_maheen = 0
+
+        agent_used_fay = 0
+        agent_used_jonathan = 0
+        agent_used_maheen = 0
+
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
+
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
+
+        no_trees = 0
+        resources = [random.randint(35,45),random.randint(35,45),random.randint(35,45)]
+        for (generate_tree, title) in test_cases:
+            test_case = generate_tree
+            # each tree run 100 times
+            for _ in range(100):  
+                tree, tree_m= test_case(True, 3)
             
-            # Append the averages to the lists
-            fay_averages.append(algo_results_fay)
-            jonathan_averages.append(algo_results_jonathan)
-            maheen_averages.append(algo_results_maheen)
-            agent_fay_averages.append(agent_used_fay)
-            agent_jonathan_averages.append(agent_used_jonathan)
-            agent_maheen_averages.append(agent_used_maheen)
+                # Run each goal tree
+                result = efficiency_test(tree, resources)
+                if result == None:
+                    continue
+                (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
+                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                algo_results_fay += f_total
+                algo_results_jonathan += j_total
+                algo_results_maheen += m_total
+                for a in f_agent_goals:
+                    if a:
+                        agent_used_fay += 1
+                for a in j_agent_goals:
+                    if a:
+                        agent_used_jonathan += 1  
+                agent_used_maheen += agents_used_m 
+                dis_f += f_discrepancy
+                dis_j += j_discrepancy
+                dis_m += discrepancy_m(tree_m)
+
+                skew_f += f_skew
+                skew_j += j_skew
+                skew_m += get_skew_m(tree_m, m_total)
+
+                no_trees += 1
+
+        algo_results_fay /= no_trees
+        algo_results_jonathan /= no_trees
+        algo_results_maheen /= no_trees
+        
+
+        agent_used_fay /= no_trees
+        agent_used_jonathan /= no_trees
+        agent_used_maheen /= no_trees
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
+
+        # Append the averages to the lists
+        fay_averages.append(algo_results_fay)
+        jonathan_averages.append(algo_results_jonathan)
+        maheen_averages.append(algo_results_maheen)
+
+        agent_fay_averages.append(agent_used_fay)
+        agent_jonathan_averages.append(agent_used_jonathan)
+        agent_maheen_averages.append(agent_used_maheen)
+
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
+
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
 
     # Plotting for each test case
-    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_6_b) 
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_6_b) 
 
     """
         SCENARIO 7: 
@@ -2596,62 +3412,108 @@ def main() -> None:
     agent_jonathan_averages = []
     agent_maheen_averages = []
 
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
+
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = [0] * 10
+
     no_agents_avail = []
 
     for j in range(10):  
-            algo_results_fay = 0
-            algo_results_jonathan = 0
-            algo_results_maheen = 0
-            agent_used_fay = 0
-            agent_used_jonathan = 0
-            agent_used_maheen = 0
-            no_trees = 0
+        algo_results_fay = 0
+        algo_results_jonathan = 0
+        algo_results_maheen = 0
 
-            no_agents = j + 1
-            no_agents_avail.append(no_agents)
+        agent_used_fay = 0
+        agent_used_jonathan = 0
+        agent_used_maheen = 0
 
-            for (generate_tree, title) in test_cases:
-                test_case = generate_tree
-                # each tree run 100 times
-                for _ in range(100):  
-                    tree, tree_m= test_case(False, no_agents)
-                
-                    # Run each goal tree
-                    result = efficiency_test(tree, [40] * no_agents)
-                    if result == None:
-                        continue
-                    (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-                    m_total, agents_used_m = efficiency_test_m(tree_m, [40] * no_agents)
-                    algo_results_fay += f_total
-                    algo_results_jonathan += j_total
-                    algo_results_maheen += m_total
-                    for a in f_agent_goals:
-                        if a:
-                            agent_used_fay += 1
-                    for a in j_agent_goals:
-                        if a:
-                            agent_used_jonathan += 1  
-                    agent_used_maheen += agents_used_m 
-                    no_trees += 1
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
 
-            # Calculate averages for this tree
-            algo_results_fay /= no_trees
-            algo_results_jonathan /= no_trees
-            algo_results_maheen /= no_trees
-            agent_used_fay /= no_trees
-            agent_used_jonathan /= no_trees
-            agent_used_maheen /= no_trees
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
+
+        no_trees = 0
+
+        no_agents = j + 1
+        no_agents_avail.append(no_agents)
+
+        for (generate_tree, title) in test_cases:
+            test_case = generate_tree
+            # each tree run 100 times
+            for _ in range(100):  
+                tree, tree_m= test_case(False, no_agents)
             
-            # Append the averages to the lists
-            fay_averages.append(algo_results_fay)
-            jonathan_averages.append(algo_results_jonathan)
-            maheen_averages.append(algo_results_maheen)
-            agent_fay_averages.append(agent_used_fay)
-            agent_jonathan_averages.append(agent_used_jonathan)
-            agent_maheen_averages.append(agent_used_maheen)
+                # Run each goal tree
+                result = efficiency_test(tree, [40] * no_agents)
+                if result == None:
+                    continue
+                (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
+                m_total, agents_used_m = efficiency_test_m(tree_m, [40] * no_agents)
+                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                algo_results_fay += f_total
+                algo_results_jonathan += j_total
+                algo_results_maheen += m_total
+                for a in f_agent_goals:
+                    if a:
+                        agent_used_fay += 1
+                for a in j_agent_goals:
+                    if a:
+                        agent_used_jonathan += 1  
+                agent_used_maheen += agents_used_m 
+                dis_f += f_discrepancy
+                dis_j += j_discrepancy
+                dis_m += discrepancy_m(tree_m)
+
+                skew_f += f_skew
+                skew_j += j_skew
+                skew_m += get_skew_m(tree_m, m_total)
+
+                no_trees += 1
+
+        algo_results_fay /= no_trees
+        algo_results_jonathan /= no_trees
+        algo_results_maheen /= no_trees
+        
+
+        agent_used_fay /= no_trees
+        agent_used_jonathan /= no_trees
+        agent_used_maheen /= no_trees
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
+
+        # Append the averages to the lists
+        fay_averages.append(algo_results_fay)
+        jonathan_averages.append(algo_results_jonathan)
+        maheen_averages.append(algo_results_maheen)
+
+        agent_fay_averages.append(agent_used_fay)
+        agent_jonathan_averages.append(agent_used_jonathan)
+        agent_maheen_averages.append(agent_used_maheen)
+
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
+
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
+
 
     # Plotting for each test case
-    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_7_a, no_agents_avail) 
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_7_a, no_agents_avail) 
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
@@ -2666,65 +3528,112 @@ def main() -> None:
     agent_jonathan_averages = []
     agent_maheen_averages = []
 
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
+
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = []
+
     no_agents_avail = []
     for j in range(10):
-            algo_results_fay = 0
-            algo_results_jonathan = 0
-            algo_results_maheen = 0
-            agent_used_fay = 0
-            agent_used_jonathan = 0
-            agent_used_maheen = 0
-            no_trees = 0
+        algo_results_fay = 0
+        algo_results_jonathan = 0
+        algo_results_maheen = 0
+
+        agent_used_fay = 0
+        agent_used_jonathan = 0
+        agent_used_maheen = 0
+
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
+
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
+
+        no_trees = 0
+        
+        no_agents = j + 1
+        no_agents_avail.append(no_agents)
+        resources = []
+
+        for i in range(no_agents):
+            resources.append(random.randint(35,45))
+
+        for (generate_tree, title) in test_cases:
+            test_case = generate_tree
+            # each tree run 100 times
+            for _ in range(100):  
+                tree, tree_m= test_case(False, no_agents)
             
-            no_agents = j + 1
-            no_agents_avail.append(no_agents)
-            resources = []
-
-            for i in range(no_agents):
-                resources.append(random.randint(35,45))
-
-            for (generate_tree, title) in test_cases:
-                test_case = generate_tree
-                # each tree run 100 times
-                for _ in range(100):  
-                    tree, tree_m= test_case(False, no_agents)
+                # Run each goal tree
+                result = efficiency_test(tree, resources)
+                if result == None:
+                    continue
+                (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
+                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
                 
-                    # Run each goal tree
-                    result = efficiency_test(tree, resources)
-                    if result == None:
-                        continue
-                    (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-                    m_total, agents_used_m = efficiency_test_m(tree_m, resources)
-                    algo_results_fay += f_total
-                    algo_results_jonathan += j_total
-                    algo_results_maheen += m_total
-                    for a in f_agent_goals:
-                        if a:
-                            agent_used_fay += 1
-                    for a in j_agent_goals:
-                        if a:
-                            agent_used_jonathan += 1  
-                    agent_used_maheen += agents_used_m 
-                    no_trees += 1
+                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                algo_results_fay += f_total
+                algo_results_jonathan += j_total
+                algo_results_maheen += m_total
+                for a in f_agent_goals:
+                    if a:
+                        agent_used_fay += 1
+                for a in j_agent_goals:
+                    if a:
+                        agent_used_jonathan += 1  
+                agent_used_maheen += agents_used_m 
+                dis_f += f_discrepancy
+                dis_j += j_discrepancy
+                dis_m += discrepancy_m(tree_m)
 
-            # Calculate averages for this tree
-            algo_results_fay /= no_trees
-            algo_results_jonathan /= no_trees
-            algo_results_maheen /= no_trees
-            agent_used_fay /= no_trees
-            agent_used_jonathan /= no_trees
-            agent_used_maheen /= no_trees
-            
-            # Append the averages to the lists
-            fay_averages.append(algo_results_fay)
-            jonathan_averages.append(algo_results_jonathan)
-            maheen_averages.append(algo_results_maheen)
-            agent_fay_averages.append(agent_used_fay)
-            agent_jonathan_averages.append(agent_used_jonathan)
-            agent_maheen_averages.append(agent_used_maheen)
+                skew_f += f_skew
+                skew_j += j_skew
+                skew_m += get_skew_m(tree_m, m_total)
+
+                no_trees += 1
+
+        algo_results_fay /= no_trees
+        algo_results_jonathan /= no_trees
+        algo_results_maheen /= no_trees
+        
+
+        agent_used_fay /= no_trees
+        agent_used_jonathan /= no_trees
+        agent_used_maheen /= no_trees
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
+
+        # Append the averages to the lists
+        fay_averages.append(algo_results_fay)
+        jonathan_averages.append(algo_results_jonathan)
+        maheen_averages.append(algo_results_maheen)
+
+        agent_fay_averages.append(agent_used_fay)
+        agent_jonathan_averages.append(agent_used_jonathan)
+        agent_maheen_averages.append(agent_used_maheen)
+
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
+
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
+
 
     # Plotting for each test case
-    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_7_b, no_agents_avail) 
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_7_b, no_agents_avail) 
 
     """
         SCENARIO 8: 
@@ -2746,62 +3655,109 @@ def main() -> None:
     agent_jonathan_averages = []
     agent_maheen_averages = []
 
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
+
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = []
+
     no_agents_avail = []
 
     for j in range(10):  # 10 trees per test case
-            algo_results_fay = 0
-            algo_results_jonathan = 0
-            algo_results_maheen = 0
-            agent_used_fay = 0
-            agent_used_jonathan = 0
-            agent_used_maheen = 0
-            no_trees = 0
+        algo_results_fay = 0
+        algo_results_jonathan = 0
+        algo_results_maheen = 0
 
-            no_agents = j + 1
-            no_agents_avail.append(no_agents)
+        agent_used_fay = 0
+        agent_used_jonathan = 0
+        agent_used_maheen = 0
+
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
+
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
+
+        no_trees = 0
+
+        no_agents = j + 1
+        no_agents_avail.append(no_agents)
+        
+        for (generate_tree, title) in test_cases:
+            test_case = generate_tree
+            # each tree run 100 times
+            for _ in range(100):  
+                tree, tree_m= test_case(True,  no_agents)
             
-            for (generate_tree, title) in test_cases:
-                test_case = generate_tree
-                # each tree run 100 times
-                for _ in range(100):  
-                    tree, tree_m= test_case(True,  no_agents)
+                # Run each goal tree
+                result = efficiency_test(tree, [40] * no_agents )
+                if result == None:
+                    continue
+                (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
+                m_total, agents_used_m = efficiency_test_m(tree_m, [40] * no_agents)
                 
-                    # Run each goal tree
-                    result = efficiency_test(tree, [40] * no_agents )
-                    if result == None:
-                        continue
-                    (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-                    m_total, agents_used_m = efficiency_test_m(tree_m, [40] * no_agents)
-                    algo_results_fay += f_total
-                    algo_results_jonathan += j_total
-                    algo_results_maheen += m_total
-                    for a in f_agent_goals:
-                        if a:
-                            agent_used_fay += 1
-                    for a in j_agent_goals:
-                        if a:
-                            agent_used_jonathan += 1  
-                    agent_used_maheen += agents_used_m 
-                    no_trees += 1
+                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                algo_results_fay += f_total
+                algo_results_jonathan += j_total
+                algo_results_maheen += m_total
+                for a in f_agent_goals:
+                    if a:
+                        agent_used_fay += 1
+                for a in j_agent_goals:
+                    if a:
+                        agent_used_jonathan += 1  
+                agent_used_maheen += agents_used_m 
+                dis_f += f_discrepancy
+                dis_j += j_discrepancy
+                dis_m += discrepancy_m(tree_m)
 
-            # Calculate averages for this tree
-            algo_results_fay /= no_trees
-            algo_results_jonathan /= no_trees
-            algo_results_maheen /= no_trees
-            agent_used_fay /= no_trees
-            agent_used_jonathan /= no_trees
-            agent_used_maheen /= no_trees
-            
-            # Append the averages to the lists
-            fay_averages.append(algo_results_fay)
-            jonathan_averages.append(algo_results_jonathan)
-            maheen_averages.append(algo_results_maheen)
-            agent_fay_averages.append(agent_used_fay)
-            agent_jonathan_averages.append(agent_used_jonathan)
-            agent_maheen_averages.append(agent_used_maheen)
+                skew_f += f_skew
+                skew_j += j_skew
+                skew_m += get_skew_m(tree_m, m_total)
+
+                no_trees += 1
+
+        algo_results_fay /= no_trees
+        algo_results_jonathan /= no_trees
+        algo_results_maheen /= no_trees
+        
+
+        agent_used_fay /= no_trees
+        agent_used_jonathan /= no_trees
+        agent_used_maheen /= no_trees
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
+
+        # Append the averages to the lists
+        fay_averages.append(algo_results_fay)
+        jonathan_averages.append(algo_results_jonathan)
+        maheen_averages.append(algo_results_maheen)
+
+        agent_fay_averages.append(agent_used_fay)
+        agent_jonathan_averages.append(agent_used_jonathan)
+        agent_maheen_averages.append(agent_used_maheen)
+
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
+
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
+
 
     # Plotting for each test case
-    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_8_a, no_agents_avail) 
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_8_a, no_agents_avail) 
 
     # SUB CASE: DIFFERENT MAX RESOURCES
     # Test for 10 times each scenario
@@ -2816,67 +3772,113 @@ def main() -> None:
     agent_jonathan_averages = []
     agent_maheen_averages = []
 
+    dis_fay = []
+    dis_jonathan = []
+    dis_maheen = []
+
+    skew_fay = []
+    skew_jonathan = []
+    skew_maheen = []
+
     no_agents_avail = []
 
     for j in range(10):
-            algo_results_fay = 0
-            algo_results_jonathan = 0
-            algo_results_maheen = 0
-            agent_used_fay = 0
-            agent_used_jonathan = 0
-            agent_used_maheen = 0
-            no_trees = 0
+        algo_results_fay = 0
+        algo_results_jonathan = 0
+        algo_results_maheen = 0
 
-            no_agents = j + 1
-            no_agents_avail.append(no_agents)
+        agent_used_fay = 0
+        agent_used_jonathan = 0
+        agent_used_maheen = 0
 
-            resources = []
+        dis_f = 0
+        dis_m = 0
+        dis_j = 0
 
-            for i in range(no_agents):
-                resources.append(random.randint(35,45))
+        skew_f = 0
+        skew_j = 0
+        skew_m = 0
 
-            for (generate_tree, title) in test_cases:
-                test_case = generate_tree
-                # each tree run 100 times
-                for _ in range(100):  
-                    tree, tree_m= test_case(True, no_agents)
-                
-                    # Run each goal tree
-                    result = efficiency_test(tree, resources)
-                    if result == None:
-                        continue
-                    (f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents) = result
-                    m_total, agents_used_m = efficiency_test_m(tree_m, resources)
-                    algo_results_fay += f_total
-                    algo_results_jonathan += j_total
-                    algo_results_maheen += m_total
-                    for a in f_agent_goals:
-                        if a:
-                            agent_used_fay += 1
-                    for a in j_agent_goals:
-                        if a:
-                            agent_used_jonathan += 1  
-                    agent_used_maheen += agents_used_m 
-                    no_trees += 1
+        no_trees = 0
 
-            # Calculate averages for this tree
-            algo_results_fay /= no_trees
-            algo_results_jonathan /= no_trees
-            algo_results_maheen /= no_trees
-            agent_used_fay /= no_trees
-            agent_used_jonathan /= no_trees
-            agent_used_maheen /= no_trees
+        no_agents = j + 1
+        no_agents_avail.append(no_agents)
+
+        resources = []
+
+        for i in range(no_agents):
+            resources.append(random.randint(35,45))
+
+        for (generate_tree, title) in test_cases:
+            test_case = generate_tree
+            # each tree run 100 times
+            for _ in range(100):  
+                tree, tree_m= test_case(True, no_agents)
             
-            # Append the averages to the lists
-            fay_averages.append(algo_results_fay)
-            jonathan_averages.append(algo_results_jonathan)
-            maheen_averages.append(algo_results_maheen)
-            agent_fay_averages.append(agent_used_fay)
-            agent_jonathan_averages.append(agent_used_jonathan)
-            agent_maheen_averages.append(agent_used_maheen)
+                # Run each goal tree
+                result = efficiency_test(tree, resources)
+                if result == None:
+                    continue
+                (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
+                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                m_total, agents_used_m = efficiency_test_m(tree_m, resources)
+                algo_results_fay += f_total
+                algo_results_jonathan += j_total
+                algo_results_maheen += m_total
+                for a in f_agent_goals:
+                    if a:
+                        agent_used_fay += 1
+                for a in j_agent_goals:
+                    if a:
+                        agent_used_jonathan += 1  
+                agent_used_maheen += agents_used_m 
+                dis_f += f_discrepancy
+                dis_j += j_discrepancy
+                dis_m += discrepancy_m(tree_m)
+
+                skew_f += f_skew
+                skew_j += j_skew
+                skew_m += get_skew_m(tree_m, m_total)
+
+                no_trees += 1
+
+        algo_results_fay /= no_trees
+        algo_results_jonathan /= no_trees
+        algo_results_maheen /= no_trees
+        
+
+        agent_used_fay /= no_trees
+        agent_used_jonathan /= no_trees
+        agent_used_maheen /= no_trees
+
+        dis_f /= no_trees
+        dis_j /= no_trees
+        dis_m /= no_trees
+
+        skew_f /= no_trees
+        skew_j /= no_trees
+        skew_m /= no_trees
+
+        # Append the averages to the lists
+        fay_averages.append(algo_results_fay)
+        jonathan_averages.append(algo_results_jonathan)
+        maheen_averages.append(algo_results_maheen)
+
+        agent_fay_averages.append(agent_used_fay)
+        agent_jonathan_averages.append(agent_used_jonathan)
+        agent_maheen_averages.append(agent_used_maheen)
+
+        dis_fay.append(dis_f)
+        dis_jonathan.append(dis_j)
+        dis_maheen.append(dis_m)
+
+        skew_fay.append(skew_f)
+        skew_jonathan.append(skew_j)
+        skew_maheen.append(skew_m)
+
 
     # Plotting for each test case
-    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages, agent_jonathan_averages, agent_maheen_averages, j, scenario_8_b, no_agents_avail) 
+    plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_8_b, no_agents_avail) 
 
 if __name__ == "__main__":
     main()
