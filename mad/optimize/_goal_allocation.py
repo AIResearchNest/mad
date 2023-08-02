@@ -1575,7 +1575,7 @@ Random Agent
 
 def randomly_assigned(goal_tree: GoalNode, max_res: List[int], verbose = 0):
     """
-    Randomly assigns goals to agents
+    Randomly assigns agents to best goals
 
     Parameters:
     -----------
@@ -1586,6 +1586,7 @@ def randomly_assigned(goal_tree: GoalNode, max_res: List[int], verbose = 0):
     --------
     Dict[str, List[GoalNode]]
         A dictionary that maps agents to the list of goals assigned to them
+
     """
     
     # Initialize the goal allocation dictionary
