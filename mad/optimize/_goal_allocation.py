@@ -1404,7 +1404,7 @@ def perform_auction_m(node, agent_resources):
     # Check if the winning bidder can cover the cost of the goal node
     if winning_bid >= node.cost:
         # Deduct the cost value from the winning bidder's resources
-        agent_resources[winning_bidder] -= node.agents[winning_bidder] 
+        agent_resources[winning_bidder] -= node.cost
         node.assigned_agent = winning_bidder
     elif len(bids) > 0:
         bids.pop(winning_bidder)
@@ -1412,18 +1412,18 @@ def perform_auction_m(node, agent_resources):
         second_bid = bids[second_bidder]
         if second_bid >= node.cost:
             # Deduct the cost value from the second bidder's resources
-            agent_resources[second_bidder] -= node.agents[second_bidder] 
+            agent_resources[second_bidder] -= node.cost 
             node.assigned_agent = second_bidder
         else:
             total_resources = sum(agent_resources.values())
-            print("\nResources Total...:", total_resources)
-            print("Cost of Goal...:", node.cost)
+            #print("\nResources Total...:", total_resources)
+            #print("Cost of Goal...:", node.cost)
 
             if total_resources >= node.cost:
                 # Generate bids from each agent based on their available resources
                 bids = {agent: resource for agent, resource in agent_resources.items() if resource > 0}
 
-                print("Agent Resources:", agent_resources)
+                #print("Agent Resources:", agent_resources)
 
                 winning_bidder = max(bids, key=bids.get)
                 winning_bid = bids[winning_bidder]
@@ -1431,9 +1431,9 @@ def perform_auction_m(node, agent_resources):
                 if winning_bid <= node.cost:
                     # Deduct the cost value from the winning bidder's resources
                     if agent_resources[winning_bidder] < node.cost:
-                        remaining_cost = node.agents[second_bidder] - agent_resources[winning_bidder]
+                        remaining_cost = node.cost - agent_resources[winning_bidder]
                         agent_resources[winning_bidder] = 0
-                        print("Agent Updated Resources:", agent_resources)
+                        #print("Agent Updated Resources:", agent_resources)
 
                         assigned_agents = []
                         assigned_agents.append(winning_bidder)
@@ -1447,12 +1447,12 @@ def perform_auction_m(node, agent_resources):
                                     remaining_cost = remaining_cost - resource
                                     agent_resources[agent_with_highest_resource] -= resource
                                     assigned_agents.append(agent_with_highest_resource)
-                                    print("Agent Updated Resources:", agent_resources)
+                                    #print("Agent Updated Resources:", agent_resources)
                                 else:
                                     agent_resources[agent_with_highest_resource] -= remaining_cost
                                     assigned_agents.append(agent_with_highest_resource)
                                     remaining_cost = 0
-                                    print("Agent Updated Resources:", agent_resources)
+                                    #print("Agent Updated Resources:", agent_resources)
 
                         print("\nAssigned Agents:", assigned_agents)
                         print("\nRemaining Cost:", remaining_cost)
@@ -1471,17 +1471,17 @@ def perform_auction_m(node, agent_resources):
             if agent_resources[agent] > 0: #and agent_resources[agent] >= node.agents[agent]:
                 bids_new[agent] = agent_resources[agent]
 
-        print(bids_new, "BID123333")
+        #print(bids_new, "BID123333")
         third_bidder = max(bids_new, key=bids_new.get)
         third_bid = bids_new[third_bidder]
-        print(third_bid, third_bidder, "hehe")
+        #print(third_bid, third_bidder, "hehe")
         if third_bid >= node.cost:
             # Deduct the cost value from the second bidder's resources
             for agent_name, bid_value in node.agents.items():
             #print("agent.......", agent_name)
             #print("agent win.......", winning_bidder)
                 if third_bidder == agent_name:
-                    agent_resources[third_bidder] -= node.agents[third_bidder]
+                    agent_resources[third_bidder] -= node.cost
                     node.assigned_agent = third_bidder
         else:
             total_resources = sum(agent_resources.values())
@@ -1500,7 +1500,7 @@ def perform_auction_m(node, agent_resources):
                 if winning_bid <= node.cost:
                     # Deduct the cost value from the winning bidder's resources
                     if agent_resources[winning_bidder] < node.cost:
-                        remaining_cost = node.agents[winning_bidder] - agent_resources[winning_bidder]
+                        remaining_cost = node.cost - agent_resources[winning_bidder]
                         agent_resources[winning_bidder] = 0
                         print("Agent Updated Resources:", agent_resources)
 
@@ -1527,7 +1527,7 @@ def perform_auction_m(node, agent_resources):
                         print("\nRemaining Cost:", remaining_cost)
                         node.assigned_agent = assigned_agents
                         # Print agent resources after the auction
-                        print("Remaining Agent Resources:", agent_resources)
+                        #print("Remaining Agent Resources:", agent_resources)
                     else:
                         print("\n\tNo agent can cover the cost\n")
     
@@ -1581,13 +1581,47 @@ def equal_node(node):
         node.cost = min_cost
 
 
-
-
 """
 ########################################################
 """
 
+
 """
 Random Agent
+########################################################
+"""
+
+
+
+"""
+Greedy Agent
+########################################################
+"""
+
+def greedy_agents(root):
+    def assign_agent(node, agents_count_total):
+        if node.assigned_agent != "":
+            # If the node has an assigned agent, choose the agent with the minimum cost from the agents dictionary
+            if node.agents:
+                min_cost_agent = min(node.agents, key=node.agents.get)
+                #add +1 in its value
+                agents_count_total[min_cost_agent] +=1 
+
+        for child in node.get_children():
+            assign_agent(child, agents_count_total)
+
+    # Initialize the dictionary to keep track of the total occurrences of each agent being the minimum
+    agents_count_total = {agent: 0 for agent in root.agents.keys()}
+       
+    # Start assigning agents from the root node
+    assign_agent(root, agents_count_total)
+    print("agent count dict:", agents_count_total) 
+    # Count the number of agents used (i.e., number of agents with non-zero value)
+    greedy_num_agents_used = sum(1 for count in agents_count_total.values() if count != 0)
+    print("Number of Agents Used:", greedy_num_agents_used)
+
+    return greedy_num_agents_used
+
+"""
 ########################################################
 """

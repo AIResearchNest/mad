@@ -80,3 +80,5 @@ __version__ = '0.0.75'
 # 0.0.75: Added documentation and formated docstrings
 # 0.0.76: Edited documentation.
 # 0.0.77: Modified 1000_testcases file to implement skew and discrepancy properly now, I was intially missing some elements.
+# 0.0.78: Added auction algorithm and edited the graphs. 
+# 0.0.79: Added greedy_agent() 
