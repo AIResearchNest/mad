@@ -1347,9 +1347,9 @@ def agent_goal_m(nodes, max_resources) -> None:
 def perform_auction_m(node, agent_resources):
     """
     Author: Maheen
+    
     Performs the auction process for assigning an agent to a goal node based on available agent resources based on the
-    first sealed bid algorithm.
-    If none of the agent's resources individually can cover the cost of the goal, then it shares the goal completion
+    first sealed bid algorithm. If none of the agent's resources individually can cover the cost of the goal, then it shares the goal completion
     with multiple agents based on bidding winners until either the goal is completed or all agents run out of resources.
 
     Parameters
@@ -1676,6 +1676,26 @@ Greedy Agent
 """
 
 def greedy_agents(root, max_resources):
+    """
+    Author: Maheen
+    
+    Assigns Agents in a greedy manner such that whichever agent has the minimum agent_cost to complete the goal , that agent is assigned to it.
+
+    Parameters
+    ----------
+    root_node : GoalNode2
+        The root node of the goal tree.
+
+    max_resources :  List[Dict[int]]
+        List of max resources of agents.
+
+    Returns
+    -------
+    greedy_num_agents_used: int
+        Total number of agents used. 
+    """
+    
+    
     #getting resources
     agent_resources = get_agent_resources_m(max_resources)
     
