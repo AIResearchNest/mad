@@ -1,6 +1,6 @@
 # https://github.com/dask/dask/blob/main/dask/datasets.py#L139-L158
 from typing import Dict, List
-
+import random
 def _suitable_agent(a:Dict) -> str:
     """
     Decides which agent will conduct the current goal based on cost
@@ -49,7 +49,7 @@ class GoalNode:
         Assigns a specific agent to the goal node
 
     initial_agent_assign(self) -> None:
-        Assign the agent with the lowest agent cost at the very first step
+        Assign the agent with the lowest agent cost (random agent cost)/ random agent (same agent cost) at the very first step
 
     switch_agent(self) -> bool:
         If the current assigned agent could not achieve the goal, switch to another suitable agent and return True
@@ -85,7 +85,20 @@ class GoalNode:
             raise ValueError("Not a viable agent name")        
 
     def initial_agent_assign(self) -> None:
-        self.agent = _suitable_agent(self.data)
+        same_cost = True
+        i = 0
+        costs = list(self.data.values())
+        while i < len(self.data.values()) - 1:
+            if costs[i] != costs[i + 1]:
+                same_cost = False
+                break
+            else:
+                i += 1
+        if not same_cost:
+            self.agent = _suitable_agent(self.data)
+        else:
+            i = random.randint(0, len(self.data) - 1)
+            self.agent = list(self.data.keys())[i]
         self.cost = self.data[self.agent]
 
     def switch_agent(self) -> bool:
