@@ -1313,6 +1313,8 @@ def agent_goal_m(nodes, max_resources) -> None:
     cost: int
         Total Cost of optimal goals
     """
+   
+     
     if not nodes:
         print("No node has been assigned.")
         return
@@ -1336,28 +1338,212 @@ def agent_goal_m(nodes, max_resources) -> None:
     print("\n\tGoal assignment to agents Info:\n\t")
 
     if root.cost <= shortest_cost or len(root.get_children()) == 0:
-        cost = root.cost
-        perform_auction_m(root, root, agent_resources, cost)
+        perform_auction_m(root, agent_resources)
         
     
         print("\n\t\tFINAL INFO\n")
         level_order_transversal_two(root)
-        
     
     else:
         node_info = extract_node_info_m(root, shortest_goals)
-        cost = shortest_cost
-        perform_auction_m(root, shortest_goals, agent_resources, cost)  # Pass None as the cost
+
+        # If shortest_goals contains dictionaries, extract nodes from the dictionaries
+        if isinstance(shortest_goals, dict):
+            for node in node_info:
+                if node.name != root.name:
+                    found_node = next((n for n in nodes if n.name == node.name), None)
+                    if found_node:
+                        perform_auction_m(found_node, agent_resources)  # Pass the cost to perform_auction_m
+        else:  # If shortest_goals contains only node names
+            for node in node_info:
+                if node.name != root.name:
+                    found_node = next((n for n in nodes if n.name == node.name), None)
+                    if found_node:
+                        perform_auction_m(found_node, agent_resources)  # Pass None as the cost
 
 
         print("\n\t\tFINAL INFO\n")
         level_order_transversal_two(root)
-        
-    
 
     print("Final Agent Resources:", agent_resources)
     print("\n")
-    return cost
+
+
+
+
+
+
+
+
+
+def perform_auction_m(node, agent_resources):
+    """
+    Author: Maheen
+    Performs the auction process for assigning an agent to a goal node based on available agent resources based on the
+    first sealed bid algorithm.
+    If none of the agent's resources individually can cover the cost of the goal, then it shares the goal completion
+    with multiple agents based on bidding winners until either the goal is completed or all agents run out of resources.
+
+    Parameters
+    ----------
+    node : GoalNode2
+        The goal node to be assigned an agent.
+    agent_resources : Dict[str, int]
+        Dictionary containing the available resources for each agent.
+
+    Returns
+    -------
+    None
+    """
+    bids = {}  # Dictionary to store the bids of each agent
+
+    # Create a participation dictionary to track the participation values of each agent in the goal's cost
+
+    # Raise an error if the goal tree is empty
+    if node is None:
+        raise ValueError("Tree is empty!")
+
+    # Generate bids from each agent based on their available resources
+    for agent in agent_resources:
+        if agent_resources[agent] > 0:
+            bids[agent] = agent_resources[agent]
+
+    # Print agent resources before the auction
+    print("Agent Resources:", agent_resources)
+
+    # Determine the winning bidder based on the highest bid
+    winning_bidder = max(bids, key=bids.get)
+    winning_bid = bids[winning_bidder]
+
+    # Check if the winning bidder can cover the cost of the goal node
+    if winning_bid >= node.cost:
+        # Deduct the cost value from the winning bidder's resources
+        agent_resources[winning_bidder] -= node.agents[winning_bidder] 
+        node.assigned_agent = winning_bidder
+    elif len(bids) > 0:
+        bids.pop(winning_bidder)
+        second_bidder = max(bids, key=bids.get)
+        second_bid = bids[second_bidder]
+        if second_bid >= node.cost:
+            # Deduct the cost value from the second bidder's resources
+            agent_resources[second_bidder] -= node.agents[second_bidder] 
+            node.assigned_agent = second_bidder
+        else:
+            total_resources = sum(agent_resources.values())
+            print("\nResources Total...:", total_resources)
+            print("Cost of Goal...:", node.cost)
+
+            if total_resources >= node.cost:
+                # Generate bids from each agent based on their available resources
+                bids = {agent: resource for agent, resource in agent_resources.items() if resource > 0}
+
+                print("Agent Resources:", agent_resources)
+
+                winning_bidder = max(bids, key=bids.get)
+                winning_bid = bids[winning_bidder]
+
+                if winning_bid <= node.cost:
+                    # Deduct the cost value from the winning bidder's resources
+                    if agent_resources[winning_bidder] < node.cost:
+                        remaining_cost = node.agents[second_bidder] - agent_resources[winning_bidder]
+                        agent_resources[winning_bidder] = 0
+                        print("Agent Updated Resources:", agent_resources)
+
+                        assigned_agents = []
+                        assigned_agents.append(winning_bidder)
+
+                        while remaining_cost > 0:
+                            agent_with_highest_resource = max(agent_resources, key=agent_resources.get)
+                            resource = agent_resources[agent_with_highest_resource]
+
+                            if resource > 0:
+                                if resource <= remaining_cost:
+                                    remaining_cost = remaining_cost - resource
+                                    agent_resources[agent_with_highest_resource] -= resource
+                                    assigned_agents.append(agent_with_highest_resource)
+                                    print("Agent Updated Resources:", agent_resources)
+                                else:
+                                    agent_resources[agent_with_highest_resource] -= remaining_cost
+                                    assigned_agents.append(agent_with_highest_resource)
+                                    remaining_cost = 0
+                                    print("Agent Updated Resources:", agent_resources)
+
+                        print("\nAssigned Agents:", assigned_agents)
+                        print("\nRemaining Cost:", remaining_cost)
+                        node.assigned_agent = assigned_agents
+                        # Print agent resources after the auction
+                        print("Remaining Agent Resources:", agent_resources)
+                    else:
+                        print("\n\tNo agent can cover the cost\n")
+
+
+                    
+         
+    elif len(bids) > 0:
+        bids_new = {}
+        for agent in agent_resources:
+            if agent_resources[agent] > 0: #and agent_resources[agent] >= node.agents[agent]:
+                bids_new[agent] = agent_resources[agent]
+
+        print(bids_new, "BID123333")
+        third_bidder = max(bids_new, key=bids_new.get)
+        third_bid = bids_new[third_bidder]
+        print(third_bid, third_bidder, "hehe")
+        if third_bid >= node.cost:
+            # Deduct the cost value from the second bidder's resources
+            for agent_name, bid_value in node.agents.items():
+            #print("agent.......", agent_name)
+            #print("agent win.......", winning_bidder)
+                if third_bidder == agent_name:
+                    agent_resources[third_bidder] -= node.agents[third_bidder]
+                    node.assigned_agent = third_bidder
+        else:
+            total_resources = sum(agent_resources.values())
+            #print("\nResources Total...:", total_resources)
+            #print("Cost of Goal...:", node.cost)
+
+            if total_resources >= node.cost:
+                # Generate bids from each agent based on their available resources
+                bids = {agent: resource for agent, resource in agent_resources.items() if resource > 0}
+
+                print("Agent Resources:", agent_resources)
+
+                winning_bidder = max(bids, key=bids.get)
+                winning_bid = bids[winning_bidder]
+
+                if winning_bid <= node.cost:
+                    # Deduct the cost value from the winning bidder's resources
+                    if agent_resources[winning_bidder] < node.cost:
+                        remaining_cost = node.agents[winning_bidder] - agent_resources[winning_bidder]
+                        agent_resources[winning_bidder] = 0
+                        print("Agent Updated Resources:", agent_resources)
+
+                        assigned_agents = []
+                        assigned_agents.append(winning_bidder)
+
+                        while remaining_cost > 0:
+                            agent_with_highest_resource = max(agent_resources, key=agent_resources.get)
+                            resource = agent_resources[agent_with_highest_resource]
+
+                            if resource > 0:
+                                if resource <= remaining_cost:
+                                    remaining_cost = remaining_cost - resource
+                                    agent_resources[agent_with_highest_resource] -= resource
+                                    assigned_agents.append(agent_with_highest_resource)
+                                    print("Agent Updated Resources:", agent_resources)
+                                else:
+                                    agent_resources[agent_with_highest_resource] -= remaining_cost
+                                    assigned_agents.append(agent_with_highest_resource)
+                                    remaining_cost = 0
+                                    print("Agent Updated Resources:", agent_resources)
+
+                        print("\nAssigned Agents:", assigned_agents)
+                        print("\nRemaining Cost:", remaining_cost)
+                        node.assigned_agent = assigned_agents
+                        # Print agent resources after the auction
+                        print("Remaining Agent Resources:", agent_resources)
+                    else:
+                        print("\n\tNo agent can cover the cost\n")
     
 
 
