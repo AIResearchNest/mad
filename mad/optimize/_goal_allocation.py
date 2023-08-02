@@ -1,39 +1,9 @@
 from mad.data_structures import GoalNode
 from typing import Dict, List, Tuple
 import random
-# private function should be as follows
-def _helper_func():
-    pass
-
-def initial_goal_allocation(goal_tree: GoalNode,
-                            max_resources: int) -> Dict:
-    
-    """
-    Optimizes allocation of goals to multiple agents
-
-    Parameters
-    ----------
-    goal_tree : mad.data_structures.GoalNode
-        Heirarichal Multi Agent Goal Tree 
-    max_resources : int
-        Maximum resources available for each agent
-
-    Returns:
-    -------
-    goal_allocation: Dict
-        Allocates list of goals (value) to each agent (key)
-    """
-
-    # write your code here
-
-    # Raise an error if goal_tree is empty
-
-    pass
-
-
 
 """
-Jonathan's Algorithm
+Bottom-Up Allocation Algorithm
 ########################################################
 """
 from mad.data_structures import print_goal_tree, print_tree_and_agents
@@ -1737,3 +1707,76 @@ def greedy_agents(root, max_resources):
     
     #change return according to what you need 
     return greedy_num_agents_used
+
+
+
+
+########################################################
+# Random Allocation
+
+def random_allocation(goal_tree: GoalNode, max_resources: Dict):
+
+    values = list(max_resources.values())
+    if all(value == values[0] for value in values):
+        resources = list(max_resources.values())[0]
+    else:
+        resources = sum(x for x in max_resources.values()) / len(max_resources.values())
+
+    # Find optimal solution
+    goal_nodes = _optimal_path(goal_tree, resources)
+
+    # Distribute Goals
+    agents_and_goals = {}
+
+    # Randomly distribute goals to agents
+    for goal in goal_nodes:
+        agents_available = []
+        
+        for agent in goal.data.keys():
+            if agent not in agents_available:
+                agents_available.append(agent)
+            if agent not in agents_and_goals.keys():
+                agents_and_goals[agent] = []
+        
+        selected_agent = agents_available[r.randint(0, len(agents_available) - 1)]
+
+        agents_and_goals[selected_agent].append(goal)
+        goal.set_agent(selected_agent)
+    
+    return agents_and_goals
+
+########################################################
+# Greedy Allocation
+
+def greedy_allocation(goal_tree: GoalNode, max_resources: Dict):
+
+    values = list(max_resources.values())
+    if all(value == values[0] for value in values):
+        resources = list(max_resources.values())[0]
+    else:
+        resources = sum(x for x in max_resources.values()) / len(max_resources.values())
+
+    # Find optimal solution
+    goal_nodes = _optimal_path(goal_tree, resources)
+
+    # Distribute Goals
+    agents_and_goals = {}
+
+    # Randomly distribute goals to agents
+    for goal in goal_nodes:
+        agents_available = []
+        
+        for agent in goal.data.keys():
+            if agent not in agents_available:
+                agents_available.append(agent)
+            if agent not in agents_and_goals.keys():
+                agents_and_goals[agent] = []
+
+        best_agents = sorted(goal.data, key=lambda k: goal.data[k])
+        
+        selected_agent = best_agents[0]
+
+        agents_and_goals[selected_agent].append(goal)
+        goal.set_agent(selected_agent)
+    
+    return agents_and_goals
