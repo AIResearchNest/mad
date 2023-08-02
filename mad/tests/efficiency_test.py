@@ -1,5 +1,5 @@
 from mad.data_structures import GoalNode, GoalNode2, level_order_transversal, level_order_transversal_two
-from mad.optimize._goal_allocation import optimized_goal_allocation, dfs_goal_allocation, cost_node, agent_goal_m
+from mad.optimize._goal_allocation import optimized_goal_allocation, dfs_goal_allocation, cost_node, agent_goal_m, randomly_assigned
 from typing import Dict, Tuple, List
 import random
 import copy
@@ -2149,7 +2149,6 @@ def test_1_A():
             #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             
             m_total, agents_used_m = efficiency_test_m(tree_m, [40,40,40])
-            dis_m += discrepancy_m(tree_m)
             skew_m += get_skew_m(tree_m, m_total)
 
             algo_results_fay += f_total
@@ -2166,11 +2165,11 @@ def test_1_A():
 
             dis_f += f_discrepancy
             dis_j += j_discrepancy
-            dis_m += discrepancy_m(tree_m)
+            dis_m += 0
+            #dis_m += discrepancy_m(tree_m)
 
             skew_f += f_skew
             skew_j += j_skew
-            skew_m += get_skew_m(tree_m, m_total)
 
             no_trees += 1
 
@@ -3975,9 +3974,6 @@ def test_8_B() -> None:
 
 def main() -> None:
     test_1_A()
-    test_1_B()
-    test_2_A()
-    test_2_B()
 
 if __name__ == "__main__":
     main()
