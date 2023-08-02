@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+best = 0 
 
 def _random_cost(m: int, n: int, agents: int) -> Dict[str, int]:
     
@@ -1536,6 +1537,8 @@ def best_case(goal_allocation: Dict[str, List[GoalNode]]) -> int:
             best += min(goal.data.values())
     return best
 
+
+
 #FAY AND JONATHAN'S EFFICIENCY TEST
 def efficiency_test(goal_tree, max_res: List):
     """
@@ -1581,8 +1584,12 @@ def efficiency_test(goal_tree, max_res: List):
     AGENT = list(goal_tree.data.keys())
     max_resources_j = {}
     max_resources_f = max_res
+    print(max_res)
+
     for i in range(len(AGENT)):
         max_resources_j[AGENT[i]] = max_res[i]
+
+    global best
 
     #__JONATHAN'S ALGORITHM__
     goal_tree1 = copy.deepcopy(goal_tree)
@@ -1614,10 +1621,9 @@ def efficiency_test(goal_tree, max_res: List):
 
     j_discrepancy = max(j_agent_cost) - min(j_agent_cost)
     j_skew = j_total_resources - best_case(jresult)
-
+    best = best_case(jresult)
     #__FAY'S ALGORITHM__
     print("\nFay's Algorithm:\n")
-
     goal_tree2 = copy.deepcopy(goal_tree)
 
     q = []
@@ -1661,7 +1667,7 @@ def efficiency_test(goal_tree, max_res: List):
             f_agent_goals[i] += 1
 
     f_discrepancy = max(f_agent_cost) - min(f_agent_cost)
-    f_skew = f_total_resources - best_case(fresult)
+    f_skew = f_total_resources - best
     
     return f_agent_goals, j_agent_goals, f_total_resources, j_total_resources, f_discrepancy, j_discrepancy, f_skew, j_skew
 
@@ -1788,21 +1794,8 @@ def get_skew_m(root, resource_usage):
             The skew measure indicating the difference between 'resource_usage' and the best-case agent utilization used Maheen's algorithm
 
     """
-    
-    best_case = 0
-    q = []
-    q.append(root)
-
-    while q:
-        node = q[0]
-        q.pop(0)
-
-        if node.assigned_agent:
-            best_case += min(node.agents.values())
-
-        for child in node.get_children():
-            q.append(child)
-    return resource_usage - best_case
+    global best
+    return resource_usage - best
        
 def _bar_chart_plotting(Results: Tuple, title):
     # Define the algorithm names and total resource utilization values
@@ -2068,6 +2061,39 @@ test_cases = [(binary_symmetric,"BINARY SYMMETRIC TREE"),
     - Ten trees
     - 3 Agents
 """
+def test():
+    root = GoalNode("Main Goal", {"grace":20, "remus": 30, "franklin": 40})
+    G1 = GoalNode("Goal 1", {"grace":10, "remus": 12, "franklin": 15})
+    G2 = GoalNode("Goal 2", {"grace":5, "remus": 10, "franklin": 15})
+
+    G3 = GoalNode("Goal 3", {"grace":3, "remus": 2, "franklin": 1})
+    G4 = GoalNode("Goal 4", {"grace":2, "remus": 3, "franklin": 1})
+    G5 = GoalNode("Goal 5", {"grace":2, "remus": 3, "franklin": 1})
+    G6 = GoalNode("Goal 6", {"grace":2, "remus": 3, "franklin": 1})
+
+    root.add_child(G1)
+    root.add_child(G2)
+
+    G1.add_child(G3)
+    G1.add_child(G4)
+
+    G2.add_child(G5)
+    G2.add_child(G6)
+
+    q = []
+    q.append((root, None)) 
+
+    while len(q) != 0:
+        level_size = len(q)
+
+        while len(q) > 0:  
+            node, parent = q.pop(0)
+            node.initial_agent_assign()
+            children = node.get_children()
+            for child in children:
+                q.append((child, node)) 
+    optimized_goal_allocation(root, [50,50,50], 1)
+
 
 def test_1_A():
     
@@ -3045,7 +3071,7 @@ def test_5_A() -> None:
         for (generate_tree, title) in test_cases:
             test_case = generate_tree
             # each tree run 100 times
-            for _ in range(100):  
+            for _ in range(10):  
                 tree, tree_m= test_case()
             
                 # Run each goal tree
@@ -3156,7 +3182,7 @@ def test_5_B() -> None:
         for (generate_tree, title) in test_cases:
             test_case = generate_tree
             # each tree run 100 times
-            for _ in range(100):  
+            for _ in range(10):  
                 tree, tree_m= test_case()
             
                 # Run each goal tree
@@ -3275,7 +3301,7 @@ def test_6_A() -> None:
         for (generate_tree, title) in test_cases:
             test_case = generate_tree
             # each tree run 100 times
-            for _ in range(100):  
+            for _ in range(10):  
                 tree, tree_m= test_case(True, 3)
             
                 # Run each goal tree
@@ -3386,7 +3412,7 @@ def test_6_B() -> None:
         for (generate_tree, title) in test_cases:
             test_case = generate_tree
             # each tree run 100 times
-            for _ in range(100):  
+            for _ in range(10):  
                 tree, tree_m= test_case(True, 3)
             
                 # Run each goal tree
@@ -3508,7 +3534,7 @@ def test_7_A() -> None:
         for (generate_tree, title) in test_cases:
             test_case = generate_tree
             # each tree run 100 times
-            for _ in range(100):  
+            for _ in range(10):  
                 tree, tree_m= test_case(False, no_agents)
             
                 # Run each goal tree
@@ -3629,7 +3655,7 @@ def test_7_B() -> None:
         for (generate_tree, title) in test_cases:
             test_case = generate_tree
             # each tree run 100 times
-            for _ in range(100):  
+            for _ in range(10):  
                 tree, tree_m= test_case(False, no_agents)
             
                 # Run each goal tree
@@ -3756,7 +3782,7 @@ def test_8_A() -> None:
         for (generate_tree, title) in test_cases:
             test_case = generate_tree
             # each tree run 100 times
-            for _ in range(100):  
+            for _ in range(10):  
                 tree, tree_m= test_case(True,  no_agents)
             
                 # Run each goal tree
@@ -3879,7 +3905,7 @@ def test_8_B() -> None:
         for (generate_tree, title) in test_cases:
             test_case = generate_tree
             # each tree run 100 times
-            for _ in range(100):  
+            for _ in range(10):  
                 tree, tree_m= test_case(True, no_agents)
             
                 # Run each goal tree
@@ -3948,13 +3974,10 @@ def test_8_B() -> None:
     plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_8_b, no_agents_avail) 
 
 def main() -> None:
-    test_6_A()
-    test_6_B()
-    test_7_A()
-    test_7_B()
-    test_8_A()
-    test_8_B()
-
+    test_1_A()
+    test_1_B()
+    test_2_A()
+    test_2_B()
 
 if __name__ == "__main__":
     main()

@@ -342,7 +342,7 @@ Resource-Conscious Allocation Algorithm
 """
 from typing import Dict, List, Tuple
 from mad.data_structures import GoalNode
-
+import math
 #Author: Fay
 def _check_resources(goal: GoalNode, max_res: Dict[str, int]) -> bool:
     """
@@ -502,6 +502,14 @@ def _decision_algorithm(list_goal: List[GoalNode], i: int, max_res: Dict[str, in
         max_res[goal.agent] -= goal.cost
         return i + 1, list_goal, max_res
 
+def calculate_tree_depth(node):
+    # If the node is a leaf (has no children), its depth is 1
+    if not node.children:
+        return 1
+    else:
+        # If the node has children, its depth is 1 more than the maximum depth of its children
+        return 1 + max(calculate_tree_depth(child) for child in node.children)
+    
 #Author: Fay
 def allocate_goals_greedy(list_goal, max_res):
     """
@@ -522,17 +530,20 @@ def allocate_goals_greedy(list_goal, max_res):
         A dictionary that maps agents to the list of goals allocated to them.
 
     """
-
+    
     # Initialize the goal allocation dictionary
     goal_allocation = {agent: [] for agent in max_res.keys()}
 
     # Initialize a dictionary to keep track of the number of goals assigned to each agent
     num_goals = {agent: 0 for agent in max_res.keys()}
-
-    # Calculate total resources of all goals
-    total_resources = sum(goal.cost for goal in list_goal)
+    
+    for goal in list_goal:
+        num_goals[goal.agent] += 1
 
     for goal in list_goal:
+        # Calculate total resources of all goals
+        total_resources = sum(goal.cost for goal in list_goal)
+
         # Sort the agents based on remaining resources and the number of goals assigned to each agent
         sorted_agents = sorted(max_res.keys(), key=lambda agent: (num_goals[agent], -max_res[agent]))
 
@@ -549,9 +560,10 @@ def allocate_goals_greedy(list_goal, max_res):
                 continue
 
             resource_diff = goal.data[agent] - goal.cost
-
-            if (num_goals[agent] < num_goals[cur_agent] - 1 and resource_diff <= 0) or \
-                    (num_goals[agent] < num_goals[cur_agent] and (total_resources + resource_diff) / total_resources < 1.1):
+            
+            threshold = (total_resources + calculate_tree_depth(list_goal[0]) - 1)/total_resources
+            if (resource_diff <= 0) or \
+                   (num_goals[agent] < num_goals[cur_agent] and (1 + resource_diff/total_resources) < threshold):
                 goal_allocation[agent].append(goal)
 
                 # Update the remaining resources of the agents
@@ -565,7 +577,7 @@ def allocate_goals_greedy(list_goal, max_res):
 
                 # Decrement the count of goals assigned to the current agent
                 num_goals[cur_agent] -= 1
-
+                print(num_goals)
                 assigned = True
                 break
 
@@ -657,7 +669,6 @@ def optimized_goal_allocation(goal_tree: GoalNode, max_resources: List[int], ver
     if not list_goal:
         return ()
     goal_allocation = allocate_goals_greedy(list_goal, max_res)
-
     if verbose:
         for agent in goal_allocation:
             print(agent, end=": ")
@@ -1387,5 +1398,10 @@ def equal_node(node):
 
 
 """
+########################################################
+"""
+
+"""
+Random Agent
 ########################################################
 """
