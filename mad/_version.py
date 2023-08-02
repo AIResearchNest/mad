@@ -1,4 +1,4 @@
-__version__ = '0.0.80'
+__version__ = '0.0.81'
 
 #change log:
 # 0.0.0: first version
@@ -81,5 +81,6 @@ __version__ = '0.0.80'
 # 0.0.76: Edited documentation.
 # 0.0.77: Modified 1000_testcases file to implement skew and discrepancy properly now, I was intially missing some elements.
 # 0.0.78: Added auction algorithm and edited the graphs. 
-# 0.0.79: Added greedy_agent() 
-# 0.0.80: Updated final_tests to include all algos
+# 0.0.79: Added greedy_agent algorithm 
+# 0.0.80: Added random_agent and the documentation for the function
+# 0.0.81: Updated final_tests to include all algos

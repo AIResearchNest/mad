@@ -77,6 +77,8 @@ def _random_cost(m: int, n: int, agents: int) -> dict[str, int]:
 
 
 
+
+
 def print_goal_tree_custom(node, indent=0):
     prefix = "_" * indent
     print(f"{prefix}- {node.name}: {node.assigned_agent}")
@@ -277,7 +279,7 @@ def get_skew(agents_and_goals_dfs):
 
     return [abs(best_case - total_cost), best_case]
 
-def  _skew_new(opt_agents_and_goals, best_case):
+def _skew_new(opt_agents_and_goals, best_case):
     
     '''
     Description
@@ -340,8 +342,8 @@ def get_custom_total_cost_m(root):
         current = q[0]
         q.pop(0)
 
-        if current.assigned_agent != []:
-            total_cost += current.cost #added cost then agent
+        if current.assigned_agent != "":
+            total_cost += current.agents[current.assigned_agent] #added cost then agent
 
         for child in current.get_children():
             q.append(child)
@@ -349,23 +351,47 @@ def get_custom_total_cost_m(root):
     return total_cost
 
 #Agents used Maheen count
+    
 def get_agents_used_m(root):
-    '''
-  Description
-   -----------
-   Iterate over the optimized goal nodes to see how many agents have been used 
-   
-   Parameters
-   -----------
-   root: GoalNode2 tree 
-    '''
-    total_agents = 10 
-    return total_agents
+    """
+    Description
+    -----------
+    Iterate over the optimized goal nodes to see how many agents have been used
+
+    Parameters
+    -----------
+    root: GoalNode2 tree
+    """
+    agents_used = {}  # Use a dictionary to store the count of each agent
+
+    q = []
+    q.append(root)
+
+    while q:
+        current = q[0]
+        q.pop(0)
+
+        if current.assigned_agent!="":
+            # Since assigned_agent is now a string, we don't need to loop through individual characters
+            agent_name = current.assigned_agent
+            agents_used[agent_name] = agents_used.get(agent_name, 0) + 1
+
+        for child in current.get_children():
+            q.append(child)
+
+    # Print the count for each agent
+    for agent_name, count in agents_used.items():
+        print(f"{agent_name}: {count}")
+
+    total_agents_used = len(agents_used)
+    print(total_agents_used, "agents used")
+    return total_agents_used
+
 
 
 
 #Discrepancy of Maheen 
-def discrepancy_m(root, agents):
+def discrepancy_m(root):
     """
     Description
     ------------
@@ -385,30 +411,37 @@ def discrepancy_m(root, agents):
         Dictionary containing the count of each agent's usage in the tree.
         The keys are agent names (strings), and the values are the counts (integers).
     """
-    agents_used = {agent_name: 0 for agent_name in agents}
+    num_agents = len(root.agents)
+    agents_used = {}
 
     q = []
     q.append(root)
 
     while q:
-        current = q.pop(0)  # pop from the beginning for queue behavior
+        current = q[0]
+        q.pop(0)
 
-        if current.assigned_agent != []:
-            for agent_name in current.assigned_agent:
-                # Check how much of each agent from agents{} of node is present in assigned_agent[] of the node and count
-                if agent_name in agents:
-                    agents_used[agent_name] += 1
-
-        # Add child nodes to the queue for further processing
-        q.extend(current.children)
-
-    # Print the number of times each agent is used
-    for agent_name, count in agents_used.items():
-        print(f"{agent_name}: {count}")
-    # Calculate the discrepancy as the absolute difference between the maximum and minimum agent usage counts
-    discrepancy = abs(max(agents_used.values()) - min(agents_used.values()))
-    print(discrepancy)
+        if current.assigned_agent != "":
+            if current.assigned_agent not in agents_used.keys():
+                agents_used[current.assigned_agent] = current.agents[current.assigned_agent]
+                #print(agents_used, "inttt")
+            else:
+                agents_used[current.assigned_agent] += current.agents[current.assigned_agent]
+                #print(agents_used, "inttt2")
+        for child in current.get_children():
+            print(child.name)
+            q.append(child)
+    print(agents_used, "agents used133222")
+    if len(agents_used.keys()) < num_agents:
+        
+        discrepancy = max(agents_used.values())
+        print("noooooo",discrepancy)
+        return discrepancy
+    else:
+        discrepancy = abs(max(agents_used.values()) - min(agents_used.values()))
+        print("noooooo 2",discrepancy)
     return discrepancy
+    
 
 
 
@@ -483,6 +516,7 @@ def get_skew_m(root, best_case):
     best = get_custom_total_cost_m(root) - best_case
     #print(cost, best_case, best, "HEHEHEEH................")
     return best
+
 
 
 # Trees
@@ -2570,6 +2604,8 @@ def tree_2(num_agents, random=False):
 
     return [root, rootm]
 
+#Tests
+
 
 # Scenario 1
 def Test1(total_tests, seed):
@@ -2578,230 +2614,26 @@ def Test1(total_tests, seed):
     Equal Cost
     Same resources
     """
-    dfs_average_costs = []
-    dfs_average_agents = []
-    dfs_average_discrepancy = []
-    dfs_average_skew = []
-    dfs_failures = []
+    final_dfs_avg_costs = []
+    final_dfs_avg_agents = []
+    final_dfs_avg_discrepancy = []
+    final_dfs_avg_skew = []
+    final_dfs_fails = []
 
-    dfs_average_new_costs = []
-    dfs_average_new_agents = []
-    dfs_average_new_discrepancy = []
-    dfs_average_new_skew= []
-    dfs_new_fails = []
+    final_opt_avg_costs = []
+    final_opt_avg_agents = []
+    final_opt_avg_discrepancy = []
+    final_opt_avg_skew = []
+    final_opt_fails = []
 
-    maheen__avg_costs = []
-    maheen__avg_agents = []
-    maheen__avg_discrepancy = []
-    maheen__avg_skew = []
-    maheen__fails = []
+    final_m_avg_costs = []
+    final_m_avg_agents = []
+    final_m_avg_discrepancy = []
+    final_m_avg_skew = []
+    final_m_fails = []
 
-
-    seed_value_all = seed
-    number_of_tests = 0
-
-    # Each bar on graph
-    for test_group in range(total_tests):
-
-        dfs_avg_costs = 0
-        dfs_avg_agents = 0
-        dfs_avg_discrepancy = 0
-        dfs_avg_skew = 0
-        dfs_fails = []
-
-        opt_avg_costs = 0
-        opt_avg_agents = 0
-        opt_avg_discrepancy = 0
-        opt_avg_skew = 0
-        opt_fails = []
-
-        m_avg_costs = 0
-        m_avg_agents = 0
-        m_avg_discrepancy = 0
-        m_avg_skew = 0
-        m_fails = []
-
-        # Run all tree groups
-        for group in range(100):
-            r.seed(seed_value_all)
-            TREES = [ binary_right(3),
-                    binary_symmetric(3),
-                    binary_left(3),  
-                    root(3), 
-                    tree_symmetric(3), 
-                    tree_left_right(3), 
-                    large_binary_tree(3),
-                    large_tree(3), 
-                    tree_1(3), 
-                    tree_2(3)]
-            
-            # Jonathan Test
-            curr_dfs_avg_cost = 0
-            curr_dfs_agents_used = 0
-            curr_dfs_failures = []
-            curr_dfs_discrepancy = 0
-            curr_dfs_skew = 0
-            num_dfs_trees_passed = 0
-
-            # Fay Test
-            curr_opt_avg_cost = 0
-            curr_opt_agents_used = 0
-            curr_opt_failures = []
-            curr_opt_discrepancy = 0
-            curr_opt_skew = 0
-            num_opt_trees_passed = 0
-
-            # Maheen Test
-            curr_m_avg_cost = 0
-            curr_m_agents_used = 0
-            curr_m_failures = []
-            curr_m_discrepancy = 0
-            curr_m_skew = 0
-            num_m_trees_passed = 0
-
-            # Run each individual test
-            for tree_idx in range(len(TREES)):
-                number_of_tests += 1
-                
-                dfs_root = TREES[tree_idx][0]
-                opt_root = copy.deepcopy(dfs_root)
-                m_root = TREES[tree_idx][1]
-                
-                # dfs algo
-                try:
-                    agents_and_goals_dfs = dfs_goal_allocation(dfs_root, {"grace": 50, "remus": 50, "franklin": 50})
-                    curr_dfs_avg_cost += get_custom_total_cost(agents_and_goals_dfs)
-                    curr_dfs_agents_used += get_agents_used(agents_and_goals_dfs)
-                    curr_dfs_discrepancy +=discrepancy(agents_and_goals_dfs)
-                    skew, best_case = get_skew(agents_and_goals_dfs)
-                    curr_dfs_skew += skew
-                    num_dfs_trees_passed += 1
-                except ValueError:
-                    curr_dfs_failures.append(number_of_tests)
-
-                # opt algo
-                q = []
-                q.append((opt_root, None)) 
-
-                while len(q) != 0:
-                    level_size = len(q)
-
-                    while len(q) > 0:  
-                        node, parent = q.pop(0)
-                        node.initial_agent_assign()
-                        children = node.get_children()
-                        for child in children:
-                            q.append((child, node))
-
-                try:
-                    fresult, fresources = optimized_goal_allocation(opt_root, [50,50,50])
-                    curr_opt_avg_cost += get_custom_total_cost(fresult)
-                    curr_opt_agents_used += get_agents_used(fresult)
-                    curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
-                    curr_opt_skew +=  _skew_new(fresult, best_case)
-                    num_opt_trees_passed += 1
-                except ValueError:
-                    curr_opt_failures.append(number_of_tests)
-
-                # m algo
-                try:
-                    agent_goal_m(get_goals_m(m_root), [50,50,50])
-                    curr_m_avg_cost += get_custom_total_cost_m(m_root)
-                    curr_m_agents_used += get_agents_used_m(m_root)
-                    curr_m_discrepancy += discrepancy_m(m_root, m_root.agents)
-                    curr_m_skew += get_skew_m(m_root, best_case)
-                    
-                    num_m_trees_passed +=1
-                    
-                    
-                except:
-                    curr_m_failures.append(number_of_tests)
-                
-
-
-            # Add Jonathan Results
-            if num_dfs_trees_passed != 0:
-                dfs_avg_costs += curr_dfs_avg_cost / num_dfs_trees_passed
-                dfs_avg_agents += curr_dfs_agents_used / num_dfs_trees_passed
-                dfs_avg_discrepancy += curr_dfs_discrepancy / num_dfs_trees_passed
-                dfs_avg_skew += curr_dfs_skew / num_dfs_trees_passed
-                dfs_fails.extend(curr_dfs_failures)
-            else:
-                dfs_fails.extend(curr_dfs_failures)
-
-            # Add Fay Results
-            if num_opt_trees_passed != 0:
-                print(".......", num_opt_trees_passed)
-                opt_avg_costs += curr_opt_avg_cost / num_opt_trees_passed
-                opt_avg_agents += curr_opt_agents_used / num_opt_trees_passed
-                opt_avg_discrepancy += curr_opt_discrepancy / num_opt_trees_passed
-                opt_avg_skew += curr_opt_skew / num_opt_trees_passed
-                opt_fails.extend(curr_opt_failures)
-            else:
-                opt_fails.extend(curr_opt_failures)
-
-            # Add Maheen Results
-
-            if num_opt_trees_passed != 0:
-                #print("checking tree number", num_m_trees_passed)
-                m_avg_costs += curr_m_avg_cost / num_m_trees_passed
-                m_avg_agents += curr_m_agents_used / num_m_trees_passed
-                m_avg_discrepancy += curr_m_discrepancy / num_m_trees_passed
-                m_avg_skew += curr_m_skew / num_m_trees_passed
-                m_fails.extend(curr_m_failures)
-            else:
-                m_fails.extend(curr_m_failures)
-
-            seed_value_all += 1
-
-        dfs_average_costs.append(dfs_avg_costs / 100)
-        dfs_average_agents.append(dfs_avg_agents / 100)
-        dfs_average_discrepancy.append(dfs_avg_discrepancy / 100)
-        dfs_average_skew.append(dfs_avg_skew / 100)
-        dfs_failures.append(dfs_fails)
-
-        dfs_average_new_costs.append(opt_avg_costs / 100)
-        dfs_average_new_agents.append(opt_avg_agents / 100)
-        dfs_average_new_discrepancy.append(opt_avg_discrepancy / 100)
-        dfs_average_new_skew.append(opt_avg_skew / 100)
-        dfs_new_fails.append(opt_fails)
-
-        maheen__avg_costs.append(m_avg_costs / 100)
-        maheen__avg_agents.append(m_avg_agents / 100)
-        maheen__avg_discrepancy.append(m_avg_discrepancy / 100)
-        maheen__avg_skew.append(m_avg_skew / 100)
-        maheen__fails.append(m_fails)
-
-    print(f"Test Number: {number_of_tests}")
-    return dfs_average_costs, dfs_average_agents, dfs_average_discrepancy, dfs_average_skew, dfs_failures, dfs_average_new_costs, dfs_average_new_agents, dfs_average_new_discrepancy, dfs_average_new_skew, dfs_new_fails, maheen__avg_costs, maheen__avg_agents, maheen__avg_discrepancy, maheen__avg_skew, maheen__fails
-
-# Scenario 2
-def Test2(total_tests, seed):
-    """
-    3 agents
-    Equal Cost
-    Different resources
-    """
-    dfs_average_costs = []
-    dfs_average_agents = []
-    dfs_average_discrepancy = []
-    dfs_average_skew = []
-    dfs_failures = []
-
-    dfs_average_new_costs = []
-    dfs_average_new_agents = []
-    dfs_average_new_discrepancy = []
-    dfs_average_new_skew= []
-    dfs_new_fails = []
-
-    maheen__avg_costs = []
-    maheen__avg_agents = []
-    maheen__avg_discrepancy = []
-    maheen__avg_skew = []
-    maheen__fails = []
-
-    seed_value_all = seed
-    number_of_tests = 0
+    curr_seed = seed
+    test_num = 0
 
     # Each bar on graph
     for test_group in range(total_tests):
@@ -2826,7 +2658,7 @@ def Test2(total_tests, seed):
 
         # Run all tree groups
         for group in range(100):
-            r.seed(seed_value_all)
+            r.seed(curr_seed)
             TREES = [binary_symmetric(3),
                     binary_left(3), 
                     binary_right(3), 
@@ -2864,7 +2696,7 @@ def Test2(total_tests, seed):
 
             # Run each individual test
             for tree_idx in range(len(TREES)):
-                number_of_tests += 1
+                test_num += 1
                 
                 dfs_root = TREES[tree_idx][0]
                 opt_root = copy.deepcopy(dfs_root)
@@ -2872,15 +2704,210 @@ def Test2(total_tests, seed):
                 
                 # dfs algo
                 try:
-                    agents_and_goals_dfs = dfs_goal_allocation(dfs_root, {"grace": 50, "remus": 60, "franklin": 70})
-                    curr_dfs_avg_cost += get_custom_total_cost(agents_and_goals_dfs)
-                    curr_dfs_agents_used += get_agents_used(agents_and_goals_dfs)
-                    curr_dfs_discrepancy +=discrepancy(agents_and_goals_dfs)
-                    skew, best_case = get_skew(agents_and_goals_dfs)
+                    dfs_agents_and_goals = dfs_goal_allocation(dfs_root, {"grace": 50, "remus": 50, "franklin": 50})
+                    curr_dfs_avg_cost += get_custom_total_cost(dfs_agents_and_goals)
+                    curr_dfs_agents_used += get_agents_used(dfs_agents_and_goals)
+                    curr_dfs_discrepancy += discrepancy(dfs_agents_and_goals)
+                    skew, best_case = get_skew(dfs_agents_and_goals)
                     curr_dfs_skew += skew
                     num_dfs_trees_passed += 1
                 except ValueError:
-                    curr_dfs_failures.append(number_of_tests)
+                    curr_dfs_failures.append(test_num)
+
+                # opt algo
+                q = []
+                q.append((opt_root, None)) 
+
+                while len(q) != 0:
+                    level_size = len(q)
+
+                    while len(q) > 0:  
+                        node, parent = q.pop(0)
+                        node.initial_agent_assign()
+                        children = node.get_children()
+                        for child in children:
+                            q.append((child, node))
+
+                try:
+                    fresult, fresources = optimized_goal_allocation(opt_root, [50,50,50])
+                    curr_opt_avg_cost += get_custom_total_cost(fresult)
+                    curr_opt_agents_used += get_agents_used(fresult)
+                    curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
+                    curr_opt_skew += _skew_new(fresult, best_case)
+                    num_opt_trees_passed += 1
+                except ValueError:
+                    curr_opt_failures.append(test_num)
+
+                # m algo
+                # try:
+                agent_goal_m(get_goals_m(m_root), [50,50,50])
+                curr_m_avg_cost += get_custom_total_cost_m(m_root)
+                curr_m_agents_used += get_agents_used_m(m_root)
+                curr_m_discrepancy += discrepancy_m(m_root)
+                curr_m_skew += get_skew_m(m_root, best_case)
+                num_m_trees_passed += 1
+                # except TypeError:
+                    # curr_m_failures.append(test_num)
+
+            # Add Jonathan Results
+            if num_dfs_trees_passed != 0:
+                dfs_avg_costs += curr_dfs_avg_cost / num_dfs_trees_passed
+                dfs_avg_agents += curr_dfs_agents_used / num_dfs_trees_passed
+                dfs_avg_discrepancy += curr_dfs_discrepancy / num_dfs_trees_passed
+                dfs_avg_skew += curr_dfs_skew / num_dfs_trees_passed
+                dfs_fails.extend(curr_dfs_failures)
+            else:
+                dfs_fails.extend(curr_dfs_failures)
+
+            # Add Fay Results
+            if num_opt_trees_passed != 0:
+                opt_avg_costs += curr_opt_avg_cost / num_opt_trees_passed
+                opt_avg_agents += curr_opt_agents_used / num_opt_trees_passed
+                opt_avg_discrepancy += curr_opt_discrepancy / num_opt_trees_passed
+                opt_avg_skew += curr_opt_skew / num_opt_trees_passed
+                opt_fails.extend(curr_opt_failures)
+            else:
+                opt_fails.extend(curr_opt_failures)
+
+            # Add Maheen Results
+            if num_m_trees_passed != 0:
+                m_avg_costs += curr_m_avg_cost / num_m_trees_passed
+                m_avg_agents += curr_m_agents_used / num_m_trees_passed
+                m_avg_discrepancy += curr_m_discrepancy / num_m_trees_passed
+                m_avg_skew += curr_m_skew / num_m_trees_passed
+                m_fails.extend(curr_m_failures)
+            else:
+                m_fails.extend(curr_m_failures)
+
+            curr_seed += 1
+
+        final_dfs_avg_costs.append(dfs_avg_costs / 100)
+        final_dfs_avg_agents.append(dfs_avg_agents / 100)
+        final_dfs_avg_discrepancy.append(dfs_avg_discrepancy / 100)
+        final_dfs_avg_skew.append(dfs_avg_skew / 100)
+        final_dfs_fails.append(dfs_fails)
+
+        final_opt_avg_costs.append(opt_avg_costs / 100)
+        final_opt_avg_agents.append(opt_avg_agents / 100)
+        final_opt_avg_discrepancy.append(opt_avg_discrepancy / 100)
+        final_opt_avg_skew.append(opt_avg_skew / 100)
+        final_opt_fails.append(opt_fails)
+
+        final_m_avg_costs.append(m_avg_costs / 100)
+        final_m_avg_agents.append(m_avg_agents / 100)
+        final_m_avg_discrepancy.append(m_avg_discrepancy / 100)
+        final_m_avg_skew.append(m_avg_skew / 100)
+        final_m_fails.append(m_fails)
+
+    print(f"Test Number: {test_num}")
+    return final_dfs_avg_costs, final_dfs_avg_agents, final_dfs_avg_discrepancy, final_dfs_avg_skew, final_dfs_fails, final_opt_avg_costs, final_opt_avg_agents, final_opt_avg_discrepancy, final_opt_avg_skew, final_opt_fails, final_m_avg_costs, final_m_avg_agents, final_m_avg_discrepancy, final_m_avg_skew, final_m_fails
+
+# Scenario 2
+def Test2(total_tests, seed):
+    """
+    3 agents
+    Equal Cost
+    Different resources
+    """
+    final_dfs_avg_costs = []
+    final_dfs_avg_agents = []
+    final_dfs_avg_discrepancy = []
+    final_dfs_avg_skew = []
+    final_dfs_fails = []
+
+    final_opt_avg_costs = []
+    final_opt_avg_agents = []
+    final_opt_avg_discrepancy = []
+    final_opt_avg_skew = []
+    final_opt_fails = []
+
+    final_m_avg_costs = []
+    final_m_avg_agents = []
+    final_m_avg_discrepancy = []
+    final_m_avg_skew = []
+    final_m_fails = []
+
+    curr_seed = seed
+    test_num = 0
+
+    # Each bar on graph
+    for test_group in range(total_tests):
+
+        dfs_avg_costs = 0
+        dfs_avg_agents = 0
+        dfs_avg_discrepancy = 0
+        dfs_avg_skew = 0
+        dfs_fails = []
+
+        opt_avg_costs = 0
+        opt_avg_agents = 0
+        opt_avg_discrepancy = 0
+        opt_avg_skew = 0
+        opt_fails = []
+
+        m_avg_costs = 0
+        m_avg_agents = 0
+        m_avg_discrepancy = 0
+        m_avg_skew = 0
+        m_fails = []
+
+        # Run all tree groups
+        for group in range(100):
+            r.seed(curr_seed)
+            TREES = [binary_symmetric(3),
+                    binary_left(3), 
+                    binary_right(3), 
+                    root(3), 
+                    tree_symmetric(3), 
+                    tree_left_right(3), 
+                    large_binary_tree(3),
+                    large_tree(3), 
+                    tree_1(3), 
+                    tree_2(3)]
+            
+            # Jonathan Test
+            curr_dfs_avg_cost = 0
+            curr_dfs_agents_used = 0
+            curr_dfs_failures = []
+            curr_dfs_discrepancy = 0
+            curr_dfs_skew = 0
+            num_dfs_trees_passed = 0
+
+            # Fay Test
+            curr_opt_avg_cost = 0
+            curr_opt_agents_used = 0
+            curr_opt_failures = []
+            curr_opt_discrepancy = 0
+            curr_opt_skew = 0
+            num_opt_trees_passed = 0
+
+            # Maheen Test
+            curr_m_avg_cost = 0
+            curr_m_agents_used = 0
+            curr_m_failures = []
+            curr_m_discrepancy = 0
+            curr_m_skew = 0
+            num_m_trees_passed = 0
+
+            # Run each individual test
+            for tree_idx in range(len(TREES)):
+                test_num += 1
+                
+                dfs_root = TREES[tree_idx][0]
+                opt_root = copy.deepcopy(dfs_root)
+                m_root = TREES[tree_idx][1]
+                
+                # dfs algo
+                try:
+                    dfs_agents_and_goals = dfs_goal_allocation(dfs_root, {"grace": 50, "remus": 60, "franklin": 70})
+                    curr_dfs_avg_cost += get_custom_total_cost(dfs_agents_and_goals)
+                    curr_dfs_agents_used += get_agents_used(dfs_agents_and_goals)
+                    curr_dfs_discrepancy += discrepancy(dfs_agents_and_goals)
+                    skew, best_case = get_skew(dfs_agents_and_goals)
+                    curr_dfs_skew += skew
+                    num_dfs_trees_passed += 1
+                except ValueError:
+                    curr_dfs_failures.append(test_num)
 
                 # opt algo
                 q = []
@@ -2901,25 +2928,21 @@ def Test2(total_tests, seed):
                     curr_opt_avg_cost += get_custom_total_cost(fresult)
                     curr_opt_agents_used += get_agents_used(fresult)
                     curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
-                    curr_opt_skew +=  _skew_new(fresult, best_case)
+                    curr_opt_skew += _skew_new(fresult, best_case)
                     num_opt_trees_passed += 1
                 except ValueError:
-                    curr_opt_failures.append(number_of_tests)
+                    curr_opt_failures.append(test_num)
 
                 # m algo
                 try:
                     agent_goal_m(get_goals_m(m_root), [50,60,70])
                     curr_m_avg_cost += get_custom_total_cost_m(m_root)
                     curr_m_agents_used += get_agents_used_m(m_root)
-                    # Calculate the discrepancy for each root node
-                    curr_m_discrepancy += discrepancy_m(m_root, m_root.agents)
+                    curr_m_discrepancy += discrepancy_m(m_root)
                     curr_m_skew += get_skew_m(m_root, best_case)
-                    
-                    num_m_trees_passed +=1
+                    num_m_trees_passed += 1
                 except TypeError:
-                    curr_m_failures.append(number_of_tests)
-
-
+                    curr_m_failures.append(test_num)
 
             # Add Jonathan Results
             if num_dfs_trees_passed != 0:
@@ -2942,7 +2965,7 @@ def Test2(total_tests, seed):
                 opt_fails.extend(curr_opt_failures)
 
             # # Add Maheen Results
-            if num_opt_trees_passed != 0:
+            if num_m_trees_passed != 0:
                 m_avg_costs += curr_m_avg_cost / num_m_trees_passed
                 m_avg_agents += curr_m_agents_used / num_m_trees_passed
                 m_avg_discrepancy += curr_m_discrepancy / num_m_trees_passed
@@ -2951,28 +2974,28 @@ def Test2(total_tests, seed):
             else:
                 m_fails.extend(curr_m_failures)
 
-            seed_value_all += 1
+            curr_seed += 1
 
-        dfs_average_costs.append(dfs_avg_costs / 100)
-        dfs_average_agents.append(dfs_avg_agents / 100)
-        dfs_average_discrepancy.append(dfs_avg_discrepancy / 100)
-        dfs_average_skew.append(dfs_avg_skew / 100)
-        dfs_failures.append(dfs_fails)
+        final_dfs_avg_costs.append(dfs_avg_costs / 100)
+        final_dfs_avg_agents.append(dfs_avg_agents / 100)
+        final_dfs_avg_discrepancy.append(dfs_avg_discrepancy / 100)
+        final_dfs_avg_skew.append(dfs_avg_skew / 100)
+        final_dfs_fails.append(dfs_fails)
 
-        dfs_average_new_costs.append(opt_avg_costs / 100)
-        dfs_average_new_agents.append(opt_avg_agents / 100)
-        dfs_average_new_discrepancy.append(opt_avg_discrepancy / 100)
-        dfs_average_new_skew.append(opt_avg_skew / 100)
-        dfs_new_fails.append(opt_fails)
+        final_opt_avg_costs.append(opt_avg_costs / 100)
+        final_opt_avg_agents.append(opt_avg_agents / 100)
+        final_opt_avg_discrepancy.append(opt_avg_discrepancy / 100)
+        final_opt_avg_skew.append(opt_avg_skew / 100)
+        final_opt_fails.append(opt_fails)
 
-        maheen__avg_costs.append(m_avg_costs / 100)
-        maheen__avg_agents.append(m_avg_agents / 100)
-        maheen__avg_discrepancy.append(m_avg_discrepancy / 100)
-        maheen__avg_skew.append(m_avg_skew / 100)
-        maheen__fails.append(m_fails)
+        final_m_avg_costs.append(m_avg_costs / 100)
+        final_m_avg_agents.append(m_avg_agents / 100)
+        final_m_avg_discrepancy.append(m_avg_discrepancy / 100)
+        final_m_avg_skew.append(m_avg_skew / 100)
+        final_m_fails.append(m_fails)
 
-    print(f"Test Number: {number_of_tests}")
-    return dfs_average_costs, dfs_average_agents, dfs_average_discrepancy, dfs_average_skew, dfs_failures, dfs_average_new_costs, dfs_average_new_agents, dfs_average_new_discrepancy, dfs_average_new_skew, dfs_new_fails, maheen__avg_costs, maheen__avg_agents, maheen__avg_discrepancy, maheen__avg_skew, maheen__fails
+    print(f"Test Number: {test_num}")
+    return final_dfs_avg_costs, final_dfs_avg_agents, final_dfs_avg_discrepancy, final_dfs_avg_skew, final_dfs_fails, final_opt_avg_costs, final_opt_avg_agents, final_opt_avg_discrepancy, final_opt_avg_skew, final_opt_fails, final_m_avg_costs, final_m_avg_agents, final_m_avg_discrepancy, final_m_avg_skew, final_m_fails
 
 # Scenario 3
 def Test3(total_tests, seed):
@@ -2982,26 +3005,26 @@ def Test3(total_tests, seed):
     Same resources
     """
     
-    dfs_average_costs = []
-    dfs_average_agents = []
-    dfs_average_discrepancy = []
-    dfs_average_skew = []
-    dfs_failures = []
+    final_dfs_avg_costs = []
+    final_dfs_avg_agents = []
+    final_dfs_avg_discrepancy = []
+    final_dfs_avg_skew = []
+    final_dfs_fails = []
 
-    dfs_average_new_costs = []
-    dfs_average_new_agents = []
-    dfs_average_new_discrepancy = []
-    dfs_average_new_skew= []
-    dfs_new_fails = []
+    final_opt_avg_costs = []
+    final_opt_avg_agents = []
+    final_opt_avg_discrepancy = []
+    final_opt_avg_skew = []
+    final_opt_fails = []
 
-    maheen__avg_costs = []
-    maheen__avg_agents = []
-    maheen__avg_discrepancy = []
-    maheen__avg_skew = []
-    maheen__fails = []
+    final_m_avg_costs = []
+    final_m_avg_agents = []
+    final_m_avg_discrepancy = []
+    final_m_avg_skew = []
+    final_m_fails = []
 
-    seed_value_all = seed
-    number_of_tests = 0
+    curr_seed = seed
+    test_num = 0
 
     # Each bar on graph
     for test_group in range(total_tests):
@@ -3026,7 +3049,7 @@ def Test3(total_tests, seed):
 
         # Run all tree groups
         for group in range(100):
-            r.seed(seed_value_all)
+            r.seed(curr_seed)
             TREES = [binary_symmetric(3, True),
                     binary_left(3, True), 
                     binary_right(3, True), 
@@ -3064,7 +3087,7 @@ def Test3(total_tests, seed):
 
             # Run each individual test
             for tree_idx in range(len(TREES)):
-                number_of_tests += 1
+                test_num += 1
                 
                 dfs_root = TREES[tree_idx][0]
                 opt_root = copy.deepcopy(dfs_root)
@@ -3072,15 +3095,15 @@ def Test3(total_tests, seed):
                 
                 # dfs algo
                 try:
-                    agents_and_goals_dfs = dfs_goal_allocation(dfs_root, {"grace": 50, "remus": 50, "franklin": 50})
-                    curr_dfs_avg_cost += get_custom_total_cost(agents_and_goals_dfs)
-                    curr_dfs_agents_used += get_agents_used(agents_and_goals_dfs)
-                    curr_dfs_discrepancy +=discrepancy(agents_and_goals_dfs)
-                    skew, best_case = get_skew(agents_and_goals_dfs)
+                    dfs_agents_and_goals = dfs_goal_allocation(dfs_root, {"grace": 50, "remus": 50, "franklin": 50})
+                    curr_dfs_avg_cost += get_custom_total_cost(dfs_agents_and_goals)
+                    curr_dfs_agents_used += get_agents_used(dfs_agents_and_goals)
+                    curr_dfs_discrepancy += discrepancy(dfs_agents_and_goals)
+                    skew, best_case = get_skew(dfs_agents_and_goals)
                     curr_dfs_skew += skew
                     num_dfs_trees_passed += 1
                 except ValueError:
-                    curr_dfs_failures.append(number_of_tests)
+                    curr_dfs_failures.append(test_num)
 
                 # opt algo
                 q = []
@@ -3101,21 +3124,21 @@ def Test3(total_tests, seed):
                     curr_opt_avg_cost += get_custom_total_cost(fresult)
                     curr_opt_agents_used += get_agents_used(fresult)
                     curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
-                    curr_opt_skew +=  _skew_new(fresult, best_case)
+                    curr_opt_skew += _skew_new(fresult, best_case)
                     num_opt_trees_passed += 1
                 except ValueError: 
-                    curr_opt_failures.append(number_of_tests)
+                    curr_opt_failures.append(test_num)
 
                 # m algo
                 try:
                     agent_goal_m(get_goals_m(m_root), [50,50,50])
                     curr_m_avg_cost += get_custom_total_cost_m(m_root)
                     curr_m_agents_used += get_agents_used_m(m_root)
-                    curr_m_discrepancy += discrepancy_m(m_root, m_root.agents)
+                    curr_m_discrepancy += discrepancy_m(m_root)
                     curr_m_skew += get_skew_m(m_root, best_case)
                     num_m_trees_passed += 1
                 except TypeError:
-                    curr_m_failures.append(number_of_tests)
+                    curr_m_failures.append(test_num)
 
             # Add Jonathan Results
             if num_dfs_trees_passed != 0:
@@ -3138,7 +3161,7 @@ def Test3(total_tests, seed):
                 opt_fails.extend(curr_opt_failures)
 
             # Add Maheen Results
-            if num_opt_trees_passed != 0:
+            if num_m_trees_passed != 0:
                 m_avg_costs += curr_m_avg_cost / num_m_trees_passed
                 m_avg_agents += curr_m_agents_used / num_m_trees_passed
                 m_avg_discrepancy += curr_m_discrepancy / num_m_trees_passed
@@ -3147,28 +3170,28 @@ def Test3(total_tests, seed):
             else:
                 m_fails.extend(curr_m_failures)
 
-            seed_value_all += 1
+            curr_seed += 1
 
-        dfs_average_costs.append(dfs_avg_costs / 100)
-        dfs_average_agents.append(dfs_avg_agents / 100)
-        dfs_average_discrepancy.append(dfs_avg_discrepancy / 100)
-        dfs_average_skew.append(dfs_avg_skew / 100)
-        dfs_failures.append(dfs_fails)
+        final_dfs_avg_costs.append(dfs_avg_costs / 100)
+        final_dfs_avg_agents.append(dfs_avg_agents / 100)
+        final_dfs_avg_discrepancy.append(dfs_avg_discrepancy / 100)
+        final_dfs_avg_skew.append(dfs_avg_skew / 100)
+        final_dfs_fails.append(dfs_fails)
 
-        dfs_average_new_costs.append(opt_avg_costs / 100)
-        dfs_average_new_agents.append(opt_avg_agents / 100)
-        dfs_average_new_discrepancy.append(opt_avg_discrepancy / 100)
-        dfs_average_new_skew.append(opt_avg_skew / 100)
-        dfs_new_fails.append(opt_fails)
+        final_opt_avg_costs.append(opt_avg_costs / 100)
+        final_opt_avg_agents.append(opt_avg_agents / 100)
+        final_opt_avg_discrepancy.append(opt_avg_discrepancy / 100)
+        final_opt_avg_skew.append(opt_avg_skew / 100)
+        final_opt_fails.append(opt_fails)
 
-        maheen__avg_costs.append(m_avg_costs / 100)
-        maheen__avg_agents.append(m_avg_agents / 100)
-        maheen__avg_discrepancy.append(m_avg_discrepancy / 100)
-        maheen__avg_skew.append(m_avg_skew / 100)
-        maheen__fails.append(m_fails)
+        final_m_avg_costs.append(m_avg_costs / 100)
+        final_m_avg_agents.append(m_avg_agents / 100)
+        final_m_avg_discrepancy.append(m_avg_discrepancy / 100)
+        final_m_avg_skew.append(m_avg_skew / 100)
+        final_m_fails.append(m_fails)
 
-    print(f"Test Number: {number_of_tests}")
-    return dfs_average_costs, dfs_average_agents, dfs_average_discrepancy, dfs_average_skew, dfs_failures, dfs_average_new_costs, dfs_average_new_agents, dfs_average_new_discrepancy, dfs_average_new_skew, dfs_new_fails, maheen__avg_costs, maheen__avg_agents, maheen__avg_discrepancy, maheen__avg_skew, maheen__fails
+    print(f"Test Number: {test_num}")
+    return final_dfs_avg_costs, final_dfs_avg_agents, final_dfs_avg_discrepancy, final_dfs_avg_skew, final_dfs_fails, final_opt_avg_costs, final_opt_avg_agents, final_opt_avg_discrepancy, final_opt_avg_skew, final_opt_fails, final_m_avg_costs, final_m_avg_agents, final_m_avg_discrepancy, final_m_avg_skew, final_m_fails
 
 # Scenario 4
 def Test4(total_tests, seed):
@@ -3177,26 +3200,26 @@ def Test4(total_tests, seed):
     Varying Cost
     Different resources
     """
-    dfs_average_costs = []
-    dfs_average_agents = []
-    dfs_average_discrepancy = []
-    dfs_average_skew = []
-    dfs_failures = []
+    final_dfs_avg_costs = []
+    final_dfs_avg_agents = []
+    final_dfs_avg_discrepancy = []
+    final_dfs_avg_skew = []
+    final_dfs_fails = []
 
-    dfs_average_new_costs = []
-    dfs_average_new_agents = []
-    dfs_average_new_discrepancy = []
-    dfs_average_new_skew= []
-    dfs_new_fails = []
+    final_opt_avg_costs = []
+    final_opt_avg_agents = []
+    final_opt_avg_discrepancy = []
+    final_opt_avg_skew = []
+    final_opt_fails = []
 
-    maheen__avg_costs = []
-    maheen__avg_agents = []
-    maheen__avg_discrepancy = []
-    maheen__avg_skew = []
-    maheen__fails = []
+    final_m_avg_costs = []
+    final_m_avg_agents = []
+    final_m_avg_discrepancy = []
+    final_m_avg_skew = []
+    final_m_fails = []
 
-    seed_value_all = seed
-    number_of_tests = 0
+    curr_seed = seed
+    test_num = 0
 
     # Each bar on graph
     for test_group in range(total_tests):
@@ -3221,7 +3244,7 @@ def Test4(total_tests, seed):
 
         # Run all tree groups
         for group in range(100):
-            r.seed(seed_value_all)
+            r.seed(curr_seed)
             TREES = [binary_symmetric(3, True),
                     binary_left(3, True), 
                     binary_right(3, True), 
@@ -3259,7 +3282,7 @@ def Test4(total_tests, seed):
 
             # Run each individual test
             for tree_idx in range(len(TREES)):
-                number_of_tests += 1
+                test_num += 1
                 
                 dfs_root = TREES[tree_idx][0]
                 opt_root = copy.deepcopy(dfs_root)
@@ -3267,15 +3290,15 @@ def Test4(total_tests, seed):
                 
                 # dfs algo
                 try:
-                    agents_and_goals_dfs = dfs_goal_allocation(dfs_root, {"grace": 50, "remus": 60, "franklin": 70})
-                    curr_dfs_avg_cost += get_custom_total_cost(agents_and_goals_dfs)
-                    curr_dfs_agents_used += get_agents_used(agents_and_goals_dfs)
-                    curr_dfs_discrepancy +=discrepancy(agents_and_goals_dfs)
-                    skew, best_case = get_skew(agents_and_goals_dfs)
+                    dfs_agents_and_goals = dfs_goal_allocation(dfs_root, {"grace": 50, "remus": 60, "franklin": 70})
+                    curr_dfs_avg_cost += get_custom_total_cost(dfs_agents_and_goals)
+                    curr_dfs_agents_used += get_agents_used(dfs_agents_and_goals)
+                    curr_dfs_discrepancy += discrepancy(dfs_agents_and_goals)
+                    skew, best_case = get_skew(dfs_agents_and_goals)
                     curr_dfs_skew += skew
                     num_dfs_trees_passed += 1
                 except ValueError:
-                    curr_dfs_failures.append(number_of_tests)
+                    curr_dfs_failures.append(test_num)
 
                 # opt algo
                 q = []
@@ -3296,21 +3319,21 @@ def Test4(total_tests, seed):
                     curr_opt_avg_cost += get_custom_total_cost(fresult)
                     curr_opt_agents_used += get_agents_used(fresult)
                     curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
-                    curr_opt_skew +=  _skew_new(fresult, best_case)
+                    curr_opt_skew += _skew_new(fresult, best_case)
                     num_opt_trees_passed += 1
                 except ValueError: 
-                    curr_opt_failures.append(number_of_tests)
+                    curr_opt_failures.append(test_num)
 
                 # m algo
                 try:
                     agent_goal_m(get_goals_m(m_root), [50,60,70])
                     curr_m_avg_cost += get_custom_total_cost_m(m_root)
                     curr_m_agents_used += get_agents_used_m(m_root)
-                    curr_m_discrepancy += discrepancy_m(m_root, m_root.agents)
+                    curr_m_discrepancy += discrepancy_m(m_root)
                     curr_m_skew += get_skew_m(m_root, best_case)
                     num_m_trees_passed += 1
                 except TypeError:
-                    curr_m_failures.append(number_of_tests)
+                    curr_m_failures.append(test_num)
 
             # Add Jonathan Results
             if num_dfs_trees_passed != 0:
@@ -3333,7 +3356,7 @@ def Test4(total_tests, seed):
                 opt_fails.extend(curr_opt_failures)
 
             # Add Maheen Results
-            if num_opt_trees_passed != 0:
+            if num_m_trees_passed != 0:
                 m_avg_costs += curr_m_avg_cost / num_m_trees_passed
                 m_avg_agents += curr_m_agents_used / num_m_trees_passed
                 m_avg_discrepancy += curr_m_discrepancy / num_m_trees_passed
@@ -3342,28 +3365,28 @@ def Test4(total_tests, seed):
             else:
                 m_fails.extend(curr_m_failures)
 
-            seed_value_all += 1
+            curr_seed += 1
 
-        dfs_average_costs.append(dfs_avg_costs / 100)
-        dfs_average_agents.append(dfs_avg_agents / 100)
-        dfs_average_discrepancy.append(dfs_avg_discrepancy / 100)
-        dfs_average_skew.append(dfs_avg_skew / 100)
-        dfs_failures.append(dfs_fails)
+        final_dfs_avg_costs.append(dfs_avg_costs / 100)
+        final_dfs_avg_agents.append(dfs_avg_agents / 100)
+        final_dfs_avg_discrepancy.append(dfs_avg_discrepancy / 100)
+        final_dfs_avg_skew.append(dfs_avg_skew / 100)
+        final_dfs_fails.append(dfs_fails)
 
-        dfs_average_new_costs.append(opt_avg_costs / 100)
-        dfs_average_new_agents.append(opt_avg_agents / 100)
-        dfs_average_new_discrepancy.append(opt_avg_discrepancy / 100)
-        dfs_average_new_skew.append(opt_avg_skew / 100)
-        dfs_new_fails.append(opt_fails)
+        final_opt_avg_costs.append(opt_avg_costs / 100)
+        final_opt_avg_agents.append(opt_avg_agents / 100)
+        final_opt_avg_discrepancy.append(opt_avg_discrepancy / 100)
+        final_opt_avg_skew.append(opt_avg_skew / 100)
+        final_opt_fails.append(opt_fails)
 
-        maheen__avg_costs.append(m_avg_costs / 100)
-        maheen__avg_agents.append(m_avg_agents / 100)
-        maheen__avg_discrepancy.append(m_avg_discrepancy / 100)
-        maheen__avg_skew.append(m_avg_skew / 100)
-        maheen__fails.append(m_fails)
+        final_m_avg_costs.append(m_avg_costs / 100)
+        final_m_avg_agents.append(m_avg_agents / 100)
+        final_m_avg_discrepancy.append(m_avg_discrepancy / 100)
+        final_m_avg_skew.append(m_avg_skew / 100)
+        final_m_fails.append(m_fails)
 
-    print(f"Test Number: {number_of_tests}")
-    return dfs_average_costs, dfs_average_agents, dfs_average_discrepancy, dfs_average_skew, dfs_failures, dfs_average_new_costs, dfs_average_new_agents, dfs_average_new_discrepancy, dfs_average_new_skew, dfs_new_fails, maheen__avg_costs, maheen__avg_agents, maheen__avg_discrepancy, maheen__avg_skew, maheen__fails
+    print(f"Test Number: {test_num}")
+    return final_dfs_avg_costs, final_dfs_avg_agents, final_dfs_avg_discrepancy, final_dfs_avg_skew, final_dfs_fails, final_opt_avg_costs, final_opt_avg_agents, final_opt_avg_discrepancy, final_opt_avg_skew, final_opt_fails, final_m_avg_costs, final_m_avg_agents, final_m_avg_discrepancy, final_m_avg_skew, final_m_fails
 
 # Scenario 5
 def Test5(total_tests, seed):
@@ -3372,30 +3395,30 @@ def Test5(total_tests, seed):
     Equal Cost
     Same resources
     """
-    dfs_average_costs = []
-    dfs_average_agents = []
-    dfs_average_discrepancy = []
-    dfs_average_skew = []
-    dfs_failures = []
+    final_dfs_avg_costs = []
+    final_dfs_avg_agents = []
+    final_dfs_avg_discrepancy = []
+    final_dfs_avg_skew = []
+    final_dfs_fails = []
 
-    dfs_average_new_costs = []
-    dfs_average_new_agents = []
-    dfs_average_new_discrepancy = []
-    dfs_average_new_skew= []
-    dfs_new_fails = []
+    final_opt_avg_costs = []
+    final_opt_avg_agents = []
+    final_opt_avg_discrepancy = []
+    final_opt_avg_skew = []
+    final_opt_fails = []
 
-    maheen__avg_costs = []
-    maheen__avg_agents = []
-    maheen__avg_discrepancy = []
-    maheen__avg_skew = []
-    maheen__fails = []
+    final_m_avg_costs = []
+    final_m_avg_agents = []
+    final_m_avg_discrepancy = []
+    final_m_avg_skew = []
+    final_m_fails = []
 
-    number_of_tests = 0
+    test_num = 0
     num_agents = 0
 
     # Each bar on graph
     for test_group in range(total_tests):
-        seed_value_all = seed
+        curr_seed = seed
 
         num_agents += 1
 
@@ -3419,7 +3442,7 @@ def Test5(total_tests, seed):
 
         # Run all tree groups
         for group in range(100):
-            r.seed(seed_value_all)
+            r.seed(curr_seed)
             TREES = [binary_symmetric(num_agents),
                     binary_left(num_agents), 
                     binary_right(num_agents), 
@@ -3457,7 +3480,7 @@ def Test5(total_tests, seed):
 
             # Run each individual test
             for tree_idx in range(len(TREES)):
-                number_of_tests += 1
+                test_num += 1
                 
                 dfs_root = TREES[tree_idx][0]
                 opt_root = copy.deepcopy(dfs_root)
@@ -3465,15 +3488,15 @@ def Test5(total_tests, seed):
                 
                 # dfs algo
                 try:
-                    agents_and_goals_dfs = dfs_goal_allocation(dfs_root, {"grace": 100, "remus": 100, "franklin": 100, "john": 100, "alice": 100, "jake": 100, "anna": 100, "tommy": 100, "trent": 100, "karen": 100})
-                    curr_dfs_avg_cost += get_custom_total_cost(agents_and_goals_dfs)
-                    curr_dfs_agents_used += get_agents_used(agents_and_goals_dfs)
-                    curr_dfs_discrepancy +=discrepancy(agents_and_goals_dfs)
-                    skew, best_case = get_skew(agents_and_goals_dfs)
+                    dfs_agents_and_goals = dfs_goal_allocation(dfs_root, {"grace": 100, "remus": 100, "franklin": 100, "john": 100, "alice": 100, "jake": 100, "anna": 100, "tommy": 100, "trent": 100, "karen": 100})
+                    curr_dfs_avg_cost += get_custom_total_cost(dfs_agents_and_goals)
+                    curr_dfs_agents_used += get_agents_used(dfs_agents_and_goals)
+                    curr_dfs_discrepancy += discrepancy(dfs_agents_and_goals)
+                    skew, best_case = get_skew(dfs_agents_and_goals)
                     curr_dfs_skew += skew
                     num_dfs_trees_passed += 1
                 except ValueError:
-                    curr_dfs_failures.append(number_of_tests)
+                    curr_dfs_failures.append(test_num)
 
                 # opt algo
                 q = []
@@ -3494,22 +3517,21 @@ def Test5(total_tests, seed):
                     curr_opt_avg_cost += get_custom_total_cost(fresult)
                     curr_opt_agents_used += get_agents_used(fresult)
                     curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
-                    curr_opt_skew +=  _skew_new(fresult, best_case)
+                    curr_opt_skew += _skew_new(fresult, best_case)
                     num_opt_trees_passed += 1
                 except ValueError: 
-                    curr_opt_failures.append(number_of_tests)
+                    curr_opt_failures.append(test_num)
 
                 # m algo
                 try:
                     agent_goal_m(get_goals_m(m_root), [100] * num_agents)
                     curr_m_avg_cost += get_custom_total_cost_m(m_root)
                     curr_m_agents_used += get_agents_used_m(m_root)
-                    # Calculate the discrepancy for each root node
-                    curr_m_discrepancy += discrepancy_m(m_root, m_root.agents)
+                    curr_m_discrepancy += discrepancy_m(m_root)
                     curr_m_skew += get_skew_m(m_root, best_case)
-                    num_m_trees_passed +=1
+                    num_m_trees_passed += 1
                 except TypeError:
-                    curr_m_failures.append(number_of_tests)
+                    curr_m_failures.append(test_num)
 
             # Add Jonathan Results
             if num_dfs_trees_passed != 0:
@@ -3532,7 +3554,7 @@ def Test5(total_tests, seed):
                 opt_fails.extend(curr_opt_failures)
 
             # Add Maheen Results
-            if num_opt_trees_passed != 0:
+            if num_m_trees_passed != 0:
                 m_avg_costs += curr_m_avg_cost / num_m_trees_passed
                 m_avg_agents += curr_m_agents_used / num_m_trees_passed
                 m_avg_discrepancy += curr_m_discrepancy / num_m_trees_passed
@@ -3541,28 +3563,28 @@ def Test5(total_tests, seed):
             else:
                 m_fails.extend(curr_m_failures)
 
-            seed_value_all += 1
+            curr_seed += 1
 
-        dfs_average_costs.append(dfs_avg_costs / 100)
-        dfs_average_agents.append(dfs_avg_agents / 100)
-        dfs_average_discrepancy.append(dfs_avg_discrepancy / 100)
-        dfs_average_skew.append(dfs_avg_skew / 100)
-        dfs_failures.append(dfs_fails)
+        final_dfs_avg_costs.append(dfs_avg_costs / 100)
+        final_dfs_avg_agents.append(dfs_avg_agents / 100)
+        final_dfs_avg_discrepancy.append(dfs_avg_discrepancy / 100)
+        final_dfs_avg_skew.append(dfs_avg_skew / 100)
+        final_dfs_fails.append(dfs_fails)
 
-        dfs_average_new_costs.append(opt_avg_costs / 100)
-        dfs_average_new_agents.append(opt_avg_agents / 100)
-        dfs_average_new_discrepancy.append(opt_avg_discrepancy / 100)
-        dfs_average_new_skew.append(opt_avg_skew / 100)
-        dfs_new_fails.append(opt_fails)
+        final_opt_avg_costs.append(opt_avg_costs / 100)
+        final_opt_avg_agents.append(opt_avg_agents / 100)
+        final_opt_avg_discrepancy.append(opt_avg_discrepancy / 100)
+        final_opt_avg_skew.append(opt_avg_skew / 100)
+        final_opt_fails.append(opt_fails)
 
-        maheen__avg_costs.append(m_avg_costs / 100)
-        maheen__avg_agents.append(m_avg_agents / 100)
-        maheen__avg_discrepancy.append(m_avg_discrepancy / 100)
-        maheen__avg_skew.append(m_avg_skew / 100)
-        maheen__fails.append(m_fails)
+        final_m_avg_costs.append(m_avg_costs / 100)
+        final_m_avg_agents.append(m_avg_agents / 100)
+        final_m_avg_discrepancy.append(m_avg_discrepancy / 100)
+        final_m_avg_skew.append(m_avg_skew / 100)
+        final_m_fails.append(m_fails)
 
-    print(f"Test Number: {number_of_tests}")
-    return dfs_average_costs, dfs_average_agents, dfs_average_discrepancy, dfs_average_skew, dfs_failures, dfs_average_new_costs, dfs_average_new_agents, dfs_average_new_discrepancy, dfs_average_new_skew, dfs_new_fails, maheen__avg_costs, maheen__avg_agents, maheen__avg_discrepancy, maheen__avg_skew, maheen__fails
+    print(f"Test Number: {test_num}")
+    return final_dfs_avg_costs, final_dfs_avg_agents, final_dfs_avg_discrepancy, final_dfs_avg_skew, final_dfs_fails, final_opt_avg_costs, final_opt_avg_agents, final_opt_avg_discrepancy, final_opt_avg_skew, final_opt_fails, final_m_avg_costs, final_m_avg_agents, final_m_avg_discrepancy, final_m_avg_skew, final_m_fails
 
 # Scenario 6
 def Test6(total_tests, seed):
@@ -3571,30 +3593,30 @@ def Test6(total_tests, seed):
     Equal Cost
     Different resources
     """
-    dfs_average_costs = []
-    dfs_average_agents = []
-    dfs_average_discrepancy = []
-    dfs_average_skew = []
-    dfs_failures = []
+    final_dfs_avg_costs = []
+    final_dfs_avg_agents = []
+    final_dfs_avg_discrepancy = []
+    final_dfs_avg_skew = []
+    final_dfs_fails = []
 
-    dfs_average_new_costs = []
-    dfs_average_new_agents = []
-    dfs_average_new_discrepancy = []
-    dfs_average_new_skew= []
-    dfs_new_fails = []
+    final_opt_avg_costs = []
+    final_opt_avg_agents = []
+    final_opt_avg_discrepancy = []
+    final_opt_avg_skew = []
+    final_opt_fails = []
 
-    maheen__avg_costs = []
-    maheen__avg_agents = []
-    maheen__avg_discrepancy = []
-    maheen__avg_skew = []
-    maheen__fails = []
+    final_m_avg_costs = []
+    final_m_avg_agents = []
+    final_m_avg_discrepancy = []
+    final_m_avg_skew = []
+    final_m_fails = []
 
-    number_of_tests = 0
+    test_num = 0
     num_agents = 0
 
     # Each bar on graph
     for test_group in range(total_tests):
-        seed_value_all = seed
+        curr_seed = seed
 
         num_agents += 1
 
@@ -3624,7 +3646,7 @@ def Test6(total_tests, seed):
 
         # Run all tree groups
         for group in range(100):
-            r.seed(seed_value_all)
+            r.seed(curr_seed)
             TREES = [binary_symmetric(num_agents),
                     binary_left(num_agents), 
                     binary_right(num_agents), 
@@ -3662,7 +3684,7 @@ def Test6(total_tests, seed):
 
             # Run each individual test
             for tree_idx in range(len(TREES)):
-                number_of_tests += 1
+                test_num += 1
                 
                 dfs_root = TREES[tree_idx][0]
                 opt_root = copy.deepcopy(dfs_root)
@@ -3670,15 +3692,15 @@ def Test6(total_tests, seed):
                 
                 # dfs algo
                 try:
-                    agents_and_goals_dfs = dfs_goal_allocation(dfs_root, {"grace": res[0], "remus": res[1], "franklin": res[2], "john": res[3], "alice": res[4], "jake": res[5], "anna": res[6], "tommy": res[7], "trent": res[8], "karen": res[9]})
-                    curr_dfs_avg_cost += get_custom_total_cost(agents_and_goals_dfs)
-                    curr_dfs_agents_used += get_agents_used(agents_and_goals_dfs)
-                    curr_dfs_discrepancy +=discrepancy(agents_and_goals_dfs)
-                    skew, best_case = get_skew(agents_and_goals_dfs)
+                    dfs_agents_and_goals = dfs_goal_allocation(dfs_root, {"grace": res[0], "remus": res[1], "franklin": res[2], "john": res[3], "alice": res[4], "jake": res[5], "anna": res[6], "tommy": res[7], "trent": res[8], "karen": res[9]})
+                    curr_dfs_avg_cost += get_custom_total_cost(dfs_agents_and_goals)
+                    curr_dfs_agents_used += get_agents_used(dfs_agents_and_goals)
+                    curr_dfs_discrepancy += discrepancy(dfs_agents_and_goals)
+                    skew, best_case = get_skew(dfs_agents_and_goals)
                     curr_dfs_skew += skew
                     num_dfs_trees_passed += 1
                 except ValueError:
-                    curr_dfs_failures.append(number_of_tests)
+                    curr_dfs_failures.append(test_num)
 
                 # opt algo
                 q = []
@@ -3699,22 +3721,21 @@ def Test6(total_tests, seed):
                     curr_opt_avg_cost += get_custom_total_cost(fresult)
                     curr_opt_agents_used += get_agents_used(fresult)
                     curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
-                    curr_opt_skew +=  _skew_new(fresult, best_case)
+                    curr_opt_skew += _skew_new(fresult, best_case)
                     num_opt_trees_passed += 1
                 except ValueError: 
-                    curr_opt_failures.append(number_of_tests)
+                    curr_opt_failures.append(test_num)
 
                 # m algo
                 try:
                     agent_goal_m(get_goals_m(m_root), opt_and_m_resources)
                     curr_m_avg_cost += get_custom_total_cost_m(m_root)
                     curr_m_agents_used += get_agents_used_m(m_root)
-                    # Calculate the discrepancy for each root node
-                    curr_m_discrepancy += discrepancy_m(m_root, m_root.agents)
+                    curr_m_discrepancy += discrepancy_m(m_root)
                     curr_m_skew += get_skew_m(m_root, best_case)
                     num_m_trees_passed += 1
                 except TypeError:
-                    curr_m_failures.append(number_of_tests)
+                    curr_m_failures.append(test_num)
 
             # Add Jonathan Results
             if num_dfs_trees_passed != 0:
@@ -3737,7 +3758,7 @@ def Test6(total_tests, seed):
                 opt_fails.extend(curr_opt_failures)
 
             # Add Maheen Results
-            if num_opt_trees_passed != 0:
+            if num_m_trees_passed != 0:
                 m_avg_costs += curr_m_avg_cost / num_m_trees_passed
                 m_avg_agents += curr_m_agents_used / num_m_trees_passed
                 m_avg_discrepancy += curr_m_discrepancy / num_m_trees_passed
@@ -3746,28 +3767,28 @@ def Test6(total_tests, seed):
             else:
                 m_fails.extend(curr_m_failures)
 
-            seed_value_all += 1
+            curr_seed += 1
 
-        dfs_average_costs.append(dfs_avg_costs / 100)
-        dfs_average_agents.append(dfs_avg_agents / 100)
-        dfs_average_discrepancy.append(dfs_avg_discrepancy / 100)
-        dfs_average_skew.append(dfs_avg_skew / 100)
-        dfs_failures.append(dfs_fails)
+        final_dfs_avg_costs.append(dfs_avg_costs / 100)
+        final_dfs_avg_agents.append(dfs_avg_agents / 100)
+        final_dfs_avg_discrepancy.append(dfs_avg_discrepancy / 100)
+        final_dfs_avg_skew.append(dfs_avg_skew / 100)
+        final_dfs_fails.append(dfs_fails)
 
-        dfs_average_new_costs.append(opt_avg_costs / 100)
-        dfs_average_new_agents.append(opt_avg_agents / 100)
-        dfs_average_new_discrepancy.append(opt_avg_discrepancy / 100)
-        dfs_average_new_skew.append(opt_avg_skew / 100)
-        dfs_new_fails.append(opt_fails)
+        final_opt_avg_costs.append(opt_avg_costs / 100)
+        final_opt_avg_agents.append(opt_avg_agents / 100)
+        final_opt_avg_discrepancy.append(opt_avg_discrepancy / 100)
+        final_opt_avg_skew.append(opt_avg_skew / 100)
+        final_opt_fails.append(opt_fails)
 
-        maheen__avg_costs.append(m_avg_costs / 100)
-        maheen__avg_agents.append(m_avg_agents / 100)
-        maheen__avg_discrepancy.append(m_avg_discrepancy / 100)
-        maheen__avg_skew.append(m_avg_skew / 100)
-        maheen__fails.append(m_fails)
+        final_m_avg_costs.append(m_avg_costs / 100)
+        final_m_avg_agents.append(m_avg_agents / 100)
+        final_m_avg_discrepancy.append(m_avg_discrepancy / 100)
+        final_m_avg_skew.append(m_avg_skew / 100)
+        final_m_fails.append(m_fails)
 
-    print(f"Test Number: {number_of_tests}")
-    return dfs_average_costs, dfs_average_agents, dfs_average_discrepancy, dfs_average_skew, dfs_failures, dfs_average_new_costs, dfs_average_new_agents, dfs_average_new_discrepancy, dfs_average_new_skew, dfs_new_fails, maheen__avg_costs, maheen__avg_agents, maheen__avg_discrepancy, maheen__avg_skew, maheen__fails
+    print(f"Test Number: {test_num}")
+    return final_dfs_avg_costs, final_dfs_avg_agents, final_dfs_avg_discrepancy, final_dfs_avg_skew, final_dfs_fails, final_opt_avg_costs, final_opt_avg_agents, final_opt_avg_discrepancy, final_opt_avg_skew, final_opt_fails, final_m_avg_costs, final_m_avg_agents, final_m_avg_discrepancy, final_m_avg_skew, final_m_fails
 
 # Scenario 7
 def Test7(total_tests, seed):
@@ -3776,30 +3797,30 @@ def Test7(total_tests, seed):
     Varying Cost
     Same resources
     """
-    dfs_average_costs = []
-    dfs_average_agents = []
-    dfs_average_discrepancy = []
-    dfs_average_skew = []
-    dfs_failures = []
+    final_dfs_avg_costs = []
+    final_dfs_avg_agents = []
+    final_dfs_avg_discrepancy = []
+    final_dfs_avg_skew = []
+    final_dfs_fails = []
 
-    dfs_average_new_costs = []
-    dfs_average_new_agents = []
-    dfs_average_new_discrepancy = []
-    dfs_average_new_skew= []
-    dfs_new_fails = []
+    final_opt_avg_costs = []
+    final_opt_avg_agents = []
+    final_opt_avg_discrepancy = []
+    final_opt_avg_skew = []
+    final_opt_fails = []
 
-    maheen__avg_costs = []
-    maheen__avg_agents = []
-    maheen__avg_discrepancy = []
-    maheen__avg_skew = []
-    maheen__fails = []
+    final_m_avg_costs = []
+    final_m_avg_agents = []
+    final_m_avg_discrepancy = []
+    final_m_avg_skew = []
+    final_m_fails = []
 
-    number_of_tests = 0
+    test_num = 0
     num_agents = 0
 
     # Each bar on graph
     for test_group in range(total_tests):
-        seed_value_all = seed
+        curr_seed = seed
 
         num_agents += 1
 
@@ -3823,7 +3844,7 @@ def Test7(total_tests, seed):
 
         # Run all tree groups
         for group in range(100):
-            r.seed(seed_value_all)
+            r.seed(curr_seed)
             TREES = [binary_symmetric(num_agents, True),
                     binary_left(num_agents, True), 
                     binary_right(num_agents, True), 
@@ -3861,7 +3882,7 @@ def Test7(total_tests, seed):
 
             # Run each individual test
             for tree_idx in range(len(TREES)):
-                number_of_tests += 1
+                test_num += 1
                 
                 dfs_root = TREES[tree_idx][0]
                 opt_root = copy.deepcopy(dfs_root)
@@ -3869,15 +3890,15 @@ def Test7(total_tests, seed):
                 
                 # dfs algo
                 try:
-                    agents_and_goals_dfs = dfs_goal_allocation(dfs_root, {"grace": 100, "remus": 100, "franklin": 100, "john": 100, "alice": 100, "jake": 100, "anna": 100, "tommy": 100, "trent": 100, "karen": 100})
-                    curr_dfs_avg_cost += get_custom_total_cost(agents_and_goals_dfs)
-                    curr_dfs_agents_used += get_agents_used(agents_and_goals_dfs)
-                    curr_dfs_discrepancy +=discrepancy(agents_and_goals_dfs)
-                    skew, best_case = get_skew(agents_and_goals_dfs)
+                    dfs_agents_and_goals = dfs_goal_allocation(dfs_root, {"grace": 100, "remus": 100, "franklin": 100, "john": 100, "alice": 100, "jake": 100, "anna": 100, "tommy": 100, "trent": 100, "karen": 100})
+                    curr_dfs_avg_cost += get_custom_total_cost(dfs_agents_and_goals)
+                    curr_dfs_agents_used += get_agents_used(dfs_agents_and_goals)
+                    curr_dfs_discrepancy += discrepancy(dfs_agents_and_goals)
+                    skew, best_case = get_skew(dfs_agents_and_goals)
                     curr_dfs_skew += skew
                     num_dfs_trees_passed += 1
                 except ValueError:
-                    curr_dfs_failures.append(number_of_tests)
+                    curr_dfs_failures.append(test_num)
 
                 # opt algo
                 q = []
@@ -3898,23 +3919,21 @@ def Test7(total_tests, seed):
                     curr_opt_avg_cost += get_custom_total_cost(fresult)
                     curr_opt_agents_used += get_agents_used(fresult)
                     curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
-                    curr_opt_skew +=  _skew_new(fresult, best_case)
+                    curr_opt_skew += _skew_new(fresult, best_case)
                     num_opt_trees_passed += 1
                 except ValueError: 
-                    curr_opt_failures.append(number_of_tests)
+                    curr_opt_failures.append(test_num)
 
                 # m algo
                 try:
                     agent_goal_m(get_goals_m(m_root), [100] * num_agents)
                     curr_m_avg_cost += get_custom_total_cost_m(m_root)
                     curr_m_agents_used += get_agents_used_m(m_root)
-                    # Calculate the discrepancy for each root node
-                    curr_m_discrepancy += discrepancy_m(m_root, m_root.agents)
+                    curr_m_discrepancy += discrepancy_m(m_root)
                     curr_m_skew += get_skew_m(m_root, best_case)
                     num_m_trees_passed += 1
-                    
                 except TypeError:
-                    curr_m_failures.append(number_of_tests)
+                    curr_m_failures.append(test_num)
 
             # Add Jonathan Results
             if num_dfs_trees_passed != 0:
@@ -3937,7 +3956,7 @@ def Test7(total_tests, seed):
                 opt_fails.extend(curr_opt_failures)
 
             # Add Maheen Results
-            if num_opt_trees_passed != 0:
+            if num_m_trees_passed != 0:
                 m_avg_costs += curr_m_avg_cost / num_m_trees_passed
                 m_avg_agents += curr_m_agents_used / num_m_trees_passed
                 m_avg_discrepancy += curr_m_discrepancy / num_m_trees_passed
@@ -3946,28 +3965,28 @@ def Test7(total_tests, seed):
             else:
                 m_fails.extend(curr_m_failures)
 
-            seed_value_all += 1
+            curr_seed += 1
 
-        dfs_average_costs.append(dfs_avg_costs / 100)
-        dfs_average_agents.append(dfs_avg_agents / 100)
-        dfs_average_discrepancy.append(dfs_avg_discrepancy / 100)
-        dfs_average_skew.append(dfs_avg_skew / 100)
-        dfs_failures.append(dfs_fails)
+        final_dfs_avg_costs.append(dfs_avg_costs / 100)
+        final_dfs_avg_agents.append(dfs_avg_agents / 100)
+        final_dfs_avg_discrepancy.append(dfs_avg_discrepancy / 100)
+        final_dfs_avg_skew.append(dfs_avg_skew / 100)
+        final_dfs_fails.append(dfs_fails)
 
-        dfs_average_new_costs.append(opt_avg_costs / 100)
-        dfs_average_new_agents.append(opt_avg_agents / 100)
-        dfs_average_new_discrepancy.append(opt_avg_discrepancy / 100)
-        dfs_average_new_skew.append(opt_avg_skew / 100)
-        dfs_new_fails.append(opt_fails)
+        final_opt_avg_costs.append(opt_avg_costs / 100)
+        final_opt_avg_agents.append(opt_avg_agents / 100)
+        final_opt_avg_discrepancy.append(opt_avg_discrepancy / 100)
+        final_opt_avg_skew.append(opt_avg_skew / 100)
+        final_opt_fails.append(opt_fails)
 
-        maheen__avg_costs.append(m_avg_costs / 100)
-        maheen__avg_agents.append(m_avg_agents / 100)
-        maheen__avg_discrepancy.append(m_avg_discrepancy / 100)
-        maheen__avg_skew.append(m_avg_skew / 100)
-        maheen__fails.append(m_fails)
+        final_m_avg_costs.append(m_avg_costs / 100)
+        final_m_avg_agents.append(m_avg_agents / 100)
+        final_m_avg_discrepancy.append(m_avg_discrepancy / 100)
+        final_m_avg_skew.append(m_avg_skew / 100)
+        final_m_fails.append(m_fails)
 
-    print(f"Test Number: {number_of_tests}")
-    return dfs_average_costs, dfs_average_agents, dfs_average_discrepancy, dfs_average_skew, dfs_failures, dfs_average_new_costs, dfs_average_new_agents, dfs_average_new_discrepancy, dfs_average_new_skew, dfs_new_fails, maheen__avg_costs, maheen__avg_agents, maheen__avg_discrepancy, maheen__avg_skew, maheen__fails
+    print(f"Test Number: {test_num}")
+    return final_dfs_avg_costs, final_dfs_avg_agents, final_dfs_avg_discrepancy, final_dfs_avg_skew, final_dfs_fails, final_opt_avg_costs, final_opt_avg_agents, final_opt_avg_discrepancy, final_opt_avg_skew, final_opt_fails, final_m_avg_costs, final_m_avg_agents, final_m_avg_discrepancy, final_m_avg_skew, final_m_fails
 
 # Scenario 8
 def Test8(total_tests, seed):
@@ -3976,30 +3995,30 @@ def Test8(total_tests, seed):
     Varying Cost
     Different resources
     """
-    dfs_average_costs = []
-    dfs_average_agents = []
-    dfs_average_discrepancy = []
-    dfs_average_skew = []
-    dfs_failures = []
+    final_dfs_avg_costs = []
+    final_dfs_avg_agents = []
+    final_dfs_avg_discrepancy = []
+    final_dfs_avg_skew = []
+    final_dfs_fails = []
 
-    dfs_average_new_costs = []
-    dfs_average_new_agents = []
-    dfs_average_new_discrepancy = []
-    dfs_average_new_skew= []
-    dfs_new_fails = []
+    final_opt_avg_costs = []
+    final_opt_avg_agents = []
+    final_opt_avg_discrepancy = []
+    final_opt_avg_skew = []
+    final_opt_fails = []
 
-    maheen__avg_costs = []
-    maheen__avg_agents = []
-    maheen__avg_discrepancy = []
-    maheen__avg_skew = []
-    maheen__fails = []
+    final_m_avg_costs = []
+    final_m_avg_agents = []
+    final_m_avg_discrepancy = []
+    final_m_avg_skew = []
+    final_m_fails = []
 
-    number_of_tests = 0
+    test_num = 0
     num_agents = 0
 
     # Each bar on graph
     for test_group in range(total_tests):
-        seed_value_all = seed
+        curr_seed = seed
 
         num_agents += 1
 
@@ -4029,7 +4048,7 @@ def Test8(total_tests, seed):
 
         # Run all tree groups
         for group in range(100):
-            r.seed(seed_value_all)
+            r.seed(curr_seed)
             TREES = [binary_symmetric(num_agents, True),
                     binary_left(num_agents, True), 
                     binary_right(num_agents, True), 
@@ -4067,7 +4086,7 @@ def Test8(total_tests, seed):
 
             # Run each individual test
             for tree_idx in range(len(TREES)):
-                number_of_tests += 1
+                test_num += 1
                 
                 dfs_root = TREES[tree_idx][0]
                 opt_root = copy.deepcopy(dfs_root)
@@ -4075,15 +4094,15 @@ def Test8(total_tests, seed):
                 
                 # dfs algo
                 try:
-                    agents_and_goals_dfs = dfs_goal_allocation(dfs_root, {"grace": res[0], "remus": res[1], "franklin": res[2], "john": res[3], "alice": res[4], "jake": res[5], "anna": res[6], "tommy": res[7], "trent": res[8], "karen": res[9]})
-                    curr_dfs_avg_cost += get_custom_total_cost(agents_and_goals_dfs)
-                    curr_dfs_agents_used += get_agents_used(agents_and_goals_dfs)
-                    curr_dfs_discrepancy +=discrepancy(agents_and_goals_dfs)
-                    skew, best_case = get_skew(agents_and_goals_dfs)
+                    dfs_agents_and_goals = dfs_goal_allocation(dfs_root, {"grace": res[0], "remus": res[1], "franklin": res[2], "john": res[3], "alice": res[4], "jake": res[5], "anna": res[6], "tommy": res[7], "trent": res[8], "karen": res[9]})
+                    curr_dfs_avg_cost += get_custom_total_cost(dfs_agents_and_goals)
+                    curr_dfs_agents_used += get_agents_used(dfs_agents_and_goals)
+                    curr_dfs_discrepancy += discrepancy(dfs_agents_and_goals)
+                    skew, best_case = get_skew(dfs_agents_and_goals)
                     curr_dfs_skew += skew
                     num_dfs_trees_passed += 1
                 except ValueError:
-                    curr_dfs_failures.append(number_of_tests)
+                    curr_dfs_failures.append(test_num)
 
                 # opt algo
                 q = []
@@ -4104,21 +4123,21 @@ def Test8(total_tests, seed):
                     curr_opt_avg_cost += get_custom_total_cost(fresult)
                     curr_opt_agents_used += get_agents_used(fresult)
                     curr_opt_discrepancy += get_discrepancy_opt(fresult, opt_root)
-                    curr_opt_skew +=  _skew_new(fresult, best_case)
+                    curr_opt_skew += _skew_new(fresult, best_case)
                     num_opt_trees_passed += 1
                 except ValueError: 
-                    curr_opt_failures.append(number_of_tests)
+                    curr_opt_failures.append(test_num)
 
                 # m algo
                 try:
                     agent_goal_m(get_goals_m(m_root), opt_and_m_resources)
                     curr_m_avg_cost += get_custom_total_cost_m(m_root)
                     curr_m_agents_used += get_agents_used_m(m_root)
-                    curr_m_discrepancy += discrepancy_m(m_root, m_root.agents)
+                    curr_m_discrepancy += discrepancy_m(m_root)
                     curr_m_skew += get_skew_m(m_root, best_case)
                     num_m_trees_passed += 1
                 except TypeError:
-                    curr_m_failures.append(number_of_tests)
+                    curr_m_failures.append(test_num)
 
             # Add Jonathan Results
             if num_dfs_trees_passed != 0:
@@ -4141,7 +4160,7 @@ def Test8(total_tests, seed):
                 opt_fails.extend(curr_opt_failures)
 
             # Add Maheen Results
-            if num_opt_trees_passed != 0:
+            if num_m_trees_passed != 0:
                 m_avg_costs += curr_m_avg_cost / num_m_trees_passed
                 m_avg_agents += curr_m_agents_used / num_m_trees_passed
                 m_avg_discrepancy += curr_m_discrepancy / num_m_trees_passed
@@ -4150,28 +4169,30 @@ def Test8(total_tests, seed):
             else:
                 m_fails.extend(curr_m_failures)
 
-            seed_value_all += 1
+            curr_seed += 1
 
-        dfs_average_costs.append(dfs_avg_costs / 100)
-        dfs_average_agents.append(dfs_avg_agents / 100)
-        dfs_average_discrepancy.append(dfs_avg_discrepancy / 100)
-        dfs_average_skew.append(dfs_avg_skew / 100)
-        dfs_failures.append(dfs_fails)
+        final_dfs_avg_costs.append(dfs_avg_costs / 100)
+        final_dfs_avg_agents.append(dfs_avg_agents / 100)
+        final_dfs_avg_discrepancy.append(dfs_avg_discrepancy / 100)
+        final_dfs_avg_skew.append(dfs_avg_skew / 100)
+        final_dfs_fails.append(dfs_fails)
 
-        dfs_average_new_costs.append(opt_avg_costs / 100)
-        dfs_average_new_agents.append(opt_avg_agents / 100)
-        dfs_average_new_discrepancy.append(opt_avg_discrepancy / 100)
-        dfs_average_new_skew.append(opt_avg_skew / 100)
-        dfs_new_fails.append(opt_fails)
+        final_opt_avg_costs.append(opt_avg_costs / 100)
+        final_opt_avg_agents.append(opt_avg_agents / 100)
+        final_opt_avg_discrepancy.append(opt_avg_discrepancy / 100)
+        final_opt_avg_skew.append(opt_avg_skew / 100)
+        final_opt_fails.append(opt_fails)
 
-        maheen__avg_costs.append(m_avg_costs / 100)
-        maheen__avg_agents.append(m_avg_agents / 100)
-        maheen__avg_discrepancy.append(m_avg_discrepancy / 100)
-        maheen__avg_skew.append(m_avg_skew / 100)
-        maheen__fails.append(m_fails)
+        final_m_avg_costs.append(m_avg_costs / 100)
+        final_m_avg_agents.append(m_avg_agents / 100)
+        final_m_avg_discrepancy.append(m_avg_discrepancy / 100)
+        final_m_avg_skew.append(m_avg_skew / 100)
+        final_m_fails.append(m_fails)
 
-    print(f"Test Number: {number_of_tests}")
-    return dfs_average_costs, dfs_average_agents, dfs_average_discrepancy, dfs_average_skew, dfs_failures, dfs_average_new_costs, dfs_average_new_agents, dfs_average_new_discrepancy, dfs_average_new_skew, dfs_new_fails, maheen__avg_costs, maheen__avg_agents, maheen__avg_discrepancy, maheen__avg_skew, maheen__fails
+    print(f"Test Number: {test_num}")
+    return final_dfs_avg_costs, final_dfs_avg_agents, final_dfs_avg_discrepancy, final_dfs_avg_skew, final_dfs_fails, final_opt_avg_costs, final_opt_avg_agents, final_opt_avg_discrepancy, final_opt_avg_skew, final_opt_fails, final_m_avg_costs, final_m_avg_agents, final_m_avg_discrepancy, final_m_avg_skew, final_m_fails
+
+
 
 # Plot Results
 def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg_skew1, fails1, avg_costs2, avg_agents2, avg_discrepancy2, avg_skew2, fails2, avg_costs3, avg_agents3, avg_discrepancy3, avg_skew3, fails3):
@@ -4196,14 +4217,14 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
     x = np.arange(len(avg_costs1))
 
     # Plot 1
-    # Plot the bars for Jonathan's Algorithm
-    bar_j= ax1.bar(x, avg_costs1, width=bar_width, label="Jonathan's Algorithm", color='green')
+    # Plot the bars for Bottom-Up Allocation Algorithm
+    bar_j= ax1.bar(x, avg_costs1, width=bar_width, label="Bottom-Up Allocation Algorithm", color='green')
 
-    # Plot the bars for Fay's Algorithm
-    bar_f = ax1.bar(x + bar_width, avg_costs2, width=bar_width, label="Fay's Algorithm", color='pink')
+    # Plot the bars for Resource-Conscious Allocation Algorithm
+    bar_f = ax1.bar(x + bar_width, avg_costs2, width=bar_width, label="Resource-Conscious Allocation Algorithm", color='pink')
 
-    # Plot the bars for Maheen's Algorithm
-    bar_m = ax1.bar(x + bar_width * 2, avg_costs3, width=bar_width, label="Maheen's Algorithm", color='mediumpurple')
+    # Plot the bars for Auction Allocation Algorithm
+    bar_m = ax1.bar(x + bar_width * 2, avg_costs3, width=bar_width, label="Auction Allocation Algorithm", color='mediumpurple')
 
     #Increase the length of the y-axis
     ax1.set_ylim(0, max(max(avg_costs1), max(avg_costs2), max(avg_costs3)) + 20)
@@ -4218,14 +4239,14 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
 
 
     # Plot 2
-    # Plot the bars for Jonathan's Algorithm
-    bar_j = ax2.bar(x, avg_agents1, width=bar_width, label="Jonathan's Algorithm", color='green')
+    # Plot the bars for Bottom-Up Allocation Algorithm
+    bar_j = ax2.bar(x, avg_agents1, width=bar_width, label="Bottom-Up Allocation Algorithm", color='green')
 
-    # Plot the bars for Fay's Algorithm
-    bar_f = ax2.bar(x + bar_width, avg_agents2, width=bar_width, label="Fay's Algorithm", color='pink')
+    # Plot the bars for Resource-Conscious Allocation Algorithm
+    bar_f = ax2.bar(x + bar_width, avg_agents2, width=bar_width, label="Resource-Conscious Allocation Algorithm", color='pink')
 
-    # Plot the bars for Maheen's Algorithm
-    bar_m = ax2.bar(x + bar_width * 2, avg_agents3, width=bar_width, label="Maheen's Algorithm", color='mediumpurple')
+    # Plot the bars for Auction Allocation Algorithm
+    bar_m = ax2.bar(x + bar_width * 2, avg_agents3, width=bar_width, label="Auction Allocation Algorithm", color='mediumpurple')
 
     #Increase the length of the y-axis
     ax2.set_ylim(0, max(max(avg_agents1), max(avg_agents2), max(avg_agents3)) + 5)
@@ -4240,14 +4261,14 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
 
 
     # Plot 3
-    # Plot the bars for Jonathan's Algorithm
-    bar_j = ax3.bar(x, avg_discrepancy1, width=bar_width, label="Jonathan's Algorithm", color='green')
+    # Plot the bars for Bottom-Up Allocation Algorithm
+    bar_j = ax3.bar(x, avg_discrepancy1, width=bar_width, label="Bottom-Up Allocation Algorithm", color='green')
 
-    # Plot the bars for Fay's Algorithm
-    bar_f = ax3.bar(x + bar_width, avg_discrepancy2, width=bar_width, label="Fay's Algorithm", color='pink')
+    # Plot the bars for Resource-Conscious Allocation Algorithm
+    bar_f = ax3.bar(x + bar_width, avg_discrepancy2, width=bar_width, label="Resource-Conscious Allocation Algorithm", color='pink')
 
-    # Plot the bars for Maheen's Algorithm
-    bar_m = ax3.bar(x + bar_width * 2, avg_discrepancy3, width=bar_width, label="Maheen's Algorithm", color='mediumpurple')
+    # Plot the bars for Auction Allocation Algorithm
+    bar_m = ax3.bar(x + bar_width * 2, avg_discrepancy3, width=bar_width, label="Auction Allocation Algorithm", color='mediumpurple')
 
     #Increase the length of the y-axis
     ax3.set_ylim(0, max(max(avg_discrepancy1), max(avg_discrepancy2), max(avg_discrepancy3)) + 5)
@@ -4262,14 +4283,14 @@ def plot_results(scenario, title, avg_costs1, avg_agents1, avg_discrepancy1, avg
 
 
     # Plot 4
-    # Plot the bars for Jonathan's Algorithm
-    barj = ax4.bar(x, avg_skew1, width=bar_width, label="Jonathan's Algorithm", color='green')
+    # Plot the bars for Bottom-Up Allocation Algorithm
+    barj = ax4.bar(x, avg_skew1, width=bar_width, label="Bottom-Up Allocation Algorithm", color='green')
 
-    # Plot the bars for Fay's Algorithm
-    barf = ax4.bar(x + bar_width, avg_skew2, width=bar_width, label="Fay's Algorithm", color='pink')
+    # Plot the bars for Resource-Conscious Allocation Algorithm
+    barf = ax4.bar(x + bar_width, avg_skew2, width=bar_width, label="Resource-Conscious Allocation Algorithm", color='pink')
 
-    # Plot the bars for Maheen's Algorithm
-    barm = ax4.bar(x + bar_width * 2, avg_skew3, width=bar_width, label="Maheen's Algorithm", color='mediumpurple')
+    # Plot the bars for Auction Allocation Algorithm
+    barm = ax4.bar(x + bar_width * 2, avg_skew3, width=bar_width, label="Auction Allocation Algorithm", color='mediumpurple')
 
     #Increase the length of the y-axis
     ax4.set_ylim(min(0, min(avg_skew3)), max(max(avg_skew1), max(avg_skew2), max(avg_skew3)) + 5)
@@ -4312,14 +4333,14 @@ def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discr
     x = np.arange(len(avg_costs1))
 
     # Plot 1
-    # Plot the bars for Jonathan's Algorithm
-    bar_j= ax1.bar(x, avg_costs1, width=bar_width, label="Jonathan's Algorithm", color='green')
+    # Plot the bars for Bottom-Up Allocation Algorithm
+    bar_j= ax1.bar(x, avg_costs1, width=bar_width, label="Bottom-Up Allocation Algorithm", color='green')
 
-    # Plot the bars for Fay's Algorithm
-    bar_f = ax1.bar(x + bar_width, avg_costs2, width=bar_width, label="Fay's Algorithm", color='pink')
+    # Plot the bars for Resource-Conscious Allocation Algorithm
+    bar_f = ax1.bar(x + bar_width, avg_costs2, width=bar_width, label="Resource-Conscious Allocation Algorithm", color='pink')
 
-    # Plot the bars for Maheen's Algorithm
-    bar_m = ax1.bar(x + bar_width * 2, avg_costs3, width=bar_width, label="Maheen's Algorithm", color='mediumpurple')
+    # Plot the bars for Auction Allocation Algorithm
+    bar_m = ax1.bar(x + bar_width * 2, avg_costs3, width=bar_width, label="Auction Allocation Algorithm", color='mediumpurple')
 
     #Increase the length of the y-axis
     ax1.set_ylim(0, max(max(avg_costs1), max(avg_costs2), max(avg_costs3)) + 20)
@@ -4334,14 +4355,14 @@ def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discr
 
 
     # Plot 2
-    # Plot the bars for Jonathan's Algorithm
-    bar_j = ax2.bar(x, avg_agents1, width=bar_width, label="Jonathan's Algorithm", color='green')
+    # Plot the bars for Bottom-Up Allocation Algorithm
+    bar_j = ax2.bar(x, avg_agents1, width=bar_width, label="Bottom-Up Allocation Algorithm", color='green')
 
-    # Plot the bars for Fay's Algorithm
-    bar_f = ax2.bar(x + bar_width, avg_agents2, width=bar_width, label="Fay's Algorithm", color='pink')
+    # Plot the bars for Resource-Conscious Allocation Algorithm
+    bar_f = ax2.bar(x + bar_width, avg_agents2, width=bar_width, label="Resource-Conscious Allocation Algorithm", color='pink')
 
-    # Plot the bars for Maheen's Algorithm
-    bar_m = ax2.bar(x + bar_width * 2, avg_agents3, width=bar_width, label="Maheen's Algorithm", color='mediumpurple')
+    # Plot the bars for Auction Allocation Algorithm
+    bar_m = ax2.bar(x + bar_width * 2, avg_agents3, width=bar_width, label="Auction Allocation Algorithm", color='mediumpurple')
 
     #Increase the length of the y-axis
     ax2.set_ylim(0, max(max(avg_agents1), max(avg_agents2), max(avg_agents3)) + 5)
@@ -4356,14 +4377,14 @@ def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discr
 
 
     # Plot 3
-    # Plot the bars for Jonathan's Algorithm
-    bar_j = ax3.bar(x, avg_discrepancy1, width=bar_width, label="Jonathan's Algorithm", color='green')
+    # Plot the bars for Bottom-Up Allocation Algorithm
+    bar_j = ax3.bar(x, avg_discrepancy1, width=bar_width, label="Bottom-Up Allocation Algorithm", color='green')
 
-    # Plot the bars for Fay's Algorithm
-    bar_f = ax3.bar(x + bar_width, avg_discrepancy2, width=bar_width, label="Fay's Algorithm", color='pink')
+    # Plot the bars for Resource-Conscious Allocation Algorithm
+    bar_f = ax3.bar(x + bar_width, avg_discrepancy2, width=bar_width, label="Resource-Conscious Allocation Algorithm", color='pink')
 
-    # Plot the bars for Maheen's Algorithm
-    bar_m = ax3.bar(x + bar_width * 2, avg_discrepancy3, width=bar_width, label="Maheen's Algorithm", color='mediumpurple')
+    # Plot the bars for Auction Allocation Algorithm
+    bar_m = ax3.bar(x + bar_width * 2, avg_discrepancy3, width=bar_width, label="Auction Allocation Algorithm", color='mediumpurple')
 
     #Increase the length of the y-axis
     ax3.set_ylim(0, max(max(avg_discrepancy1), max(avg_discrepancy2), max(avg_discrepancy3)) + 5)
@@ -4378,14 +4399,14 @@ def plot_results_vary_agents(scenario, title, avg_costs1, avg_agents1, avg_discr
 
 
     # Plot 4
-    # Plot the bars for Jonathan's Algorithm
-    barj = ax4.bar(x, avg_skew1, width=bar_width, label="Jonathan's Algorithm", color='green')
+    # Plot the bars for Bottom-Up Allocation Algorithm
+    barj = ax4.bar(x, avg_skew1, width=bar_width, label="Bottom-Up Allocation Algorithm", color='green')
 
-    # Plot the bars for Fay's Algorithm
-    barf = ax4.bar(x + bar_width, avg_skew2, width=bar_width, label="Fay's Algorithm", color='pink')
+    # Plot the bars for Resource-Conscious Allocation Algorithm
+    barf = ax4.bar(x + bar_width, avg_skew2, width=bar_width, label="Resource-Conscious Allocation Algorithm", color='pink')
 
-    # Plot the bars for Maheen's Algorithm
-    barm = ax4.bar(x + bar_width * 2, avg_skew3, width=bar_width, label="Maheen's Algorithm", color='mediumpurple')
+    # Plot the bars for Auction Allocation Algorithm
+    barm = ax4.bar(x + bar_width * 2, avg_skew3, width=bar_width, label="Auction Allocation Algorithm", color='mediumpurple')
 
     #Increase the length of the y-axis
     ax4.set_ylim(min(0, min(avg_skew3)), max(max(avg_skew1), max(avg_skew2), max(avg_skew3)) + 5)

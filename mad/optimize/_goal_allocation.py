@@ -505,6 +505,7 @@ def calculate_tree_depth(node):
     
 #Author: Fay
 def allocate_goals_greedy(list_goal, max_res):
+
     """
     Allocates goals to agents using a greedy approach for an equal goal distribution.
     Parameters
@@ -531,7 +532,7 @@ def allocate_goals_greedy(list_goal, max_res):
         # Calculate total resources of all goals
         total_resources = sum(goal.cost for goal in list_goal)
         # Sort the agents based on remaining resources and the number of goals assigned to each agent
-        sorted_agents = sorted(max_res.keys(), key=lambda agent: (num_goals[agent], -max_res[agent]))
+        sorted_agents = sorted(max_res.keys(), key=lambda agent: (num_goals[agent], goal.data[agent]))
         # Select the current agent handling the goal
         cur_agent = goal.agent
         assigned = False
@@ -542,8 +543,10 @@ def allocate_goals_greedy(list_goal, max_res):
             if max_res[agent] < goal.data[agent]:
                 continue
             resource_diff = goal.data[agent] - goal.cost
-            
-            threshold = (total_resources + calculate_tree_depth(list_goal[0]) + 1)/total_resources
+            if calculate_tree_depth(list_goal[0]) == 1:
+                threshold = 1
+            else:
+                threshold = (total_resources + 2)/total_resources
             if (resource_diff <= 0) or \
                    (num_goals[agent] < num_goals[cur_agent] and (1 + resource_diff/total_resources) < threshold):
                 goal_allocation[agent].append(goal)
@@ -1317,9 +1320,9 @@ def agent_goal_m(nodes, max_resources) -> None:
 def perform_auction_m(node, agent_resources):
     """
     Author: Maheen
+    
     Performs the auction process for assigning an agent to a goal node based on available agent resources based on the
-    first sealed bid algorithm.
-    If none of the agent's resources individually can cover the cost of the goal, then it shares the goal completion
+    first sealed bid algorithm. If none of the agent's resources individually can cover the cost of the goal, then it shares the goal completion
     with multiple agents based on bidding winners until either the goal is completed or all agents run out of resources.
 
     Parameters
@@ -1545,7 +1548,7 @@ Random Agent
 
 def randomly_assigned(goal_tree: GoalNode, max_res: List[int], verbose = 0):
     """
-    Randomly assigns goals to agents
+    Randomly assigns agents to best goals
 
     Parameters:
     -----------
@@ -1556,6 +1559,7 @@ def randomly_assigned(goal_tree: GoalNode, max_res: List[int], verbose = 0):
     --------
     Dict[str, List[GoalNode]]
         A dictionary that maps agents to the list of goals assigned to them
+
     """
     
     # Initialize the goal allocation dictionary
@@ -1617,15 +1621,20 @@ def randomly_assigned(goal_tree: GoalNode, max_res: List[int], verbose = 0):
         i, list_goal, max_res = _decision_algorithm(list_goal, i, max_res)
     if not list_goal:
         return ()
-    
+    agents = list(goal_allocation.keys())
+
     for goal in list_goal:
-        agents = list(goal_allocation.keys())
-        random.shuffle(agents)
-        for agent in agents:
+        max_res[goal.agent] += goal.cost
+        assigned = False
+        while not assigned:
+            i = random.randrange(0, len(agents) )
+            agent = agents[i]
+            goal.set_agent(agent)
             if _check_resources(goal, max_res):
                 goal_allocation[agent].append(goal)
-                goal.set_agent(agent)
-                break
+                max_res[goal.agent] -= goal.cost
+                assigned = True
+            
         
             
     if verbose:
@@ -1646,6 +1655,26 @@ Greedy Agent
 """
 
 def greedy_agents(root, max_resources):
+    """
+    Author: Maheen
+    
+    Assigns Agents in a greedy manner such that whichever agent has the minimum agent_cost to complete the goal , that agent is assigned to it.
+
+    Parameters
+    ----------
+    root_node : GoalNode2
+        The root node of the goal tree.
+
+    max_resources :  List[Dict[int]]
+        List of max resources of agents.
+
+    Returns
+    -------
+    greedy_num_agents_used: int
+        Total number of agents used. 
+    """
+    
+    
     #getting resources
     agent_resources = get_agent_resources_m(max_resources)
     
