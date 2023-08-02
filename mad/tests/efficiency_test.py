@@ -1667,7 +1667,7 @@ def efficiency_test(goal_tree, max_res: List):
             f_agent_goals[i] += 1
 
     f_discrepancy = max(f_agent_cost) - min(f_agent_cost)
-    f_skew = f_total_resources - best
+    f_skew = f_total_resources - best_case(fresult)
     
     return f_agent_goals, j_agent_goals, f_total_resources, j_total_resources, f_discrepancy, j_discrepancy, f_skew, j_skew
 
@@ -1698,8 +1698,8 @@ def efficiency_test_m(root: GoalNode2, max_resources: List[int]) -> Tuple[int,in
                 The number of unique agents used to achieve the goals
 
     """
-    #if len(max_resources) == 1:
-    #   return (root.cost, 1)
+    if len(max_resources) == 1:
+       return (root.cost, 1)
     nodes = []
     stacks = [root]
 
@@ -1754,6 +1754,8 @@ def discrepancy_m(root: GoalNode2, max_res: List[int]) -> int:
             The discrepancy between the costs of the most assigned and least assigned agents
             
     """
+    if len(max_res) == 1:
+       return 0
     num_agents = len(root.agents)
     agents_used = {agent: 0 for agent in root.agents.keys()}
     agents = list(root.agents.keys())
@@ -2107,8 +2109,7 @@ def test():
                 q.append((child, node)) 
     optimized_goal_allocation(root, [50,50,50], 1)
 
-
-def test_1_A():
+def test_1_A() -> None:
     
 
     # SUB CASE: SAME MAX RESOURCES
@@ -2390,7 +2391,7 @@ def test_2_A() -> None:
             (f_agent_goals, j_agent_goals, f_total, j_total, f_discrepancy, j_discrepancy, f_skew, j_skew) = result
             #_bar_chart_plotting((f_agent_cost, f_agent_goals, j_agent_cost, j_agent_goals, f_total, j_total, Agents), title)
             m_total, agents_used_m = efficiency_test_m(tree_m, [40,40,40])
-            dis_m += discrepancy_m(tree_m)
+            dis_m += discrepancy_m(tree_m, [40,40,40])
             
             algo_results_fay += f_total
             algo_results_jonathan += j_total
@@ -2568,7 +2569,7 @@ def test_2_B() -> None:
 
     """
 
-def test_3_A() ->None:
+def test_3_A() -> None:
     # SUB CASE: SAME MAX RESOURCES
     # Test for 10 times each scenario
     scenario_3_a = "SCENARIO 3A: Same Agent Cost - Varying Agents - Same Max Resources"
@@ -3984,12 +3985,6 @@ def test_8_B() -> None:
     plotting(fay_averages, jonathan_averages, maheen_averages ,agent_fay_averages,agent_jonathan_averages, agent_maheen_averages, dis_fay, dis_jonathan, dis_maheen, skew_fay, skew_jonathan, skew_maheen, j, scenario_8_b, no_agents_avail) 
 
 def main() -> None:
-    test_1_A()
-    test_1_B()
-    test_2_A()
-    test_2_B()
-    test_3_A()
-    test_3_B()
     test_4_A()
     test_4_B()
 
